@@ -2,7 +2,7 @@ package reivosar.common.domain.model.time;
 
 import java.time.LocalTime;
 
-import reivosar.common.util.model.ValueObject;
+import reivosar.common.domain.model.ValueObject;
 
 public class HourMinute extends ValueObject<HourMinute>
 {

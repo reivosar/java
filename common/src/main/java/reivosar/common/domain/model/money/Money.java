@@ -3,7 +3,7 @@ package reivosar.common.domain.model.money;
 import java.math.BigDecimal;
 import java.util.Currency;
 
-import reivosar.common.util.model.ValueObject;
+import reivosar.common.domain.model.ValueObject;
 
 public class Money extends ValueObject<Money>
 {

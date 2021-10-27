@@ -1,6 +1,6 @@
 package reivosar.common.domain.model.time.holiday;
 
-import reivosar.common.util.model.ValueObject;
+import reivosar.common.domain.model.ValueObject;
 
 public class HolidayName extends ValueObject<HolidayName>
 {

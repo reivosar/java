@@ -3,7 +3,7 @@ package reivosar.common.domain.model.time;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
-import reivosar.common.util.model.ValueObject;
+import reivosar.common.domain.model.ValueObject;
 
 public class DateTime extends ValueObject<DateTime>
 {

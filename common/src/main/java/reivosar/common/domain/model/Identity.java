@@ -1,4 +1,4 @@
-package reivosar.common.util.model;
+package reivosar.common.domain.model;
 
 import java.util.UUID;
 

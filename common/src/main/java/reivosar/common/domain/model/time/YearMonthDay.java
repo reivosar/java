@@ -3,8 +3,8 @@ package reivosar.common.domain.model.time;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 
+import reivosar.common.domain.model.ValueObject;
 import reivosar.common.domain.model.time.holiday.JapaneseHolidays;
-import reivosar.common.util.model.ValueObject;
 
 public class YearMonthDay extends ValueObject<YearMonthDay>
 {
