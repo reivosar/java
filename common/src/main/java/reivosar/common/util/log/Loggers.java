@@ -1,50 +1,156 @@
 package reivosar.common.util.log;
 
-public interface Loggers
-{
-	void info(String msg);
+/**
+ * This is the API for log output. 
+ */
+public interface Loggers {
 
-	void info(String msg, Object... params);
+	/**
+	 * Log a message at the INFO level.
+	 * 
+	 * @param logMessage
+	 */
+	void info(String logMessage);
 
-	void info(String msg, Throwable t);
+	/**
+	 * Log a message at the INFO level according to the specified format
+	 * and arguments.
+	 * 
+	 * @param format    the format string
+	 * @param arguments a list of arguments
+	 */
+	void info(String format, Object... params);
 
-	void warn(String msg);
+	/**
+	 * Log an exception (throwable) at the INFO level with an
+	 * accompanying message.
+	 *
+	 * @param logMessage the message accompanying the exception
+	 * @param t   the exception (throwable) to log	 * 
+	 */
+	void info(String logMessage, Throwable t);
 
-	void warn(String msg, Object... params);
+	/**
+	 * Log a message at the WARN level.
+	 * 
+	 * @param logMessage
+	 */
+	void warn(String logMessage);
 
-	void warn(String msg, Throwable t);
+	/**
+	 * Log a message at the WARN level according to the specified format
+	 * and arguments.
+	 * 
+	 * @param format    the format string
+	 * @param arguments a list of arguments
+	 */
+	void warn(String format, Object... params);
 
-	void trace(String msg);
+	/**
+	 * Log an exception (throwable) at the WARN level with an
+	 * accompanying message.
+	 *
+	 * @param logMessage the message accompanying the exception
+	 * @param t   the exception (throwable) to log	 * 
+	 */
+	void warn(String logMessage, Throwable t);
 
-	void trace(String msg, Object... params);
+	/**
+	 * Log a message at the TRACE level.
+	 * 
+	 * @param logMessage
+	 */
+	void trace(String logMessage);
 
-	void trace(String msg, Throwable t);
+	/**
+	 * Log a message at the TRACE level according to the specified format
+	 * and arguments.
+	 * 
+	 * @param format    the format string
+	 * @param arguments a list of arguments
+	 */
+	void trace(String format, Object... params);
 
-	void error(String msg);
+	/**
+	 * Log an exception (throwable) at the TRACE level with an
+	 * accompanying message.
+	 *
+	 * @param logMessage the message accompanying the exception
+	 * @param t   the exception (throwable) to log	 * 
+	 */
+	void trace(String logMessage, Throwable t);
 
-	void error(String msg, Object... params);
+	/**
+	 * Log a message at the ERROR level.
+	 * 
+	 * @param logMessage
+	 */
+	void error(String logMessage);
 
-    void error(String msg, Throwable t);
+	/**
+	 * Log a message at the ERROR level according to the specified format
+	 * and arguments.
+	 * 
+	 * @param format    the format string
+	 * @param arguments a list of arguments
+	 */
+	void error(String format, Object... params);
 
-    void debug(String msg);
+	/**
+	 * Log an exception (throwable) at the ERROR level with an
+	 * accompanying message.
+	 *
+	 * @param logMessage the message accompanying the exception
+	 * @param t   the exception (throwable) to log	 * 
+	 */
+	void error(String logMessage, Throwable t);
 
-	void debug(String msg, Object... params);
+	/**
+	 * Log a message at the DEBUG level.
+	 * 
+	 * @param logMessage
+	 */
+	void debug(String logMessage);
 
-	void debug(String msg, Throwable t);
+	/**
+	 * Log a message at the DEBUG level according to the specified format
+	 * and arguments.
+	 * 
+	 * @param format    the format string
+	 * @param arguments a list of arguments
+	 */
+	void debug(String format, Object... params);
 
+	/**
+	 * Log an exception (throwable) at the DEBUG level with an
+	 * accompanying message.
+	 *
+	 * @param logMessage the message accompanying the exception
+	 * @param t   the exception (throwable) to log	 * 
+	 */
+	void debug(String logMessage, Throwable t);
+
+	/**
+	 * Return a logger named according to the name parameter using the
+	 * statically bound {@link Loggers} instance.
+	 * 
+	 * @param name
+	 *            The name of the logger.
+	 * @return {@link Loggers} instance
+	 */
 	public static Loggers getLoggers(String name) {
-		return getLogbackLoggers(name);
+		return LoggersType.getDefaultLoggers(name);
 	}
 
+	/**
+     * Return a logger named corresponding to the class passed as parameter,
+     * using the statically {@link Loggers} instance.
+	 * 
+	 * @param clazz
+	 *            the returned logger will be named after clazz 
+	 * @return {@link Loggers} instance
+	 */
 	public static Loggers getLoggers(Class<?> clazz) {
-		return getLogbackLoggers(clazz);
-	}
-
-	public static Loggers getLogbackLoggers(String name) {
-		return LoggersType.LOGBACK.getLoggers(name);
-	}
-
-	public static Loggers getLogbackLoggers(Class<?> clazz) {
-		return LoggersType.LOGBACK.getLoggers(clazz);
+		return LoggersType.getDefaultLoggers(clazz);
 	}
 }
