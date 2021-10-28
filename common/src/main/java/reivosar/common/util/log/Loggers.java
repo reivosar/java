@@ -132,11 +132,11 @@ public interface Loggers {
 
 	/**
 	 * Return a logger named according to the name parameter using the
-	 * statically bound {@link Loggers} instance.
+	 * statically bound {@code Loggers} instance.
 	 * 
 	 * @param name
 	 *            The name of the logger.
-	 * @return {@link Loggers} instance
+	 * @return {@code Loggers} instance
 	 */
 	public static Loggers getLoggers(String name) {
 		return LoggersType.getDefaultLoggers(name);
@@ -144,11 +144,11 @@ public interface Loggers {
 
 	/**
      * Return a logger named corresponding to the class passed as parameter,
-     * using the statically {@link Loggers} instance.
+     * using the statically {@code Loggers} instance.
 	 * 
 	 * @param clazz
 	 *            the returned logger will be named after clazz 
-	 * @return {@link Loggers} instance
+	 * @return {@code Loggers} instance
 	 */
 	public static Loggers getLoggers(Class<?> clazz) {
 		return LoggersType.getDefaultLoggers(clazz);
