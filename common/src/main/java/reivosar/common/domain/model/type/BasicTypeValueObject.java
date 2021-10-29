@@ -2,15 +2,15 @@ package reivosar.common.domain.model.type;
 
 import reivosar.common.domain.model.ValueObject;
 
-public abstract class TypeValueObject<T> extends ValueObject<TypeValueObject<T>>
+abstract class BasicTypeValueObject<T> extends ValueObject<BasicTypeValueObject<T>>
 {
     protected final T value;
 
-    protected TypeValueObject(T value) {
+    BasicTypeValueObject(T value) {
         this.value = value;
     }
 
-    protected TypeValueObject(TypeValueObject<T> vo) {
+    BasicTypeValueObject(BasicTypeValueObject<T> vo) {
         this.value = vo.value;
     }
 }

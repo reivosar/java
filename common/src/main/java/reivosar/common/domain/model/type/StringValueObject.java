@@ -1,6 +1,9 @@
 package reivosar.common.domain.model.type;
 
-public abstract class StringValueObject extends TypeValueObject<String>
+/**
+ * A value object that represents a string. 
+ */
+public abstract class StringValueObject extends BasicTypeValueObject<String>
 {
 	protected StringValueObject(String value) {
         super(value);

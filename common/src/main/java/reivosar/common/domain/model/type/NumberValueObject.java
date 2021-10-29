@@ -1,6 +1,9 @@
 package reivosar.common.domain.model.type;
 
-public class NumberValueObject extends TypeValueObject<Number>
+/**
+ * A value object that represents a numberg.
+ */
+public class NumberValueObject extends BasicTypeValueObject<Number>
 {
     public NumberValueObject(Number value) {
         super(value);
