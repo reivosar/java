@@ -3,17 +3,17 @@ package reivosar.promise;
 import java.util.Optional;
 import java.util.concurrent.Future;
 
-public class CompletableFutureResultWrapper<T> {
+class CompletableFutureResultWrapper<T> {
 
 	private final Optional<T> result;
 	private final Throwable error;
 
-	public CompletableFutureResultWrapper(T result, Throwable error) {
+	CompletableFutureResultWrapper(T result, Throwable error) {
 		this.result = Optional.ofNullable(result);
 		this.error  = error;
 	}
 
-	public static <T> CompletableFutureResultWrapper<T> of(final Future<T> future) {
+	static <T> CompletableFutureResultWrapper<T> of(final Future<T> future) {
 		try {
 			return new CompletableFutureResultWrapper<>(future.get(), null);
 		} catch (Throwable error) {
@@ -21,23 +21,23 @@ public class CompletableFutureResultWrapper<T> {
 		}
 	}
 
-	public static <T> CompletableFutureResultWrapper<T> of(T result, Throwable error) {
+	static <T> CompletableFutureResultWrapper<T> of(T result, Throwable error) {
 		return new CompletableFutureResultWrapper<>(result, error);
 	}
 
-	public boolean success() {
+	boolean success() {
 		return !fail();
 	}
 
-	public boolean fail() {
+	boolean fail() {
 		return error() != null;
 	}
 
-	public Optional<T> result() {
+	Optional<T> result() {
 		return success() ? this.result : Optional.empty();
 	}
 
-	public Throwable error() {
+	Throwable error() {
 		if (this.error == null)
 			return null;
 		return this.error;

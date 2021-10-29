@@ -8,39 +8,39 @@ import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
 
-public class CompletableFutures<T> {
+class CompletableFutures<T> {
 
 	private final Collection<CompletableFuture<T>> futures;
 
-	public CompletableFutures() {
+	CompletableFutures() {
 		this.futures = new LinkedHashSet<>();
 	}
 
-	public CompletableFutures<T> add(CompletableFuture<T> completableFutures) {
+	CompletableFutures<T> add(CompletableFuture<T> completableFutures) {
 		this.futures.addAll(Arrays.asList(completableFutures));
 		return this;
 	}
 
-	public CompletableFuture<Void> toAllOfFutures() {
+	CompletableFuture<Void> toAllOfFutures() {
 		return CompletableFuture.allOf(
 			this.futures.toArray(
 				new CompletableFuture[futures.size()])
 		);
 	}
 
-	public Collection<CompletableFuture<T>> all() {
+	Collection<CompletableFuture<T>> all() {
 		return Collections.unmodifiableCollection(this.futures);
 	}
 
-	public boolean success() {
+	boolean success() {
 		return !fail();
 	}
 
-	public boolean fail() {
+	boolean fail() {
 		return hasErrors();
 	}
 
-	public Collection<Optional<T>> results() {
+	Collection<Optional<T>> results() {
 		return this.all().stream()
 			.map     (CompletableFutureResultWrapper::of)
 			.filter  (CompletableFutureResultWrapper::success)
@@ -48,7 +48,7 @@ public class CompletableFutures<T> {
 			.collect (Collectors.toUnmodifiableList());
 	}
 
-	public Collection<Throwable> errors() {
+	Collection<Throwable> errors() {
 		return this.all().stream()
 			.map     (CompletableFutureResultWrapper::of)
 			.filter  (CompletableFutureResultWrapper::fail)
