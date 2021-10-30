@@ -5,11 +5,11 @@ package reivosar.common.domain.model.type;
  */
 public class NumberValueObject extends BasicTypeValueObject<Number>
 {
-    public NumberValueObject(Number value) {
+    protected NumberValueObject(Number value) {
         super(value);
     }
 
-    public NumberValueObject(NumberValueObject vo) {
+    protected NumberValueObject(NumberValueObject vo) {
         super(vo);
     }
 }
