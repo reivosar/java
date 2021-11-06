@@ -7,7 +7,7 @@
  */
 
 plugins {
-    id 'java-application'
+    id 'java'
 }
 
 repositories {
@@ -17,6 +17,7 @@ repositories {
 dependencies {
     implementation project(':common')
 }
+
 
 test {
     useJUnitPlatform()
