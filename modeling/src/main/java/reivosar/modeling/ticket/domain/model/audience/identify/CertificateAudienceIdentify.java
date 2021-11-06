@@ -11,7 +11,7 @@ abstract class CertificateAudienceIdentify<T extends CertificateAudienceIdentify
 {
 	protected final Certificate certificate;
 
-	public CertificateAudienceIdentify(final Certificate certificate) {
+	protected CertificateAudienceIdentify(final Certificate certificate) {
 		this.certificate = certificate;
 	}
 

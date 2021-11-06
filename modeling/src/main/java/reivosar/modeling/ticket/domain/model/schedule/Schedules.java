@@ -4,11 +4,11 @@ import java.util.Collection;
 
 import reivosar.common.domain.model.ValueObject;
 
-public class Schedules extends ValueObject<Schedules>
+public class Schedules extends ValueObject<Schedule>
 {
-	final Collection<Schedule> schedules;
+	final Collection<Schedule> values;
 
-	public Schedules(final Collection<Schedule> schedules) {
-		this.schedules = schedules;
+	public Schedules(final Collection<Schedule> values) {
+		this.values = values;
 	}
 }

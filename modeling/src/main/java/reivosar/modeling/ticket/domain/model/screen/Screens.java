@@ -4,11 +4,11 @@ import java.util.Collection;
 
 import reivosar.common.domain.model.ValueObject;
 
-public class Screens extends ValueObject<Screens>
+public class Screens extends ValueObject<Screen>
 {
-	final Collection<Screen> screens;
+	final Collection<Screen> values;
 
-	public Screens(final Collection<Screen> screens) {
-		this.screens = screens;
+	public Screens(final Collection<Screen> values) {
+		this.values = values;
 	}
 }

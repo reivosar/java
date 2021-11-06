@@ -15,7 +15,7 @@ public abstract class Audience<ENTITY extends Audience<ENTITY>>
 {
 	final AudienceId id;
 
-	public Audience(AudienceId id) {
+	protected Audience(AudienceId id) {
 		this.id = id;
 	}
 

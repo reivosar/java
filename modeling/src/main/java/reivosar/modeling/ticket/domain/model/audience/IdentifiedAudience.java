@@ -5,7 +5,7 @@ import reivosar.modeling.ticket.domain.model.audience.identify.AudienceIdentify;
 public abstract class IdentifiedAudience<I extends AudienceIdentify, ENTITY extends IdentifiedAudience<I, ENTITY>>
 		extends Audience<ENTITY> {
 
-	public IdentifiedAudience(final I identify) {
+	protected IdentifiedAudience(final I identify) {
 		super(identify.getId());
 		verify(identify);
 	}
