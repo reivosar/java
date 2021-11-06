@@ -16,8 +16,7 @@ repositories {
 
 dependencies {
     //Test
-    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.6.2'
-    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.6.2'
+    testImplementation "org.junit.jupiter:junit-jupiter:5.6.2"
     
     //Apache
     implementation group: 'org.apache.commons', name: 'commons-lang3', version: '3.11'
