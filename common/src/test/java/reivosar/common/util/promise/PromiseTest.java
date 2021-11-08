@@ -1,4 +1,4 @@
-package reivosar.common.promise;
+package reivosar.common.util.promise;
 
 import static org.hamcrest.CoreMatchers.*;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -8,6 +8,8 @@ import java.util.Optional;
 
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
+
+import reivosar.common.util.promise.Promise;
 
 class PromiseTest {
 	

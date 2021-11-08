@@ -1,4 +1,4 @@
-package reivosar.common.promise;
+package reivosar.common.util.promise;
 
 public class PromiseException extends RuntimeException {
 	

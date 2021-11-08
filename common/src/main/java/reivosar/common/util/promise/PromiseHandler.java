@@ -1,4 +1,4 @@
-package reivosar.common.promise;
+package reivosar.common.util.promise;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;

@@ -1,4 +1,4 @@
-package reivosar.common.promise;
+package reivosar.common.util.promise;
 
 import java.util.function.Consumer;
 import java.util.function.Function;

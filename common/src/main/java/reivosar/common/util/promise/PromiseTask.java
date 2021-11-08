@@ -1,4 +1,4 @@
-package reivosar.common.promise;
+package reivosar.common.util.promise;
 
 import java.util.Arrays;
 import java.util.Collection;
