@@ -8,4 +8,4 @@
  */
 
 rootProject.name = 'java'
-include 'common', 'js-java', 'modeling'
+include 'common', 'modeling'
