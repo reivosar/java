@@ -49,9 +49,8 @@ public interface Promise<T> extends Result<T>
 	<R> Promise<R> then(Function<? super T, ? super R> function);
 
     /**
-     * Generate a new Promise based on the results processed by
-     * the previous Promise. If an exception has been thrown
-     * before, this method will be skipped.
+     * Generate a new promise based on the suplier passed in the argument.
+     * If an exception has been thrown before, this method will be skipped.
      *
      * @param supplier supplier to generate Promise
      * @return {@link Promise}
