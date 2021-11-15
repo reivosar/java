@@ -14,7 +14,7 @@ class PromiseHandler<T> {
         this(1);
     }
     
-    PromiseHandler(int multiple) {
+    PromiseHandler(final int multiple) {
         this(Executors.newFixedThreadPool(multiple));
     }
     
