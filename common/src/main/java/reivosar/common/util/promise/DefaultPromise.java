@@ -2,6 +2,7 @@ package reivosar.common.util.promise;
 
 import java.util.function.Consumer;
 import java.util.function.Function;
+import java.util.function.Supplier;
 
 abstract class DefaultPromise<T> implements Promise<T> {
 
@@ -16,8 +17,15 @@ abstract class DefaultPromise<T> implements Promise<T> {
 				() -> (R) mapper.apply(result().get())
 			).await();
 	}
-	
-	private <R>Promise<R> buildFailResultOtherPromise(Throwable error) {
+
+    @Override
+    public Promise<T> then(Supplier<T> supplier) {
+        if (fail())
+            return this;
+        return new PromiseHandler<T>().resolve(supplier).await();
+    }
+
+    private <R>Promise<R> buildFailResultOtherPromise(Throwable error) {
 		return new PromiseBuilder<T>().buildFailResultOtherPromise(error);
 	}
 	
