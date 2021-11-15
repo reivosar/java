@@ -17,7 +17,7 @@ import reivosar.common.util.model.Result;
  *         .onSuccess (System.out::println);
  * </pre> 
  *  
- * @param <T>
+ * @param <T> The type of result that this Promise holds
  */
 public interface Promise<T> extends Result<T>
 {
@@ -29,12 +29,12 @@ public interface Promise<T> extends Result<T>
 	 * the processing is completed, and returns a 
 	 * Promise object holding the result when it is completed.
 	 * 
-	 * @param <T>
-	 * @param supplier 
+	 * @param <T> The type of result that this Promise holds
+	 * @param supplier supplier to generate Promise
 	 * @return {@link Promise}
 	 */
-	public static <T>Promise<T> resolve(Supplier<T> supplier) {
-		return new PromiseHandler<T>().resolve(supplier).await();
+	static <T>Promise<T> resolve(Supplier<T> supplier) {
+        return new PromiseHandler<T>().resolve(supplier).await();
 	}
 	
 	/**
@@ -42,11 +42,21 @@ public interface Promise<T> extends Result<T>
 	 * the previous Promise. If an exception has been thrown 
 	 * before, this method will be skipped.
 	 * 
-	 * @param <R>
-	 * @param mapper
+	 * @param <R> The type of result that this Promise holds
+	 * @param function function to receive and handle the result
 	 * @return {@link Promise}
 	 */
-	<R> Promise<R> then(Function<? super T, ? super R> mapper);
+	<R> Promise<R> then(Function<? super T, ? super R> function);
+
+    /**
+     * Generate a new Promise based on the results processed by
+     * the previous Promise. If an exception has been thrown
+     * before, this method will be skipped.
+     *
+     * @param supplier supplier to generate Promise
+     * @return {@link Promise}
+     */
+    Promise<T> then(Supplier<T> supplier);
 
 	/**
 	 * If the series of processing is successful, the result of 
@@ -55,7 +65,7 @@ public interface Promise<T> extends Result<T>
 	 * 
 	 * If the process fails, this method will not be called.
 	 * 
-	 * @param consumer
+	 * @param consumer consumer to receive and process the results of the previous promise
 	 * @return {@link Promise}
 	 */
 	Promise<T> onSuccess(final Consumer<T> consumer);
@@ -67,7 +77,7 @@ public interface Promise<T> extends Result<T>
 	 * 
 	 * If the processing succeeds, this method will not be called.
 	 * 
-	 * @param consumer
+	 * @param consumer consumer to receive and process the results of the previous promise
 	 * @return {@link Promise}
 	 */
 	Promise<T> onFailure(final Consumer<Throwable> consumer);
@@ -77,7 +87,7 @@ public interface Promise<T> extends Result<T>
 	 * threw an exception.
 	 * 
 	 * @return {@link Promise}
-	 * @throws PromiseException
+	 * @throws PromiseException　This exception will be thrown if an error occurs during promise generation.
 	 */
 	Promise<T> ifErrorPresentThrow() throws PromiseException;
 }
