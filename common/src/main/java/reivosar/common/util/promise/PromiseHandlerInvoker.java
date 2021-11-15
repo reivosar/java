@@ -12,7 +12,7 @@ class PromiseHandlerInvoker<T>
 	private final ExecutorServiceProvider executorServiceProvider;
 	private final PromiseTask<T> promiseTask;
 
-	PromiseHandlerInvoker(ExecutorServiceProvider executorServiceProvider, PromiseTask<T> promiseTask) {
+	PromiseHandlerInvoker(final ExecutorServiceProvider executorServiceProvider, final PromiseTask<T> promiseTask) {
 		this.executorServiceProvider = executorServiceProvider;
 		this.promiseTask = promiseTask;
 	}
@@ -32,7 +32,7 @@ class PromiseHandlerInvoker<T>
 		return new PromiseBuilder<T>().buildFromCompletableFutures(futures);
 	}
 
-	private void watch(CompletableFutures<T> futures) {
+	private void watch(final CompletableFutures<T> futures) {
 		final CompletableFuture<Void> all = futures.toAllOfFutures();
 		this.executorServiceProvider.start();
 		this.executorServiceProvider.awaitTermination();
