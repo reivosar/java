@@ -5,7 +5,7 @@ import java.util.Optional;
 class PromiseBuilder<T> {
 	
 	<R>Promise<R> buildEmptyResultOtherPromise(final Promise<T> promise) {
-		return new DefaultPromise<R>() {
+		return new DefaultPromise<>() {
 			public boolean success() {
 				return promise.success();
 			}
@@ -22,7 +22,7 @@ class PromiseBuilder<T> {
 	}
 
 	Promise<T> buildFromCompletableFutures(final CompletableFutures<T> futures) {
-		return new DefaultPromise<T>() {
+		return new DefaultPromise<>() {
 			public boolean success() {
 				return futures.success();
 			}
@@ -40,8 +40,8 @@ class PromiseBuilder<T> {
 		};
 	}
 	
-	<R>Promise<R> buildFailResultOtherPromise(Throwable error) {
-		return new DefaultPromise<R>() {
+	<R>Promise<R> buildFailResultOtherPromise(final Throwable error) {
+		return new DefaultPromise<>() {
 			@Override
 			public boolean success() {
 				return false;
@@ -64,8 +64,8 @@ class PromiseBuilder<T> {
 		};	
 	}
 	
-	<R>Promise<R> buildFailResultOtherPromise(Promise<T> promise) {
-		return new DefaultPromise<R>() {
+	<R>Promise<R> buildFailResultOtherPromise(final Promise<T> promise) {
+		return new DefaultPromise<>() {
 			@Override
 			public boolean success() {
 				return false;

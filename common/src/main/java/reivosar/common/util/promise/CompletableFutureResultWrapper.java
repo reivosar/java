@@ -5,11 +5,11 @@ import java.util.concurrent.Future;
 
 class CompletableFutureResultWrapper<T> {
 
-	private final Optional<T> result;
+	private final T result;
 	private final Throwable error;
 
-	CompletableFutureResultWrapper(T result, Throwable error) {
-		this.result = Optional.ofNullable(result);
+	CompletableFutureResultWrapper(final T result, final Throwable error) {
+		this.result = result;
 		this.error  = error;
 	}
 
@@ -21,7 +21,7 @@ class CompletableFutureResultWrapper<T> {
 		}
 	}
 
-	static <T> CompletableFutureResultWrapper<T> of(T result, Throwable error) {
+	static <T> CompletableFutureResultWrapper<T> of(final T result, final Throwable error) {
 		return new CompletableFutureResultWrapper<>(result, error);
 	}
 
@@ -34,12 +34,10 @@ class CompletableFutureResultWrapper<T> {
 	}
 
 	Optional<T> result() {
-		return success() ? this.result : Optional.empty();
+		return success() ? Optional.ofNullable(this.result): Optional.empty();
 	}
 
 	Throwable error() {
-		if (this.error == null)
-			return null;
 		return this.error;
 	}
 }
