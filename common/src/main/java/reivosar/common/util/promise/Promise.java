@@ -1,5 +1,6 @@
 package reivosar.common.util.promise;
 
+import java.util.Collection;
 import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Supplier;
@@ -89,4 +90,14 @@ public interface Promise<T> extends Result<T>
 	 * @throws PromiseException　This exception will be thrown if an error occurs during promise generation.
 	 */
 	Promise<T> ifErrorPresentThrow() throws PromiseException;
+    
+    /**
+     * Methods for batch execution of multiple suppliers.
+     *
+     * @param suppliers one or many supplier to generate Promise
+     * @return {@link Promise}
+     */
+    static Promise<Object> all(Collection<Supplier<Object>> suppliers) {
+        return new PromiseHandler<>().resolve(suppliers).await();
+    }
 }

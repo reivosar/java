@@ -1,5 +1,8 @@
 package reivosar.common.util.promise;
 
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.function.Supplier;
@@ -28,7 +31,11 @@ class PromiseHandler<T> {
     }
     
     PromiseHandler<T> resolve(final Supplier<T> supplier) {
-        this.promiseTask.addTask(supplier);
+        return resolve(List.of(supplier));
+    }
+    
+    PromiseHandler<T> resolve(final Collection<Supplier<T>> suppliers) {
+        suppliers.forEach(this.promiseTask::addTask);
         return this;
     }
     
