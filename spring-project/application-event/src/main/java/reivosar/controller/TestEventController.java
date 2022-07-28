@@ -14,12 +14,12 @@ public class TestEventController {
     private final TestEventPublishService testEventPublishService;
 
     @Autowired
-    public TestEventController(TestEventPublishService testEventPublishService) {
+    public TestEventController(final TestEventPublishService testEventPublishService) {
         this.testEventPublishService = testEventPublishService;
     }
 
     @PostMapping("send")
-    public ResponseEntity<String> sendMessage(@RequestParam String message) {
+    public ResponseEntity<String> sendMessage(final @RequestParam String message) {
         try {
             this.testEventPublishService.sendMessage(message);
             return new ResponseEntity<>("Message received.[" + message + "]", HttpStatus.OK);
