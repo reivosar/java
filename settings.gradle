@@ -9,3 +9,6 @@
 
 rootProject.name = 'java'
 include 'common', 'apache-kafka-docker-sample'
+include 'spring-project:application-event'
+findProject(':spring-project:application-event')?.name = 'application-event'
+
