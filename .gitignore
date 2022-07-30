@@ -3,6 +3,7 @@
 *.ipr
 *.iws
 *.jar
+*.class
 *.sw?
 *~
 .#*
@@ -40,3 +41,5 @@ target
 secrets.yml
 .gradletasknamecache
 .sts4-cache
+/**/build/
+/**/**/build/
