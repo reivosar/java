@@ -10,5 +10,7 @@
 rootProject.name = 'java'
 include 'common', 'apache-kafka-docker-sample'
 include 'spring-project:application-event'
+include 'spring-project:websocket-messaging'
 findProject(':spring-project:application-event')?.name = 'application-event'
+findProject(':spring-project:websocket-messaging')?.name = 'websocket-messaging'
 
