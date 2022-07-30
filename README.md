@@ -4,8 +4,4 @@ This project is a Java implementation of a design methodology and program notati
 
 # Requirement
 
-* Java SE 11
-
-# Author
- 
-* Linkedin : www.linkedin.com/in/reivosar
+* Java SE 17
