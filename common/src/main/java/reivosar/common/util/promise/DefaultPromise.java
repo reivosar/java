@@ -18,13 +18,6 @@ abstract class DefaultPromise<T> implements Promise<T> {
         ).await();
     }
     
-    @Override
-    public Promise<T> then(final Supplier<T> supplier) {
-        if (fail())
-            return this;
-        return new PromiseHandler<T>().resolve(supplier).await();
-    }
-    
     private <R> Promise<R> buildFailResultOtherPromise(final Throwable error) {
         return new PromiseBuilder<T>().buildFailResultOtherPromise(error);
     }

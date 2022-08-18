@@ -3,13 +3,10 @@ package reivosar.common.util.promise;
 import java.util.concurrent.CompletableFuture;
 import java.util.function.Supplier;
 
-import reivosar.common.util.log.Loggers;
-
 class PromiseHandlerInvoker<T>
 {
-	private final Loggers loggers = Loggers.getLoggers(PromiseHandlerInvoker.class);
 
-	private final ExecutorServiceProvider executorServiceProvider;
+    private final ExecutorServiceProvider executorServiceProvider;
 	private final PromiseTask<T> promiseTask;
 
 	PromiseHandlerInvoker(final ExecutorServiceProvider executorServiceProvider, final PromiseTask<T> promiseTask) {
@@ -17,16 +14,7 @@ class PromiseHandlerInvoker<T>
 		this.promiseTask = promiseTask;
 	}
 
-	void async() {
-		try {
-			this.promiseTask.forEach(executorServiceProvider::executeSupplyAsynch);
-			this.executorServiceProvider.start();
-		} catch (Exception e) {
-			loggers.error("Promise Task Error.", e);
-		}
-	}
-
-	Promise<T> await() {
+    Promise<T> await() {
 		final CompletableFutures<T> futures = createCompletableFutures();
 		watch (futures);
 		return new PromiseBuilder<T>().buildFromCompletableFutures(futures);
