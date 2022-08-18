@@ -2,6 +2,7 @@ package reivosar.common.util.promise;
 
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.List;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
@@ -15,7 +16,7 @@ class PromiseTask<T>
 	}
 
 	PromiseTask<T> addTask(final Supplier<T> supplier) {
-		return addTask(Arrays.asList(supplier));
+		return addTask(List.of(supplier));
 	}
 
 	PromiseTask<T> addTask(final Collection<Supplier<T>> suppliers) {
@@ -24,6 +25,6 @@ class PromiseTask<T>
 	}
 
 	void forEach(final Consumer<? super Supplier<T>> action) {
-		this.suppliers.stream().forEach(action);
+		this.suppliers.forEach(action);
 	}
 }

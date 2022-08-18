@@ -1,4 +1,4 @@
-package reivosar.common.util;
+package reivosar.common.util.io;
 
 import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.core.JsonGenerator;

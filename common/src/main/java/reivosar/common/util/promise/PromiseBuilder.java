@@ -3,25 +3,8 @@ package reivosar.common.util.promise;
 import java.util.Optional;
 
 class PromiseBuilder<T> {
-	
-	<R>Promise<R> buildEmptyResultOtherPromise(final Promise<T> promise) {
-		return new DefaultPromise<>() {
-			public boolean success() {
-				return promise.success();
-			}
-			public boolean fail() {
-				return promise.fail();
-			}
-			public Optional<R> result() {
-				return Optional.empty();
-			}
-			public Optional<Throwable> error() {
-				return promise.error();
-			}
-		};
-	}
 
-	Promise<T> buildFromCompletableFutures(final CompletableFutures<T> futures) {
+    Promise<T> buildFromCompletableFutures(final CompletableFutures<T> futures) {
 		return new DefaultPromise<>() {
 			public boolean success() {
 				return futures.success();

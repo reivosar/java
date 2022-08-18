@@ -1,6 +1,5 @@
 package reivosar.common.util.promise;
 
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
@@ -38,11 +37,7 @@ class PromiseHandler<T> {
         suppliers.forEach(this.promiseTask::addTask);
         return this;
     }
-    
-    void async() {
-        new PromiseHandlerInvoker<>(executorServiceProvider, promiseTask).async();
-    }
-    
+
     Promise<T> await() {
         return new PromiseHandlerInvoker<>(executorServiceProvider, promiseTask).await();
     }

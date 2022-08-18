@@ -16,7 +16,7 @@ public abstract class Model
      * to check for equivalence with the other object passed as an argument.
      * </p>
      * 
-	 * @param the other object
+	 * @param obj other object
 	 * @see EqualsBuilder#reflectionEquals(Object, Object, String...)
      * @return {@code true} if the two Objects have tested equals.
 	 */
@@ -26,7 +26,7 @@ public abstract class Model
 	}
 
 	/**
-	 * <p>Override the hashcode method ({@link Object#hashcode}) to returns 
+	 * <p>Override the hashcode method ({@link Object#hashCode()}) to returns
 	 * a hash code value for the object.</p>
 	 * 
      * @return int hash code

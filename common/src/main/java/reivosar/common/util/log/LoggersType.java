@@ -17,7 +17,6 @@ enum LoggersType
 
 	abstract Loggers getLoggers(Class<?> clazz);
 	
-
 	static Loggers getDefaultLoggers(String name) {
 		return LOGBACK.getLoggers(name);
 	}
