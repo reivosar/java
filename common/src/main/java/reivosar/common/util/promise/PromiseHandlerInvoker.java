@@ -17,21 +17,29 @@ class PromiseHandlerInvoker<T>
     Promise<T> await() {
 		final CompletableFutures<T> futures = createCompletableFutures();
 		watch (futures);
-		return new PromiseBuilder<T>().buildFromCompletableFutures(futures);
-	}
+        return returnPromise(futures);
+    }
 
-	private void watch(final CompletableFutures<T> futures) {
+    private Promise<T> returnPromise(CompletableFutures<T> futures) {
+        if (this.executorServiceProvider.occurredTimeout()) {
+            return new PromiseBuilder<T>().buildFailResultOtherPromise(new PromiseException("timeout occurred."));
+        }
+        return new PromiseBuilder<T>().buildFromCompletableFutures(futures);
+    }
+
+    private void watch(final CompletableFutures<T> futures) {
 		final CompletableFuture<Void> all = futures.toAllOfFutures();
 		this.executorServiceProvider.start();
 		this.executorServiceProvider.awaitTermination();
 		while(!all.isDone()) {
-			if (this.executorServiceProvider.occurredTimeout())
-				this.executorServiceProvider.stop();
+			if (this.executorServiceProvider.occurredTimeout()) {
+                this.executorServiceProvider.stop();
+            }
 		}
 	}
 
-	private CompletableFuture<T> executeSupplyAsynch(final Supplier<T> supplier) {
-		final CompletableFuture<T> future = executorServiceProvider.executeSupplyAsynch(supplier);
+	private CompletableFuture<T> executeSupplyAsync(final Supplier<T> supplier) {
+		final CompletableFuture<T> future = executorServiceProvider.executeSupplyAsync(supplier);
 		future.whenComplete((result, error) -> {
 			if (CompletableFutureResultWrapper.of(result, error).fail()) {
 				this.executorServiceProvider.stop();
@@ -42,7 +50,7 @@ class PromiseHandlerInvoker<T>
 
 	private CompletableFutures<T> createCompletableFutures() {
 		final CompletableFutures<T> result = new CompletableFutures<>();
-		this.promiseTask.forEach(supplier -> result.add(executeSupplyAsynch(supplier)));
+		this.promiseTask.forEach(supplier -> result.add(executeSupplyAsync(supplier)));
 		return result;
 	}
 }
