@@ -37,17 +37,47 @@ public interface Promise<T> extends Result<T>
 	static <T>Promise<T> resolve(Supplier<T> supplier) {
         return new PromiseHandler<T>().resolve(supplier).await();
 	}
-	
-	/**
-	 * Generate a new Promise based on the results processed by 
-	 * the previous Promise. If an exception has been thrown 
-	 * before, this method will be skipped.
-	 * 
-	 * @param <R> The type of result that this Promise holds
-	 * @param function function to receive and handle the result
-	 * @return {@link Promise}
-	 */
-	<R> Promise<R> then(Function<? super T, ? super R> function);
+
+    /**
+     * Asynchronously processes the behavior of the
+     * Supplier passed as an argument.
+     *
+     * It waits for a certain period of time until
+     * the processing is completed, and returns a
+     * Promise object holding the result when it is completed.
+     *
+     * @param <T> The type of result that this Promise holds
+     * @param supplier supplier to generate Promise
+     * @param timeout the maximum time to wait
+     * @return {@link Promise}
+     */
+    static <T>Promise<T> resolve(Supplier<T> supplier, long timeout) {
+        return new PromiseHandler<T>(PromiseConfig.builder().timeout(timeout).build())
+                .resolve(supplier).await();
+    }
+
+    /**
+     * Generate a new Promise based on the results processed by
+     * the previous Promise. If an exception has been thrown
+     * before, this method will be skipped.
+     *
+     * @param <R> The type of result that this Promise holds
+     * @param function function to receive and handle the result
+     * @return {@link Promise}
+     */
+    <R> Promise<R> then(Function<? super T, ? super R> function);
+
+    /**
+     * Generate a new Promise based on the results processed by
+     * the previous Promise. If an exception has been thrown
+     * before, this method will be skipped.
+     *
+     * @param <R> The type of result that this Promise holds
+     * @param function function to receive and handle the result
+     * @param timeout the maximum time to wait
+     * @return {@link Promise}
+     */
+    <R> Promise<R> then(Function<? super T, ? super R> function, long timeout);
 
 	/**
 	 * If the series of processing is successful, the result of 

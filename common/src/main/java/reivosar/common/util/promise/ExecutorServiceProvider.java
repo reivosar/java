@@ -33,7 +33,7 @@ class ExecutorServiceProvider {
         this.executorService.shutdownNow();
     }
     
-    <T> CompletableFuture<T> executeSupplyAsynch(final Supplier<T> supplier) {
+    <T> CompletableFuture<T> executeSupplyAsync(final Supplier<T> supplier) {
         return CompletableFuture.supplyAsync(supplier, executorService);
     }
     

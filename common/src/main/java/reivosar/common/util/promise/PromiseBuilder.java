@@ -66,8 +66,19 @@ class PromiseBuilder<T> {
 
 			@Override
 			public Optional<Throwable> error() {
-				return promise.error();
-			}
-		};	
+                return convertToPromiseException();
+            }
+
+            private Optional<Throwable> convertToPromiseException() {
+                if (promise.error().isEmpty()) {
+                    return promise.error();
+                }
+                final Throwable throwable = promise.error().get();
+                if (throwable instanceof PromiseException) {
+                    return promise.error();
+                }
+                return Optional.of(new PromiseException(throwable.getMessage(), throwable));
+            }
+        };
 	}
 }

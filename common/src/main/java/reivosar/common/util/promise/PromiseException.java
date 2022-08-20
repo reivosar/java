@@ -9,4 +9,8 @@ public class PromiseException extends RuntimeException {
 	public PromiseException(String message) {
 		super(message);
 	}
+
+    public PromiseException(String message, Throwable cause) {
+        super(message, cause);
+    }
 }

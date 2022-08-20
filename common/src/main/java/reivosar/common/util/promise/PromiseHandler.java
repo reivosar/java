@@ -10,18 +10,16 @@ class PromiseHandler<T> {
     private final ExecutorServiceProvider executorServiceProvider;
     private final PromiseTask<T> promiseTask;
     
-    private static final long DEFAULT_TIMEOUT = 30;
-    
     PromiseHandler() {
-        this(1);
+        this(PromiseConfig.DEFAULT_CONFIG);
     }
-    
-    PromiseHandler(final int multiple) {
-        this(Executors.newFixedThreadPool(multiple));
+
+    PromiseHandler(final PromiseConfig promiseConfig) {
+        this(promiseConfig.multiple, promiseConfig.timeout);
     }
-    
-    PromiseHandler(final ExecutorService executorService) {
-        this(executorService, DEFAULT_TIMEOUT);
+
+    PromiseHandler(final int multiple, final long timeout) {
+        this(Executors.newFixedThreadPool(multiple), timeout);
     }
     
     PromiseHandler(final ExecutorService executorService, final long timeout) {

@@ -13,35 +13,53 @@ class PromiseTest {
     class TestForErrorCases {
 
         @Test
-        void shouldNotBeCalled_when_PreviousProcessHappensError() {
-            Promise<Integer> promise = Promise.resolve(this::errorOccurred) //@ATTN
-                    .then(i -> i + 1)
+        void shouldNotBeCalled_when_previousProcessHappensError() {
+            Promise<Integer> promise = Promise.resolve(() -> 1) //@ATTN
+                    .then(i -> errorOccurred())
                     .then(i -> i + 2);
-            assertThat(promise.success(),            is(false));
-            assertThat(promise.fail(),               is(true));
-            assertThat(promise.result().isPresent(), is(false));
-            assertThat(promise.error().isPresent(),  is(true));
-            promise.onSuccess(result -> fail());
-            promise.onFailure(error  -> assertThat(error.getCause().getMessage(), is("error")));
-            assertThrows(PromiseException.class, promise::ifErrorPresentThrow);
-        }
 
-        @Test
-        void shouldNotBeCalled_when_PreviousProcessReturnValueIsNull() {
-            Promise<Integer> promise = Promise.resolve(() -> 1)
-                    .then(i -> (Integer) null)//@ATTN
-                    .then(i -> i + 2);
-            assertThat(promise.success(),            is(false));
-            assertThat(promise.fail(),               is(true));
-            assertThat(promise.result().isPresent(), is(false));
-            assertThat(promise.error().isPresent(),  is(true));
-            promise.onSuccess(result -> fail());
-            promise.onFailure(error  -> assertThat(error.getMessage(), is("result is null.")));
-            assertThrows(PromiseException.class, promise::ifErrorPresentThrow);
+            errorAssertion(promise, "java.lang.IllegalStateException: error");
         }
 
         private Integer errorOccurred() {
             throw new IllegalStateException("error");
+        }
+
+        @Test
+        void shouldNotBeCalled_when_previousProcessReturnValueIsNull() {
+            Promise<Integer> promise = Promise.resolve(() -> 1)
+                    .then(i -> (Integer) null)//@ATTN
+                    .then(i -> i + 2);
+
+            errorAssertion(promise, "result is null.");
+        }
+
+        @Test
+        void shouldNotBeCalled_when_timeoutOccurred() {
+            Promise<Integer> promise = Promise.resolve(() -> 1, 1)
+                    .then(i -> 1 + timeoutOccurred(), 1)//@ATTN
+                    .then(i -> i + 2);
+
+            errorAssertion(promise, "timeout occurred.");
+        }
+
+        private Integer timeoutOccurred() {
+            try {
+                Thread.sleep(2000);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+            return 1;
+        }
+
+        private <T>void errorAssertion (Promise<T> promise, String errorMessage) {
+            assertThat(promise.success(),            is(false));
+            assertThat(promise.fail(),               is(true));
+            assertThat(promise.result().isPresent(), is(false));
+            assertThat(promise.error().isPresent(),  is(true));
+            promise.onSuccess(result -> fail());
+            promise.onFailure(error  -> assertThat(error.getMessage(), is(errorMessage)));
+            assertThrows(PromiseException.class, promise::ifErrorPresentThrow);
         }
     }
 
