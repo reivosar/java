@@ -14,8 +14,8 @@ class PromiseTest {
 
         @Test
         void shouldNotBeCalled_when_previousProcessHappensError() {
-            Promise<Integer> promise = Promise.resolve(() -> 1) //@ATTN
-                    .then(i -> errorOccurred())
+            Promise<Integer> promise = Promise.resolve(() -> 1)
+                    .then(i -> errorOccurred()) //@ATTN
                     .then(i -> i + 2);
 
             errorAssertion(promise, "java.lang.IllegalStateException: error");
