@@ -21,6 +21,7 @@ import reivosar.common.util.model.Result;
  * @param <T> The type of result that this Promise holds
  */
 public interface Promise<T> extends Result<T> {
+    
     /**
      * Asynchronously processes the behavior of the
      * Supplier passed as an argument.
