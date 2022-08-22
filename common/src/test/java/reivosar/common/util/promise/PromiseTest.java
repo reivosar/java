@@ -14,8 +14,8 @@ class PromiseTest {
 
         @Test
         void shouldNotBeCalled_when_previousProcessHappensError() {
-            Promise<Integer> promise = Promise.resolve(() -> 1)
-                    .then(i -> errorOccurred()) //@ATTN
+            final Promise<Integer> promise = Promise.resolve(() -> 1)
+                    .then(i -> errorOccurred())//@ATTN
                     .then(i -> i + 2);
 
             errorAssertion(promise, "java.lang.IllegalStateException: error");
@@ -27,7 +27,7 @@ class PromiseTest {
 
         @Test
         void shouldNotBeCalled_when_previousProcessReturnValueIsNull() {
-            Promise<Integer> promise = Promise.resolve(() -> 1)
+            final Promise<Integer> promise = Promise.resolve(() -> 1)
                     .then(i -> (Integer) null)//@ATTN
                     .then(i -> i + 2);
 
@@ -36,7 +36,7 @@ class PromiseTest {
 
         @Test
         void shouldNotBeCalled_when_timeoutOccurred() {
-            Promise<Integer> promise = Promise.resolve(() -> 1, 1)
+            final Promise<Integer> promise = Promise.resolve(() -> 1, 1)
                     .then(i -> 1 + timeoutOccurred(), 1)//@ATTN
                     .then(i -> i + 2);
 
@@ -52,13 +52,13 @@ class PromiseTest {
             return 1;
         }
 
-        private <T>void errorAssertion (Promise<T> promise, String errorMessage) {
-            assertThat(promise.success(),            is(false));
-            assertThat(promise.fail(),               is(true));
+        private <T> void errorAssertion(Promise<T> promise, String errorMessage) {
+            assertThat(promise.success(), is(false));
+            assertThat(promise.fail(), is(true));
             assertThat(promise.result().isPresent(), is(false));
-            assertThat(promise.error().isPresent(),  is(true));
+            assertThat(promise.error().isPresent(), is(true));
             promise.onSuccess(result -> fail());
-            promise.onFailure(error  -> assertThat(error.getMessage(), is(errorMessage)));
+            promise.onFailure(error -> assertThat(error.getMessage(), is(errorMessage)));
             assertThrows(PromiseException.class, promise::ifErrorPresentThrow);
         }
     }
@@ -83,19 +83,19 @@ class PromiseTest {
         @Test
         void int_to_string_to_int_is_int() {
             final Promise<Integer> promise = Promise.resolve(() -> 1)
-                    .then(i   -> i.toString() + "2")
+                    .then(i -> i.toString() + "2")
                     .then(str -> Integer.parseInt(str) * 3);
             assertion(promise, 36);
         }
 
-        private <T>void assertion(final Promise<T> promise, final T value) {
-            assertThat(promise.success(),            is(true));
-            assertThat(promise.fail(),               is(false));
+        private <T> void assertion(final Promise<T> promise, final T value) {
+            assertThat(promise.success(), is(true));
+            assertThat(promise.fail(), is(false));
             assertThat(promise.result().isPresent(), is(true));
-            assertThat(promise.result().get(),       is(value));
-            assertThat(promise.error().isPresent(),  is(false));
+            assertThat(promise.result().get(), is(value));
+            assertThat(promise.error().isPresent(), is(false));
             promise.onSuccess(result -> assertThat(result, is(value)));
-            promise.onFailure(error  -> fail());
+            promise.onFailure(error -> fail());
             assertDoesNotThrow(promise::ifErrorPresentThrow);
         }
     }

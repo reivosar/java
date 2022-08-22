@@ -1,5 +1,7 @@
 package reivosar.common.util.promise;
 
+import reivosar.common.util.lang.ObjectUtil;
+
 class PromiseConfig {
 
     private static final int DEFAULT_MULTIPLE_NUMBER = 1;
@@ -15,8 +17,8 @@ class PromiseConfig {
     }
 
     private PromiseConfig(final Integer multiple, final Long timeout) {
-        this.multiple = multiple != null ? multiple : DEFAULT_MULTIPLE_NUMBER;
-        this.timeout = timeout != null ? timeout : DEFAULT_TIMEOUT_SECOND;
+        this.multiple = ObjectUtil.getIfNull(multiple, DEFAULT_MULTIPLE_NUMBER);
+        this.timeout = ObjectUtil.getIfNull(timeout, DEFAULT_TIMEOUT_SECOND);
     }
 
     static PromiseConfig.Builder builder() {
@@ -31,10 +33,6 @@ class PromiseConfig {
         Builder multiple(final Integer multiple) {
             this.multiple = multiple;
             return this;
-        }
-
-        Builder timeout(final Integer timeout) {
-            return timeout(Long.valueOf(timeout));
         }
 
         Builder timeout(final Long timeout) {
