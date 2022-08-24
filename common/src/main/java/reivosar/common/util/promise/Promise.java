@@ -89,7 +89,7 @@ public interface Promise<T> extends Result<T> {
      * @param consumer consumer to receive and process the results of the previous promise
      * @return {@link Promise}
      */
-    Promise<T> onSuccess(final Consumer<T> consumer);
+    Promise<T> onSuccess(Consumer<T> consumer);
     
     /**
      * If an exception was occured in the previous process,
@@ -101,7 +101,7 @@ public interface Promise<T> extends Result<T> {
      * @param consumer consumer to receive and process the results of the previous promise
      * @return {@link Promise}
      */
-    Promise<T> onFailure(final Consumer<Throwable> consumer);
+    Promise<T> onFailure(Consumer<Throwable> consumer);
     
     /**
      * An exception will be thrown if the previous process
