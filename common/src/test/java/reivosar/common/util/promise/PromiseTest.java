@@ -13,7 +13,7 @@ class PromiseTest {
     class TestForErrorCases {
 
         @Test
-        void shouldNotBeCalled_when_previousProcessHappensError() {
+        void shouldNotBeCalledNextThenMethod_when_previousProcessHappensError() {
             final Promise<Integer> promise = Promise.resolve(() -> 1)
                     .then(i -> errorOccurred())//@ATTN
                     .then(i -> i + 2);
@@ -26,7 +26,7 @@ class PromiseTest {
         }
 
         @Test
-        void shouldNotBeCalled_when_previousProcessReturnValueIsNull() {
+        void shouldNotBeCalledNextThenMethod_when_previousProcessReturnValueIsNull() {
             final Promise<Integer> promise = Promise.resolve(() -> 1)
                     .then(i -> (Integer) null)//@ATTN
                     .then(i -> i + 2);
@@ -35,7 +35,7 @@ class PromiseTest {
         }
 
         @Test
-        void shouldNotBeCalled_when_timeoutOccurred() {
+        void shouldNotBeCalledNextThenMethod_when_timeoutOccurred() {
             final Promise<Integer> promise = Promise.resolve(() -> 1, 1)
                     .then(i -> 1 + timeoutOccurred(), 1)//@ATTN
                     .then(i -> i + 2);
