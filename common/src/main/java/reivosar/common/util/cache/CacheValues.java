@@ -21,7 +21,7 @@ public class CacheValues<V> extends Model {
         return new CacheValues<>(List.of());
     }
     
-    public Collection<V> values() {
+    public Collection<V> all() {
         return values.stream().collect(Collectors.toUnmodifiableList());
     }
     
