@@ -1,6 +1,7 @@
 package reivosar.common.util.cache;
 
-import java.util.Optional;
+import javax.annotation.Nonnull;
+import java.util.Collection;
 
 /**
  * An interface that defines general cache operations.
@@ -8,24 +9,30 @@ import java.util.Optional;
 public interface Cache {
     
     /**
+     * Returns the default cache implementation.
+     *
+     * @return default cache implementation
+     */
+    static Cache getDefaultCache() {
+        return new LocalCache();
+    }
+    
+    /**
      * Checks if the specified key exists in the cache.
      *
-     * @param key
+     * @param key key with associated value returned
      * @return true if Key exists in cache; false otherwise.
      */
-    boolean exists(Object key);
+    boolean exists(@Nonnull Object key);
     
     /**
      * Returns the value to which this cache maps the given key.
      * Typically, specifies the type to which the return value will be cast.
-     * The value is returned as a nullable Optional type.
      *
      * @param key  key with associated value returned
-     * @param type required return type
-     * @param <T>  value type
      * @return value in cache
      */
-    <T> Optional<T> get(Object key, Class<T> type);
+    <T> CacheValues<T> get(@Nonnull Object key);
     
     /**
      * Associates a given value with a given key in this cache.
@@ -35,14 +42,21 @@ public interface Cache {
      * @param key   key with associated value returned
      * @param value value to be associated with the specified key
      */
-    void put(Object key, Object value);
+    void put(@Nonnull Object key, @Nonnull Object value);
+    
+    /**
+     * Retrieve all keys in cache.
+     *
+     * @return all keys in cache
+     */
+    Collection<Object> getAllKeys();
     
     /**
      * Clears the cache associated with the specified key.
      *
      * @param key key of cache to clear
      */
-    void clear(Object key);
+    void clear(@Nonnull Object key);
     
     /**
      * Clear all caches.
