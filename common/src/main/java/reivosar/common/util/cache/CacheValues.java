@@ -5,6 +5,7 @@ import reivosar.common.util.model.Model;
 import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 public class CacheValues<V> extends Model {
@@ -22,6 +23,10 @@ public class CacheValues<V> extends Model {
     
     public Collection<V> values() {
         return values.stream().collect(Collectors.toUnmodifiableList());
+    }
+    
+    public Optional<V> first() {
+        return values.stream().findFirst();
     }
     
     public boolean isNotEmpty() {
