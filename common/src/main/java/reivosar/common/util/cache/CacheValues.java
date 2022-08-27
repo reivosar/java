@@ -26,6 +26,14 @@ public class CacheValues extends Model {
                 .collect(Collectors.toUnmodifiableList());
     }
     
+    public boolean isNotEmpty() {
+        return !isEmpty();
+    }
+    
+    public boolean isEmpty() {
+        return this.values.isEmpty();
+    }
+    
     public int count() {
         return values.size();
     }
