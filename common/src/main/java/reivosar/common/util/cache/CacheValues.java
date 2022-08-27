@@ -2,10 +2,7 @@ package reivosar.common.util.cache;
 
 import reivosar.common.util.model.Model;
 
-import java.util.Collection;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class CacheValues<V> extends Model {
@@ -22,7 +19,7 @@ public class CacheValues<V> extends Model {
     }
     
     public Collection<V> all() {
-        return values.stream().collect(Collectors.toUnmodifiableList());
+        return Collections.unmodifiableCollection(values);
     }
     
     public Optional<V> first() {
