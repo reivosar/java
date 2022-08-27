@@ -3,7 +3,6 @@ package reivosar.common.util.cache;
 import reivosar.common.util.model.Model;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 public class CacheValues<V> extends Model {
     
