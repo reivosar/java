@@ -5,44 +5,44 @@ import reivosar.common.util.model.Model;
 import java.util.*;
 import java.util.stream.Collectors;
 
-class LocalCacheStore extends Model {
+class LocalCacheStore<K, V> extends Model {
     
-    private final Map<Object, Collection<Object>> cacheMap;
+    private final Map<K, Collection<V>> cacheMap;
     
-    public LocalCacheStore(final Map<Object, Collection<Object>> cacheMap) {
+    public LocalCacheStore(final Map<K, Collection<V>> cacheMap) {
         this.cacheMap = cacheMap;
     }
     
-    Collection<Object> get(final Object key) {
-        final Collection<Object> values = this.cacheMap.get(key);
+    Collection<V> get(final K key) {
+        final Collection<V> values = this.cacheMap.get(key);
         if (values == null) {
             return List.of();
         }
         return values.stream().collect(Collectors.toUnmodifiableList());
     }
     
-    boolean containsKey(final Object key) {
+    boolean containsKey(final K key) {
         return cacheMap.containsKey(key);
     }
     
-    boolean exists(final Object key) {
+    boolean exists(final K key) {
         return containsKey(key) && !get(key).isEmpty();
     }
     
-    Collection<Object> getAllKeys() {
+    Collection<K> getAllKeys() {
         return cacheMap.keySet();
     }
     
-    void put(final Object key, final Object... value) {
-        Collection<Object> values = this.cacheMap.get(key);
+    void put(final K key, final V value) {
+        Collection<V> values = this.cacheMap.get(key);
         if (values == null || values.isEmpty()) {
             values = new LinkedList<>();
         }
-        values.addAll(Arrays.asList(value));
+        values.add(value);
         this.cacheMap.put(key, values);
     }
     
-    void clear(final Object key) {
+    void clear(final K key) {
         this.cacheMap.remove(key);
     }
 }

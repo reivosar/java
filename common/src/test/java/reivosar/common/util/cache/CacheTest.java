@@ -15,7 +15,7 @@ class CacheTest {
     @Nested
     class TestForErrorCase {
         
-        private final Cache testClass = Cache.getDefaultCache();
+        private final Cache<String, String> testClass = Cache.getDefaultCache();
         
         @Test
         void shouldBeThrownException_when_null_argument_is_passed_to_existsMethod() {
@@ -43,7 +43,7 @@ class CacheTest {
     @Nested
     class TestForNormalCase {
         
-        private Cache testClass;
+        private Cache<String, String> testClass;
         
         @BeforeEach
         void setup() {
@@ -59,7 +59,7 @@ class CacheTest {
             // this.testClass.put(key, value);
             // THEN
             assertThat(this.testClass.exists(key), is(false));
-            assertThat(this.testClass.get(key), is(CacheValues.EMPTY));
+            assertThat(this.testClass.get(key), is(CacheValues.empty()));
             assertThat(this.testClass.getAllKeys().size(), is(0));
         }
         
@@ -72,7 +72,7 @@ class CacheTest {
             this.testClass.put(key, value);
             // THEN
             assertThat(this.testClass.exists(key), is(true));
-            assertThat(this.testClass.get(key), is(new CacheValues(List.of(value))));
+            assertThat(this.testClass.get(key), is(new CacheValues<>(List.of(value))));
             assertThat(this.testClass.getAllKeys().size(), is(1));
         }
     
@@ -87,7 +87,7 @@ class CacheTest {
             this.testClass.put(key, value2);
             // THEN
             assertThat(this.testClass.exists(key), is(true));
-            assertThat(this.testClass.get(key), is(new CacheValues(List.of(value1, value2))));
+            assertThat(this.testClass.get(key), is(new CacheValues<>(List.of(value1, value2))));
             assertThat(this.testClass.getAllKeys().size(), is(1));
         }
     
@@ -107,9 +107,9 @@ class CacheTest {
             this.testClass.put(key2, value2_2);
             // THEN
             assertThat(this.testClass.exists(key1), is(true));
-            assertThat(this.testClass.get(key1), is(new CacheValues(List.of(value1_1, value1_2))));
+            assertThat(this.testClass.get(key1), is(new CacheValues<>(List.of(value1_1, value1_2))));
             assertThat(this.testClass.exists(key2), is(true));
-            assertThat(this.testClass.get(key2), is(new CacheValues(List.of(value2_1, value2_2))));
+            assertThat(this.testClass.get(key2), is(new CacheValues<>(List.of(value2_1, value2_2))));
             assertThat(this.testClass.getAllKeys().size(), is(2));
         }
     
@@ -126,9 +126,9 @@ class CacheTest {
             this.testClass.clear(key1);//@ATTN
             // THEN
             assertThat(this.testClass.exists(key1), is(false));
-            assertThat(this.testClass.get(key1), is(CacheValues.EMPTY));
+            assertThat(this.testClass.get(key1), is(CacheValues.empty()));
             assertThat(this.testClass.exists(key2), is(true));
-            assertThat(this.testClass.get(key2), is(new CacheValues(List.of(value2))));
+            assertThat(this.testClass.get(key2), is(new CacheValues<>(List.of(value2))));
             assertThat(this.testClass.getAllKeys().size(), is(1));
         }
     
@@ -145,9 +145,9 @@ class CacheTest {
             this.testClass.clearAll();
             // THEN
             assertThat(this.testClass.exists(key1), is(false));
-            assertThat(this.testClass.get(key1), is(CacheValues.EMPTY));
+            assertThat(this.testClass.get(key1), is(CacheValues.empty()));
             assertThat(this.testClass.exists(key2), is(false));
-            assertThat(this.testClass.get(key2), is(CacheValues.EMPTY));
+            assertThat(this.testClass.get(key2), is(CacheValues.empty()));
             assertThat(this.testClass.getAllKeys().size(), is(0));
         }
     }

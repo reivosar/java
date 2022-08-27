@@ -2,36 +2,36 @@ package reivosar.common.util.cache;
 
 import java.util.Collection;
 
-class LocalCacheAccessor extends CacheAccessor {
+class LocalCacheAccessor<K, V> extends CacheAccessor<K, V> {
     
-    private final LocalCacheStore localCacheStore;
+    private final LocalCacheStore<K, V> localCacheStore;
     
-    LocalCacheAccessor(final LocalCacheStore localCacheStore) {
+    LocalCacheAccessor(final LocalCacheStore<K, V> localCacheStore) {
         this.localCacheStore = localCacheStore;
     }
     
     @Override
-    Collection<Object> get(final Object key) {
+    Collection<V> get(final K key) {
         return this.localCacheStore.get(key);
     }
     
     @Override
-    boolean exists(final Object key) {
+    boolean exists(final K key) {
         return localCacheStore.exists(key);
     }
     
     @Override
-    void put(final Object key, final Object value) {
+    void put(final K key, final V value) {
         this.localCacheStore.put(key, value);
     }
     
     @Override
-    Collection<Object> getAllKeys() {
+    Collection<K> getAllKeys() {
         return this.localCacheStore.getAllKeys();
     }
     
     @Override
-    void clear(final Object key) {
+    void clear(final K key) {
         this.localCacheStore.clear(key);
     }
 }

@@ -2,15 +2,15 @@ package reivosar.common.util.cache;
 
 import java.util.Collection;
 
-abstract class CacheAccessor {
+abstract class CacheAccessor<K, V> {
     
-    abstract Collection<Object> get(Object key);
+    abstract Collection<V> get(K key);
     
-    abstract boolean exists(Object key);
+    abstract boolean exists(K key);
     
-    abstract void put(Object key, Object value);
+    abstract void put(K key, V value);
     
-    abstract Collection<Object> getAllKeys();
+    abstract Collection<K> getAllKeys();
     
-    abstract void clear(Object key);
+    abstract void clear(K key);
 }
