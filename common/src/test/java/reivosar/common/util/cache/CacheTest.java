@@ -72,7 +72,7 @@ class CacheTest {
             this.testClass.put(key, value);
             // THEN
             assertThat(this.testClass.exists(key), is(true));
-            assertThat(this.testClass.get(key), is(new CacheValues<>(List.of(value))));
+            assertThat(this.testClass.get(key), is(new CacheValues(List.of(value))));
             assertThat(this.testClass.getAllKeys().size(), is(1));
         }
     
@@ -87,7 +87,7 @@ class CacheTest {
             this.testClass.put(key, value2);
             // THEN
             assertThat(this.testClass.exists(key), is(true));
-            assertThat(this.testClass.get(key), is(new CacheValues<>(List.of(value1, value2))));
+            assertThat(this.testClass.get(key), is(new CacheValues(List.of(value1, value2))));
             assertThat(this.testClass.getAllKeys().size(), is(1));
         }
     
@@ -107,9 +107,9 @@ class CacheTest {
             this.testClass.put(key2, value2_2);
             // THEN
             assertThat(this.testClass.exists(key1), is(true));
-            assertThat(this.testClass.get(key1), is(new CacheValues<>(List.of(value1_1, value1_2))));
+            assertThat(this.testClass.get(key1), is(new CacheValues(List.of(value1_1, value1_2))));
             assertThat(this.testClass.exists(key2), is(true));
-            assertThat(this.testClass.get(key2), is(new CacheValues<>(List.of(value2_1, value2_2))));
+            assertThat(this.testClass.get(key2), is(new CacheValues(List.of(value2_1, value2_2))));
             assertThat(this.testClass.getAllKeys().size(), is(2));
         }
     
@@ -128,7 +128,7 @@ class CacheTest {
             assertThat(this.testClass.exists(key1), is(false));
             assertThat(this.testClass.get(key1), is(CacheValues.EMPTY));
             assertThat(this.testClass.exists(key2), is(true));
-            assertThat(this.testClass.get(key2), is(new CacheValues<>(List.of(value2))));
+            assertThat(this.testClass.get(key2), is(new CacheValues(List.of(value2))));
             assertThat(this.testClass.getAllKeys().size(), is(1));
         }
     

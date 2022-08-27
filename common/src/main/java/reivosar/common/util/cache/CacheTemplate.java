@@ -18,14 +18,13 @@ abstract class CacheTemplate implements Cache {
         return cacheAccessor.exists(key);
     }
     
-    @SuppressWarnings({"unchecked", "rawtypes"})
     @Override
     public final CacheValues get(@Nonnull final Object key) {
         Objects.requireNonNull(key);
         if (!exists(key)) {
             return CacheValues.EMPTY;
         }
-        return new CacheValues<>(cacheAccessor.get(key));
+        return new CacheValues(cacheAccessor.get(key));
     }
     
     @Override

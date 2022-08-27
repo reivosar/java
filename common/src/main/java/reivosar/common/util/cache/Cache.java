@@ -32,7 +32,7 @@ public interface Cache {
      * @param key  key with associated value returned
      * @return value in cache
      */
-    <T> CacheValues<T> get(@Nonnull Object key);
+    CacheValues get(@Nonnull Object key);
     
     /**
      * Associates a given value with a given key in this cache.
