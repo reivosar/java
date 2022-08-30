@@ -2,13 +2,11 @@ package reivosar.infrastructure.event;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.core.KafkaTemplate;
-import org.springframework.kafka.support.SendResult;
 import org.springframework.stereotype.Component;
-import org.springframework.util.concurrent.ListenableFuture;
 import reivosar.common.domain.model.Identity;
 import reivosar.common.domain.model.event.DomainEventPublisher;
 import reivosar.common.domain.model.event.EventableEntity;
-import reivosar.common.util.JsonUtil;
+import reivosar.common.util.io.JsonUtil;
 import reivosar.common.util.promise.Promise;
 
 import java.util.function.Supplier;

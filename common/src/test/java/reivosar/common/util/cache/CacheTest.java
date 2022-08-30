@@ -5,10 +5,9 @@ import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
+import java.util.Optional;
 
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 
 class CacheTest {
     
@@ -18,24 +17,24 @@ class CacheTest {
         private final Cache<String, String> testClass = Cache.getEternalLocalCache();
         
         @Test
-        void shouldBeThrownException_when_null_argument_is_passed_to_existsMethod() {
+        void shouldBeThrownException_when_nullArgumentIsPassedToExistsMethod() {
             assertThrows(NullPointerException.class, () -> testClass.exists(null));
         }
         
         @Test
-        void shouldBeThrownException_when_null_argument_is_passed_to_getMethod() {
+        void shouldBeThrownException_when_nullArgumentIsPassedToGetMethod() {
             assertThrows(NullPointerException.class, () -> testClass.get(null));
         }
         
         @Test
-        void shouldBeThrownException_when_null_argument_is_passed_to_putMethod() {
+        void shouldBeThrownException_when_nullArgumentIsPassedToPutMethod() {
             assertThrows(NullPointerException.class, () -> testClass.put(null, null));
             assertThrows(NullPointerException.class, () -> testClass.put(null, "test"));
-            assertThrows(NullPointerException.class, () -> testClass.put("key",  null));
+            assertThrows(NullPointerException.class, () -> testClass.put("key", null));
         }
         
         @Test
-        void shouldBeThrownException_when_null_argument_is_passed_to_clearMethod() {
+        void shouldBeThrownException_when_nullArgumentIsPassedToClearMethod() {
             assertThrows(NullPointerException.class, () -> testClass.clear(null));
         }
     }
@@ -51,33 +50,30 @@ class CacheTest {
         }
         
         @Test
-        void shouldBeNotGottenValues_when_no_value_set_to_cache() {
+        void shouldBeNotGottenValues_whenNoValueSetToCache() {
             // GIVEN
             final String key = "key";
             final String value = "value";
             // WHEN
             // this.testClass.put(key, value);
             // THEN
-            assertThat(this.testClass.exists(key), is(false));
-            assertThat(this.testClass.get(key), is(CacheValues.empty()));
-            assertThat(this.testClass.getAllKeys().size(), is(0));
+            assertionEmptyValues(key);
+            assertEquals(this.testClass.getAllKeys().size(), 0);
         }
         
         @Test
-        void shouldBeGottenValues_when_value_set_to_cache() {
+        void shouldBeGottenValues_when_valueSetToCache() {
             // GIVEN
             final String key = "key";
             final String value = "value";
             // WHEN
             this.testClass.put(key, value);
             // THEN
-            assertThat(this.testClass.exists(key), is(true));
-            assertThat(this.testClass.get(key), is(new CacheValues<>(List.of(value))));
-            assertThat(this.testClass.getAllKeys().size(), is(1));
+            assertionNotEmptyValues(key, value);
         }
-    
+        
         @Test
-        void shouldBeGottenValues_when_value_set_to_same_key_in_cache() {
+        void shouldBeGottenValues_when_valueSetToSameKeyInCache() {
             // GIVEN
             final String key = "key";
             final String value1 = "value1";
@@ -86,13 +82,13 @@ class CacheTest {
             this.testClass.put(key, value1);
             this.testClass.put(key, value2);
             // THEN
-            assertThat(this.testClass.exists(key), is(true));
-            assertThat(this.testClass.get(key), is(new CacheValues<>(List.of(value1, value2))));
-            assertThat(this.testClass.getAllKeys().size(), is(1));
+            assertionNotEmptyValues(key, value1, value2);
+            
+            assertEquals(this.testClass.getAllKeys().size(), 1);
         }
-    
+        
         @Test
-        void shouldBeGottenValues_when_value_set_to_any_keys_in_cache() {
+        void shouldBeGottenValues_when_valueSetToAnyKeysInCache() {
             // GIVEN
             final String key1 = "key1";
             final String key2 = "key2";
@@ -106,15 +102,14 @@ class CacheTest {
             this.testClass.put(key2, value2_1);
             this.testClass.put(key2, value2_2);
             // THEN
-            assertThat(this.testClass.exists(key1), is(true));
-            assertThat(this.testClass.get(key1), is(new CacheValues<>(List.of(value1_1, value1_2))));
-            assertThat(this.testClass.exists(key2), is(true));
-            assertThat(this.testClass.get(key2), is(new CacheValues<>(List.of(value2_1, value2_2))));
-            assertThat(this.testClass.getAllKeys().size(), is(2));
+            assertionNotEmptyValues(key1, value1_1, value1_2);
+            assertionNotEmptyValues(key2, value2_1, value2_2);
+            
+            assertEquals(2, this.testClass.getAllKeys().size());
         }
-    
+        
         @Test
-        void shouldBeNotGottenValues_when_clear_method_is_called_with_key() {
+        void shouldBeNotGottenValues_when_clearMethodIsCalledWithKey() {
             // GIVEN
             final String key1 = "key1";
             final String value1 = "value1";
@@ -125,15 +120,14 @@ class CacheTest {
             this.testClass.put(key2, value2);
             this.testClass.clear(key1);//@ATTN
             // THEN
-            assertThat(this.testClass.exists(key1), is(false));
-            assertThat(this.testClass.get(key1), is(CacheValues.empty()));
-            assertThat(this.testClass.exists(key2), is(true));
-            assertThat(this.testClass.get(key2), is(new CacheValues<>(List.of(value2))));
-            assertThat(this.testClass.getAllKeys().size(), is(1));
+            assertionEmptyValues(key1);
+            assertionNotEmptyValues(key2, value2);
+            
+            assertEquals(this.testClass.getAllKeys().size(), 1);
         }
-    
+        
         @Test
-        void shouldBeNotGottenValues_when_clearAll_method_is_called() {
+        void shouldBeNotGottenValues_when_clearAllMethodIsCalled() {
             // GIVEN
             final String key1 = "key1";
             final String value1 = "value1";
@@ -144,11 +138,30 @@ class CacheTest {
             this.testClass.put(key2, value2);
             this.testClass.clearAll();
             // THEN
-            assertThat(this.testClass.exists(key1), is(false));
-            assertThat(this.testClass.get(key1), is(CacheValues.empty()));
-            assertThat(this.testClass.exists(key2), is(false));
-            assertThat(this.testClass.get(key2), is(CacheValues.empty()));
-            assertThat(this.testClass.getAllKeys().size(), is(0));
+            assertionEmptyValues(key1);
+            assertionEmptyValues(key2);
+            
+            assertEquals(this.testClass.getAllKeys().size(), 0);
+        }
+        
+        private void assertionEmptyValues(String key) {
+            assertFalse(this.testClass.exists(key));
+            assertEquals(CacheValues.empty(), this.testClass.get(key));
+            assertFalse(this.testClass.get(key).isNotEmpty());
+            assertTrue(this.testClass.get(key).isEmpty());
+            assertEquals(Optional.empty(), this.testClass.get(key).first());
+            assertIterableEquals(List.of(), this.testClass.get(key).all());
+            assertEquals(0, this.testClass.get(key).count());
+        }
+        
+        private void assertionNotEmptyValues(final String key, String... values) {
+            assertTrue(this.testClass.exists(key));
+            assertEquals(new CacheValues<>(List.of(values)), this.testClass.get(key));
+            assertTrue(this.testClass.get(key).isNotEmpty());
+            assertFalse(this.testClass.get(key).isEmpty());
+            assertEquals(Optional.of(values[0]), this.testClass.get(key).first());
+            assertIterableEquals(List.of(values), this.testClass.get(key).all());
+            assertEquals(values.length, this.testClass.get(key).count());
         }
     }
 }

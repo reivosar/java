@@ -3,8 +3,6 @@ package reivosar.common.util.promise;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 
 class PromiseTest {
@@ -53,12 +51,12 @@ class PromiseTest {
         }
 
         private <T> void errorAssertion(Promise<T> promise, String errorMessage) {
-            assertThat(promise.success(), is(false));
-            assertThat(promise.fail(), is(true));
-            assertThat(promise.result().isPresent(), is(false));
-            assertThat(promise.error().isPresent(), is(true));
+            assertFalse(promise.success());
+            assertTrue(promise.fail());
+            assertFalse(promise.result().isPresent());
+            assertTrue(promise.error().isPresent());
             promise.onSuccess(result -> fail());
-            promise.onFailure(error -> assertThat(error.getMessage(), is(errorMessage)));
+            promise.onFailure(error -> assertEquals(errorMessage, error.getMessage()));
             assertThrows(PromiseException.class, promise::ifErrorPresentThrow);
         }
     }
@@ -89,12 +87,12 @@ class PromiseTest {
         }
 
         private <T> void assertion(final Promise<T> promise, final T value) {
-            assertThat(promise.success(), is(true));
-            assertThat(promise.fail(), is(false));
-            assertThat(promise.result().isPresent(), is(true));
-            assertThat(promise.result().get(), is(value));
-            assertThat(promise.error().isPresent(), is(false));
-            promise.onSuccess(result -> assertThat(result, is(value)));
+            assertTrue(promise.success());
+            assertFalse(promise.fail());
+            assertTrue(promise.result().isPresent());
+            assertEquals(promise.result().get(), value);
+            assertFalse(promise.error().isPresent());
+            promise.onSuccess(result -> assertEquals(value, result));
             promise.onFailure(error -> fail());
             assertDoesNotThrow(promise::ifErrorPresentThrow);
         }
