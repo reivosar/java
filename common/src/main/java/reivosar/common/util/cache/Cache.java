@@ -17,7 +17,7 @@ public interface Cache<K, V> {
      * @return default cache implementation
      */
     static <K, V> Cache<K, V> getDefaultCache() {
-        return new LocalCache<>();
+        return new EternalLocalCache<>();
     }
     
     /**

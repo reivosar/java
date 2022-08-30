@@ -3,7 +3,6 @@ package reivosar.common.util.cache;
 import reivosar.common.util.model.Model;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 class LocalCacheStore<K, V> extends Model {
     
@@ -18,7 +17,7 @@ class LocalCacheStore<K, V> extends Model {
         if (values == null) {
             return List.of();
         }
-        return values.stream().collect(Collectors.toUnmodifiableList());
+        return Collections.unmodifiableCollection(values);
     }
     
     boolean containsKey(final K key) {
