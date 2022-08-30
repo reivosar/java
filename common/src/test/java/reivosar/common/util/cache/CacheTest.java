@@ -15,7 +15,7 @@ class CacheTest {
     @Nested
     class TestForErrorCase {
         
-        private final Cache<String, String> testClass = Cache.getDefaultCache();
+        private final Cache<String, String> testClass = Cache.getEternalLocalCache();
         
         @Test
         void shouldBeThrownException_when_null_argument_is_passed_to_existsMethod() {
@@ -47,7 +47,7 @@ class CacheTest {
         
         @BeforeEach
         void setup() {
-            this.testClass = Cache.getDefaultCache();
+            this.testClass = Cache.getEternalLocalCache();
         }
         
         @Test
