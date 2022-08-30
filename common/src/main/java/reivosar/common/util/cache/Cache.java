@@ -12,7 +12,7 @@ import java.util.Collection;
 public interface Cache<K, V> {
     
     /**
-     * Returns a local eternal cache. This cache will remain in memory unless cleared.
+     * Returns a local eternal thread safe cache. This cache will remain in memory unless cleared.
      *
      * @return default cache implementation
      */
@@ -21,7 +21,7 @@ public interface Cache<K, V> {
     }
     
     /**
-     * Returns a fixed maximum size cache. this cache removes the least recently used entry
+     * Returns a fixed maximum size thread safe cache. this cache removes the least recently used entry
      * if an entry is added when full.
      *
      * @return default cache implementation
@@ -31,7 +31,7 @@ public interface Cache<K, V> {
     }
     
     /**
-     * Returns a fixed maximum size cache. this cache removes the least recently used entry
+     * Returns a fixed maximum size thread safe cache. this cache removes the least recently used entry
      * if an entry is added when full.
      *
      * @param maxSize the maximum size of the cache
