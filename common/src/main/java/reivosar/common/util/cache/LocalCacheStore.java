@@ -17,7 +17,7 @@ class LocalCacheStore<K, V> extends Model {
         if (values == null) {
             return List.of();
         }
-        return Collections.unmodifiableCollection(values);
+        return values;
     }
     
     boolean containsKey(final K key) {
