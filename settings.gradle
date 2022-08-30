@@ -8,6 +8,7 @@
  */
 
 rootProject.name = 'java'
-include 'common', 'apache-kafka-docker-sample'
+include 'common'
+include 'apache-kafka-docker-sample'
 include 'algorithm'
 
