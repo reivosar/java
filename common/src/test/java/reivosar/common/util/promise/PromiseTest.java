@@ -3,6 +3,8 @@ package reivosar.common.util.promise;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
+import java.util.Optional;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class PromiseTest {
@@ -51,6 +53,7 @@ class PromiseTest {
         }
 
         private <T> void errorAssertion(Promise<T> promise, String errorMessage) {
+            assertEquals(Optional.empty(), promise.result());
             assertFalse(promise.success());
             assertTrue(promise.fail());
             assertFalse(promise.result().isPresent());
@@ -87,10 +90,10 @@ class PromiseTest {
         }
 
         private <T> void assertion(final Promise<T> promise, final T value) {
+            assertEquals(Optional.of(value), promise.result());
             assertTrue(promise.success());
             assertFalse(promise.fail());
             assertTrue(promise.result().isPresent());
-            assertEquals(promise.result().get(), value);
             assertFalse(promise.error().isPresent());
             promise.onSuccess(result -> assertEquals(value, result));
             promise.onFailure(error -> fail());
