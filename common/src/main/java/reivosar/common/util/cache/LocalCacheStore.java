@@ -35,7 +35,7 @@ class LocalCacheStore<K, V> extends Model {
     void put(final K key, final V value) {
         Collection<V> values = this.cacheMap.get(key);
         if (values == null || values.isEmpty()) {
-            values = new LinkedList<>();
+            values = new LinkedHashSet<>();
         }
         values.add(value);
         this.cacheMap.put(key, values);

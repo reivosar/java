@@ -155,7 +155,7 @@ class CacheTest {
         
         private void assertionNotEmptyValues(final String key, String... values) {
             assertTrue(this.testClass.exists(key));
-            assertEquals(new CacheValues<>(List.of(values)), this.testClass.get(key));
+            assertEquals(new CacheValues<>(Set.of(values)), this.testClass.get(key));
             assertTrue(this.testClass.get(key).isNotEmpty());
             assertFalse(this.testClass.get(key).isEmpty());
             assertEquals(Optional.of(values[0]), this.testClass.get(key).first());
