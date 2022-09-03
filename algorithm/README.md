@@ -10,7 +10,7 @@ https://github.com/reivosar/java/blob/main/algorithm/src/main/java/sort/bubble/B
 https://github.com/reivosar/java/blob/main/algorithm/src/main/java/sort/selection/SelectionSort.java
 
 * 挿入ソート
-https://github.com/reivosar/java/blob/main/algorithm/src/main/java/sort/insertation/InsertationSort.java)
+https://github.com/reivosar/java/blob/main/algorithm/src/main/java/sort/insertation/InsertationSort.java
 
 * クイックソート
 https://github.com/reivosar/java/tree/main/algorithm/src/main/java/sort/quick/QuickSort.java
