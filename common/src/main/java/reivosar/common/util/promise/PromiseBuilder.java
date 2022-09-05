@@ -74,7 +74,7 @@ class PromiseBuilder<T> {
             
             private Optional<Throwable> convertToPromiseException() {
                 if (promise.error().isEmpty()) {
-                    return promise.error();
+                    return Optional.empty();
                 }
                 final Throwable throwable = promise.error().get();
                 if (throwable instanceof PromiseException) {
