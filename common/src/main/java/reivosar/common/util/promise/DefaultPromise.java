@@ -5,7 +5,6 @@ import java.util.function.Function;
 
 abstract class DefaultPromise<T> implements Promise<T> {
     
-    @SuppressWarnings("unchecked")
     @Override
     public <R> Promise<R> then(final Function<? super T, ? super R> function) {
         return then(function, PromiseConfig.DEFAULT_CONFIG.timeout);
@@ -19,7 +18,7 @@ abstract class DefaultPromise<T> implements Promise<T> {
         if (result().isEmpty())
             return buildFailResultOtherPromise(new PromiseException("result is null."));
         return new PromiseHandler<R>(PromiseConfig.builder().timeout(timeout).build()).resolve(
-                () -> (R) function.apply(result().get())
+                () ->  (R) function.apply(result().get())
         ).await();
     }
     
