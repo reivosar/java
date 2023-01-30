@@ -52,7 +52,7 @@ class CacheTest {
         void shouldBeNotGottenValues_whenNoValueSetToCache() {
             // GIVEN
             final String key = "key";
-            final String value = "value";
+            // final String value = "value";
             // WHEN
             // this.testClass.put(key, value);
             // THEN
