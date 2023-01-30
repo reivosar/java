@@ -17,7 +17,7 @@ public class ObjectUtil {
      *        defaultObject - the default value to return, may be null
      * @return object if it is not null, defaultValue otherwise
      */
-    public static <T> T getIfNull(T object, T defaultObject) {
+    public static <T> T getIfNull(final T object, final T defaultObject) {
         return ObjectUtils.defaultIfNull(object, defaultObject);
     }
 }

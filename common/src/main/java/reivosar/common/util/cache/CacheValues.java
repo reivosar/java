@@ -19,7 +19,7 @@ public class CacheValues<V> extends Model {
      * @param values cache values
      */
     public CacheValues(final Collection<V> values) {
-        Objects.requireNonNull(values);
+        Objects.requireNonNull(values, "values must not be null");
         this.values = values;
     }
     

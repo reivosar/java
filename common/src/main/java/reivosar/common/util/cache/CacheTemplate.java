@@ -14,13 +14,13 @@ abstract class CacheTemplate<K, V> implements Cache<K, V> {
     
     @Override
     public final boolean exists(@Nonnull final K key) {
-        Objects.requireNonNull(key);
+        Objects.requireNonNull(key, "key must not be null");
         return cacheAccessor.exists(key);
     }
     
     @Override
     public final CacheValues<V> get(@Nonnull final K key) {
-        Objects.requireNonNull(key);
+        Objects.requireNonNull(key, "key must not be null");
         if (!exists(key)) {
             return CacheValues.empty();
         }
@@ -29,8 +29,8 @@ abstract class CacheTemplate<K, V> implements Cache<K, V> {
     
     @Override
     public final void put(@Nonnull final K key, @Nonnull final V values) {
-        Objects.requireNonNull(key);
-        Objects.requireNonNull(values);
+        Objects.requireNonNull(key, "key must not be null");
+        Objects.requireNonNull(values, "values must not be null");
         cacheAccessor.put(key, values);
     }
     
@@ -41,7 +41,7 @@ abstract class CacheTemplate<K, V> implements Cache<K, V> {
     
     @Override
     public final void clear(@Nonnull final K key) {
-        Objects.requireNonNull(key);
+        Objects.requireNonNull(key, "key must not be null");
         cacheAccessor.clear(key);
     }
     
