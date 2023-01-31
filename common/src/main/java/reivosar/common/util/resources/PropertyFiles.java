@@ -51,7 +51,7 @@ public class PropertyFiles {
     /**
      * Returns the value in this property list with the specified key value.
      *
-     * @param key the property key.
+     * @param key the property key
      * @return the value in this property list with the specified key value.
      */
     public static Optional<String> getProperty(final String key) {
@@ -60,9 +60,22 @@ public class PropertyFiles {
     }
     
     /**
+     * Returns the value in this property list with the specified key value.
+     * If no value exists in the property file, the default value is returned
+     *
+     * @param key          the property key
+     * @param defaultValue defaultValue
+     * @return the value in this property list with the specified key value.
+     */
+    public static String getProperty(final String key, final String defaultValue) {
+        Objects.requireNonNull(key, "key must not be null");
+        return getProperty(key).orElse(defaultValue);
+    }
+    
+    /**
      * Determines if the specified key exists.
      *
-     * @param key the property key.
+     * @param key the property key
      * @return {@code true} The key exists {@code false} otherwise
      */
     public static boolean containsKey(final String key) {

@@ -33,11 +33,21 @@ class PropertyFilesTest {
             assertEquals(PropertyFiles.getProperty("test1_string"), Optional.of("test1_string"));
             assertEquals(PropertyFiles.getProperty("test1_number"), Optional.of("1"));
             assertEquals(PropertyFiles.getProperty("test1_boolean"), Optional.of("true"));
+    
+            assertEquals(PropertyFiles.getProperty("test1_ng", "default"), "default");
+            assertEquals(PropertyFiles.getProperty("test1_string", "default"), "test1_string");
+            assertEquals(PropertyFiles.getProperty("test1_number", "default"), "1");
+            assertEquals(PropertyFiles.getProperty("test1_boolean", "default"), "true");
             
             assertEquals(PropertyFiles.getProperty("test2_ng"), Optional.empty());
             assertEquals(PropertyFiles.getProperty("test2_string"), Optional.of("test2_string"));
             assertEquals(PropertyFiles.getProperty("test2_number"), Optional.of("2"));
             assertEquals(PropertyFiles.getProperty("test2_boolean"), Optional.of("false"));
+    
+            assertEquals(PropertyFiles.getProperty("test2_ng", "default"), "default");
+            assertEquals(PropertyFiles.getProperty("test2_string", "default"), "test2_string");
+            assertEquals(PropertyFiles.getProperty("test2_number", "default"), "2");
+            assertEquals(PropertyFiles.getProperty("test2_boolean", "default"), "false");
         }
     }
     
