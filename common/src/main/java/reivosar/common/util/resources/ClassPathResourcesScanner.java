@@ -7,7 +7,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
-class ResourceFilesScanner {
+class ClassPathResourcesScanner {
     
     private static final Map<ResourceType, ResourceFiles> SCANNED_RESOURCES;
     
@@ -29,11 +29,11 @@ class ResourceFilesScanner {
         }
     }
     
-    private ResourceFilesScanner() {
+    private ClassPathResourcesScanner() {
         // this constructor should be private
     }
     
-    static ResourceFiles get(final ResourceType resourceType) {
+    static ResourceFiles scanBy(final ResourceType resourceType) {
         if (!SCANNED_RESOURCES.containsKey(resourceType)) {
             return new ResourceFiles();
         }
