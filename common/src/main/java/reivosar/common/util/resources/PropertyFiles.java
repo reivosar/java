@@ -21,7 +21,9 @@ public class PropertyFiles {
         LOADED_PROPERTY_FILES = Collections.unmodifiableSet(loadedPropertyFiles);
     }
     
-    private static void loadPropertyFiles(final Properties properties, final Set<ResourceFile> loadedPropertyFiles) {
+    private static void loadPropertyFiles(
+            final Properties properties,
+            final Set<ResourceFile> loadedPropertyFiles) {
         ClassPathResourcesScanner.scanBy(ResourceType.PROPERTIES)
                 .resourceFiles()
                 .forEach(file -> {

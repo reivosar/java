@@ -2,13 +2,18 @@ package reivosar.common.util.resources;
 
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Optional;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.params.provider.Arguments.arguments;
 
 class PropertyFilesTest {
     
@@ -27,44 +32,69 @@ class PropertyFilesTest {
     @Nested
     class TestForGetProperty {
         
-        @Test
-        void test() {
-            assertEquals(PropertyFiles.getProperty("test1_ng"), Optional.empty());
-            assertEquals(PropertyFiles.getProperty("test1_string"), Optional.of("test1_string"));
-            assertEquals(PropertyFiles.getProperty("test1_number"), Optional.of("1"));
-            assertEquals(PropertyFiles.getProperty("test1_boolean"), Optional.of("true"));
+        @ParameterizedTest
+        @MethodSource("testParameters")
+        void test(final String key, final Optional<String> expected) {
+            assertEquals(PropertyFiles.getProperty(key), expected);
+        }
+        
+        public static Stream<Arguments> testParameters() {
+            return Stream.of(
+                    arguments("test1_ng", Optional.empty()),
+                    arguments("test1_string", Optional.of("test1_string")),
+                    arguments("test1_number", Optional.of("1")),
+                    arguments("test1_boolean", Optional.of("true")),
+                    arguments("test2_ng", Optional.empty()),
+                    arguments("test2_string", Optional.of("test2_string")),
+                    arguments("test2_number", Optional.of("2")),
+                    arguments("test2_boolean", Optional.of("false"))
+            );
+        }
+    }
     
-            assertEquals(PropertyFiles.getProperty("test1_ng", "default"), "default");
-            assertEquals(PropertyFiles.getProperty("test1_string", "default"), "test1_string");
-            assertEquals(PropertyFiles.getProperty("test1_number", "default"), "1");
-            assertEquals(PropertyFiles.getProperty("test1_boolean", "default"), "true");
-            
-            assertEquals(PropertyFiles.getProperty("test2_ng"), Optional.empty());
-            assertEquals(PropertyFiles.getProperty("test2_string"), Optional.of("test2_string"));
-            assertEquals(PropertyFiles.getProperty("test2_number"), Optional.of("2"));
-            assertEquals(PropertyFiles.getProperty("test2_boolean"), Optional.of("false"));
-    
-            assertEquals(PropertyFiles.getProperty("test2_ng", "default"), "default");
-            assertEquals(PropertyFiles.getProperty("test2_string", "default"), "test2_string");
-            assertEquals(PropertyFiles.getProperty("test2_number", "default"), "2");
-            assertEquals(PropertyFiles.getProperty("test2_boolean", "default"), "false");
+    @Nested
+    class TestForGetPropertyWithDefaultValue {
+        
+        @ParameterizedTest
+        @MethodSource("testParameters")
+        void test(final String key, final String defaultValue, final String expected) {
+            assertEquals(PropertyFiles.getProperty(key, defaultValue), expected);
+        }
+        
+        public static Stream<Arguments> testParameters() {
+            return Stream.of(
+                    arguments("test1_ng", "default", "default"),
+                    arguments("test1_string", "default", "test1_string"),
+                    arguments("test1_number", "default", "1"),
+                    arguments("test1_boolean", "default", "true"),
+                    arguments("test2_ng", "default", "default"),
+                    arguments("test2_string", "default", "test2_string"),
+                    arguments("test2_number", "default", "2"),
+                    arguments("test2_boolean", "default", "false")
+            );
         }
     }
     
     @Nested
     class TestForContainsKey {
         
-        @Test
-        void test() {
-            assertFalse(PropertyFiles.containsKey("test1_ng"));
-            assertTrue(PropertyFiles.containsKey("test1_string"));
-            assertTrue(PropertyFiles.containsKey("test1_number"));
-            assertTrue(PropertyFiles.containsKey("test1_boolean"));
-            
-            assertFalse(PropertyFiles.containsKey("test2_ng"));
-            assertTrue(PropertyFiles.containsKey("test2_string"));
-            assertTrue(PropertyFiles.containsKey("test2_number"));
-            assertTrue(PropertyFiles.containsKey("test2_boolean"));
+        @ParameterizedTest
+        @MethodSource("testParameters")
+        void test(final String key, final boolean expected) {
+            assertEquals(PropertyFiles.containsKey(key), expected);
+        }
+        
+        public static Stream<Arguments> testParameters() {
+            return Stream.of(
+                    arguments("test1_ng", false),
+                    arguments("test1_string", true),
+                    arguments("test1_number", true),
+                    arguments("test1_boolean", true),
+                    arguments("test2_ng", false),
+                    arguments("test2_string", true),
+                    arguments("test2_number", true),
+                    arguments("test2_boolean", true)
+            );
         }
     }
 }
