@@ -30,7 +30,7 @@ class ClassPathResourcesScanner {
     }
     
     private ClassPathResourcesScanner() {
-        // this constructor should be private
+        // This constructor should be private
     }
     
     static ResourceFiles scanBy(final ResourceType resourceType) {

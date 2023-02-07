@@ -1,0 +1,25 @@
+{
+  "group_name": "The Beatles",
+  "member": [
+    {
+      "name": "John Lennon",
+      "birthday": "1940/10/9"
+    },
+    {
+      "name": "Paul McCartney",
+      "birthday": "1942/6/18"
+    },
+    {
+      "name": "George Harrison",
+      "birthday": "1943/2/25"
+    },
+    {
+      "name": "Ringo Starr",
+      "birthday": "1940/7/7"
+    }
+  ],
+  "favorite": {
+    "album": "Revolver",
+    "single": "Hello, Goodbye / I Am the Walrus"
+  }
+}

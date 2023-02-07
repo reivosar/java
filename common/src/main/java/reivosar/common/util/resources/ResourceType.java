@@ -8,6 +8,7 @@ enum ResourceType {
     CLASS(".class"),
     PROPERTIES(".properties"),
     XML(".xml"),
+    JSON(".json"),
     YAML(".yml", ".yaml"),
     CSV(".csv"),
     UNSUPPORTED_RESOURCE();
