@@ -12,7 +12,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
-public class JsonUtilTest {
+class JsonUtilTest {
     
     private static File getJsonFile(final String jsonName) {
         final URL fileURL = Thread.currentThread().getContextClassLoader().getResource(jsonName);
@@ -26,14 +26,13 @@ public class JsonUtilTest {
     }
     
     record Favorite(String album, String single) {
-    
     }
     
     @Nested
     class TestForDeserialize {
         
         @Test
-        void shouldBeThrownNullPointerException_when_argumentFileIsNull() {
+        void shouldBeThrownNullPointerException_when_argumentJsonIsNull() {
             Assertions.assertThrows(
                     NullPointerException.class,
                     () -> JsonUtil.deserialize(null, String.class),
