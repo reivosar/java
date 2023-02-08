@@ -1,6 +1,6 @@
 {
-  "group_name": "The Beatles",
-  "member": [
+  "group": "The Beatles",
+  "members": [
     {
       "name": "John Lennon",
       "birthday": "1940/10/9"

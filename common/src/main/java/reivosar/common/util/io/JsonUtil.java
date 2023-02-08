@@ -1,13 +1,11 @@
 package reivosar.common.util.io;
 
 import com.fasterxml.jackson.core.JsonGenerator;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.Objects;
 
 /**
@@ -40,7 +38,7 @@ public final class JsonUtil {
         Objects.requireNonNull(valueType, "valueType must not be null");
         try {
             return JSON_MAPPER.readValue(json, valueType);
-        } catch (IOException e) {
+        } catch (Exception e) {
             throw new JsonHandlingException(e);
         }
     }
@@ -54,16 +52,19 @@ public final class JsonUtil {
      * @return Value of the specified field name
      * @throws JsonHandlingException If an error occurs when reading or writing JSON
      */
-    public static String readValue(final String json, final String... fieldNames) throws JsonHandlingException {
+    public static String read(final String json, final String... fieldNames) throws JsonHandlingException {
         Objects.requireNonNull(json, "json must not be null");
         Objects.requireNonNull(fieldNames, "fieldNames must not be null");
         try {
             JsonNode jsonNode = JSON_MAPPER.readTree(json);
             for (final String fieldName : fieldNames) {
                 jsonNode = jsonNode.get(fieldName);
+                if (jsonNode == null) {
+                    return "";
+                }
             }
             return jsonNode.asText();
-        } catch (JsonProcessingException e) {
+        } catch (Exception e) {
             throw new JsonHandlingException(e);
         }
     }
@@ -79,14 +80,18 @@ public final class JsonUtil {
         Objects.requireNonNull(object, "object must not be null");
         try {
             return JSON_MAPPER.writeValueAsString(object);
-        } catch (JsonProcessingException e) {
+        } catch (Exception e) {
             throw new JsonHandlingException(e);
         }
     }
     
     public static class JsonHandlingException extends RuntimeException {
+        private JsonHandlingException(String message, Throwable throwable) {
+            super(message, throwable);
+        }
+        
         private JsonHandlingException(Throwable throwable) {
-            super(throwable);
+            this("Failed to handle json file", throwable);
         }
     }
 }
