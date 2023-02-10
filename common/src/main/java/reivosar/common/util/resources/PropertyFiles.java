@@ -8,7 +8,7 @@ import java.util.*;
 /**
  * Class for accessing property files on the classpath
  */
-public class PropertyFiles {
+public final class PropertyFiles {
     
     private static final Collection<ResourceFile> LOADED_PROPERTY_FILES;
     private static final Properties PROPERTIES;
@@ -38,7 +38,7 @@ public class PropertyFiles {
     }
     
     private PropertyFiles() {
-        // This constructor should be private
+        // This constructor must be private
     }
     
     /**

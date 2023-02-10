@@ -1,8 +1,9 @@
-package reivosar.common.util.io;
+package reivosar.common.util.io.json;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
+import reivosar.common.util.io.json.JsonUtil;
 
 import java.io.File;
 import java.io.IOException;
@@ -29,13 +30,13 @@ class JsonUtilTest {
     }
     
     @Nested
-    class TestForDeserialize {
+    class TestForDeserializeMethod {
         
         @Test
         void shouldBeThrownNullPointerException_when_argumentJsonIsNull() {
             Assertions.assertThrows(
                     NullPointerException.class,
-                    () -> JsonUtil.deserialize(null, String.class),
+                    () -> JsonUtil.deserialize((File) null, String.class),
                     "json must not be null");
         }
         
@@ -76,7 +77,7 @@ class JsonUtilTest {
     }
     
     @Nested
-    class TestForReadvalue {
+    class TestForReadMethod {
         
         @Test
         void shouldBeThrownNullPointerException_when_argumentFileIsNull() {
@@ -85,7 +86,7 @@ class JsonUtilTest {
                     () -> JsonUtil.read(null),
                     "json must not be null");
         }
-    
+        
         @Test
         void shouldBeReturnedEmptyValue_when_fieldNamesIsEmpty() throws IOException {
             // GIVEN
@@ -95,7 +96,7 @@ class JsonUtilTest {
             // THEN
             Assertions.assertEquals("", actual);
         }
-    
+        
         @Test
         void shouldBeReturnedEmptyValue_when_fieldNamesIsNotExists() throws IOException {
             // GIVEN
@@ -115,7 +116,17 @@ class JsonUtilTest {
             // THEN
             Assertions.assertEquals("The Beatles", actual);
         }
-    
+        
+        @Test
+        void shouldBeReturnedExpectedValue_when_fieldNamesAndIndex() throws IOException {
+            // GIVEN
+            final String json = Files.readString(getJsonFile("test.json").toPath());
+            // WHEN
+            final String actual = JsonUtil.read(json, "members", 0, "name");
+            // THEN
+            Assertions.assertEquals("John Lennon", actual);
+        }
+        
         @Test
         void shouldBeReturnedExpectedValue_when_fieldNamesIsTwo() throws IOException {
             // GIVEN
@@ -128,7 +139,7 @@ class JsonUtilTest {
     }
     
     @Nested
-    class TestForSerialize {
+    class TestForSerializeMethod {
         
         @Test
         void shouldBeThrownNullPointerException_when_argumentObjectIsNull() {

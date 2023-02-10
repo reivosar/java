@@ -7,7 +7,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
-class ClassPathResourcesScanner {
+final class ClassPathResourcesScanner {
     
     private static final Map<ResourceType, ResourceFiles> SCANNED_RESOURCES;
     
@@ -30,7 +30,7 @@ class ClassPathResourcesScanner {
     }
     
     private ClassPathResourcesScanner() {
-        // This constructor should be private
+        // This constructor must be private
     }
     
     static ResourceFiles scanBy(final ResourceType resourceType) {

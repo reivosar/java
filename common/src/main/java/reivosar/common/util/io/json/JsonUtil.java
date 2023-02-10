@@ -1,4 +1,4 @@
-package reivosar.common.util.io;
+package reivosar.common.util.io.json;
 
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.DeserializationFeature;
@@ -21,7 +21,7 @@ public final class JsonUtil {
     }
     
     private JsonUtil() {
-        // This constructor should be private
+        // This constructor must be private
     }
     
     /**
@@ -48,17 +48,19 @@ public final class JsonUtil {
      * To obtain nested values, specify the field names in the following order: parent, child, grandchild.
      *
      * @param json       JSON content String
-     * @param fieldNames fieldNames in JSON
+     * @param identifies fieldName or index in JSON
      * @return Value of the specified field name
      * @throws JsonHandlingException If an error occurs when reading or writing JSON
      */
-    public static String read(final String json, final String... fieldNames) throws JsonHandlingException {
+    public static String read(final String json, final Object... identifies) throws JsonHandlingException {
         Objects.requireNonNull(json, "json must not be null");
-        Objects.requireNonNull(fieldNames, "fieldNames must not be null");
+        Objects.requireNonNull(identifies, "identifies must not be null");
         try {
             JsonNode jsonNode = JSON_MAPPER.readTree(json);
-            for (final String fieldName : fieldNames) {
-                jsonNode = jsonNode.get(fieldName);
+            for (final Object identify : identifies) {
+                jsonNode = (identify instanceof Integer) ?
+                        jsonNode.get(Integer.parseInt(identify.toString())) :
+                        jsonNode.get(identify.toString());
                 if (jsonNode == null) {
                     return "";
                 }

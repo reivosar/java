@@ -6,7 +6,7 @@ import org.springframework.stereotype.Component;
 import reivosar.common.domain.model.Identity;
 import reivosar.common.domain.model.event.DomainEventPublisher;
 import reivosar.common.domain.model.event.EventableEntity;
-import reivosar.common.util.io.JsonUtil;
+import reivosar.common.util.io.json.JsonUtil;
 import reivosar.common.util.promise.Promise;
 
 import java.util.function.Supplier;
