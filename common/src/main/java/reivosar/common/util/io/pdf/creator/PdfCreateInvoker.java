@@ -35,7 +35,7 @@ abstract class PdfCreateInvoker {
     private void init(final PDDocument pagesDocument) {
         if (needToAddNewPages()) {
             IntStream.range(0, pdfCreateParameters.pageNumbers().stream()
-                            .max(Comparator.naturalOrder()).get() + 1)
+                            .max(Comparator.naturalOrder()).orElse(0) + 1)
                     .forEach(value -> pagesDocument.addPage(new PDPage()));
         }
     }
@@ -51,9 +51,12 @@ abstract class PdfCreateInvoker {
     private void embedTextForNumberOfParameters(
             final int pageNumber,
             final PDPageContentStream stream) throws IOException {
+        // Loop for number of parameters and add text to PDF
         for (final PdfCreateParameter parameter : pdfCreateParameters.get(new PdfPage(pageNumber))) {
             final PdfItem pdfItem = parameter.pdfItem();
-            final EmbedText embedText = parameter.embedText();
+            // The specified font size may not fit in the area depending on the number of characters,
+            // so it is recalculated here.
+            final EmbedText embedText = parameter.embedText().rebuildWithFontSizeCalculation(pdfItem);
             try {
                 stream.beginText();
                 stream.setFont(embedText.pdFont(), embedText.fontSize());
