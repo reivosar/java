@@ -49,7 +49,7 @@ public final class PdfCreator {
         return this;
     }
     
-    boolean createTo(Path path) {
+    boolean createTo(final Path path) {
         final PdfCreateInvokerSelector selector = new PdfCreateInvokerSelector(pdfTemplate, pdfCreateParameters);
         final PdfCreateInvoker invoker = selector.select();
         return invoker.invoke(path);
