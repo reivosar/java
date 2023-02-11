@@ -1,34 +1,82 @@
 package reivosar.common.util.io.pdf.creator;
 
+import org.apache.pdfbox.pdmodel.PDDocument;
+import org.apache.pdfbox.pdmodel.PDPage;
 import org.apache.pdfbox.pdmodel.PDPageContentStream;
 
-import java.io.Closeable;
 import java.io.IOException;
+import java.nio.file.Path;
+import java.util.Comparator;
+import java.util.stream.IntStream;
 
-class PdfCreateInvoker implements Closeable {
+abstract class PdfCreateInvoker {
     
-    private final PdfItem pdfItem;
-    private final EmbedText embedText;
+    private final PdfCreateParameters pdfCreateParameters;
     
-    PdfCreateInvoker(final PdfItem pdfItem, final EmbedText embedText) {
-        this.pdfItem = pdfItem;
-        this.embedText = embedText.rebuildWithFontSizeCalculation(pdfItem);
+    PdfCreateInvoker(final PdfCreateParameters pdfCreateParameters) {
+        this.pdfCreateParameters = pdfCreateParameters;
     }
     
-    void invoke(final PDPageContentStream stream) throws IOException {
-        try {
-            stream.beginText();
-            stream.setFont(embedText.pdFont(), embedText.fontSize());
-            final EmbedTextLocationCalculator calculator = new EmbedTextLocationCalculator(pdfItem, embedText);
-            stream.newLineAtOffset(calculator.calcXPosition(), calculator.calcYPosition());
-            stream.showText(embedText.textContent().asString());
-        } finally {
-            stream.endText();
+    final boolean invoke(final Path path) {
+        try (final PDDocument doc = createPDDocument()) {
+            init(doc);
+            embedTextInDocument(doc);
+            saveDocument(path, doc);
+            return path.toFile().exists();
+        } catch (Exception e) {
+            return false;
         }
     }
     
-    @Override
-    public void close() {
-        this.embedText.close();
+    abstract PDDocument createPDDocument();
+    
+    abstract boolean needToAddNewPages();
+    
+    private void init(final PDDocument pagesDocument) {
+        if (needToAddNewPages()) {
+            IntStream.range(0, pdfCreateParameters.pageNumbers().stream()
+                            .max(Comparator.naturalOrder()).get() + 1)
+                    .forEach(value -> pagesDocument.addPage(new PDPage()));
+        }
+    }
+    
+    private void embedTextInDocument(final PDDocument pagesDocument) throws IOException {
+        for (final int pageNumber : pdfCreateParameters.pageNumbers()) {
+            try (final PDPageContentStream stream = PDPageContentStream(pagesDocument, pageNumber)) {
+                embedTextForNumberOfParameters(pageNumber, stream);
+            }
+        }
+    }
+    
+    private void embedTextForNumberOfParameters(
+            final int pageNumber,
+            final PDPageContentStream stream) throws IOException {
+        for (final PdfCreateParameter parameter : pdfCreateParameters.get(new PdfPage(pageNumber))) {
+            final PdfItem pdfItem = parameter.pdfItem();
+            final EmbedText embedText = parameter.embedText();
+            try {
+                stream.beginText();
+                stream.setFont(embedText.pdFont(), embedText.fontSize());
+                final EmbedTextLocationCalculator calculator = new EmbedTextLocationCalculator(pdfItem, embedText);
+                stream.newLineAtOffset(calculator.calcXPosition(), calculator.calcYPosition());
+                stream.showText(embedText.textContent().asString());
+            } finally {
+                stream.endText();
+            }
+        }
+    }
+    
+    private PDPageContentStream PDPageContentStream(
+            final PDDocument pagesDocument,
+            final int pageNumber) throws IOException {
+        return new PDPageContentStream(
+                pagesDocument,
+                pagesDocument.getPage(pageNumber),
+                PDPageContentStream.AppendMode.APPEND,
+                false);
+    }
+    
+    private void saveDocument(final Path path, final PDDocument document) throws IOException {
+        document.save(path.toFile());
     }
 }

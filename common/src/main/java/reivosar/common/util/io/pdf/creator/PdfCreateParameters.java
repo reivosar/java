@@ -22,11 +22,11 @@ public class PdfCreateParameters extends Model {
                 .collect(Collectors.toList());
     }
     
-    Collection<PdfCreateParameter> getParameters(final PdfPage pdfPage) {
+    Collection<PdfCreateParameter> get(final PdfPage pdfPage) {
         return pageCollectionMap.get(pdfPage);
     }
     
-    public PdfCreateParameters addParameter(final PdfCreateParameter pdfCreateParameter) {
+    public PdfCreateParameters add(final PdfCreateParameter pdfCreateParameter) {
         final PdfPage pdfPage = pdfCreateParameter.pdfPage();
         final Collection<PdfCreateParameter> parameters = pageCollectionMap.containsKey(pdfPage) ?
                 pageCollectionMap.get(pdfPage) : new LinkedList<>();

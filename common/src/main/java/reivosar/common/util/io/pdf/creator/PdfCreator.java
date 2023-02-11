@@ -2,7 +2,7 @@ package reivosar.common.util.io.pdf.creator;
 
 import java.nio.file.Path;
 
-public class PdfCreator {
+public final class PdfCreator {
     
     private final PdfTemplate pdfTemplate;
     private final PdfCreateParameters pdfCreateParameters;
@@ -45,11 +45,13 @@ public class PdfCreator {
     }
     
     public PdfCreator append(final PdfCreateParameter pdfCreateParameter) {
-        this.pdfCreateParameters.addParameter(pdfCreateParameter);
+        this.pdfCreateParameters.add(pdfCreateParameter);
         return this;
     }
     
     boolean createTo(Path path) {
-        return true;
+        final PdfCreateInvokerSelector selector = new PdfCreateInvokerSelector(pdfTemplate, pdfCreateParameters);
+        final PdfCreateInvoker invoker = selector.select();
+        return invoker.invoke(path);
     }
 }

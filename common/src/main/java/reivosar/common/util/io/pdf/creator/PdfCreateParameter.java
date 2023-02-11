@@ -1,6 +1,8 @@
 package reivosar.common.util.io.pdf.creator;
 
-abstract class PdfCreateParameter {
+import reivosar.common.util.model.Model;
+
+abstract class PdfCreateParameter extends Model {
     
     abstract PdfPage pdfPage();
     
