@@ -7,9 +7,9 @@ class PdfItemSize extends Model {
     private final UnitOfLength width;
     private final UnitOfLength height;
     
-    PdfItemSize(final float width, final float height) {
-        this.width = UnitOfLength.fromMmLength(width);
-        this.height = UnitOfLength.fromMmLength(height);
+    PdfItemSize(final float widthAsMm, final float heightAsMm) {
+        this.width = UnitOfLength.fromMmLength(widthAsMm);
+        this.height = UnitOfLength.fromMmLength(heightAsMm);
     }
     
     float width() {

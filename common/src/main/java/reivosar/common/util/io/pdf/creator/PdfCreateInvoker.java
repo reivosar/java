@@ -21,7 +21,7 @@ class PdfCreateInvoker implements Closeable {
             stream.setFont(embedText.pdFont(), embedText.fontSize());
             final EmbedTextLocationCalculator calculator = new EmbedTextLocationCalculator(pdfItem, embedText);
             stream.newLineAtOffset(calculator.calcXPosition(), calculator.calcYPosition());
-            stream.showText(embedText.text().asString());
+            stream.showText(embedText.textContent().asString());
         } finally {
             stream.endText();
         }

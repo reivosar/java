@@ -1,14 +1,6 @@
 package reivosar.common.util.io.pdf.creator;
 
-class EmbedTextLocationCalculator {
-    
-    private final PdfItem pdfItem;
-    private final EmbedText embedText;
-    
-    EmbedTextLocationCalculator(final PdfItem pdfItem, final EmbedText embedText) {
-        this.pdfItem = pdfItem;
-        this.embedText = embedText;
-    }
+record EmbedTextLocationCalculator(PdfItem pdfItem, EmbedText embedText) {
     
     float calcXPosition() {
         return UnitOfLength.fromMmLength(calcForEachAlignType()).ptLength();
@@ -16,9 +8,9 @@ class EmbedTextLocationCalculator {
     
     private float calcForEachAlignType() {
         return switch (embedText.textAlign()) {
-            case LEFT -> pdfItem.x() - 0.5f;
-            case RIGHT -> pdfItem.x() * pdfItem.width() - embedText.width() - 0.5f;
-            default -> ((pdfItem.width() - embedText.width()) / 2) * pdfItem.x();
+            case LEFT -> pdfItem.xCoordination() - 0.5f;
+            case RIGHT -> pdfItem.xCoordination() * pdfItem.width() - embedText.width() - 0.5f;
+            default -> ((pdfItem.width() - embedText.width()) / 2) * pdfItem.xCoordination();
         };
     }
     
@@ -26,7 +18,7 @@ class EmbedTextLocationCalculator {
         float itemHeight = pdfItem.height();
         float textHeight = embedText.height();
         float margin = (itemHeight / textHeight) / 2;
-        float result = pdfItem.y();
+        float result = pdfItem.yCoordination();
         if (margin > 0) {
             result += margin;
         }

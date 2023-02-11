@@ -4,19 +4,19 @@ import reivosar.common.util.model.Model;
 
 class PdfItemLocation extends Model {
     
-    private final UnitOfLength x;
-    private final UnitOfLength y;
+    private final UnitOfLength xCoordination;
+    private final UnitOfLength yCoordination;
     
-    PdfItemLocation(final float x, final float y) {
-        this.x = UnitOfLength.fromMmLength(x);
-        this.y = UnitOfLength.fromMmLength(y);
+    PdfItemLocation(final float xCoordination, final float yCoordination) {
+        this.xCoordination = UnitOfLength.fromMmLength(xCoordination);
+        this.yCoordination = UnitOfLength.fromMmLength(yCoordination);
     }
     
-    float x() {
-        return x.mmLength();
+    float xCoordination() {
+        return xCoordination.mmLength();
     }
     
-    float y() {
-        return y.mmLength();
+    float yCoordination() {
+        return yCoordination.mmLength();
     }
 }

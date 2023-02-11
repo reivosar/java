@@ -14,10 +14,18 @@ class PdfCreatorTest {
         // GIVEN
         final Path outputPath = Paths.get("C:\\Users\\Windows\\Downloads\\dest\\" + System.currentTimeMillis() + ".pdf");
         // WHEN
-        final boolean result = new PdfCreator()
-                .addParameter(0, 0f, 755f, 5, 100, 12, "center", "test")
+        final boolean result = PdfCreator.createNew()
+                .append(0, 0f, 755f, 5, 100, 12, "center", "test")
                 .createTo(outputPath);
         // THEN
         assertTrue(result);
+    
+        /**
+         * PdfCreator.new().
+         *    addParameter()
+         *    creatTo(path)
+         *
+         *
+         */
     }
 }
