@@ -2,17 +2,21 @@ package reivosar.common.util.io.pdf.creator;
 
 import java.nio.file.Path;
 
+/**
+ * Generate PDF
+ */
 public final class PdfCreator {
     
     private final PdfTemplate pdfTemplate;
     private final PdfCreateParameters pdfCreateParameters;
     
+    /**
+     * Return new {@link PdfCreator} instance.
+     *
+     * @return {@link PdfCreator}
+     */
     public static PdfCreator createNew() {
         return new PdfCreator(null);
-    }
-    
-    public static PdfCreator embed(final PdfTemplate pdfTemplate) {
-        return new PdfCreator(pdfTemplate);
     }
     
     private PdfCreator(final PdfTemplate pdfTemplate) {
@@ -20,10 +24,19 @@ public final class PdfCreator {
         this.pdfCreateParameters = new PdfCreateParameters();
     }
     
-    public PdfCreator append(final int page, final String propertyName, final Object text) {
-        return this;
-    }
-    
+    /**
+     * Specifies a text to embed in the PDF file.
+     *
+     * @param page     Number of pages to embed text
+     * @param x        The x translation.
+     * @param y        The y translation.
+     * @param width    Vertical size of the target area for embedding text
+     * @param height   Horizontal size of the target area for embedding text
+     * @param fontSize font size
+     * @param align    {@link TextAlign}
+     * @param text     Embedded text
+     * @return this
+     */
     public PdfCreator append(final int page,
                              final float x,
                              final float y,
@@ -33,22 +46,34 @@ public final class PdfCreator {
                              final String align,
                              final Object text) {
         return append(new NormalPdfCreateParameter.Builder()
-                    .page(page)
-                    .xCoordination(x)
-                    .yCoordination(y)
-                    .width(width)
-                    .height(height)
-                    .fontSize(fontSize)
-                    .align(align)
-                    .text(text)
+                .page(page)
+                .xCoordination(x)
+                .yCoordination(y)
+                .width(width)
+                .height(height)
+                .fontSize(fontSize)
+                .align(align)
+                .text(text)
                 .build());
     }
     
+    /**
+     * Specifies object to embed in the PDF file.
+     *
+     * @param pdfCreateParameter text to embed in the PDF file
+     * @return this
+     */
     public PdfCreator append(final PdfCreateParameter pdfCreateParameter) {
         this.pdfCreateParameters.add(pdfCreateParameter);
         return this;
     }
     
+    /**
+     * Generates a PDF file in the specified path.
+     *
+     * @param path Path to generate PDF file
+     * @return {@code true} If a PDF file is generated {@code false} otherwise
+     */
     boolean createTo(final Path path) {
         final PdfCreateInvokerSelector selector = new PdfCreateInvokerSelector(pdfTemplate, pdfCreateParameters);
         final PdfCreateInvoker invoker = selector.select();
