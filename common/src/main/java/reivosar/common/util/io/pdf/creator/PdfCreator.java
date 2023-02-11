@@ -15,7 +15,7 @@ public final class PdfCreator {
      *
      * @return {@link PdfCreator}
      */
-    public static PdfCreator createNew() {
+    public static PdfCreator forCreatingNew() {
         return new PdfCreator(null);
     }
     
