@@ -10,6 +10,8 @@ import java.io.IOException;
 
 class TextFont extends Model implements Closeable {
     
+    private static final String FONT_FILE_PATH = "/templates/pdf/font/ipaexg.ttf";
+    
     private final PDDocument dummyDocument;
     private final int size;
     
@@ -20,7 +22,7 @@ class TextFont extends Model implements Closeable {
     
     PDFont pdFont() {
         try {
-            return PDType0Font.load(dummyDocument, TextFont.class.getResourceAsStream("/pdf/font/ipaexg.ttf"));
+            return PDType0Font.load(dummyDocument, TextFont.class.getResourceAsStream(FONT_FILE_PATH));
         } catch (IOException e) {
             throw new IllegalStateException(e);
         }
