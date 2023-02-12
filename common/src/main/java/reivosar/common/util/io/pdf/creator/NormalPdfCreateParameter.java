@@ -7,6 +7,7 @@ public class NormalPdfCreateParameter extends PdfCreateParameter {
     private final float yCoordination;
     private final float width;
     private final float height;
+    private final String fontName;
     private final int fontSize;
     private final String align;
     private final Object text;
@@ -17,6 +18,7 @@ public class NormalPdfCreateParameter extends PdfCreateParameter {
         this.yCoordination = builder.yCoordination;
         this.width = builder.width;
         this.height = builder.height;
+        this.fontName = builder.fontName;
         this.fontSize = builder.fontSize;
         this.align = builder.align;
         this.text = builder.text;
@@ -28,6 +30,7 @@ public class NormalPdfCreateParameter extends PdfCreateParameter {
         private float yCoordination;
         private float width;
         private float height;
+        private String fontName;
         private int fontSize;
         private String align;
         private Object text;
@@ -37,27 +40,20 @@ public class NormalPdfCreateParameter extends PdfCreateParameter {
             return this;
         }
         
-        public Builder xCoordination(final float xCoordination) {
+        public Builder coordination(final float xCoordination, final float yCoordination) {
             this.xCoordination = xCoordination;
-            return this;
-        }
-        
-        public Builder yCoordination(final float yCoordination) {
             this.yCoordination = yCoordination;
             return this;
         }
         
-        public Builder width(final float width) {
+        public Builder areaSize(final float width, final float height) {
             this.width = width;
-            return this;
-        }
-        
-        public Builder height(final float height) {
             this.height = height;
             return this;
         }
-        
-        public Builder fontSize(final int fontSize) {
+    
+        public Builder font(final String fontName, final int fontSize) {
+            this.fontName = fontName;
             this.fontSize = fontSize;
             return this;
         }
@@ -89,6 +85,6 @@ public class NormalPdfCreateParameter extends PdfCreateParameter {
     
     @Override
     EmbedText embedText() {
-        return new EmbedText(new TextContent(text), new TextFont(fontSize), TextAlign.of(align));
+        return new EmbedText(new TextContent(text), new TextFont(fontName, fontSize), TextAlign.of(align));
     }
 }

@@ -24,6 +24,7 @@ abstract class PdfCreateInvoker {
             saveDocument(path, doc);
             return path.toFile().exists();
         } catch (Exception e) {
+            e.printStackTrace();
             return false;
         }
     }

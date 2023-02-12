@@ -2,17 +2,16 @@ package reivosar.common.util.io.pdf.creator;
 
 import org.apache.pdfbox.pdmodel.font.PDFont;
 
-import java.io.Closeable;
 import java.io.IOException;
 
-record EmbedText(TextContent textContent, TextFont textFont, TextAlign textAlign) implements Closeable {
+record EmbedText(TextContent textContent, TextFont textFont, TextAlign textAlign) {
     
     PDFont pdFont() {
         return textFont.pdFont();
     }
     
     int fontSize() {
-        return textFont.size();
+        return textFont.fontSize();
     }
     
     EmbedText rebuildWithFontSizeCalculation(final PdfItem pdfItem) {
@@ -31,8 +30,7 @@ record EmbedText(TextContent textContent, TextFont textFont, TextAlign textAlign
         if (result == fontSize()) {
             return this;
         }
-        close();
-        return new EmbedText(textContent(), new TextFont(result), textAlign());
+        return new EmbedText(textContent(), new TextFont(textFont.fontName(), result), textAlign());
     }
     
     float width() {
@@ -57,10 +55,5 @@ record EmbedText(TextContent textContent, TextFont textFont, TextAlign textAlign
         return UnitOfLength
                 .fromPtLength(pdFont().getFontDescriptor().getFontBoundingBox().getHeight() * fontSize / 1000f)
                 .inchLength();
-    }
-    
-    @Override
-    public void close() {
-        this.textFont().close();
     }
 }

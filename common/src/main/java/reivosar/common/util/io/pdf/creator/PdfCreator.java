@@ -32,26 +32,26 @@ public final class PdfCreator {
      * @param y        The y translation.
      * @param width    Vertical size of the target area for embedding text
      * @param height   Horizontal size of the target area for embedding text
+     * @param fontName font name {@link FontType}
      * @param fontSize font size
      * @param align    {@link TextAlign}
      * @param text     Embedded text
      * @return this
      */
-    public PdfCreator append(final int page,
-                             final float x,
-                             final float y,
-                             final float width,
-                             final float height,
-                             final int fontSize,
-                             final String align,
-                             final Object text) {
+    public PdfCreator addText(final int page,
+                              final float x,
+                              final float y,
+                              final float width,
+                              final float height,
+                              final String fontName,
+                              final int fontSize,
+                              final String align,
+                              final Object text) {
         return append(new NormalPdfCreateParameter.Builder()
                 .page(page)
-                .xCoordination(x)
-                .yCoordination(y)
-                .width(width)
-                .height(height)
-                .fontSize(fontSize)
+                .coordination(x, y)
+                .areaSize(width, height)
+                .font(fontName, fontSize)
                 .align(align)
                 .text(text)
                 .build());
