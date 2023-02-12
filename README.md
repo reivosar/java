@@ -23,7 +23,7 @@ https://github.com/reivosar/java/blob/main/common/src/main/java/reivosar/common/
 
   Programs for thread-safe caching
 ```
-Cache<String, String> cache = Cache.getEternalLocalCache();
+Cache<String, String> cache = CacheFactory.getEternalLocalCache();
 cache.put("key", "value1");
 cache.put("key", "value2");
 
