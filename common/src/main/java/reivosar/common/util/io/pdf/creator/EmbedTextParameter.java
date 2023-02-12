@@ -1,6 +1,6 @@
 package reivosar.common.util.io.pdf.creator;
 
-public class NormalPdfCreateParameter extends PdfCreateParameter {
+public class EmbedTextParameter extends PdfCreateParameter {
     
     private final int page;
     private final float xCoordination;
@@ -12,7 +12,7 @@ public class NormalPdfCreateParameter extends PdfCreateParameter {
     private final String align;
     private final Object text;
     
-    private NormalPdfCreateParameter(final Builder builder) {
+    private EmbedTextParameter(final Builder builder) {
         this.page = builder.page;
         this.xCoordination = builder.xCoordination;
         this.yCoordination = builder.yCoordination;
@@ -69,7 +69,7 @@ public class NormalPdfCreateParameter extends PdfCreateParameter {
         }
         
         public PdfCreateParameter build() {
-            return new NormalPdfCreateParameter(this);
+            return new EmbedTextParameter(this);
         }
     }
     

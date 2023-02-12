@@ -47,7 +47,7 @@ public final class PdfCreator {
                               final int fontSize,
                               final String align,
                               final Object text) {
-        return append(new NormalPdfCreateParameter.Builder()
+        return append(new EmbedTextParameter.Builder()
                 .page(page)
                 .coordination(x, y)
                 .areaSize(width, height)
@@ -57,7 +57,13 @@ public final class PdfCreator {
                 .build());
     }
     
-    private PdfCreator append(final PdfCreateParameter pdfCreateParameter) {
+    /**
+     * Specifies object to embed in the PDF file.
+     *
+     * @param pdfCreateParameter parameter to embed in the PDF file
+     * @return this
+     */
+    public PdfCreator append(final PdfCreateParameter pdfCreateParameter) {
         this.pdfCreateParameters.add(pdfCreateParameter);
         return this;
     }
