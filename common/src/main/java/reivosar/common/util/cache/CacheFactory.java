@@ -1,7 +1,7 @@
 package reivosar.common.util.cache;
 
 /**
- * Factory for creating Cache instances,
+ * Factory for creating Cache instances.
  */
 public class CacheFactory {
     
