@@ -12,9 +12,11 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class PdfCreatorTest {
     
-    private static final Path OUTPUT_PDF_PATH = Paths.get( System.getProperty("user.dir"),
-                                                    "src\\test\\resources\\templates\\pdf\\dest",
-                                                           "test.pdf");
+    private static final Path OUTPUT_PDF_PATH = Paths.get(
+                    System.getProperty("user.dir"),
+                    "src\\test\\resources\\templates\\pdf\\dest",
+                    "test.pdf");
+    
     @Test
     void shouldBeCreatedNewPDF() {
         // GIVEN
@@ -24,7 +26,7 @@ class PdfCreatorTest {
                         .page(0)
                         .coordination(0f, 755f)
                         .areaSize(200, 100)
-                        .font("japanese",12)
+                        .font("japanese", 12)
                         .align("center")
                         .text(1234567890)
                         .build())
