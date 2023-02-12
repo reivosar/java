@@ -10,7 +10,7 @@ class PdfCreateInvokerSelector {
         this.pdfCreateParameters = pdfCreateParameters;
     }
     
-    PdfCreateInvoker select() {
+    PdfCreateInvoker selectInvoker() {
         if (pdfTemplate != null) {
             return new PdfTemplateEmbedInvoker(pdfTemplate, pdfCreateParameters);
         }

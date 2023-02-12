@@ -57,13 +57,7 @@ public final class PdfCreator {
                 .build());
     }
     
-    /**
-     * Specifies object to embed in the PDF file.
-     *
-     * @param pdfCreateParameter text to embed in the PDF file
-     * @return this
-     */
-    public PdfCreator append(final PdfCreateParameter pdfCreateParameter) {
+    private PdfCreator append(final PdfCreateParameter pdfCreateParameter) {
         this.pdfCreateParameters.add(pdfCreateParameter);
         return this;
     }
@@ -76,7 +70,7 @@ public final class PdfCreator {
      */
     boolean createTo(final Path path) {
         final PdfCreateInvokerSelector selector = new PdfCreateInvokerSelector(pdfTemplate, pdfCreateParameters);
-        final PdfCreateInvoker invoker = selector.select();
+        final PdfCreateInvoker invoker = selector.selectInvoker();
         return invoker.invoke(path);
     }
 }

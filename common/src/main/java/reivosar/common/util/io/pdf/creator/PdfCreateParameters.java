@@ -8,17 +8,17 @@ import java.util.LinkedList;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-public class PdfCreateParameters extends Model {
+class PdfCreateParameters extends Model {
     
     private final Map<PdfPage, Collection<PdfCreateParameter>> pageCollectionMap;
     
-    public PdfCreateParameters() {
+    PdfCreateParameters() {
         this.pageCollectionMap = new LinkedHashMap<>();
     }
     
     Collection<Integer> pageNumbers() {
         return pageCollectionMap.keySet()
-                .stream().map(pdfPage -> pdfPage.pageNumber())
+                .stream().map(PdfPage::pageNumber)
                 .collect(Collectors.toList());
     }
     
@@ -26,12 +26,11 @@ public class PdfCreateParameters extends Model {
         return pageCollectionMap.get(pdfPage);
     }
     
-    public PdfCreateParameters add(final PdfCreateParameter pdfCreateParameter) {
+    void add(final PdfCreateParameter pdfCreateParameter) {
         final PdfPage pdfPage = pdfCreateParameter.pdfPage();
         final Collection<PdfCreateParameter> parameters = pageCollectionMap.containsKey(pdfPage) ?
                 pageCollectionMap.get(pdfPage) : new LinkedList<>();
         parameters.add(pdfCreateParameter);
         this.pageCollectionMap.put(pdfPage, parameters);
-        return this;
     }
 }
