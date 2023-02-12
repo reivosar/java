@@ -12,10 +12,8 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class PdfCreatorTest {
     
-    private static final Path OUTPUT_PDF_PATH = Paths.get(
-                    System.getProperty("user.dir"),
-                    "src\\test\\resources\\templates\\pdf\\dest",
-                    "test.pdf");
+    private static final Path OUTPUT_PDF_PATH = Paths.get(System.getProperty("user.dir"),
+            "src\\test\\resources\\templates\\pdf\\dest", "test.pdf");
     
     @Test
     void shouldBeCreatedNewPDF() {
@@ -33,6 +31,7 @@ class PdfCreatorTest {
                 .createTo(OUTPUT_PDF_PATH);
         // THEN
         assertTrue(result);
+        assertTrue(Files.exists(OUTPUT_PDF_PATH));
     }
     
     @AfterEach
