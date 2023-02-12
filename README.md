@@ -39,7 +39,14 @@ https://github.com/reivosar/java/blob/main/common/src/main/java/reivosar/common/
 ```
 final Path path = ～
 final boolean result = PdfCreator.forCreatingNew()
-                .append(0, 0f, 755f, 200, 100, 12, "center", "test")
-                .createTo(outputPath);
+        .append(new EmbedTextParameter.Builder()
+                .page(0)
+                .coordination(0f, 755f)
+                .areaSize(200, 100)
+                .font("japanese",12)
+                .align("center")
+                .text(1234567890)
+                .build())
+        .createTo(outputPath);
 ```
 https://github.com/reivosar/java/blob/main/common/src/main/java/reivosar/common/util/io/pdf/creator/PdfCreator.java
