@@ -7,7 +7,6 @@ import java.net.URL;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
-import java.util.stream.Collectors;
 
 class ResourceFiles extends Model {
     
