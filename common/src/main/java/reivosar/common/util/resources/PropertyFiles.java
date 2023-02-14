@@ -24,7 +24,7 @@ public final class PropertyFiles {
     private static void loadPropertyFiles(
             final Properties properties,
             final Set<ResourceFile> loadedPropertyFiles) {
-        ClassPathResourcesScanner.scanBy(ResourceType.PROPERTIES)
+        ClassPathResourcesScanner.scanBy(new FileExtension("properties"))
                 .resourceFiles()
                 .forEach(file -> {
                             try (final InputStream input = new FileInputStream(file.toFile())) {

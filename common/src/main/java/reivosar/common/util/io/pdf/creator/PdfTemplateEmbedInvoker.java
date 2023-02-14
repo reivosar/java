@@ -14,7 +14,7 @@ class PdfTemplateEmbedInvoker extends PdfCreateInvoker {
     }
     
     @Override
-    PDDocument createPDDocument() {
+    PDDocument createPDDocument() throws Exception {
         final File pdfTemplateFile = pdfTemplate.pdfTemplateFilePath().toFile();
         return new PDDocument();
     }

@@ -29,7 +29,7 @@ abstract class PdfCreateInvoker {
         }
     }
     
-    abstract PDDocument createPDDocument();
+    abstract PDDocument createPDDocument() throws Exception;
     
     abstract boolean needToAddNewPages();
     

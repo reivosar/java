@@ -9,19 +9,19 @@ import java.util.Map;
 
 final class ClassPathResourcesScanner {
     
-    private static final Map<ResourceType, ResourceFiles> SCANNED_RESOURCES;
+    private static final Map<FileExtension, ResourceFiles> SCANNED_RESOURCES;
     
     static {
         try {
-            final Map<ResourceType, ResourceFiles> resourceFilesMap = new HashMap<>();
+            final Map<FileExtension, ResourceFiles> resourceFilesMap = new HashMap<>();
             ClassPath.from(Thread.currentThread().getContextClassLoader())
                     .getResources()
                     .forEach(resourceInfo -> {
-                        final ResourceType resourceType = ResourceType.of(resourceInfo.getResourceName());
-                        final ResourceFiles resourceFiles = resourceFilesMap.containsKey(resourceType) ?
-                                resourceFilesMap.get(resourceType) : new ResourceFiles();
+                        final FileExtension fileExtension = FileExtension.of(resourceInfo.getResourceName());
+                        final ResourceFiles resourceFiles = resourceFilesMap.containsKey(fileExtension) ?
+                                resourceFilesMap.get(fileExtension) : new ResourceFiles();
                         resourceFiles.add(resourceInfo.url());
-                        resourceFilesMap.put(resourceType, resourceFiles);
+                        resourceFilesMap.put(fileExtension, resourceFiles);
                     });
             SCANNED_RESOURCES = Collections.unmodifiableMap(resourceFilesMap);
         } catch (IOException e) {
@@ -33,10 +33,10 @@ final class ClassPathResourcesScanner {
         // This constructor must be private
     }
     
-    static ResourceFiles scanBy(final ResourceType resourceType) {
-        if (!SCANNED_RESOURCES.containsKey(resourceType)) {
+    static ResourceFiles scanBy(final FileExtension fileExtension) {
+        if (!SCANNED_RESOURCES.containsKey(fileExtension)) {
             return new ResourceFiles();
         }
-        return SCANNED_RESOURCES.get(resourceType);
+        return SCANNED_RESOURCES.get(fileExtension);
     }
 }
