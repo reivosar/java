@@ -2,6 +2,8 @@ package reivosar.common.util.lang;
 
 import org.apache.commons.lang3.ObjectUtils;
 
+import java.util.Objects;
+
 /**
  * The ObjectUtil class provides utility methods for working with Java Objects.
  */
@@ -45,9 +47,7 @@ public class ObjectUtil {
      * @throws NullPointerException if the object is null
      */
     public static <T> T requireNonNull(final String name, final T object) {
-        if (object == null)
-            throw new NullPointerException(name + " must not be null");
-        return object;
+        return Objects.requireNonNull(object, name + " must not be null");
     }
     
     /**
