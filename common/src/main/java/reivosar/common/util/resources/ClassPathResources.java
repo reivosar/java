@@ -29,9 +29,7 @@ public class ClassPathResources {
      * @return a collection of {@link ResourceFile}s that match the given filename
      */
     public Collection<ResourceFile> filterByFilename(final String fileName) {
-        return resourceFiles.resourceFiles()
-                .stream()
-                .filter(resourceFile -> resourceFile.matchFilename(fileName)).toList();
+        return resourceFiles.filterByFileName(fileName);
     }
     
     /**
@@ -51,9 +49,7 @@ public class ClassPathResources {
      * @return a collection of {@link ResourceFile}s that match the given file path
      */
     public Collection<ResourceFile> filterByFilePath(final String filePath) {
-        return resourceFiles.resourceFiles()
-                .stream()
-                .filter(resourceFile -> resourceFile.matchUnixFilePath(filePath)).toList();
+        return resourceFiles.filterByFilePath(filePath);
     }
     
     /**

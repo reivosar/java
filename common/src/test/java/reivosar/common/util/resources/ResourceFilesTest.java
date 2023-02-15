@@ -15,7 +15,7 @@ class ResourceFilesTest {
         void test() {
             Collection<ResourceFile> resourceFiles = ClassPathResourcesScanner
                     .scanBy(new FileExtension("properties"))
-                    .findByName("test1.properties");
+                    .filterByFileName("test1.properties");
             assertEquals(1, resourceFiles.size());
         }
     }
@@ -26,7 +26,7 @@ class ResourceFilesTest {
         void test() {
             Collection<ResourceFile> resourceFiles = ClassPathResourcesScanner
                     .scanBy(new FileExtension("pdf"))
-                    .findByPath("/templates/pdf/template/test.pdf");
+                    .filterByFilePath("/templates/pdf/template/test.pdf");
             assertEquals(1, resourceFiles.size());
         }
     }

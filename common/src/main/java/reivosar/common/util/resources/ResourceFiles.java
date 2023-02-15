@@ -32,12 +32,12 @@ class ResourceFiles extends Model {
         this.files.add(new ResourceFile(file));
     }
     
-    Collection<ResourceFile> findByName(final String fileName) {
+    Collection<ResourceFile> filterByFileName(final String fileName) {
         return files.stream()
                 .filter(resourceFile -> resourceFile.matchFilename(fileName)).toList();
     }
     
-    Collection<ResourceFile> findByPath(final String filePath) {
+    Collection<ResourceFile> filterByFilePath(final String filePath) {
         return files.stream()
                 .filter(resourceFile -> resourceFile.matchUnixFilePath(filePath)).toList();
     }

@@ -10,7 +10,7 @@ enum FontType {
     HELVETICA("helvetica", new PdfBoxStandardFontLoader(PDType1Font.HELVETICA)),
     COURIER("courier", new PdfBoxStandardFontLoader(PDType1Font.COURIER)),
     SYMBOL("symbol", new PdfBoxStandardFontLoader(PDType1Font.SYMBOL)),
-    JAPANESE("japanese", new TrueTypeFontFileLoader("/templates/pdf/fonts/ipaexg.ttf")),
+    JAPANESE("japanese", new IpaFontFileLoader()),
     ;
     
     private final String fontName;
