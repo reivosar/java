@@ -4,7 +4,6 @@ import reivosar.common.util.lang.ObjectUtil;
 import reivosar.common.util.model.Model;
 
 import java.io.File;
-import java.util.Objects;
 
 /**
  * A model representing a resource file.
