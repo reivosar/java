@@ -1,5 +1,6 @@
 package reivosar.common.util.cache;
 
+import reivosar.common.util.lang.ObjectUtil;
 import reivosar.common.util.model.Model;
 
 import java.util.*;
@@ -22,12 +23,12 @@ class LocalCacheStore<K, V> extends Model {
     }
     
     boolean containsKey(final K key) {
-        Objects.requireNonNull(key, "key must not be null");
+        ObjectUtil.requireNonNull("key", key);
         return cacheMap.containsKey(key);
     }
     
     boolean exists(final K key) {
-        Objects.requireNonNull(key, "key must not be null");
+        ObjectUtil.requireNonNull("key", key);
         return containsKey(key) && !get(key).isEmpty();
     }
     
@@ -36,8 +37,8 @@ class LocalCacheStore<K, V> extends Model {
     }
     
     void put(final K key, final V value) {
-        Objects.requireNonNull(key, "key must not be null");
-        Objects.requireNonNull(value, "value must not be null");
+        ObjectUtil.requireNonNull("key", key);
+        ObjectUtil.requireNonNullAndEmpty("value", value);
         Collection<V> values = this.cacheMap.get(key);
         if (values == null || values.isEmpty()) {
             values = new LinkedHashSet<>();
@@ -47,7 +48,7 @@ class LocalCacheStore<K, V> extends Model {
     }
     
     void clear(final K key) {
-        Objects.requireNonNull(key, "key must not be null");
+        ObjectUtil.requireNonNull("key", key);
         this.cacheMap.remove(key);
     }
 }
