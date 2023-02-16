@@ -1,8 +1,12 @@
 package reivosar.common.util.cache;
 
+import reivosar.common.util.lang.ObjectUtil;
 import reivosar.common.util.model.Model;
 
-import java.util.*;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
+import java.util.Optional;
 
 /**
  * First-class collection of cache values.
@@ -19,7 +23,7 @@ public class CacheValues<V> extends Model {
      * @param values cache values
      */
     public CacheValues(final Collection<V> values) {
-        Objects.requireNonNull(values, "values must not be null");
+        ObjectUtil.requireNonNull("values", values);
         this.values = values;
     }
     

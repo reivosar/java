@@ -51,6 +51,24 @@ public class ObjectUtil {
     }
     
     /**
+     * Checks that the specified object is not null and not empty. If the object is null or empty,
+     * an exception is thrown with the specified name and error message.
+     *
+     * @param name the name of the object being checked, used in the error message if the object is null
+     * @param object the object to check for null or empty
+     * @param <T> the type of the object being checked
+     * @return the non-null, non-empty object
+     * @throws NullPointerException if the object is null
+     * @throws IllegalArgumentException if the object is empty
+     */
+    public static <T> T requireNonNullAndEmpty(final String name, final T object) {
+        if (isEmpty(requireNonNull(name, object))) {
+            throw new IllegalArgumentException(name + " must not be empty");
+        }
+        return object;
+    }
+    
+    /**
      * Returns the specified object if it is not null, or the default object if it is null.
      *
      * @param object        the object to check for nullness

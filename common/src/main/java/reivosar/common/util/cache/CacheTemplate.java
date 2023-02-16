@@ -1,5 +1,7 @@
 package reivosar.common.util.cache;
 
+import reivosar.common.util.lang.ObjectUtil;
+
 import javax.annotation.Nonnull;
 import java.util.Collection;
 import java.util.Objects;
@@ -14,13 +16,13 @@ abstract class CacheTemplate<K, V> implements Cache<K, V> {
     
     @Override
     public final boolean exists(@Nonnull final K key) {
-        Objects.requireNonNull(key, "key must not be null");
+        ObjectUtil.requireNonNull("key", key);
         return cacheAccessor.exists(key);
     }
     
     @Override
     public final CacheValues<V> get(@Nonnull final K key) {
-        Objects.requireNonNull(key, "key must not be null");
+        ObjectUtil.requireNonNull("key", key);
         if (!exists(key)) {
             return CacheValues.empty();
         }
@@ -29,8 +31,8 @@ abstract class CacheTemplate<K, V> implements Cache<K, V> {
     
     @Override
     public final void put(@Nonnull final K key, @Nonnull final V values) {
-        Objects.requireNonNull(key, "key must not be null");
-        Objects.requireNonNull(values, "values must not be null");
+        ObjectUtil.requireNonNull("key", key);
+        ObjectUtil.requireNonNullAndEmpty("values", values);
         cacheAccessor.put(key, values);
     }
     
@@ -41,7 +43,7 @@ abstract class CacheTemplate<K, V> implements Cache<K, V> {
     
     @Override
     public final void clear(@Nonnull final K key) {
-        Objects.requireNonNull(key, "key must not be null");
+        ObjectUtil.requireNonNull("key", key);
         cacheAccessor.clear(key);
     }
     

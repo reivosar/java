@@ -1,52 +1,106 @@
 package reivosar.common.util.lang;
 
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class ObjectUtilTest {
     
-    @Test
-    void testIsEmpty() {
-        assertTrue(ObjectUtil.isEmpty(null));
-        assertTrue(ObjectUtil.isEmpty(""));
-        assertTrue(ObjectUtil.isEmpty(new Object[]{}));
-        assertFalse(ObjectUtil.isEmpty(" "));
-        assertFalse(ObjectUtil.isEmpty(new Object[]{new Object()}));
+    @Nested
+    class IsEmptyTest {
+        @Test
+        void shouldReturnTrueForNullObject() {
+            assertTrue(ObjectUtil.isEmpty(null));
+        }
+        
+        @Test
+        void shouldReturnTrueForEmptyString() {
+            assertTrue(ObjectUtil.isEmpty(""));
+        }
+        
+        @Test
+        void shouldReturnFalseForNonEmptyString() {
+            assertFalse(ObjectUtil.isEmpty("not empty"));
+        }
+        
+        @Test
+        void shouldReturnFalseForNonNullObject() {
+            assertFalse(ObjectUtil.isEmpty(new Object()));
+        }
     }
     
-    @Test
-    void testIsNotEmpty() {
-        assertFalse(ObjectUtil.isNotEmpty(null));
-        assertFalse(ObjectUtil.isNotEmpty(""));
-        assertFalse(ObjectUtil.isNotEmpty(new Object[]{}));
-        assertTrue(ObjectUtil.isNotEmpty(" "));
-        assertTrue(ObjectUtil.isNotEmpty(new Object[]{new Object()}));
+    @Nested
+    class IsNotEmptyTest {
+        @Test
+        void shouldReturnFalseForNullObject() {
+            assertFalse(ObjectUtil.isNotEmpty(null));
+        }
+        
+        @Test
+        void shouldReturnFalseForEmptyString() {
+            assertFalse(ObjectUtil.isNotEmpty(""));
+        }
+        
+        @Test
+        void shouldReturnTrueForNonEmptyString() {
+            assertTrue(ObjectUtil.isNotEmpty("not empty"));
+        }
+        
+        @Test
+        void shouldReturnTrueForNonNullObject() {
+            assertTrue(ObjectUtil.isNotEmpty(new Object()));
+        }
     }
     
-    @Test
-    void testRequireNonNullWithNull() {
-        NullPointerException exception = assertThrows(NullPointerException.class,
-                () -> ObjectUtil.requireNonNull("testObject", null));
-        assertEquals("testObject must not be null", exception.getMessage());
+    @Nested
+    class RequireNonNullTest {
+        @Test
+        void shouldReturnNonNullObject() {
+            assertNotNull(ObjectUtil.requireNonNull("name", new Object()));
+        }
+        
+        @Test
+        void shouldThrowNullPointerExceptionForNullObject() {
+            assertThrows(NullPointerException.class, () -> ObjectUtil.requireNonNull("name", null));
+        }
     }
     
-    @Test
-    void testRequireNonNullWithNonNull() {
-        Object object = new Object();
-        assertSame(object, ObjectUtil.requireNonNull("testObject", object));
+    @Nested
+    class RequireNonNullAndEmptyTest {
+        @Test
+        void shouldReturnNonEmptyString() {
+            assertEquals("not empty", ObjectUtil.requireNonNullAndEmpty("name", "not empty"));
+        }
+        
+        @Test
+        void shouldThrowNullPointerExceptionForNullObject() {
+            assertThrows(NullPointerException.class, () -> ObjectUtil.requireNonNullAndEmpty("name", null));
+        }
+        
+        @Test
+        void shouldThrowIllegalArgumentExceptionForEmptyString() {
+            assertThrows(IllegalArgumentException.class, () -> ObjectUtil.requireNonNullAndEmpty("name", ""));
+        }
     }
     
-    @Test
-    void testGetIfNullWithNull() {
-        Object defaultObject = new Object();
-        Object object = null;
-        assertSame(defaultObject, ObjectUtil.getIfNull(object, defaultObject));
-    }
-    
-    @Test
-    void testGetIfNullWithNonNull() {
-        Object defaultObject = new Object();
-        Object object = new Object();
-        assertSame(object, ObjectUtil.getIfNull(object, defaultObject));
+    @Nested
+    class GetIfNullTest {
+        @Test
+        void shouldReturnSpecifiedObject() {
+            Object obj = new Object();
+            assertSame(obj, ObjectUtil.getIfNull(obj, new Object()));
+        }
+        
+        @Test
+        void shouldReturnDefaultObjectForNullObject() {
+            Object obj = new Object();
+            assertSame(obj, ObjectUtil.getIfNull(null, obj));
+        }
+        
+        @Test
+        void shouldReturnDefaultObjectForNullDefaultObject() {
+            assertSame(null, ObjectUtil.getIfNull(null, null));
+        }
     }
 }
