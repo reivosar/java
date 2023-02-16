@@ -1,5 +1,6 @@
 package reivosar.common.util.resources;
 
+import reivosar.common.util.lang.ObjectUtil;
 import reivosar.common.util.model.Model;
 
 import java.io.File;
@@ -21,7 +22,7 @@ public class ResourceFile extends Model {
      * @throws NullPointerException if the file is null
      */
     public ResourceFile(final File file) {
-        this.file = Objects.requireNonNull(file, "file must not be null");
+        this.file = ObjectUtil.requireNonNull("file", file);
         this.unixFilePath = file.getAbsolutePath().replace('\\', '/');
         this.fileName = file.getName();
     }
@@ -42,6 +43,7 @@ public class ResourceFile extends Model {
      * @return true if the file name of this resource file matches the given file name
      */
     public boolean matchFilename(final String fileName) {
+        ObjectUtil.requireNonNull("fileName", fileName);
         return this.fileName.equalsIgnoreCase(fileName);
     }
     
@@ -52,6 +54,7 @@ public class ResourceFile extends Model {
      * @return true if the file path of this resource file matches the given file path
      */
     public boolean matchUnixFilePath(final String filePath) {
+        ObjectUtil.requireNonNull("filePath", filePath);
         return this.unixFilePath.endsWith(filePath);
     }
     

@@ -1,5 +1,7 @@
 package reivosar.common.util.resources;
 
+import reivosar.common.util.lang.ObjectUtil;
+
 import java.util.Collection;
 import java.util.Optional;
 
@@ -19,6 +21,7 @@ public class ClassPathResources {
      * @param fileExtension the file extension to filter the resources by
      */
     public ClassPathResources(final FileExtension fileExtension) {
+        ObjectUtil.requireNonNull("fileExtension", fileExtension);
         this.resourceFiles = ClassPathResourcesScanner.scanBy(fileExtension);
     }
     
@@ -29,6 +32,7 @@ public class ClassPathResources {
      * @return a collection of {@link ResourceFile}s that match the given filename
      */
     public Collection<ResourceFile> filterByFilename(final String fileName) {
+        ObjectUtil.requireNonNull("fileName", fileName);
         return resourceFiles.filterByFileName(fileName);
     }
     
@@ -39,6 +43,7 @@ public class ClassPathResources {
      * @return an {@link Optional} containing the first {@link ResourceFile} that matches the given filename, or an empty {@link Optional} if no match is found
      */
     public Optional<ResourceFile> findFirstMatchingFileName(final String fileName) {
+        ObjectUtil.requireNonNull("fileName", fileName);
         return filterByFilename(fileName).stream().findFirst();
     }
     
@@ -49,17 +54,19 @@ public class ClassPathResources {
      * @return a collection of {@link ResourceFile}s that match the given file path
      */
     public Collection<ResourceFile> filterByFilePath(final String filePath) {
+        ObjectUtil.requireNonNull("filePath", filePath);
         return resourceFiles.filterByFilePath(filePath);
     }
     
     /**
      * Finds the first {@link ResourceFile} in the underlying collection that matches the given file path.
      *
-     * @param fileName the path of the file to search for, in Unix format
+     * @param filePath the path of the file to search for, in Unix format
      * @return an {@link Optional} containing the first {@link ResourceFile} that matches the given file path, or an empty {@link Optional} if no match is found
      */
-    public Optional<ResourceFile> findFirstMatchingFilePath(final String fileName) {
-        return filterByFilePath(fileName).stream().findFirst();
+    public Optional<ResourceFile> findFirstMatchingFilePath(final String filePath) {
+        ObjectUtil.requireNonNull("filePath", filePath);
+        return filterByFilePath(filePath).stream().findFirst();
     }
     
     /**

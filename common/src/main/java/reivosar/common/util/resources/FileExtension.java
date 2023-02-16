@@ -1,6 +1,7 @@
 package reivosar.common.util.resources;
 
 import com.google.common.io.Files;
+import reivosar.common.util.lang.ObjectUtil;
 
 import java.io.File;
 
@@ -8,6 +9,10 @@ import java.io.File;
  * A record representing the file extension of a file.
  */
 public record FileExtension(String extension) {
+    
+    public FileExtension(final String extension) {
+        this.extension = ObjectUtil.requireNonNull("extension", extension);
+    }
     
     /**
      * Returns a new FileExtension instance based on the file extension of the given file name.

@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import reivosar.common.util.lang.ObjectUtil;
 
 import java.io.File;
 import java.util.Objects;
@@ -34,8 +35,8 @@ public final class JsonUtil {
      * @throws JsonHandlingException If an error occurs when reading or writing JSON
      */
     public static <T> T deserialize(final File json, final Class<T> valueType) throws JsonHandlingException {
-        Objects.requireNonNull(json, "json must not be null");
-        Objects.requireNonNull(valueType, "valueType must not be null");
+        ObjectUtil.requireNonNull("json", json);
+        ObjectUtil.requireNonNull("valueType", valueType);
         try {
             return JSON_MAPPER.readValue(json, valueType);
         } catch (Exception e) {
@@ -53,8 +54,8 @@ public final class JsonUtil {
      * @throws JsonHandlingException If an error occurs when reading or writing JSON
      */
     public static String read(final String json, final Object... identifies) throws JsonHandlingException {
-        Objects.requireNonNull(json, "json must not be null");
-        Objects.requireNonNull(identifies, "identifies must not be null");
+        ObjectUtil.requireNonNull("json", json);
+        ObjectUtil.requireNonNull("valueType", identifies);
         try {
             JsonNode jsonNode = JSON_MAPPER.readTree(json);
             for (final Object identify : identifies) {
@@ -79,7 +80,7 @@ public final class JsonUtil {
      * @throws JsonHandlingException If an error occurs when reading or writing JSON
      */
     public static String serialize(final Object object) throws JsonHandlingException {
-        Objects.requireNonNull(object, "object must not be null");
+        ObjectUtil.requireNonNull("object", object);
         try {
             return JSON_MAPPER.writeValueAsString(object);
         } catch (Exception e) {

@@ -1,5 +1,7 @@
 package reivosar.common.util.resources;
 
+import reivosar.common.util.lang.ObjectUtil;
+
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -57,7 +59,7 @@ public final class PropertyFiles {
      * @return the value in this property list with the specified key value.
      */
     public static Optional<String> getProperty(final String key) {
-        Objects.requireNonNull(key, "key must not be null");
+        ObjectUtil.requireNonNull("key", key);
         return Optional.ofNullable(PROPERTIES.getProperty(key));
     }
     
@@ -70,7 +72,7 @@ public final class PropertyFiles {
      * @return the value in this property list with the specified key value.
      */
     public static String getProperty(final String key, final String defaultValue) {
-        Objects.requireNonNull(key, "key must not be null");
+        ObjectUtil.requireNonNull("key", key);
         return getProperty(key).orElse(defaultValue);
     }
     
@@ -81,7 +83,7 @@ public final class PropertyFiles {
      * @return {@code true} The key exists {@code false} otherwise
      */
     public static boolean containsKey(final String key) {
-        Objects.requireNonNull(key, "key must not be null");
+        ObjectUtil.requireNonNull("key", key);
         return PROPERTIES.containsKey(key);
     }
 }

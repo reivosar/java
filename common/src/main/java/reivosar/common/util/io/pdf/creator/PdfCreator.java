@@ -1,5 +1,7 @@
 package reivosar.common.util.io.pdf.creator;
 
+import reivosar.common.util.lang.ObjectUtil;
+
 import java.nio.file.Path;
 
 /**
@@ -25,45 +27,13 @@ public final class PdfCreator {
     }
     
     /**
-     * Specifies a text to embed in the PDF file.
-     *
-     * @param page     Number of pages to embed text
-     * @param x        The x translation.
-     * @param y        The y translation.
-     * @param width    Vertical size of the target area for embedding text
-     * @param height   Horizontal size of the target area for embedding text
-     * @param fontName font name {@link FontType}
-     * @param fontSize font size
-     * @param align    {@link TextAlign}
-     * @param text     Embedded text
-     * @return this
-     */
-    public PdfCreator addText(final int page,
-                              final float x,
-                              final float y,
-                              final float width,
-                              final float height,
-                              final String fontName,
-                              final int fontSize,
-                              final String align,
-                              final Object text) {
-        return append(new EmbedTextParameter.Builder()
-                .page(page)
-                .coordination(x, y)
-                .areaSize(width, height)
-                .font(fontName, fontSize)
-                .align(align)
-                .text(text)
-                .build());
-    }
-    
-    /**
      * Specifies object to embed in the PDF file.
      *
      * @param pdfCreateParameter parameter to embed in the PDF file
      * @return this
      */
     public PdfCreator append(final PdfCreateParameter pdfCreateParameter) {
+        ObjectUtil.requireNonNull("pdfCreateParameter", pdfCreateParameter);
         this.pdfCreateParameters.add(pdfCreateParameter);
         return this;
     }
@@ -75,6 +45,7 @@ public final class PdfCreator {
      * @return {@code true} If a PDF file is generated {@code false} otherwise
      */
     boolean createTo(final Path path) {
+        ObjectUtil.requireNonNull("path", path);
         final PdfCreateInvokerSelector selector = new PdfCreateInvokerSelector(pdfTemplate, pdfCreateParameters);
         final PdfCreateInvoker invoker = selector.selectInvoker();
         return invoker.invoke(path);
