@@ -13,7 +13,7 @@ public class ObjectUtil {
      * Private constructor to prevent instantiation from outside the class.
      */
     private ObjectUtil() {
-        // This constructor should be private
+        // This constructor must be private
     }
     
     /**
