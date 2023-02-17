@@ -4,9 +4,8 @@ import reivosar.common.util.model.Model;
 
 import java.io.File;
 import java.net.URL;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashSet;
+import java.util.*;
+import java.util.function.Predicate;
 
 class ResourceFiles extends Model {
     
@@ -33,13 +32,28 @@ class ResourceFiles extends Model {
     }
     
     Collection<ResourceFile> filterByFileName(final String fileName) {
-        return files.stream()
-                .filter(resourceFile -> resourceFile.matchFilename(fileName)).toList();
+        return filter(resourceFile -> resourceFile.matchFilename(fileName));
     }
     
     Collection<ResourceFile> filterByFilePath(final String filePath) {
+        return filter(resourceFile -> resourceFile.matchUnixFilePath(filePath));
+    }
+    
+    private List<ResourceFile> filter(Predicate<ResourceFile> predicate) {
         return files.stream()
-                .filter(resourceFile -> resourceFile.matchUnixFilePath(filePath)).toList();
+                .filter(predicate)
+                .filter(this::isValidFile)
+                .sorted(sortFilePath())
+                .toList();
+    }
+    
+    private boolean isValidFile(final ResourceFile resourceFile) {
+        final File file = resourceFile.toFile();
+        return file.exists() && file.isFile() && file.canRead();
+    }
+    
+    private Comparator<ResourceFile> sortFilePath() {
+        return Comparator.comparing(resourceFile -> resourceFile.toFile().getAbsolutePath());
     }
     
     Collection<ResourceFile> resourceFiles() {

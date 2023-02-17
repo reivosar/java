@@ -55,7 +55,7 @@ public class ClassPathResources {
      */
     public Collection<ResourceFile> filterByFilePath(final String filePath) {
         ObjectUtil.requireNonNull("filePath", filePath);
-        return resourceFiles.filterByFilePath(filePath);
+        return resourceFiles.filterByFilePath(filePath.startsWith("/") ? filePath : "/" + filePath);
     }
     
     /**
