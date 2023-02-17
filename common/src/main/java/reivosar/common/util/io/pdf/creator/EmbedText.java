@@ -41,7 +41,7 @@ record EmbedText(TextContent textContent, TextFont textFont, TextAlign textAlign
         try {
             return UnitOfLength
                     .fromPtLength(pdFont().getStringWidth(textContent().asString()) * fontSize / 1000f)
-                    .mmLength();
+                    .toMmLength();
         } catch (IOException e) {
             throw new IllegalStateException(e);
         }
@@ -54,6 +54,6 @@ record EmbedText(TextContent textContent, TextFont textFont, TextAlign textAlign
     private float calcTextHeight(final int fontSize) {
         return UnitOfLength
                 .fromPtLength(pdFont().getFontDescriptor().getFontBoundingBox().getHeight() * fontSize / 1000f)
-                .inchLength();
+                .toInchLength();
     }
 }

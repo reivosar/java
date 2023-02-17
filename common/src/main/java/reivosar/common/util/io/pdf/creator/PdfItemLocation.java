@@ -13,10 +13,10 @@ class PdfItemLocation extends Model {
     }
     
     float xCoordination() {
-        return xCoordination.mmLength();
+        return xCoordination.toMmLength();
     }
     
     float yCoordination() {
-        return yCoordination.mmLength();
+        return yCoordination.toMmLength();
     }
 }

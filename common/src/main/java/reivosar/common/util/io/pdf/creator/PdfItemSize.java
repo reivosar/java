@@ -13,10 +13,10 @@ class PdfItemSize extends Model {
     }
     
     float width() {
-        return width.mmLength();
+        return width.toMmLength();
     }
     
     float height() {
-        return height.mmLength();
+        return height.toMmLength();
     }
 }

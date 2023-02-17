@@ -3,7 +3,7 @@ package reivosar.common.util.io.pdf.creator;
 record EmbedTextLocationCalculator(PdfItem pdfItem, EmbedText embedText) {
     
     float calcXPosition() {
-        return UnitOfLength.fromMmLength(calcForEachAlignType()).ptLength();
+        return UnitOfLength.fromMmLength(calcForEachAlignType()).toPtLength();
     }
     
     private float calcForEachAlignType() {

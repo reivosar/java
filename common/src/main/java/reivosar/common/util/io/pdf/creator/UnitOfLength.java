@@ -22,15 +22,15 @@ class UnitOfLength extends Model {
         return new UnitOfLength(pt / POINTS_PER_INCH * MM_PER_INCH);
     }
     
-    float mmLength() {
+    float toMmLength() {
         return mm;
     }
     
-    float inchLength() {
+    float toInchLength() {
         return mm * MM_PER_INCH / POINTS_PER_INCH;
     }
     
-    float ptLength() {
+    float toPtLength() {
         return mm * POINTS_PER_MM;
     }
     
