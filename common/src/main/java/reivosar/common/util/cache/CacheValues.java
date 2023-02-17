@@ -9,18 +9,19 @@ import java.util.List;
 import java.util.Optional;
 
 /**
- * First-class collection of cache values.
+ * A class that wraps a collection of values for caching, using generics.
  *
- * @param <V> cache values type
+ * @param <V> the type of value to be cached
  */
 public class CacheValues<V> extends Model {
     
     private final Collection<V> values;
     
     /**
-     * Constructor for initializing fields.
+     * Constructs a new instance of the CacheValues class using the given collection of values.
      *
-     * @param values cache values
+     * @param values the collection of values to be cached
+     * @throws NullPointerException if the given collection is null
      */
     public CacheValues(final Collection<V> values) {
         ObjectUtil.requireNonNull("values", values);
@@ -28,57 +29,77 @@ public class CacheValues<V> extends Model {
     }
     
     /**
-     * Returns empty cache values.
+     * Returns an empty CacheValues object.
      *
-     * @return empty cache values
-     * @param <V> cache values type
+     * @param <V> The type of values to cache.
+     * @return An empty CacheValues object.
      */
     public static <V> CacheValues<V> empty() {
         return new CacheValues<>(List.of());
     }
     
     /**
-     * Returns all cache values.
+     * Returns an unmodifiable collection of the cached values.
      *
-     * @return cache values
+     * @return An unmodifiable collection of the cached values.
      */
-    public Collection<V> all() {
+    public Collection<V> values() {
         return Collections.unmodifiableCollection(values);
     }
     
     /**
-     * Returns the first value added from the cache.
+     * Returns the first cached value wrapped in an Optional object.
      *
-     * @return the first cache value
+     * @return An Optional object containing the first cached value, if one exists.
      */
-    public Optional<V> first() {
+    public Optional<V> findFirst() {
         return values.stream().findFirst();
     }
     
     /**
-     * Returns true if this collection contains elements.
+     * Returns the first cached value or throws a NullPointerException if no values are cached.
      *
-     * @return {@code true} this collection contains element {@code false} otherwise
+     * @return The first cached value.
+     * @throws NullPointerException if no values are cached.
+     */
+    public V value() throws NullPointerException {
+        return findFirst().orElseThrow(NullPointerException::new);
+    }
+    
+    /**
+     * Returns the first cached value or the specified default value if no values are cached.
+     *
+     * @param defaultValue The default value to return if no values are cached.
+     * @return The first cached value or the specified default value if no values are cached.
+     */
+    public V orElse(final V defaultValue) {
+        return findFirst().orElse(defaultValue);
+    }
+    
+    /**
+     * Returns true if there are any cached values, false otherwise.
+     *
+     * @return true if there are any cached values, false otherwise.
      */
     public boolean isNotEmpty() {
         return !isEmpty();
     }
     
     /**
-     * Returns true if this collection contains no elements.
+     * Returns true if there are no cached values, false otherwise.
      *
-     * @return {@code true} this collection contains no element {@code false} otherwise
+     * @return true if there are no cached values, false otherwise.
      */
     public boolean isEmpty() {
         return this.values.isEmpty();
     }
     
     /**
-     * Return the number of caches.
+     * Returns the number of values in the cached collection.
      *
-     * @return the number of caches
+     * @return the number of values in the cached collection
      */
-    public int count() {
+    public int size() {
         return values.size();
     }
 }

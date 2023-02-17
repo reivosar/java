@@ -1,5 +1,6 @@
 package reivosar.common.util.cache;
 
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -11,156 +12,208 @@ import static org.junit.jupiter.api.Assertions.*;
 class CacheTest {
     
     @Nested
-    class TestForErrorCase {
-        
-        private final Cache<String, String> testClass = CacheFactory.getEternalLocalCache();
+    class ConstructorTests {
         
         @Test
-        void shouldBeThrownException_when_nullArgumentIsPassedToExistsMethod() {
-            assertThrows(NullPointerException.class, () -> testClass.exists(null));
+        void shouldThrowExceptionWhenGivenNull() {
+            Assertions.assertThrows(NullPointerException.class, () -> new CacheValues<>(null));
         }
         
         @Test
-        void shouldBeThrownException_when_nullArgumentIsPassedToGetMethod() {
-            assertThrows(NullPointerException.class, () -> testClass.get(null));
+        void shouldCreateCacheValuesObjectWhenGivenEmptyCollection() {
+            CacheValues<Object> cacheValues = new CacheValues<>(new ArrayList<>());
+            Assertions.assertNotNull(cacheValues);
         }
         
         @Test
-        void shouldBeThrownException_when_nullArgumentIsPassedToPutMethod() {
-            assertThrows(NullPointerException.class, () -> testClass.put(null, null));
-            assertThrows(NullPointerException.class, () -> testClass.put(null, "test"));
-            assertThrows(NullPointerException.class, () -> testClass.put("key", null));
-        }
-        
-        @Test
-        void shouldBeThrownException_when_nullArgumentIsPassedToClearMethod() {
-            assertThrows(NullPointerException.class, () -> testClass.clear(null));
+        void shouldCreateCacheValuesObjectWhenGivenNonEmptyCollection() {
+            Collection<Integer> values = Collections.unmodifiableCollection(List.of(1, 2, 3));
+            CacheValues<Integer> cacheValues = new CacheValues<>(values);
+            Assertions.assertNotNull(cacheValues);
+            Assertions.assertEquals(cacheValues.values(), values);
         }
     }
     
     @Nested
-    class TestForNormalCase {
-        
-        private Cache<String, String> testClass;
+    class EmptyMethodTests {
+        @Test
+        void shouldReturnEmptyCacheValuesObject() {
+            CacheValues<Object> cacheValues = CacheValues.empty();
+            Assertions.assertNotNull(cacheValues);
+            Assertions.assertTrue(cacheValues.isEmpty());
+        }
+    }
+    
+    @Nested
+    class ValuesMethodTests {
+        private Collection<String> valuesList;
+        private CacheValues<String> cacheValues;
         
         @BeforeEach
         void setup() {
-            this.testClass = CacheFactory.getEternalLocalCache();
+            valuesList= Collections.unmodifiableCollection(List.of("a", "b", "c"));
+            cacheValues = new CacheValues<>(valuesList);
         }
         
         @Test
-        void shouldBeNotGottenValues_whenNoValueSetToCache() {
-            // GIVEN
-            final String key = "key";
-            // final String value = "value";
-            // WHEN
-            // this.testClass.put(key, value);
-            // THEN
-            assertionEmptyValues(key);
-            assertEquals(this.testClass.getAllKeys().size(), 0);
+        void shouldReturnUnmodifiableCollectionOfCachedValues() {
+            Collection<String> values = cacheValues.values();
+            Assertions.assertNotNull(values);
+            Assertions.assertThrows(UnsupportedOperationException.class, () -> values.add("d"));
         }
         
         @Test
-        void shouldBeGottenValues_when_valueSetToCache() {
-            // GIVEN
-            final String key = "key";
-            final String value = "value";
-            // WHEN
-            this.testClass.put(key, value);
-            // THEN
-            assertionNotEmptyValues(key, value);
+        void shouldReturnCachedValues() {
+            Collection<String> values = cacheValues.values();
+            Assertions.assertNotNull(values);
+            Assertions.assertEquals(values, valuesList);
+        }
+    }
+    
+    @Nested
+    class FindFirstMethodTests {
+        
+        private CacheValues<String> cacheValues;
+        
+        @BeforeEach
+        void setup() {
+            List<String> valuesList = List.of("a", "b", "c");
+            cacheValues = new CacheValues<>(valuesList);
         }
         
         @Test
-        void shouldBeGottenValues_when_valueSetToSameKeyInCache() {
-            // GIVEN
-            final String key = "key";
-            final String value1 = "value1";
-            final String value2 = "value2";
-            // WHEN
-            this.testClass.put(key, value1);
-            this.testClass.put(key, value2);
-            // THEN
-            assertionNotEmptyValues(key, value1, value2);
-            
-            assertEquals(this.testClass.getAllKeys().size(), 1);
+        void shouldReturnOptionalWithFirstCachedValue() {
+            String firstValue = cacheValues.findFirst().orElse(null);
+            Assertions.assertNotNull(firstValue);
+            Assertions.assertEquals(firstValue, "a");
         }
         
         @Test
-        void shouldBeGottenValues_when_valueSetToAnyKeysInCache() {
-            // GIVEN
-            final String key1 = "key1";
-            final String key2 = "key2";
-            final String value1_1 = "value1_1";
-            final String value1_2 = "value1_2";
-            final String value2_1 = "value2_1";
-            final String value2_2 = "value2_2";
-            // WHEN
-            this.testClass.put(key1, value1_1);
-            this.testClass.put(key1, value1_2);
-            this.testClass.put(key2, value2_1);
-            this.testClass.put(key2, value2_2);
-            // THEN
-            assertionNotEmptyValues(key1, value1_1, value1_2);
-            assertionNotEmptyValues(key2, value2_1, value2_2);
-            
-            assertEquals(2, this.testClass.getAllKeys().size());
+        void shouldReturnEmptyOptionalIfNoValuesCached() {
+            CacheValues<String> emptyCacheValues = CacheValues.empty();
+            Assertions.assertTrue(emptyCacheValues.findFirst().isEmpty());
+        }
+    }
+    
+    @Nested
+    class ValueMethodTests {
+        
+        private CacheValues<String> cacheValues;
+        
+        @BeforeEach
+        void setup() {
+            List<String> valuesList = List.of("a", "b", "c");
+            cacheValues = new CacheValues<>(valuesList);
         }
         
         @Test
-        void shouldBeNotGottenValues_when_clearMethodIsCalledWithKey() {
-            // GIVEN
-            final String key1 = "key1";
-            final String value1 = "value1";
-            final String key2 = "key2";
-            final String value2 = "value2";
-            // WHEN
-            this.testClass.put(key1, value1);
-            this.testClass.put(key2, value2);
-            this.testClass.clear(key1);//@ATTN
-            // THEN
-            assertionEmptyValues(key1);
-            assertionNotEmptyValues(key2, value2);
-            
-            assertEquals(this.testClass.getAllKeys().size(), 1);
+        void shouldReturnValueIfValuesCached() {
+            String firstValue = cacheValues.value();
+            Assertions.assertNotNull(firstValue);
+            Assertions.assertEquals(firstValue, "a");
         }
         
         @Test
-        void shouldBeNotGottenValues_when_clearAllMethodIsCalled() {
+        void shouldThrowNullPointerExceptionIfNoValuesCached() {
+            CacheValues<String> emptyCacheValues = CacheValues.empty();
+            Assertions.assertThrows(NullPointerException.class, emptyCacheValues::value);
+        }
+    }
+    
+    
+    @Nested
+    class OrElseTests {
+        @Test
+        void shouldReturnFirstValueWhenValuesExist() {
             // GIVEN
-            final String key1 = "key1";
-            final String value1 = "value1";
-            final String key2 = "key2";
-            final String value2 = "value2";
+            List<Integer> values = List.of(1, 2, 3);
+            CacheValues<Integer> cache = new CacheValues<>(values);
             // WHEN
-            this.testClass.put(key1, value1);
-            this.testClass.put(key2, value2);
-            this.testClass.clearAll();
+            int result = cache.orElse(0);
             // THEN
-            assertionEmptyValues(key1);
-            assertionEmptyValues(key2);
-            
-            assertEquals(this.testClass.getAllKeys().size(), 0);
+            assertEquals(1, result);
         }
         
-        private void assertionEmptyValues(String key) {
-            assertFalse(this.testClass.exists(key));
-            assertEquals(CacheValues.empty(), this.testClass.get(key));
-            assertFalse(this.testClass.get(key).isNotEmpty());
-            assertTrue(this.testClass.get(key).isEmpty());
-            assertEquals(Optional.empty(), this.testClass.get(key).first());
-            assertIterableEquals(List.of(), this.testClass.get(key).all());
-            assertEquals(0, this.testClass.get(key).count());
+        @Test
+        void shouldReturnDefaultValueWhenNoValuesExist() {
+            // GIVEN
+            CacheValues<Integer> cache = CacheValues.empty();
+            // WHEN
+            int result = cache.orElse(0);
+            // THEN
+            assertEquals(0, result);
+        }
+    }
+    
+    @Nested
+    class IsNotEmptyTests {
+        @Test
+        void shouldReturnTrueWhenValuesExist() {
+            // GIVEN
+            List<Integer> values = List.of(1, 2, 3);
+            CacheValues<Integer> cache = new CacheValues<>(values);
+            // WHEN
+            boolean result = cache.isNotEmpty();
+            // THEN
+            assertTrue(result);
         }
         
-        private void assertionNotEmptyValues(final String key, String... values) {
-            assertTrue(this.testClass.exists(key));
-            assertEquals(new CacheValues<>(Set.of(values)), this.testClass.get(key));
-            assertTrue(this.testClass.get(key).isNotEmpty());
-            assertFalse(this.testClass.get(key).isEmpty());
-            assertEquals(Optional.of(values[0]), this.testClass.get(key).first());
-            assertIterableEquals(List.of(values), this.testClass.get(key).all());
-            assertEquals(values.length, this.testClass.get(key).count());
+        @Test
+        void shouldReturnFalseWhenNoValuesExist() {
+            // GIVEN
+            CacheValues<Integer> cache = CacheValues.empty();
+            // WHEN
+            boolean result = cache.isNotEmpty();
+            // THEN
+            assertFalse(result);
+        }
+    }
+    
+    @Nested
+    class IsEmptyTests {
+        @Test
+        void shouldReturnFalseWhenValuesExist() {
+            // GIVEN
+            List<Integer> values = List.of(1, 2, 3);
+            CacheValues<Integer> cache = new CacheValues<>(values);
+            // WHEN
+            boolean result = cache.isEmpty();
+            // THEN
+            assertFalse(result);
+        }
+        
+        @Test
+        void shouldReturnTrueWhenNoValuesExist() {
+            // GIVEN
+            CacheValues<Integer> cache = CacheValues.empty();
+            // WHEN
+            boolean result = cache.isEmpty();
+            // THEN
+            assertTrue(result);
+        }
+    }
+    
+    @Nested
+    class SizeTests {
+        @Test
+        void shouldReturnNumberOfValuesWhenValuesExist() {
+            // GIVEN
+            List<Integer> values = List.of(1, 2, 3);
+            CacheValues<Integer> cache = new CacheValues<>(values);
+            // WHEN
+            int result = cache.size();
+            // THEN
+            assertEquals(3, result);
+        }
+        
+        @Test
+        void shouldReturnZeroWhenNoValuesExist() {
+            // GIVEN
+            CacheValues<Integer> cache = CacheValues.empty();
+            // WHEN
+            int result = cache.size();
+            // THEN
+            assertEquals(0, result);
         }
     }
 }
