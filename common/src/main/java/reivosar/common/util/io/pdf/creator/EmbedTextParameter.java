@@ -35,7 +35,7 @@ public class EmbedTextParameter extends PdfCreateParameter {
         private String align;
         private Object text;
         
-        public Builder page(final int page) {
+        public Builder at(final int page) {
             this.page = page;
             return this;
         }

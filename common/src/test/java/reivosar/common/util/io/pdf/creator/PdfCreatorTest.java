@@ -30,7 +30,7 @@ class PdfCreatorTest {
         // WHEN
         final boolean result = PdfCreator.forCreatingNew()
                 .append(new EmbedTextParameter.Builder()
-                        .page(0)
+                        .at(0)
                         .coordination(0f, 755f)
                         .areaSize(200, 100)
                         .font("japanese", 12)
