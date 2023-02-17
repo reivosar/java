@@ -17,7 +17,7 @@ public interface Cache<K, V> {
      * @param key key with associated value returned
      * @return true if Key exists in cache; false otherwise.
      */
-    boolean exists(@Nonnull K key);
+    boolean exists(K key);
     
     /**
      * Returns the value to which this cache maps the given key.
@@ -26,7 +26,7 @@ public interface Cache<K, V> {
      * @param key key with associated value returned
      * @return value in cache
      */
-    CacheValues<V> get(@Nonnull K key);
+    CacheValues<V> get(K key);
     
     /**
      * Associates a given value with a given key in this cache.
@@ -36,7 +36,7 @@ public interface Cache<K, V> {
      * @param key   key with associated value returned
      * @param value value to be associated with the specified key
      */
-    void put(@Nonnull K key, @Nonnull V value);
+    void put(K key, V value);
     
     /**
      * Retrieve all keys in cache.
@@ -50,7 +50,7 @@ public interface Cache<K, V> {
      *
      * @param key key of cache to clear
      */
-    void clear(@Nonnull K key);
+    void clear(K key);
     
     /**
      * Clear all caches.
