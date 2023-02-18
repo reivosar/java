@@ -14,7 +14,7 @@ class LocalCacheStore<K, V> extends Model {
     }
     
     Collection<V> get(final K key) {
-        Objects.requireNonNull(key, "key must not be null");
+        ObjectUtil.requireNonNull("key", key);
         final Collection<V> values = this.cacheMap.get(key);
         if (values == null) {
             return List.of();
@@ -32,7 +32,7 @@ class LocalCacheStore<K, V> extends Model {
         return containsKey(key) && !get(key).isEmpty();
     }
     
-    Collection<K> getAllKeys() {
+    Collection<K> keySet() {
         return cacheMap.keySet();
     }
     

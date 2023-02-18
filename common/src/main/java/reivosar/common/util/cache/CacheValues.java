@@ -67,6 +67,15 @@ public class CacheValues<V> extends Model {
     }
     
     /**
+     * Returns the value if present, otherwise returns {@code null}.
+     *
+     * @return the value if present, otherwise {@code null}
+     */
+    public V nullableValue() {
+        return orElse(null);
+    }
+    
+    /**
      * Returns the first cached value or the specified default value if no values are cached.
      *
      * @param defaultValue The default value to return if no values are cached.

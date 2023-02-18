@@ -124,6 +124,30 @@ public class CacheValuesTest {
     }
     
     @Nested
+    class NullableValueTests {
+        @Test
+        void shouldReturnFirstValueWhenValuesExist() {
+            // GIVEN
+            List<Integer> values = List.of(1, 2, 3);
+            CacheValues<Integer> cache = new CacheValues<>(values);
+            // WHEN
+            Integer result = cache.nullableValue();
+            // THEN
+            assertEquals(1, result);
+        }
+        
+        @Test
+        void shouldReturnDefaultValueWhenNoValuesExist() {
+            // GIVEN
+            CacheValues<String> cache = CacheValues.empty();
+            // WHEN
+            String result = cache.nullableValue();
+            // THEN
+            assertNull(result);
+        }
+    }
+    
+    @Nested
     class OrElseTests {
         @Test
         void shouldReturnFirstValueWhenValuesExist() {
