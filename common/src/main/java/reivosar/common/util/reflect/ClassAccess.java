@@ -4,7 +4,7 @@ package reivosar.common.util.reflect;
  * The ClassObjectAccess interface provides methods to access the access scope
  * and staticness of a class object.
  */
-public interface ClassObjectAccess {
+public interface ClassAccess {
     
     /**
      * Returns the access scope of the class object.

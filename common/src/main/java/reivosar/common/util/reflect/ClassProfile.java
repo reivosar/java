@@ -3,7 +3,7 @@ package reivosar.common.util.reflect;
 /**
  * The ClassObjectProfile interface provides methods to obtain information about a class object.
  */
-public interface ClassObjectProfile {
+public interface ClassProfile {
     
     /**
      * Returns the class object that declares the class represented by this object.
