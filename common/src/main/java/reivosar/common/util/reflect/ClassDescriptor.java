@@ -1,45 +1,36 @@
 package reivosar.common.util.reflect;
 
-import org.apache.commons.lang3.ClassUtils;
+import reivosar.common.util.lang.ObjectUtil;
 import reivosar.common.util.model.Model;
 
-import java.lang.annotation.Annotation;
-import java.util.Collection;
-
-abstract class ClassDescriptor extends Model
-        implements ClassProfile, ClassAccess, ClassMetadata {
+public class ClassDescriptor extends Model {
     
-    @Override
-    public String getPackageName() {
-        return ClassUtils.getPackageCanonicalName(getDeclaringClass());
+    private final ClassProfile classProfile;
+    private final FieldDescriptors fieldDescriptors;
+    private final ConstructorDescriptors constructorDescriptors;
+    private final MethodDescriptors methodDescriptors;
+    
+    public ClassDescriptor(final Class<?> aClass) {
+        ObjectUtil.requireNonNull("aClass", aClass);
+        this.classProfile = new ClassProfile(aClass);
+        this.fieldDescriptors = new FieldDescriptors(aClass);
+        this.constructorDescriptors = new ConstructorDescriptors(aClass);
+        this.methodDescriptors = new MethodDescriptors(aClass);
     }
     
-    @Override
-    public String getClassName() {
-        return ClassUtils.getSimpleName(getDeclaringClass());
+    public ClassProfile classProfile() {
+        return classProfile;
     }
     
-    @Override
-    public final AccessScope getAccessScope() {
-        return AccessScope.of(getClassModifier());
+    public FieldDescriptors fieldDescriptors() {
+        return fieldDescriptors;
     }
     
-    @Override
-    public final boolean isStaticAccess() {
-        return getClassModifier().isStatic();
+    public ConstructorDescriptors constructorDescriptors() {
+        return constructorDescriptors;
     }
     
-    protected abstract ClassModifier getClassModifier();
-    
-    @Override
-    public final Collection<Annotation> getAnnotations() {
-        return getClassAccessibleObject().getAnnotations();
+    public MethodDescriptors methodDescriptors() {
+        return methodDescriptors;
     }
-    
-    @Override
-    public final boolean hasAnnotation(Annotation annotation){
-        return getClassAccessibleObject().hasAnnotation(annotation);
-    }
-    
-    protected abstract ClassAccessibleObject getClassAccessibleObject();
 }

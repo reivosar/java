@@ -1,22 +1,43 @@
 package reivosar.common.util.reflect;
 
+import reivosar.common.util.model.Model;
+
+import java.lang.annotation.Annotation;
 import java.lang.reflect.Member;
 
-abstract class ClassMemberDescriptor extends ClassDescriptor {
+abstract class ClassMemberDescriptor extends Model {
     
-    private final Member member;
+    private final MemberProfile memberProfile;
+    private final MemberAccessor memberAccessor;
+    private final MetadataAccessor metadataAccessor;
     
-    protected ClassMemberDescriptor(final Member member) {
-        this.member = member;
+    ClassMemberDescriptor() {
+        this.memberProfile = new MemberProfile(getMember());
+        this.memberAccessor = new MemberAccessor(getModifier());
+        this.metadataAccessor = new MetadataAccessor(getClassAccessibleObject());
     }
     
-    @Override
-    public Class<?> getDeclaringClass() {
-        return member.getDeclaringClass();
+    protected abstract Member getMember();
+    
+    boolean equalsByName(final String name) {
+        return this.memberProfile.equalsByName(name);
     }
     
-    @Override
-    protected ClassModifier getClassModifier() {
-        return new ClassModifier(this.member.getModifiers());
+    private ClassModifier getModifier() {
+        return new ClassModifier(getMember().getModifiers());
     }
+    
+    AccessScope accessScope() {
+        return this.memberAccessor.getAccessScope();
+    }
+    
+    boolean equalsByAccessScope(final AccessScope accessScope) {
+        return this.accessScope() == accessScope;
+    }
+    
+    boolean hasAnnotatedMetadata(final Annotation annotation) {
+        return this.metadataAccessor.hasAnnotatedMetadata(annotation);
+    }
+    
+    protected abstract ClassAccessibleObject getClassAccessibleObject();
 }

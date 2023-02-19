@@ -1,28 +1,21 @@
 package reivosar.common.util.reflect;
 
-/**
- * The ClassObjectProfile interface provides methods to obtain information about a class object.
- */
-public interface ClassProfile {
+import org.apache.commons.lang3.ClassUtils;
+import reivosar.common.util.model.Model;
+
+class ClassProfile extends Model {
     
-    /**
-     * Returns the class object that declares the class represented by this object.
-     *
-     * @return the declaring class object
-     */
-    Class<?> getDeclaringClass();
+    private final Class<?> declaringClass;
     
-    /**
-     * Returns the name of the package of the class represented by this object.
-     *
-     * @return the package name
-     */
-    String getPackageName();
+    ClassProfile(final Class<?> declaringClass) {
+        this.declaringClass = declaringClass;
+    }
     
-    /**
-     * Returns the name of the class represented by this object.
-     *
-     * @return the class name
-     */
-    String getClassName();
+    public String getPackageName() {
+        return ClassUtils.getPackageCanonicalName(declaringClass);
+    }
+    
+    public String getClassName() {
+        return ClassUtils.getSimpleName(declaringClass);
+    }
 }
