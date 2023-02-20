@@ -1,23 +1,48 @@
 package reivosar.common.util.reflect;
 
+import org.apache.commons.lang3.reflect.FieldUtils;
+
 import java.lang.reflect.Field;
-import java.lang.reflect.Member;
 
 class FieldDescriptor extends ClassMemberDescriptor {
     
     private final Field field;
     
     FieldDescriptor(final Field field) {
+        super(field.getName(), field.getModifiers(), field);
         this.field = field;
+        this.field.setAccessible(true);
     }
     
-    @Override
-    protected Member getMember() {
-        return field;
+    Object readField(final Object target, final String fieldName) {
+        try {
+            return FieldUtils.readField(field, target);
+        } catch (Exception e) {
+            throw new IllegalArgumentException(e);
+        }
     }
     
-    @Override
-    protected ClassAccessibleObject getClassAccessibleObject() {
-        return new ClassAccessibleObject(this.field);
+    Object readStaticField() {
+        try {
+            return FieldUtils.readStaticField(field);
+        } catch (Exception e) {
+            throw new IllegalArgumentException(e);
+        }
+    }
+    
+    void writeField(final Object target, final Object value) {
+        try {
+            FieldUtils.writeField(field, target, value);
+        } catch (Exception e) {
+            throw new IllegalArgumentException(e);
+        }
+    }
+    
+    void writeStaticField(final Object value) {
+        try {
+            FieldUtils.writeStaticField(field, value);
+        } catch (Exception e) {
+            throw new IllegalArgumentException(e);
+        }
     }
 }

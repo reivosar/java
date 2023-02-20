@@ -1,6 +1,5 @@
 package reivosar.common.util.reflect;
 
-import org.apache.commons.lang3.reflect.FieldUtils;
 import reivosar.common.util.lang.ObjectUtil;
 import reivosar.common.util.model.Model;
 
@@ -26,6 +25,10 @@ public class ClassDescriptor extends Model {
     
     public String getClassName() {
         return classProfile.getClassName();
+    }
+    
+    public AccessScope getAccessScope() {
+        return classProfile.getAccessScope();
     }
     
     public FieldDescriptors getFieldDescriptors() {

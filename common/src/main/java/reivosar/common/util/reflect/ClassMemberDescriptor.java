@@ -1,39 +1,40 @@
 package reivosar.common.util.reflect;
 
+import reivosar.common.util.lang.ObjectUtil;
 import reivosar.common.util.model.Model;
 
 import java.lang.annotation.Annotation;
-import java.lang.reflect.Member;
+import java.lang.reflect.AccessibleObject;
 
 abstract class ClassMemberDescriptor extends Model {
     
-    private final MemberProfile memberProfile;
-    private final MemberAccessor memberAccessor;
+    private final String name;
+    private final AccessScope accessScope;
     private final MetadataAccessor metadataAccessor;
     
-    ClassMemberDescriptor() {
-        this.memberProfile = new MemberProfile(getMember());
-        this.memberAccessor = new MemberAccessor(getMember());
-        this.metadataAccessor = new MetadataAccessor(getClassAccessibleObject());
+    protected ClassMemberDescriptor(
+            final String name,
+            final int modifier,
+            final AccessibleObject accessibleObject)
+    {
+        this.name = name;
+        this.accessScope = AccessScope.of(new ClassModifier(modifier));
+        this.metadataAccessor = new MetadataAccessor(new ClassAccessibleObject(accessibleObject));
     }
     
-    protected abstract Member getMember();
+    String getName() {
+        return name;
+    }
     
     boolean equalsByName(final String name) {
-        return this.memberProfile.equalsByName(name);
+        return this.getName().equals(ObjectUtil.requireNonNull("name", name));
     }
     
-    AccessScope accessScope() {
-        return this.memberAccessor.getAccessScope();
-    }
-    
-    boolean equalsByAccessScope(final AccessScope accessScope) {
-        return this.accessScope() == accessScope;
+    AccessScope getAccessScope() {
+        return accessScope;
     }
     
     boolean hasAnnotatedMetadata(final Annotation annotation) {
-        return this.metadataAccessor.hasAnnotatedMetadata(annotation);
+        return metadataAccessor.hasAnnotatedMetadata(annotation);
     }
-    
-    protected abstract ClassAccessibleObject getClassAccessibleObject();
 }

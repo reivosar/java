@@ -7,7 +7,7 @@ import java.util.Objects;
 /**
  * The ObjectUtil class provides utility methods for working with Java Objects.
  */
-public class ObjectUtil {
+public final class ObjectUtil {
     
     /**
      * Private constructor to prevent instantiation from outside the class.
@@ -76,7 +76,7 @@ public class ObjectUtil {
      * @param <T>           the type of the objects
      * @return the specified object if it is not null, or the default object if it is null
      */
-    public static <T> T getIfNull(final T object, final T defaultObject) {
+    public static <T> T defaultIfNull(final T object, final T defaultObject) {
         return ObjectUtils.defaultIfNull(object, defaultObject);
     }
 }

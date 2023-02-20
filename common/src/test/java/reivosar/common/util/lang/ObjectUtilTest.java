@@ -89,18 +89,18 @@ class ObjectUtilTest {
         @Test
         void shouldReturnSpecifiedObject() {
             Object obj = new Object();
-            assertSame(obj, ObjectUtil.getIfNull(obj, new Object()));
+            assertSame(obj, ObjectUtil.defaultIfNull(obj, new Object()));
         }
         
         @Test
         void shouldReturnDefaultObjectForNullObject() {
             Object obj = new Object();
-            assertSame(obj, ObjectUtil.getIfNull(null, obj));
+            assertSame(obj, ObjectUtil.defaultIfNull(null, obj));
         }
         
         @Test
         void shouldReturnDefaultObjectForNullDefaultObject() {
-            assertSame(null, ObjectUtil.getIfNull(null, null));
+            assertSame(null, ObjectUtil.defaultIfNull(null, null));
         }
     }
 }

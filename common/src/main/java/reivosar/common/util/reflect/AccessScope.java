@@ -35,7 +35,18 @@ public enum AccessScope {
         boolean isSatisfied(final ClassModifier modifier) {
             return modifier.isPrivate();
         }
-    };
+    },
+    
+    /**
+     * Package private scope access.
+     */
+    PACKAGE_PRIVATE() {
+        @Override
+        boolean isSatisfied(final ClassModifier modifier) {
+            return !modifier.isPublic() && !modifier.isProtected() && !modifier.isPrivate();
+        }
+    }
+    ;
     
     /**
      * Returns the AccessScope that corresponds to the given ClassModifier.

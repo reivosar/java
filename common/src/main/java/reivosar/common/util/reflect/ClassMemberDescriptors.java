@@ -16,6 +16,14 @@ abstract class ClassMemberDescriptors<T extends ClassMemberDescriptor> extends M
         this.tCollection = tCollection;
     }
     
+    int count() {
+        return tCollection.size();
+    }
+    
+    Collection<String> names() {
+        return tCollection.stream().map(ClassMemberDescriptor::getName).toList();
+    }
+    
     Collection<T> findByName(final String name) {
         return filter(t -> t.equalsByName(name));
     }

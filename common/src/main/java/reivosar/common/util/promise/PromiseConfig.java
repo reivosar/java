@@ -17,8 +17,8 @@ class PromiseConfig {
     }
     
     private PromiseConfig(final Integer multiple, final Long timeout) {
-        this.multiple = ObjectUtil.getIfNull(multiple, DEFAULT_MULTIPLE_NUMBER);
-        this.timeout = ObjectUtil.getIfNull(timeout, DEFAULT_TIMEOUT_SECOND);
+        this.multiple = ObjectUtil.defaultIfNull(multiple, DEFAULT_MULTIPLE_NUMBER);
+        this.timeout = ObjectUtil.defaultIfNull(timeout, DEFAULT_TIMEOUT_SECOND);
     }
     
     static PromiseConfig.Builder builder() {

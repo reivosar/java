@@ -9,7 +9,7 @@ import java.util.Objects;
 class FieldDescriptors extends ClassMemberDescriptors<FieldDescriptor> {
     
     FieldDescriptors(final Field[] fields) {
-        super(Arrays.stream(ObjectUtil.getIfNull(fields, new Field[0]))
+        super(Arrays.stream(ObjectUtil.defaultIfNull(fields, new Field[0]))
                 .filter(Objects::nonNull)
                 .map(FieldDescriptor::new)
                 .toList());
