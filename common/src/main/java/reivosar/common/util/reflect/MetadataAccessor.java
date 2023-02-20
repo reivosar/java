@@ -2,6 +2,7 @@ package reivosar.common.util.reflect;
 
 import java.lang.annotation.Annotation;
 import java.util.Collection;
+import java.util.Collections;
 
 class MetadataAccessor {
     
@@ -12,7 +13,9 @@ class MetadataAccessor {
     }
     
     Collection<Annotation> getAnnotatedMetadata() {
-        return accessibleObject.getAnnotations();
+        return (accessibleObject != null) ?
+                accessibleObject.getAnnotations() :
+                Collections.emptyList();
     }
     
     boolean hasAnnotatedMetadata(final Annotation annotation) {

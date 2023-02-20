@@ -13,7 +13,7 @@ abstract class ClassMemberDescriptor extends Model {
     
     ClassMemberDescriptor() {
         this.memberProfile = new MemberProfile(getMember());
-        this.memberAccessor = new MemberAccessor(getModifier());
+        this.memberAccessor = new MemberAccessor(getMember());
         this.metadataAccessor = new MetadataAccessor(getClassAccessibleObject());
     }
     
@@ -21,10 +21,6 @@ abstract class ClassMemberDescriptor extends Model {
     
     boolean equalsByName(final String name) {
         return this.memberProfile.equalsByName(name);
-    }
-    
-    private ClassModifier getModifier() {
-        return new ClassModifier(getMember().getModifiers());
     }
     
     AccessScope accessScope() {

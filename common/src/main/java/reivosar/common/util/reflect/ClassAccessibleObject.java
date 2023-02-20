@@ -12,7 +12,8 @@ class ClassAccessibleObject extends Model {
     private final Collection<Annotation> annotations;
     
     ClassAccessibleObject(final AccessibleObject accessibleObject) {
-        this.annotations = List.of(accessibleObject.getAnnotations());
+        this.annotations = (accessibleObject != null) ?
+                List.of(accessibleObject.getAnnotations()) : List.of();
     }
     
     Collection<Annotation> getAnnotations() {

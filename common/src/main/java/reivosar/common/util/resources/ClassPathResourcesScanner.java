@@ -5,10 +5,12 @@ import reivosar.common.util.cache.Cache;
 import reivosar.common.util.cache.CacheFactory;
 
 import java.io.IOException;
+import java.util.Set;
 
 final class ClassPathResourcesScanner {
     
     private static final Cache<FileExtension, ResourceFiles> SCANNED_RESOURCES;
+    private static final Set<String> EXCLUDE_FILE_EXTENSIONS = Set.of("class");
     
     static {
         try {
@@ -27,6 +29,9 @@ final class ClassPathResourcesScanner {
             final Cache<FileExtension, ResourceFiles> localCache,
             final ClassPath.ResourceInfo resourceInfo) {
         final FileExtension fileExtension = FileExtension.of(resourceInfo.getResourceName());
+        if (EXCLUDE_FILE_EXTENSIONS.contains(fileExtension.extension())) {
+            return;
+        }
         final ResourceFiles resourceFiles = localCache.get(fileExtension).orElse(new ResourceFiles());
         resourceFiles.add(resourceInfo.url());
         localCache.put(fileExtension, resourceFiles);
