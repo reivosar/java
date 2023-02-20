@@ -1,5 +1,6 @@
 package reivosar.common.util.reflect;
 
+import org.apache.commons.lang3.reflect.FieldUtils;
 import reivosar.common.util.lang.ObjectUtil;
 import reivosar.common.util.model.Model;
 
@@ -12,25 +13,30 @@ public class ClassDescriptor extends Model {
     
     public ClassDescriptor(final Class<?> aClass) {
         ObjectUtil.requireNonNull("aClass", aClass);
-        this.classProfile = new ClassProfile(aClass);
-        this.fieldDescriptors = new FieldDescriptors(aClass);
-        this.constructorDescriptors = new ConstructorDescriptors(aClass);
-        this.methodDescriptors = new MethodDescriptors(aClass);
+        final ClassDescriptorResolver resolver = new ClassDescriptorResolver(aClass);
+        this.classProfile = resolver.getClassProfile();
+        this.fieldDescriptors = resolver.getFieldDescriptors();
+        this.constructorDescriptors = resolver.getConstructorDescriptors();
+        this.methodDescriptors = resolver.getMethodDescriptors();
     }
     
-    public ClassProfile classProfile() {
-        return classProfile;
+    public String getPackageName() {
+        return classProfile.getPackageName();
     }
     
-    public FieldDescriptors fieldDescriptors() {
+    public String getClassName() {
+        return classProfile.getClassName();
+    }
+    
+    public FieldDescriptors getFieldDescriptors() {
         return fieldDescriptors;
     }
     
-    public ConstructorDescriptors constructorDescriptors() {
+    public ConstructorDescriptors getConstructorDescriptors() {
         return constructorDescriptors;
     }
     
-    public MethodDescriptors methodDescriptors() {
+    public MethodDescriptors getMethodDescriptors() {
         return methodDescriptors;
     }
 }

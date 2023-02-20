@@ -1,12 +1,14 @@
 package reivosar.common.util.reflect;
 
+import reivosar.common.util.model.Model;
+
 import java.lang.annotation.Annotation;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.function.Predicate;
 
-abstract class ClassMemberDescriptors<T extends ClassMemberDescriptor> {
+abstract class ClassMemberDescriptors<T extends ClassMemberDescriptor> extends Model {
     
     private final Collection<T> tCollection;
     
