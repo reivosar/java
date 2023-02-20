@@ -38,12 +38,22 @@ public class ClassDescriptors extends Model {
     }
     
     /**
+     * Finds the {@code ClassDescriptor} for the given {@code Class}.
+     *
+     * @param clazz the {@code Class} to look up
+     * @return the {@code ClassDescriptor} for the given {@code Class}, or {@code null} if it is not found
+     */
+    public static ClassDescriptor of(final Class<?> clazz) {
+        return of(clazz.getName());
+    }
+    
+    /**
      * Finds a cached class descriptor by its fully qualified class path.
      *
      * @param classPath the fully qualified class path of the class to find
      * @return the class descriptor if found, or null if not found
      */
-    public static ClassDescriptor findByClassPath(final String classPath) {
+    public static ClassDescriptor of(final String classPath) {
         return CACHE.get(classPath).nullableValue();
     }
 }
