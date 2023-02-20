@@ -2,6 +2,7 @@ package reivosar.common.util.lang;
 
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
+import reivosar.common.util.model.Model;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -101,6 +102,58 @@ class ObjectUtilTest {
         @Test
         void shouldReturnDefaultObjectForNullDefaultObject() {
             assertSame(null, ObjectUtil.defaultIfNull(null, null));
+        }
+    }
+    
+    
+    @Nested
+    class CloneTest {
+        
+        @Test
+        public void shouldThrowExceptionWhenCloningNullObject() {
+            assertThrows(NullPointerException.class, () -> ObjectUtil.clone(null));
+        }
+        
+        @Test
+        public void shouldCloneNonPrimitiveObject() {
+            // prepare
+            Person original = new Person("Alice", 25);
+            
+            // execute
+            Person clone = ObjectUtil.clone(original);
+            
+            // verify
+            assertSame(original, clone);
+            assertEquals(original.getName(), clone.getName());
+            assertEquals(original.getAge(), clone.getAge());
+        }
+        
+        @Test
+        public void shouldReturnSamePrimitiveObject() {
+            int value = 10;
+            
+            // execute
+            int result = ObjectUtil.clone(value);
+            // verify
+            assertSame(value, result);
+        }
+        
+        static class Person {
+            private final String name;
+            private final int age;
+            
+            public Person(String name, int age) {
+                this.name = name;
+                this.age = age;
+            }
+            
+            public String getName() {
+                return name;
+            }
+            
+            public int getAge() {
+                return age;
+            }
         }
     }
 }

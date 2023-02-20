@@ -54,11 +54,11 @@ public final class ObjectUtil {
      * Checks that the specified object is not null and not empty. If the object is null or empty,
      * an exception is thrown with the specified name and error message.
      *
-     * @param name the name of the object being checked, used in the error message if the object is null
+     * @param name   the name of the object being checked, used in the error message if the object is null
      * @param object the object to check for null or empty
-     * @param <T> the type of the object being checked
+     * @param <T>    the type of the object being checked
      * @return the non-null, non-empty object
-     * @throws NullPointerException if the object is null
+     * @throws NullPointerException     if the object is null
      * @throws IllegalArgumentException if the object is empty
      */
     public static <T> T requireNonNullAndEmpty(final String name, final T object) {
@@ -78,5 +78,22 @@ public final class ObjectUtil {
      */
     public static <T> T defaultIfNull(final T object, final T defaultObject) {
         return ObjectUtils.defaultIfNull(object, defaultObject);
+    }
+    
+    /**
+     * Clones the given object using the {@link ObjectUtils#cloneIfPossible(Object)} method.
+     * <p>
+     * This method creates and returns a new object that is a copy of the input object. The input object must implement the
+     * {@link Cloneable} interface and override the {@code clone} method. If the input object is {@code null} or does not
+     * implement {@code Cloneable}, an {@link IllegalArgumentException} is thrown.
+     *
+     * @param object the object to be cloned
+     * @param <T>    the type of the object being cloned
+     * @return a new object that is a copy of the input object
+     * @throws IllegalArgumentException if the input object is null or does not implement the Cloneable interface
+     * @see ObjectUtils#clone(Object)
+     */
+    public static <T> T clone(final T object) {
+        return ObjectUtils.cloneIfPossible(requireNonNull("object", object));
     }
 }
