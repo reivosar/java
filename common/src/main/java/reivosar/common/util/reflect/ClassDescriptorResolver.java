@@ -1,8 +1,5 @@
 package reivosar.common.util.reflect;
 
-import org.apache.commons.lang3.ClassUtils;
-import org.apache.commons.lang3.reflect.FieldUtils;
-
 class ClassDescriptorResolver {
     
     private final Class<?> aClass;
