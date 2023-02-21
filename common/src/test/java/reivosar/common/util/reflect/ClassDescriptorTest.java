@@ -4,6 +4,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
+import java.util.Arrays;
 import java.util.Collection;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -61,21 +62,19 @@ class ClassDescriptorTest {
     @Nested
     class GetFieldNamesTests {
         
-        private ClassDescriptor classDescriptor;
-        
-        @BeforeEach
-        void setUp() {
-            classDescriptor = new ClassDescriptor(ClassDescriptorTest.class);
-        }
-        
         @Test
         void shouldReturnEmptyCollectionWhenNoFieldsExist() {
+            ClassDescriptor classDescriptor = new ClassDescriptor(NoFieldClass.class);
             assertTrue(classDescriptor.getFieldNames().isEmpty());
+        }
+        
+        private class NoFieldClass {
+        
         }
         
         @Test
         void shouldReturnFieldNamesWhenFieldsExist() {
-            classDescriptor = new ClassDescriptor(ClassProfile.class);
+            ClassDescriptor classDescriptor = new ClassDescriptor(ClassProfile.class);
             Collection<String> fieldNames = classDescriptor.getFieldNames();
             assertFalse(fieldNames.isEmpty());
             assertTrue(fieldNames.contains("declaringClass"));

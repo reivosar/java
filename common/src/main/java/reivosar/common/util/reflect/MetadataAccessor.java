@@ -1,5 +1,7 @@
 package reivosar.common.util.reflect;
 
+import org.apache.commons.lang3.AnnotationUtils;
+
 import java.lang.annotation.Annotation;
 import java.util.Collection;
 import java.util.Collections;
@@ -18,7 +20,9 @@ class MetadataAccessor {
                 Collections.emptyList();
     }
     
-    boolean hasAnnotatedMetadata(final Annotation annotation) {
-        return getAnnotatedMetadata().contains(annotation);
+    boolean hasAnnotatedMetadata(final Class<? extends Annotation> annotationClass) {
+        return getAnnotatedMetadata().stream().anyMatch(cachedAnnotation ->
+                cachedAnnotation.annotationType().equals(annotationClass)
+        );
     }
 }

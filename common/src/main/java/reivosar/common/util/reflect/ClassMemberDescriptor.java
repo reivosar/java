@@ -34,7 +34,7 @@ abstract class ClassMemberDescriptor extends Model {
         return accessScope;
     }
     
-    boolean hasAnnotatedMetadata(final Annotation annotation) {
-        return metadataAccessor.hasAnnotatedMetadata(annotation);
+    boolean hasAnnotatedMetadata(final Class<? extends Annotation> annotationClass) {
+        return metadataAccessor.hasAnnotatedMetadata(annotationClass);
     }
 }

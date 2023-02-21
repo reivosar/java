@@ -24,6 +24,15 @@ public class ClassModifier extends Model {
     }
     
     /**
+     * Instantiates a new ClassModifier object with the specified {@code Class}.
+     *
+     * @param aClass the {@code Class} to look up
+     */
+    public ClassModifier(final Class<?> aClass) {
+        this(aClass.getModifiers());
+    }
+    
+    /**
      * Checks whether the class is declared as public.
      *
      * @return true if the class is declared as public, false otherwise.

@@ -3,7 +3,7 @@ package reivosar.common.util.reflect;
 import reivosar.common.util.model.Model;
 
 import java.lang.annotation.Annotation;
-import java.lang.reflect.AccessibleObject;
+import java.lang.reflect.AnnotatedElement;
 import java.util.Collection;
 import java.util.List;
 
@@ -11,9 +11,9 @@ class ClassAccessibleObject extends Model {
     
     private final Collection<Annotation> annotations;
     
-    ClassAccessibleObject(final AccessibleObject accessibleObject) {
-        this.annotations = (accessibleObject != null) ?
-                List.of(accessibleObject.getAnnotations()) : List.of();
+    ClassAccessibleObject(final AnnotatedElement annotatedElement) {
+        this.annotations = (annotatedElement != null) ?
+                List.of(annotatedElement.getAnnotations()) : List.of();
     }
     
     Collection<Annotation> getAnnotations() {

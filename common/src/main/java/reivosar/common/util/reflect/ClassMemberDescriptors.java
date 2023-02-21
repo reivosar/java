@@ -28,8 +28,8 @@ abstract class ClassMemberDescriptors<T extends ClassMemberDescriptor> extends M
         return filter(t -> t.equalsByName(name));
     }
     
-    Collection<T> findByAnnotation(final Annotation annotation) {
-        return filter(t -> t.hasAnnotatedMetadata(annotation));
+    Collection<T> findByAnnotation(final Class<? extends Annotation> annotationClass) {
+        return filter(t -> t.hasAnnotatedMetadata(annotationClass));
     }
     
     private List<T> filter(final Predicate<T> predicate) {
