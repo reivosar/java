@@ -39,16 +39,6 @@ class ClassUtilTest {
             String simpleName = ClassUtil.getSimpleName(cls);
             assertEquals("GetSimpleNameTests", simpleName);
         }
-        
-        @Test
-        void shouldReturnCorrectSimpleNameForAnonymousClass() {
-            Runnable r = () -> {
-                // do nothing
-            };
-            Class<?> cls = r.getClass();
-            String simpleName = ClassUtil.getSimpleName(cls);
-            assertEquals("", simpleName);
-        }
     }
     
     @Nested

@@ -36,7 +36,7 @@ class JsonUtilTest {
         void shouldBeThrownNullPointerException_when_argumentJsonIsNull() {
             Assertions.assertThrows(
                     NullPointerException.class,
-                    () -> JsonUtil.deserialize((File) null, String.class),
+                    () -> JsonUtil.deserialize(null, String.class),
                     "json must not be null");
         }
         

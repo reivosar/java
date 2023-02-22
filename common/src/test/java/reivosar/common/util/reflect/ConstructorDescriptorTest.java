@@ -79,7 +79,7 @@ class ConstructorDescriptorTest {
             @BeforeEach
             void setUp() throws Exception {
                 Class<?> clazz = Class.forName(TwoConstructorClass.class.getName());
-                Constructor<?> constructor = clazz.getDeclaredConstructor(new Class[]{String.class, int.class});
+                Constructor<?> constructor = clazz.getDeclaredConstructor(String.class, int.class);
                 constructorDescriptor = new ConstructorDescriptor(constructor);
             }
     
