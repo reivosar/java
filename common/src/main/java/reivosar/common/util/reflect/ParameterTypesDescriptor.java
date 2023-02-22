@@ -1,7 +1,7 @@
 package reivosar.common.util.reflect;
 
-import org.apache.commons.collections4.CollectionUtils;
-import org.apache.commons.lang3.ClassUtils;
+import reivosar.common.util.collection.CollectionUtil;
+import reivosar.common.util.lang.ClassUtil;
 import reivosar.common.util.model.Model;
 
 import java.util.Arrays;
@@ -21,12 +21,12 @@ class ParameterTypesDescriptor extends Model {
     }
     
     boolean isEqualParameterType(final ParameterTypesDescriptor descriptor) {
-        return CollectionUtils.isEqualCollection(getParameterTypes(), descriptor.getParameterTypes());
+        return CollectionUtil.isEqualCollection(getParameterTypes(), descriptor.getParameterTypes());
     }
     
     Collection<Class<?>> getParameterTypes() {
         return Arrays.stream(this.parameterTypes)
-                .map(ClassUtils::primitiveToWrapper)
+                .map(ClassUtil::primitiveToWrapper)
                 .collect(Collectors.toList());
     }
 }

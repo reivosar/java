@@ -1,11 +1,8 @@
 package reivosar.common.util.lang;
 
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
-
-import java.util.Arrays;
 
 class ArrayUtilTest {
     
