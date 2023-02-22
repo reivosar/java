@@ -6,8 +6,6 @@ import org.junit.jupiter.api.Test;
 
 import java.lang.reflect.Constructor;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 class ConstructorDescriptorsTest {
     
     @Nested
@@ -18,7 +16,7 @@ class ConstructorDescriptorsTest {
             // given
             Constructor<?>[] nullArray = null;
             // when
-            ConstructorDescriptors descriptors = new ConstructorDescriptors(nullArray);
+            ConstructorMetadataDescriptors descriptors = new ConstructorMetadataDescriptors(nullArray);
             // then
             Assertions.assertTrue(descriptors.descriptors().isEmpty());
         }
@@ -28,7 +26,7 @@ class ConstructorDescriptorsTest {
             // given
             Constructor<?>[] emptyArray = new Constructor[0];
             // when
-            ConstructorDescriptors descriptors = new ConstructorDescriptors(emptyArray);
+            ConstructorMetadataDescriptors descriptors = new ConstructorMetadataDescriptors(emptyArray);
             // then
             Assertions.assertTrue(descriptors.descriptors().isEmpty());
         }
@@ -38,7 +36,7 @@ class ConstructorDescriptorsTest {
             // given
             Constructor<?>[] Constructors = DefaultConstructorClass.class.getDeclaredConstructors();
             // when
-            ConstructorDescriptors descriptors = new ConstructorDescriptors(Constructors);
+            ConstructorMetadataDescriptors descriptors = new ConstructorMetadataDescriptors(Constructors);
             // then
             Assertions.assertEquals(1, descriptors.descriptors().size());
         }
@@ -48,7 +46,7 @@ class ConstructorDescriptorsTest {
             // given
             Constructor<?>[] Constructors = TwoConstructorClass.class.getDeclaredConstructors();
             // when
-            ConstructorDescriptors descriptors = new ConstructorDescriptors(Constructors);
+            ConstructorMetadataDescriptors descriptors = new ConstructorMetadataDescriptors(Constructors);
             // then
             Assertions.assertEquals(2, descriptors.descriptors().size());
         }

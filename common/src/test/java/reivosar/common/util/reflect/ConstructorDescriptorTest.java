@@ -106,7 +106,6 @@ class ConstructorDescriptorTest {
                     this.age = age;
                 }
             }
-    
         }
     }
     

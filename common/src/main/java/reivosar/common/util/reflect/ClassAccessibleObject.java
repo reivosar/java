@@ -20,7 +20,8 @@ class ClassAccessibleObject extends Model {
         return annotations;
     }
     
-    boolean hasAnnotation(Annotation annotation) {
-        return annotations.contains(annotation);
+    boolean hasAnnotation(final Class<? extends Annotation> annotationClass) {
+        return annotations.stream()
+                .anyMatch(annotation -> annotation.annotationType().equals(annotationClass));
     }
 }

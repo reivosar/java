@@ -16,7 +16,7 @@ class MethodDescriptorsTest {
             // given
             Method[] nullArray = null;
             // when
-            MethodDescriptors descriptors = new MethodDescriptors(nullArray);
+            MethodMetadataDescriptors descriptors = new MethodMetadataDescriptors(nullArray);
             // then
             Assertions.assertTrue(descriptors.descriptors().isEmpty());
         }
@@ -26,7 +26,7 @@ class MethodDescriptorsTest {
             // given
             Method[] emptyArray = new Method[0];
             // when
-            MethodDescriptors descriptors = new MethodDescriptors(emptyArray);
+            MethodMetadataDescriptors descriptors = new MethodMetadataDescriptors(emptyArray);
             // then
             Assertions.assertTrue(descriptors.descriptors().isEmpty());
         }
@@ -36,7 +36,7 @@ class MethodDescriptorsTest {
             // given
             Method[] methods = getClass().getDeclaredMethods();
             // when
-            MethodDescriptors descriptors = new MethodDescriptors(getClass().getDeclaredMethods());
+            MethodMetadataDescriptors descriptors = new MethodMetadataDescriptors(getClass().getDeclaredMethods());
             // then
             Assertions.assertEquals(3, descriptors.descriptors().size());
         }

@@ -12,9 +12,9 @@ import java.util.Collection;
 public class ClassDescriptor extends Model {
     
     private final ClassProfile classProfile;
-    private final FieldDescriptors fieldDescriptors;
-    private final ConstructorDescriptors constructorDescriptors;
-    private final MethodDescriptors methodDescriptors;
+    private final FieldMetadataDescriptors fieldDescriptors;
+    private final ConstructorMetadataDescriptors constructorDescriptors;
+    private final MethodMetadataDescriptors methodDescriptors;
     
     /**
      * Constructs a new {@code ClassDescriptor} object for the specified class.

@@ -18,7 +18,7 @@ class FieldDescriptorsTest {
             // given
             Field[] nullArray = null;
             // when
-            FieldDescriptors descriptors = new FieldDescriptors(nullArray);
+            FieldMetadataDescriptors descriptors = new FieldMetadataDescriptors(nullArray);
             // then
             Assertions.assertTrue(descriptors.descriptors().isEmpty());
         }
@@ -28,7 +28,7 @@ class FieldDescriptorsTest {
             // given
             Field[] emptyArray = new Field[0];
             // when
-            FieldDescriptors descriptors = new FieldDescriptors(emptyArray);
+            FieldMetadataDescriptors descriptors = new FieldMetadataDescriptors(emptyArray);
             // then
             Assertions.assertTrue(descriptors.descriptors().isEmpty());
         }
@@ -38,7 +38,7 @@ class FieldDescriptorsTest {
             // given
             Field[] fields = TestClass.class.getDeclaredFields();
             // when
-            FieldDescriptors descriptors = new FieldDescriptors(fields);
+            FieldMetadataDescriptors descriptors = new FieldMetadataDescriptors(fields);
             // then
             assertTrue(descriptors.descriptors().size() > 0);
             assertTrue(descriptors.names().contains("name"));
