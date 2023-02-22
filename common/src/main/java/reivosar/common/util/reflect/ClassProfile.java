@@ -1,6 +1,6 @@
 package reivosar.common.util.reflect;
 
-import org.apache.commons.lang3.ClassUtils;
+import reivosar.common.util.lang.ClassUtil;
 import reivosar.common.util.lang.StringUtil;
 import reivosar.common.util.model.Model;
 
@@ -24,11 +24,11 @@ class ClassProfile extends Model {
     }
     
     String getPackageName() {
-        return StringUtil.defaultIfNullOrEmpty(ClassUtils.getPackageName(getDeclaringClass()), getDeclaringClass().getPackageName());
+        return StringUtil.defaultIfNullOrEmpty(ClassUtil.getPackageName(getDeclaringClass()), getDeclaringClass().getPackageName());
     }
     
     String getClassName() {
-        return StringUtil.defaultIfNullOrEmpty(ClassUtils.getSimpleName(getDeclaringClass()), getDeclaringClass().getSimpleName());
+        return StringUtil.defaultIfNullOrEmpty(ClassUtil.getSimpleName(getDeclaringClass()), getDeclaringClass().getSimpleName());
     }
     
     AccessScope getAccessScope() {

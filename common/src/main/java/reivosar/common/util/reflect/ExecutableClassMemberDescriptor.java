@@ -1,6 +1,6 @@
 package reivosar.common.util.reflect;
 
-import org.apache.commons.lang3.ClassUtils;
+import reivosar.common.util.lang.ClassUtil;
 
 import java.lang.reflect.AnnotatedElement;
 import java.lang.reflect.Executable;
@@ -18,7 +18,7 @@ abstract class ExecutableClassMemberDescriptor<T extends Executable & Member & A
     }
     
     boolean isMatchParameters(final Object... parameters) {
-        final ParameterTypesDescriptor parameterTypes = new ParameterTypesDescriptor(ClassUtils.toClass(parameters));
+        final ParameterTypesDescriptor parameterTypes = new ParameterTypesDescriptor(ClassUtil.toClass(parameters));
         return parameterTypes.isEqualParameterType(parameterTypesDescriptor);
     }
     

@@ -94,7 +94,7 @@ class FieldDescriptorTest {
             final FieldDescriptor fieldDescriptor = new FieldDescriptor(Example.class.getDeclaredField("publicField"));
             
             // when
-            final Object fieldValue = fieldDescriptor.readField(example, "publicField");
+            final Object fieldValue = fieldDescriptor.readField(example);
             
             // then
             assertEquals(example.publicField, fieldValue);

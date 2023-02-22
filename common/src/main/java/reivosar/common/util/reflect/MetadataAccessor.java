@@ -4,7 +4,6 @@ import reivosar.common.util.lang.ObjectUtil;
 
 import java.lang.annotation.Annotation;
 import java.util.Collection;
-import java.util.Collections;
 
 class MetadataAccessor {
     
