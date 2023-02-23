@@ -12,7 +12,11 @@ class ClassDescriptorResolver {
         return new ClassProfile(aClass);
     }
     
-    FieldMetadataDescriptors getFieldDescriptors() {
+    ClassMember getClassMember() {
+        return new ClassMember(getFieldDescriptors(), getConstructorDescriptors(), getMethodDescriptors());
+    }
+    
+    private FieldMetadataDescriptors getFieldDescriptors() {
         try {
             return new FieldMetadataDescriptors(aClass.getDeclaredFields());
         } catch (Throwable e) {
@@ -20,7 +24,7 @@ class ClassDescriptorResolver {
         }
     }
     
-    ConstructorMetadataDescriptors getConstructorDescriptors() {
+    private ConstructorMetadataDescriptors getConstructorDescriptors() {
         try {
             return new ConstructorMetadataDescriptors(aClass.getDeclaredConstructors());
         } catch (Throwable e) {
@@ -28,7 +32,7 @@ class ClassDescriptorResolver {
         }
     }
     
-    MethodMetadataDescriptors getMethodDescriptors() {
+    private MethodMetadataDescriptors getMethodDescriptors() {
         try {
             return new MethodMetadataDescriptors(aClass.getDeclaredMethods());
         } catch (Throwable e) {

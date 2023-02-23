@@ -12,9 +12,7 @@ import java.util.Collection;
 public class ClassDescriptor extends Model {
     
     private final ClassProfile classProfile;
-    private final FieldMetadataDescriptors fieldDescriptors;
-    private final ConstructorMetadataDescriptors constructorDescriptors;
-    private final MethodMetadataDescriptors methodDescriptors;
+    private final ClassMember classMember;
     
     /**
      * Constructs a new {@code ClassDescriptor} object for the specified class.
@@ -26,9 +24,7 @@ public class ClassDescriptor extends Model {
         ObjectUtil.requireNonNull("aClass", aClass);
         final ClassDescriptorResolver resolver = new ClassDescriptorResolver(aClass);
         this.classProfile = resolver.getClassProfile();
-        this.fieldDescriptors = resolver.getFieldDescriptors();
-        this.constructorDescriptors = resolver.getConstructorDescriptors();
-        this.methodDescriptors = resolver.getMethodDescriptors();
+        this.classMember = resolver.getClassMember();
     }
     
     /**
@@ -64,7 +60,7 @@ public class ClassDescriptor extends Model {
      * @return a collection of field names
      */
     public Collection<String> getFieldNames() {
-        return fieldDescriptors.names();
+        return classMember.getFieldNames();
     }
     
     /**
@@ -73,7 +69,7 @@ public class ClassDescriptor extends Model {
      * @return a collection of constructor names
      */
     public Collection<String> getConstructorNames() {
-        return constructorDescriptors.names();
+        return classMember.getConstructorNames();
     }
     
     /**
@@ -82,6 +78,6 @@ public class ClassDescriptor extends Model {
      * @return a collection of method names
      */
     public Collection<String> getMethodNames() {
-        return methodDescriptors.names();
+        return classMember.getMethodNames();
     }
 }
