@@ -23,8 +23,8 @@ public class ClassDescriptor extends Model {
     public ClassDescriptor(final Class<?> aClass) {
         ObjectUtil.requireNonNull("aClass", aClass);
         final ClassDescriptorResolver resolver = new ClassDescriptorResolver(aClass);
-        this.classProfile = resolver.getClassProfile();
-        this.classMember = resolver.getClassMember();
+        this.classProfile = resolver.resolverClassProfile();
+        this.classMember = resolver.resolverClassMember();
     }
     
     /**

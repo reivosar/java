@@ -8,11 +8,11 @@ class ClassDescriptorResolver {
         this.aClass = aClass;
     }
     
-    ClassProfile getClassProfile() {
+    ClassProfile resolverClassProfile() {
         return new ClassProfile(aClass);
     }
     
-    ClassMember getClassMember() {
+    ClassMember resolverClassMember() {
         return new ClassMember(getFieldDescriptors(), getConstructorDescriptors(), getMethodDescriptors());
     }
     
