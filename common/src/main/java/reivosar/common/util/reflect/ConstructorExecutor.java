@@ -1,10 +1,9 @@
 package reivosar.common.util.reflect;
 
-import org.apache.commons.lang3.ArrayUtils;
+import reivosar.common.util.lang.ConstructorUtil;
 
 import java.lang.reflect.Constructor;
 
-@SuppressWarnings("unchecked")
 class ConstructorExecutor {
     
     private final Constructor<?> constructor;
@@ -15,10 +14,6 @@ class ConstructorExecutor {
     }
     
     <T> T newInstance(final Object... parameters) {
-        try {
-            return (T) this.constructor.newInstance(ArrayUtils.nullToEmpty(parameters));
-        } catch (Exception e) {
-            throw new IllegalStateException();
-        }
+        return ConstructorUtil.newInstance(constructor, parameters);
     }
 }

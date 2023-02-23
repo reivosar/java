@@ -1,9 +1,10 @@
 package reivosar.common.util.lang;
 
-import org.apache.commons.lang3.ArrayUtils;
-
 import java.lang.reflect.Constructor;
 
+/**
+ * The ConstructorUtil class provides utility methods for working with constructors.
+ */
 public class ConstructorUtil {
     
     /**
@@ -13,11 +14,19 @@ public class ConstructorUtil {
         // This constructor must be private
     }
     
+    /**
+     * Creates a new instance of the class represented by the specified constructor, using the specified parameters.
+     *
+     * @param constructor the constructor object
+     * @param parameters  the parameters to be passed to the constructor
+     * @return a new instance of the class represented by the constructor
+     * @throws IllegalStateException if an error occurs while creating the new instance
+     */
     @SuppressWarnings("unchecked")
     public static <T> T newInstance(final Constructor<?> constructor, final Object... parameters) {
         ObjectUtil.requireNonNull("constructor", constructor);
         try {
-            return (T) constructor.newInstance(ArrayUtils.nullToEmpty(parameters));
+            return (T) constructor.newInstance(ArrayUtil.nullToEmpty(parameters));
         } catch (Exception e) {
             throw new IllegalStateException();
         }
