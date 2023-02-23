@@ -15,11 +15,11 @@ abstract class ClassMemberMetadataDescriptor<T extends Member & AnnotatedElement
         this.metadataAccessor = new MetadataAccessor(new ClassAccessibleObject(member));
     }
     
-    Collection<Annotation> getAnnotatedMetadata() {
+    public Collection<Annotation> getAnnotatedMetadata() {
         return metadataAccessor.getAnnotatedMetadata();
     }
     
-    boolean hasAnnotatedMetadata(final Class<? extends Annotation> annotationClass) {
+    public boolean hasAnnotatedMetadata(final Class<? extends Annotation> annotationClass) {
         return metadataAccessor.hasAnnotatedMetadata(annotationClass);
     }
 }

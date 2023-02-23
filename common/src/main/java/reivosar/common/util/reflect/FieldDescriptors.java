@@ -5,9 +5,9 @@ import reivosar.common.util.lang.ObjectUtil;
 import java.lang.reflect.Field;
 import java.util.Arrays;
 
-class FieldMetadataDescriptors extends ClassMemberMetadataDescriptors<FieldDescriptor> {
+class FieldDescriptors extends ClassMemberMetadataDescriptors<FieldDescriptor> {
     
-    FieldMetadataDescriptors(final Field[] fields) {
+    FieldDescriptors(final Field[] fields) {
         super(Arrays.stream(ObjectUtil.defaultIfNull(fields, new Field[]{}))
                 .filter(ObjectUtil::isNotEmpty)
                 .map(FieldDescriptor::new)

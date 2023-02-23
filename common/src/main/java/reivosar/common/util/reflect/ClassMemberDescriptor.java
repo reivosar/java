@@ -12,19 +12,19 @@ abstract class ClassMemberDescriptor extends Model {
         this.classMemberAccessor = new ClassMemberAccessor(member);
     }
     
-    String getName() {
+    public String getName() {
         return classMemberAccessor.getName();
     }
     
-    boolean equalsByName(final String name) {
+    public boolean equalsByName(final String name) {
         return classMemberAccessor.equalsByName(name);
     }
     
-    AccessScope getAccessScope() {
+    public AccessScope getAccessScope() {
         return classMemberAccessor.getAccessScope();
     }
     
-    boolean equalsByAccessScope(final AccessScope accessScope) {
+    public boolean equalsByAccessScope(final AccessScope accessScope) {
         return classMemberAccessor.equalsByAccessScope(accessScope);
     }
 }

@@ -12,7 +12,7 @@ class ClassMemberMetadataDescriptors<T extends ClassMemberMetadataDescriptor<?>>
         this.metadataAccessor = new ClassMemberMetadataCollectionAccessor<>(tCollection);
     }
     
-    Collection<T> filterByAnnotation(final Class<? extends Annotation> annotationClass) {
-        return metadataAccessor.filterByAnnotation(annotationClass);
+    Collection<T> filter(final Class<? extends Annotation> annotationClass) {
+        return metadataAccessor.filter(annotationClass);
     }
 }

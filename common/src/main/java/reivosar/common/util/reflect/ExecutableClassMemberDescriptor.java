@@ -12,16 +12,16 @@ abstract class ExecutableClassMemberDescriptor extends ClassMemberMetadataDescri
         this.parameterTypesDescriptor = new ParameterTypesDescriptor(executableMember.getParameterTypes());
     }
     
-    boolean isMatchParameters(final Object... parameters) {
+    public boolean isMatchParameters(final Object... parameters) {
         final ParameterTypesDescriptor parameterTypes = new ParameterTypesDescriptor(parameters);
         return parameterTypes.isEqualParameterType(parameterTypesDescriptor);
     }
     
-    int getParameterCount() {
+    public int getParameterCount() {
         return parameterTypesDescriptor.getParameterCount();
     }
     
-    Collection<Class<?>> getParameterTypes() {
+    public Collection<Class<?>> getParameterTypes() {
         return parameterTypesDescriptor.getParameterTypes();
     }
 }

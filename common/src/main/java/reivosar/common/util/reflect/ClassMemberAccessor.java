@@ -1,10 +1,11 @@
 package reivosar.common.util.reflect;
 
 import reivosar.common.util.lang.ObjectUtil;
+import reivosar.common.util.model.Model;
 
 import java.lang.reflect.Member;
 
-class ClassMemberAccessor {
+class ClassMemberAccessor extends Model {
     
     private final String name;
     private final AccessScope accessScope;

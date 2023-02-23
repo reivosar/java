@@ -10,8 +10,8 @@ class ClassMemberDescriptors<T extends ClassMemberDescriptor> {
         this.classMemberCollectionAccessor = new ClassMemberCollectionAccessor<>(tCollection);
     }
     
-    Collection<T> filterByName(final String name) {
-        return classMemberCollectionAccessor.filterByName(name);
+    Collection<T> filter(final String name) {
+        return classMemberCollectionAccessor.filter(name);
     }
     
     int getMemberCount() {

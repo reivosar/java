@@ -1,10 +1,11 @@
 package reivosar.common.util.reflect;
 
 import reivosar.common.util.lang.FieldUtil;
+import reivosar.common.util.model.Model;
 
 import java.lang.reflect.Field;
 
-class FieldAccessor {
+class FieldAccessor extends Model {
     
     private final Field field;
     

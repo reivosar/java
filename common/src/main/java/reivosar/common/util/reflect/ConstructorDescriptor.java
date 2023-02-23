@@ -11,7 +11,7 @@ class ConstructorDescriptor extends ExecutableClassMemberDescriptor {
         this.constructorExecutor = new ConstructorExecutor(constructor);
     }
     
-    <T> T newInstance(final Object... parameters) {
+    public <T> T newInstance(final Object... parameters) {
         return constructorExecutor.newInstance(parameters);
     }
 }

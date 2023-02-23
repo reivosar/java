@@ -5,9 +5,9 @@ import reivosar.common.util.lang.ObjectUtil;
 import java.lang.reflect.Constructor;
 import java.util.Arrays;
 
-class ConstructorMetadataDescriptors extends ClassMemberMetadataDescriptors<ConstructorDescriptor> {
+class ConstructorDescriptors extends ExecutableClassMemberDescriptors<ConstructorDescriptor> {
     
-    ConstructorMetadataDescriptors(final Constructor<?>[] constructors) {
+    ConstructorDescriptors(final Constructor<?>[] constructors) {
         super(Arrays.stream(ObjectUtil.defaultIfNull(constructors, new Constructor[]{}))
                 .filter(ObjectUtil::isNotEmpty)
                 .map(ConstructorDescriptor::new)

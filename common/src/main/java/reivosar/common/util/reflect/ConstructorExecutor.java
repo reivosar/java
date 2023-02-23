@@ -1,10 +1,11 @@
 package reivosar.common.util.reflect;
 
 import reivosar.common.util.lang.ConstructorUtil;
+import reivosar.common.util.model.Model;
 
 import java.lang.reflect.Constructor;
 
-class ConstructorExecutor {
+class ConstructorExecutor extends Model {
     
     private final Constructor<?> constructor;
     

@@ -1,11 +1,12 @@
 package reivosar.common.util.reflect;
 
 import reivosar.common.util.lang.ObjectUtil;
+import reivosar.common.util.model.Model;
 
 import java.lang.annotation.Annotation;
 import java.util.Collection;
 
-class MetadataAccessor {
+class MetadataAccessor extends Model {
     
     private final ClassAccessibleObject accessibleObject;
     

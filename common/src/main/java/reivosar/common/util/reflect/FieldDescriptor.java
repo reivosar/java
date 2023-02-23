@@ -11,19 +11,19 @@ class FieldDescriptor extends ClassMemberMetadataDescriptor<Field> {
         this.fieldAccessor = new FieldAccessor(field);
     }
     
-    Object readField(final Object target) {
+    public Object readField(final Object target) {
         return fieldAccessor.readField(target);
     }
     
-    Object readStaticField() {
+    public Object readStaticField() {
         return fieldAccessor.readStaticField();
     }
     
-    void writeField(final Object target, final Object value) {
+    public void writeField(final Object target, final Object value) {
         fieldAccessor.writeField(target, value);
     }
     
-    void writeStaticField(final Object value) {
+    public void writeStaticField(final Object value) {
         fieldAccessor.writeStaticField(value);
     }
 }

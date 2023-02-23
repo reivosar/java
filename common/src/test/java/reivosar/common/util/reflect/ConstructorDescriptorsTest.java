@@ -16,7 +16,7 @@ class ConstructorDescriptorsTest {
             // given
             Constructor<?>[] nullArray = null;
             // when
-            ConstructorMetadataDescriptors descriptors = new ConstructorMetadataDescriptors(nullArray);
+            ConstructorDescriptors descriptors = new ConstructorDescriptors(nullArray);
             // then
             Assertions.assertTrue(descriptors.getDescriptors().isEmpty());
         }
@@ -26,7 +26,7 @@ class ConstructorDescriptorsTest {
             // given
             Constructor<?>[] emptyArray = new Constructor[0];
             // when
-            ConstructorMetadataDescriptors descriptors = new ConstructorMetadataDescriptors(emptyArray);
+            ConstructorDescriptors descriptors = new ConstructorDescriptors(emptyArray);
             // then
             Assertions.assertTrue(descriptors.getDescriptors().isEmpty());
         }
@@ -36,7 +36,7 @@ class ConstructorDescriptorsTest {
             // given
             Constructor<?>[] Constructors = DefaultConstructorClass.class.getDeclaredConstructors();
             // when
-            ConstructorMetadataDescriptors descriptors = new ConstructorMetadataDescriptors(Constructors);
+            ConstructorDescriptors descriptors = new ConstructorDescriptors(Constructors);
             // then
             Assertions.assertEquals(1, descriptors.getDescriptors().size());
         }
@@ -46,7 +46,7 @@ class ConstructorDescriptorsTest {
             // given
             Constructor<?>[] Constructors = TwoConstructorClass.class.getDeclaredConstructors();
             // when
-            ConstructorMetadataDescriptors descriptors = new ConstructorMetadataDescriptors(Constructors);
+            ConstructorDescriptors descriptors = new ConstructorDescriptors(Constructors);
             // then
             Assertions.assertEquals(2, descriptors.getDescriptors().size());
         }

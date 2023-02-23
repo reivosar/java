@@ -13,33 +13,33 @@ class ClassDescriptorResolver {
     }
     
     ClassMember resolverClassMember() {
-        final FieldMetadataDescriptors fieldDescriptors = getFieldDescriptors();
-        final ConstructorMetadataDescriptors constructorDescriptors = getConstructorDescriptors();
-        final MethodMetadataDescriptors methodDescriptors = getMethodDescriptors();
+        final FieldDescriptors fieldDescriptors = getFieldDescriptors();
+        final ConstructorDescriptors constructorDescriptors = getConstructorDescriptors();
+        final MethodDescriptors methodDescriptors = getMethodDescriptors();
         return new ClassMember(fieldDescriptors, constructorDescriptors, methodDescriptors);
     }
     
-    private FieldMetadataDescriptors getFieldDescriptors() {
+    private FieldDescriptors getFieldDescriptors() {
         try {
-            return new FieldMetadataDescriptors(aClass.getDeclaredFields());
+            return new FieldDescriptors(aClass.getDeclaredFields());
         } catch (Throwable e) {
-            return new FieldMetadataDescriptors(null);
+            return new FieldDescriptors(null);
         }
     }
     
-    private ConstructorMetadataDescriptors getConstructorDescriptors() {
+    private ConstructorDescriptors getConstructorDescriptors() {
         try {
-            return new ConstructorMetadataDescriptors(aClass.getDeclaredConstructors());
+            return new ConstructorDescriptors(aClass.getDeclaredConstructors());
         } catch (Throwable e) {
-            return new ConstructorMetadataDescriptors(null);
+            return new ConstructorDescriptors(null);
         }
     }
     
-    private MethodMetadataDescriptors getMethodDescriptors() {
+    private MethodDescriptors getMethodDescriptors() {
         try {
-            return new MethodMetadataDescriptors(aClass.getDeclaredMethods());
+            return new MethodDescriptors(aClass.getDeclaredMethods());
         } catch (Throwable e) {
-            return new MethodMetadataDescriptors(null);
+            return new MethodDescriptors(null);
         }
     }
 }

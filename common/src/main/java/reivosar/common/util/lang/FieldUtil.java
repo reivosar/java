@@ -3,6 +3,7 @@ package reivosar.common.util.lang;
 import org.apache.commons.lang3.reflect.FieldUtils;
 
 import java.lang.reflect.Field;
+import java.util.Collection;
 
 /**
  * A utility class that provides methods for accessing and modifying field values.
@@ -14,6 +15,40 @@ public final class FieldUtil {
      */
     private FieldUtil() {
         // This constructor must be private
+    }
+    
+    /**
+     * Returns all fields declared in the given class and its superclasses.
+     *
+     * @param clazz the class to get the fields from
+     * @return a collection of all fields declared in the given class and its superclasses
+     * @see FieldUtils#getAllFieldsList(Class)
+     */
+    public static Collection<Field> getAllFields(final Class<?> clazz) {
+        return FieldUtils.getAllFieldsList(clazz);
+    }
+    
+    /**
+     * Returns all fields declared in the given class and its superclasses as an array.
+     *
+     * @param clazz the class to get the fields from
+     * @return an array of all fields declared in the given class and its superclasses
+     * @see FieldUtils#getAllFieldsList(Class)
+     */
+    public static Field[] getAllFieldArray(final Class<?> clazz) {
+        return getAllFields(clazz).toArray(new Field[0]);
+    }
+    
+    /**
+     * Returns the field with the given name declared in the given class or one of its superclasses.
+     *
+     * @param clazz     the class to get the field from
+     * @param fieldName the name of the field to get
+     * @return the field with the given name declared in the given class or one of its superclasses, or null if not found
+     * @see FieldUtils#getDeclaredField(Class, String, boolean)
+     */
+    public static Field getDeclaredField(final Class<?> clazz, final String fieldName) {
+        return FieldUtils.getDeclaredField(clazz, fieldName, true);
     }
     
     /**

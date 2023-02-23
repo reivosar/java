@@ -1,14 +1,110 @@
 package reivosar.common.util.lang;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.function.Executable;
 
 import java.lang.reflect.Field;
+import java.util.Collection;
+import java.util.List;
+import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class FieldUtilTest {
+    
+    @Nested
+    class GetAllFieldsTests {
+        
+        private Class<MyClass> testClassClass;
+        
+        @BeforeEach
+        void setUp() {
+            testClassClass = MyClass.class;
+        }
+        
+        @Test
+        void shouldReturnAllFieldsInClass() {
+            Collection<Field> fields = FieldUtil.getAllFields(testClassClass);
+            assertEquals(9, fields.size());
+        }
+        
+        @Test
+        void shouldReturnEmptyCollectionForInterface() {
+            Collection<Field> fields = FieldUtil.getAllFields(Set.class);
+            assertTrue(fields.isEmpty());
+        }
+        
+    }
+    
+    @Nested
+    class GetAllFieldArrayTests {
+        
+        private Class<MyClass> testClassClass;
+        
+        @BeforeEach
+        void setUp() {
+            testClassClass = MyClass.class;
+        }
+        
+        @Test
+        void shouldReturnAllFieldsInClassAsArray() {
+            Field[] fields = FieldUtil.getAllFieldArray(testClassClass);
+            assertEquals(9, fields.length);
+        }
+        
+        @Test
+        void shouldReturnEmptyArrayForInterface() {
+            Field[] fields = FieldUtil.getAllFieldArray(Set.class);
+            assertEquals(0, fields.length);
+        }
+    }
+    
+    @Nested
+    class GetDeclaredFieldTests {
+        
+        private Class<MyClass> testClassClass;
+        
+        @BeforeEach
+        void setUp() {
+            testClassClass = MyClass.class;
+        }
+        
+        @Test
+        void shouldReturnFieldInClass() {
+            Field field = FieldUtil.getDeclaredField(testClassClass, "publicField");
+            assertNotNull(field);
+            assertEquals("publicField", field.getName());
+        }
+        
+        @Test
+        void shouldReturnNullForNonExistingField() {
+            Field field = FieldUtil.getDeclaredField(testClassClass, "nonExistingField");
+            assertNull(field);
+        }
+        
+        @Test
+        void shouldReturnNullForFieldInSuperclass() {
+            Field field = FieldUtil.getDeclaredField(testClassClass, "superclassField");
+            assertNull(field);
+        }
+        
+        @Test
+        void shouldReturnPrivateFieldInSuperclass() {
+            Field field = FieldUtil.getDeclaredField(testClassClass, "privateField");
+            assertNotNull(field);
+            assertEquals("privateField", field.getName());
+        }
+        
+        @Test
+        void shouldReturnPrivateFieldInClass() {
+            Field field = FieldUtil.getDeclaredField(testClassClass, "privateClassField");
+            assertNotNull(field);
+            assertEquals("privateClassField", field.getName());
+        }
+        
+    }
     
     @Nested
     class ReadFieldTests {
@@ -151,8 +247,18 @@ class FieldUtilTest {
         }
     }
     
-    private static class MyClass {
+    private static class Superclass {
+        private String superclassField;
+    }
+    
+    private static class MyClass extends Superclass {
         private int myField;
         private static int myStaticField;
+    
+        public int publicField;
+        protected String protectedField;
+        private boolean privateField;
+        private static List<String> privateClassField;
+    
     }
 }

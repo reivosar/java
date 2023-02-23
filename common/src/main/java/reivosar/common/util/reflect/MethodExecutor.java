@@ -1,10 +1,11 @@
 package reivosar.common.util.reflect;
 
 import reivosar.common.util.lang.MethodUtil;
+import reivosar.common.util.model.Model;
 
 import java.lang.reflect.Method;
 
-class MethodExecutor {
+class MethodExecutor extends Model {
     
     private final Method method;
     

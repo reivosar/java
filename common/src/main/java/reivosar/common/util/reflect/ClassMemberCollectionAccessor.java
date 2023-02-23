@@ -1,10 +1,12 @@
 package reivosar.common.util.reflect;
 
+import reivosar.common.util.model.Model;
+
 import java.util.Collection;
 import java.util.List;
 import java.util.function.Predicate;
 
-class ClassMemberCollectionAccessor<T extends ClassMemberDescriptor> {
+class ClassMemberCollectionAccessor<T extends ClassMemberDescriptor> extends Model {
     
     private final Collection<T> tCollection;
     
@@ -12,7 +14,7 @@ class ClassMemberCollectionAccessor<T extends ClassMemberDescriptor> {
         this.tCollection = tCollection;
     }
     
-    Collection<T> filterByName(final String name) {
+    Collection<T> filter(final String name) {
         return filter(t -> t.equalsByName(name));
     }
     
