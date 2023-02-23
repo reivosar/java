@@ -18,23 +18,23 @@ class FieldUtilTest {
         }
         
         @Test
-        void shouldThrowIllegalStateExceptionIfFieldIsNull() {
+        void shouldThrowNullPointerExceptionIfFieldIsNull() {
             // given
             Field field = null;
             Object target = new Object();
             
             // when, then
-            assertThrows(IllegalStateException.class, () -> FieldUtil.readField(field, target));
+            assertThrows(NullPointerException.class, () -> FieldUtil.readField(field, target));
         }
         
         @Test
-        void shouldThrowIllegalStateExceptionIfTargetIsNull() throws NoSuchFieldException {
+        void shouldThrowNullPointerExceptionIfTargetIsNull() throws NoSuchFieldException {
             // given
             Field field = TestClass.class.getDeclaredField("message");
             Object target = null;
             
             // when, then
-            assertThrows(IllegalStateException.class, () -> FieldUtil.readField(field, target));
+            assertThrows(NullPointerException.class, () -> FieldUtil.readField(field, target));
         }
         
         @Test
@@ -56,12 +56,12 @@ class FieldUtilTest {
     class ReadStaticFieldTests {
         
         @Test
-        void shouldThrowIllegalStateExceptionIfFieldIsNull() {
+        void shouldThrowNullPointerExceptionIfFieldIsNull() {
             // given
             Field field = null;
             
             // when, then
-            assertThrows(IllegalStateException.class, () -> FieldUtil.readStaticField(field));
+            assertThrows(NullPointerException.class, () -> FieldUtil.readStaticField(field));
         }
         
         @Test
@@ -95,7 +95,7 @@ class FieldUtilTest {
         }
         
         @Test
-        void shouldThrowIllegalStateExceptionIfObjectIsNull() throws NoSuchFieldException {
+        void shouldThrowNullPointerExceptionIfObjectIsNull() throws NoSuchFieldException {
             // given
             Field field = MyClass.class.getDeclaredField("myField");
             int value = 42;
@@ -104,11 +104,11 @@ class FieldUtilTest {
             Executable action = () -> FieldUtil.writeField(field, null, value);
             
             // then
-            assertThrows(IllegalStateException.class, action);
+            assertThrows(NullPointerException.class, action);
         }
         
         @Test
-        void shouldThrowIllegalStateExceptionIfFieldCannotBeAccessed() {
+        void shouldThrowNullPointerExceptionIfFieldCannotBeAccessed() {
             // given
             Field field = null;
             int value = 42;
@@ -117,7 +117,7 @@ class FieldUtilTest {
             Executable action = () -> FieldUtil.writeField(field, new MyClass(), value);
             
             // then
-            assertThrows(IllegalStateException.class, action);
+            assertThrows(NullPointerException.class, action);
         }
     }
     
@@ -138,7 +138,7 @@ class FieldUtilTest {
         }
         
         @Test
-        void shouldThrowIllegalStateExceptionIfFieldCannotBeAccessed() {
+        void shouldThrowNullPointerExceptionIfFieldCannotBeAccessed() {
             // given
             Field field = null;
             int value = 42;
@@ -147,7 +147,7 @@ class FieldUtilTest {
             Executable action = () -> FieldUtil.writeStaticField(field, value);
             
             // then
-            assertThrows(IllegalStateException.class, action);
+            assertThrows(NullPointerException.class, action);
         }
     }
     

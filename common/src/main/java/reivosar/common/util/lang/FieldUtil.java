@@ -25,6 +25,8 @@ public final class FieldUtil {
      * @throws IllegalStateException if the field cannot be accessed or the target object is {@code null}
      */
     public static Object readField(final Field field, final Object target) {
+        ObjectUtil.requireNonNull("field", field);
+        ObjectUtil.requireNonNull("target", target);
         try {
             return FieldUtils.readField(field, target);
         } catch (Exception e) {
@@ -40,6 +42,7 @@ public final class FieldUtil {
      * @throws IllegalStateException if the field cannot be accessed
      */
     public static Object readStaticField(final Field field) {
+        ObjectUtil.requireNonNull("target", field);
         try {
             return FieldUtils.readStaticField(field);
         } catch (Exception e) {
@@ -56,6 +59,8 @@ public final class FieldUtil {
      * @throws IllegalStateException if the field cannot be accessed or the target object is {@code null}
      */
     public static void writeField(final Field field, final Object target, final Object value) {
+        ObjectUtil.requireNonNull("field", field);
+        ObjectUtil.requireNonNull("target", target);
         try {
             FieldUtils.writeField(field, target, value);
         } catch (Exception e) {
@@ -71,6 +76,7 @@ public final class FieldUtil {
      * @throws IllegalStateException if the field cannot be accessed
      */
     public static void writeStaticField(final Field field, final Object value) {
+        ObjectUtil.requireNonNull("field", field);
         try {
             FieldUtils.writeStaticField(field, value);
         } catch (Exception e) {

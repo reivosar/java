@@ -12,6 +12,10 @@ class ParameterTypesDescriptor extends Model {
     
     private final Class<?>[] parameterTypes;
     
+    ParameterTypesDescriptor(final Object... parameters) {
+        this(ClassUtil.toClass(parameters));
+    }
+    
     ParameterTypesDescriptor(final Class<?>[] parameterTypes) {
         this.parameterTypes = parameterTypes;
     }
@@ -21,7 +25,7 @@ class ParameterTypesDescriptor extends Model {
     }
     
     boolean isEqualParameterType(final ParameterTypesDescriptor descriptor) {
-        return CollectionUtil.isEqualCollection(getParameterTypes(), descriptor.getParameterTypes());
+        return CollectionUtil.isSameOrderCollection(getParameterTypes(), descriptor.getParameterTypes());
     }
     
     Collection<Class<?>> getParameterTypes() {

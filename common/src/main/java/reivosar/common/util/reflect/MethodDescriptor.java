@@ -2,20 +2,20 @@ package reivosar.common.util.reflect;
 
 import java.lang.reflect.Method;
 
-class MethodDescriptor extends ExecutableClassMemberDescriptor<Method> {
+class MethodDescriptor extends ExecutableClassMemberDescriptor {
     
-    private final MethodInvoker methodInvoker;
+    private final MethodExecutor methodExecutor;
     
     MethodDescriptor(final Method method) {
         super(method);
-        this.methodInvoker = new MethodInvoker(method);
+        this.methodExecutor = new MethodExecutor(method);
     }
     
-    Object invokeMethod(final Object target, final Object... parameters) {
-        return methodInvoker.invokeMethod(target, parameters);
+    Object executeMethod(final Object target, final Object... parameters) {
+        return methodExecutor.invokeMethod(target, parameters);
     }
     
-    Object invokeStaticMethod(final Object... parameters) {
-        return methodInvoker.invokeStaticMethod(parameters);
+    Object executeStaticMethod(final Object... parameters) {
+        return methodExecutor.invokeStaticMethod(parameters);
     }
 }

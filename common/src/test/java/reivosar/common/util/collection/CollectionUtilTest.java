@@ -3,6 +3,7 @@ package reivosar.common.util.collection;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -74,6 +75,56 @@ class CollectionUtilTest {
                 // then
                 assertFalse(result);
             }
+        }
+    }
+    
+    @Nested
+    class TestIsSameOrderCollection {
+    
+        @Test
+        void shouldReturnTrueWhenArgumentsAreNull() {
+            assertTrue(CollectionUtil.isSameOrderCollection(null, null));
+        }
+    
+        @Test
+        void shouldReturnFalseWhenOneArgumentIsNull() {
+            assertFalse(CollectionUtil.isSameOrderCollection(Collections.emptyList(), null));
+            assertFalse(CollectionUtil.isSameOrderCollection(null, Collections.emptyList()));
+        }
+    
+        @Test
+        void shouldReturnFalseWhenTheNumberOfElementsIsDifferent() {
+            List<String> list1 = Arrays.asList("a", "b", "c");
+            List<String> list2 = Arrays.asList("a", "b");
+            assertFalse(CollectionUtil.isSameOrderCollection(list1, list2));
+        }
+    
+        @Test
+        void shouldReturnTrueWhenTheElementsAreContainedInTheSameOrder() {
+            List<String> list1 = Arrays.asList("a", "b", "c");
+            List<String> list2 = new ArrayList<>(list1);
+            assertTrue(CollectionUtil.isSameOrderCollection(list1, list2));
+        }
+    
+        @Test
+        void shouldReturnFalseWhenTheElementsAreContainedInDifferentOrder() {
+            List<String> list1 = Arrays.asList("a", "b", "c");
+            List<String> list2 = Arrays.asList("c", "a", "b");
+            assertFalse(CollectionUtil.isSameOrderCollection(list1, list2));
+        }
+    
+        @Test
+        void shouldReturnFalseWhenTheTypesOfElementsAreDifferent() {
+            List<Object> list1 = Arrays.asList("a", 1, true);
+            List<Object> list2 = Arrays.asList("a", 1, false);
+            assertFalse(CollectionUtil.isSameOrderCollection(list1, list2));
+        }
+    
+        @Test
+        void shouldReturnFalseWhenTheValuesOfElementsAreDifferent() {
+            List<String> list1 = Arrays.asList("a", "b", "c");
+            List<String> list2 = Arrays.asList("a", "d", "c");
+            assertFalse(CollectionUtil.isSameOrderCollection(list1, list2));
         }
     }
 }

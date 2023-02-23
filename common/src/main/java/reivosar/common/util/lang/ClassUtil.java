@@ -21,7 +21,7 @@ public final class ClassUtil {
      * @return the package name of the given {@code Class} object
      */
     public static String getPackageName(final Class<?> cls) {
-        return ClassUtils.getPackageName(cls);
+        return ClassUtils.getPackageName(ObjectUtil.requireNonNull("cls", cls));
     }
     
     /**
@@ -31,7 +31,7 @@ public final class ClassUtil {
      * @return the simple name of the given {@code Class} object
      */
     public static String getSimpleName(final Class<?> cls) {
-        return ClassUtils.getSimpleName(cls);
+        return ClassUtils.getSimpleName(ObjectUtil.requireNonNull("cls", cls));
     }
     
     /**

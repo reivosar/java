@@ -18,7 +18,7 @@ public class MethodDescriptorTest {
             Method method = getMethod("sum", int.class, int.class);
             MethodDescriptor descriptor = new MethodDescriptor(method);
             
-            int result = (int) descriptor.invokeMethod(new Calculator(), 2, 3);
+            int result = (int) descriptor.executeMethod(new Calculator(), 2, 3);
             
             assertEquals(5, result);
         }
@@ -28,7 +28,7 @@ public class MethodDescriptorTest {
             Method method = getMethod("sum", int.class, int.class);
             MethodDescriptor descriptor = new MethodDescriptor(method);
             
-            assertThrows(IllegalArgumentException.class, () -> descriptor.invokeMethod(null, 2, 3));
+            assertThrows(NullPointerException.class, () -> descriptor.executeMethod(null, 2, 3));
         }
         
         @Test
@@ -36,7 +36,7 @@ public class MethodDescriptorTest {
             Method method = getMethod("sum", int.class, int.class);
             MethodDescriptor descriptor = new MethodDescriptor(method);
             
-            assertThrows(IllegalArgumentException.class, () -> descriptor.invokeMethod(new Calculator(), 2, "3"));
+            assertThrows(IllegalStateException.class, () -> descriptor.executeMethod(new Calculator(), 2, "3"));
         }
         
         private Method getMethod(String name, Class<?>... parameterTypes) {
@@ -56,7 +56,7 @@ public class MethodDescriptorTest {
             Method method = getMethod("subtract", int.class, int.class);
             MethodDescriptor descriptor = new MethodDescriptor(method);
             
-            int result = (int) descriptor.invokeStaticMethod(5, 2);
+            int result = (int) descriptor.executeStaticMethod(5, 2);
             
             assertEquals(3, result);
         }
@@ -66,7 +66,7 @@ public class MethodDescriptorTest {
             Method method = getMethod("subtract", int.class, int.class);
             MethodDescriptor descriptor = new MethodDescriptor(method);
             
-            assertThrows(IllegalArgumentException.class, () -> descriptor.invokeStaticMethod(5, "2"));
+            assertThrows(IllegalStateException.class, () -> descriptor.executeStaticMethod(5, "2"));
         }
         
         private Method getMethod(String name, Class<?>... parameterTypes) {

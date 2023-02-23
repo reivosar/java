@@ -2,16 +2,16 @@ package reivosar.common.util.reflect;
 
 import java.lang.reflect.Constructor;
 
-class ConstructorDescriptor extends ExecutableClassMemberDescriptor<Constructor<?>> {
+class ConstructorDescriptor extends ExecutableClassMemberDescriptor {
     
-    private final ConstructorInvoker constructorInvoker;
+    private final ConstructorExecutor constructorExecutor;
     
     ConstructorDescriptor(final Constructor<?> constructor) {
         super(constructor);
-        this.constructorInvoker = new ConstructorInvoker(constructor);
+        this.constructorExecutor = new ConstructorExecutor(constructor);
     }
     
     <T> T newInstance(final Object... parameters) {
-        return constructorInvoker.newInstance(parameters);
+        return constructorExecutor.newInstance(parameters);
     }
 }

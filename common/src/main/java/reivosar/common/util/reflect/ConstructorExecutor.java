@@ -5,11 +5,11 @@ import org.apache.commons.lang3.ArrayUtils;
 import java.lang.reflect.Constructor;
 
 @SuppressWarnings("unchecked")
-class ConstructorInvoker {
+class ConstructorExecutor {
     
     private final Constructor<?> constructor;
     
-    ConstructorInvoker(final Constructor<?> constructor) {
+    ConstructorExecutor(final Constructor<?> constructor) {
         this.constructor = constructor;
         this.constructor.setAccessible(true);
     }
