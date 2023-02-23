@@ -13,12 +13,10 @@ class ExecutableClassMemberDescriptors<T extends ExecutableClassMemberDescriptor
     }
     
     Collection<T> filter(final String name, final Object... parameters) {
-        final ExecutableClassMemberDescriptors<T> descriptors = new ExecutableClassMemberDescriptors<>(filter(name));
-        return descriptors.collectionAccessor.filter(parameters);
+        return this.collectionAccessor.filter(name, parameters);
     }
     
     Collection<T> filter(final Class<? extends Annotation> annotationClass, final Object... parameters) {
-        final ExecutableClassMemberDescriptors<T> descriptors = new ExecutableClassMemberDescriptors<>(filter(annotationClass));
-        return descriptors.collectionAccessor.filter(parameters);
+        return this.collectionAccessor.filter(annotationClass, parameters);
     }
 }

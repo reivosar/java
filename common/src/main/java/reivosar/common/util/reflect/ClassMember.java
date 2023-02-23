@@ -40,6 +40,10 @@ class ClassMember extends Model {
         return constructorDescriptors.getMemberNames();
     }
     
+    Collection<String> getConstructorDetails() {
+        return constructorDescriptors.getMemberDetails();
+    }
+    
     Collection<ConstructorDescriptor> getConstructorDescriptors() {
         return constructorDescriptors.getDescriptors();
     }

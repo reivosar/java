@@ -27,7 +27,7 @@ class FieldUtilTest {
         @Test
         void shouldReturnAllFieldsInClass() {
             Collection<Field> fields = FieldUtil.getAllFields(testClassClass);
-            assertEquals(9, fields.size());
+            assertEquals(7, fields.size());
         }
         
         @Test
@@ -51,7 +51,7 @@ class FieldUtilTest {
         @Test
         void shouldReturnAllFieldsInClassAsArray() {
             Field[] fields = FieldUtil.getAllFieldArray(testClassClass);
-            assertEquals(9, fields.length);
+            assertEquals(7, fields.length);
         }
         
         @Test

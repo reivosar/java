@@ -25,4 +25,8 @@ class ClassMemberDescriptors<T extends ClassMemberDescriptor> {
     Collection<String> getMemberNames() {
         return classMemberCollectionAccessor.getMemberNames();
     }
+    
+    Collection<String> getMemberDetails() {
+        return classMemberCollectionAccessor.getMemberDetails();
+    }
 }

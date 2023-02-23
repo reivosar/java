@@ -3,7 +3,6 @@ package reivosar.common.util.reflect;
 import reivosar.common.util.model.Model;
 
 import java.util.Collection;
-import java.util.List;
 import java.util.function.Predicate;
 
 class ClassMemberCollectionAccessor<T extends ClassMemberDescriptor> extends Model {
@@ -15,11 +14,11 @@ class ClassMemberCollectionAccessor<T extends ClassMemberDescriptor> extends Mod
     }
     
     Collection<T> filter(final String name) {
-        return filter(t -> t.equalsByName(name));
+        return filter(getDescriptors(), t -> t.equalsByName(name));
     }
     
-    protected List<T> filter(final Predicate<T> predicate) {
-        return tCollection.stream()
+    protected Collection<T> filter(final Collection<T> collection, final Predicate<T> predicate) {
+        return collection.stream()
                 .filter(predicate)
                 .toList();
     }
@@ -35,6 +34,12 @@ class ClassMemberCollectionAccessor<T extends ClassMemberDescriptor> extends Mod
     Collection<String> getMemberNames() {
         return tCollection.stream()
                 .map(ClassMemberDescriptor::getName)
+                .toList();
+    }
+    
+    Collection<String> getMemberDetails() {
+        return tCollection.stream()
+                .map(ClassMemberDescriptor::getDetail)
                 .toList();
     }
 }

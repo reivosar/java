@@ -10,6 +10,6 @@ class ClassMemberMetadataCollectionAccessor<T extends ClassMemberMetadataDescrip
     }
     
     Collection<T> filter(final Class<? extends Annotation> annotationClass) {
-        return filter(t -> t.hasAnnotatedMetadata(annotationClass));
+        return filter(getDescriptors(), t -> t.hasAnnotatedMetadata(annotationClass));
     }
 }

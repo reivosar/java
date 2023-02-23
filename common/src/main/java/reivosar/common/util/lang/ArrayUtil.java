@@ -14,6 +14,14 @@ public final class ArrayUtil {
         // This constructor must be private
     }
     
+    public static boolean isEmpty(final Object... array) {
+        return array == null || array.length == 0;
+    }
+    
+    public static boolean isNotEmpty(final Object... array) {
+        return !isEmpty(array);
+    }
+    
     /**
      * Replaces a {@code null} array with an empty array, or returns the non-{@code null} array as is.
      *
