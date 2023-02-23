@@ -19,15 +19,15 @@ class ClassMember extends Model {
         this.methodDescriptors = methodDescriptors;
     }
     
-    public Collection<String> getFieldNames() {
-        return fieldDescriptors.names();
+    Collection<String> getFieldNames() {
+        return fieldDescriptors.getMemberNames();
     }
     
-    public Collection<String> getConstructorNames() {
-        return constructorDescriptors.names();
+    Collection<String> getConstructorNames() {
+        return constructorDescriptors.getMemberNames();
     }
     
-    public Collection<String> getMethodNames() {
-        return methodDescriptors.names();
+    Collection<String> getMethodNames() {
+        return methodDescriptors.getMemberNames();
     }
 }

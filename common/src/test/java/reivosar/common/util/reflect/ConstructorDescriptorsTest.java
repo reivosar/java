@@ -18,7 +18,7 @@ class ConstructorDescriptorsTest {
             // when
             ConstructorMetadataDescriptors descriptors = new ConstructorMetadataDescriptors(nullArray);
             // then
-            Assertions.assertTrue(descriptors.descriptors().isEmpty());
+            Assertions.assertTrue(descriptors.getDescriptors().isEmpty());
         }
         
         @Test
@@ -28,7 +28,7 @@ class ConstructorDescriptorsTest {
             // when
             ConstructorMetadataDescriptors descriptors = new ConstructorMetadataDescriptors(emptyArray);
             // then
-            Assertions.assertTrue(descriptors.descriptors().isEmpty());
+            Assertions.assertTrue(descriptors.getDescriptors().isEmpty());
         }
         
         @Test
@@ -38,7 +38,7 @@ class ConstructorDescriptorsTest {
             // when
             ConstructorMetadataDescriptors descriptors = new ConstructorMetadataDescriptors(Constructors);
             // then
-            Assertions.assertEquals(1, descriptors.descriptors().size());
+            Assertions.assertEquals(1, descriptors.getDescriptors().size());
         }
         
         @Test
@@ -48,7 +48,7 @@ class ConstructorDescriptorsTest {
             // when
             ConstructorMetadataDescriptors descriptors = new ConstructorMetadataDescriptors(Constructors);
             // then
-            Assertions.assertEquals(2, descriptors.descriptors().size());
+            Assertions.assertEquals(2, descriptors.getDescriptors().size());
         }
     
         private class DefaultConstructorClass {

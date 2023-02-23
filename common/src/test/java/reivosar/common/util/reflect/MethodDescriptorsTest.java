@@ -18,7 +18,7 @@ class MethodDescriptorsTest {
             // when
             MethodMetadataDescriptors descriptors = new MethodMetadataDescriptors(nullArray);
             // then
-            Assertions.assertTrue(descriptors.descriptors().isEmpty());
+            Assertions.assertTrue(descriptors.getDescriptors().isEmpty());
         }
         
         @Test
@@ -28,7 +28,7 @@ class MethodDescriptorsTest {
             // when
             MethodMetadataDescriptors descriptors = new MethodMetadataDescriptors(emptyArray);
             // then
-            Assertions.assertTrue(descriptors.descriptors().isEmpty());
+            Assertions.assertTrue(descriptors.getDescriptors().isEmpty());
         }
         
         @Test
@@ -38,7 +38,7 @@ class MethodDescriptorsTest {
             // when
             MethodMetadataDescriptors descriptors = new MethodMetadataDescriptors(getClass().getDeclaredMethods());
             // then
-            Assertions.assertEquals(3, descriptors.descriptors().size());
+            Assertions.assertEquals(3, descriptors.getDescriptors().size());
         }
     }
 }

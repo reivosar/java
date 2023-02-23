@@ -1,32 +1,15 @@
 package reivosar.common.util.reflect;
 
-import reivosar.common.util.model.Model;
-
 import java.lang.annotation.Annotation;
 import java.util.Collection;
 
-abstract class ClassMemberMetadataDescriptors<T extends ClassMemberMetadataDescriptor<?>> extends Model {
+class ClassMemberMetadataDescriptors<T extends ClassMemberMetadataDescriptor<?>> extends ClassMemberDescriptors<T> {
     
-    private final ClassMemberMetadataAccessor<T> metadataAccessor;
+    private final ClassMemberMetadataCollectionAccessor<T> metadataAccessor;
     
-    ClassMemberMetadataDescriptors(final Collection<T> tCollection) {
-        this.metadataAccessor = new ClassMemberMetadataAccessor<>(tCollection);
-    }
-    
-    int count() {
-        return metadataAccessor.count();
-    }
-    
-    Collection<String> names() {
-        return metadataAccessor.names();
-    }
-    
-    Collection<T> descriptors() {
-        return metadataAccessor.descriptors();
-    }
-    
-    Collection<T> filterByName(final String name) {
-        return metadataAccessor.filterByName(name);
+    protected ClassMemberMetadataDescriptors(final Collection<T> tCollection) {
+        super(tCollection);
+        this.metadataAccessor = new ClassMemberMetadataCollectionAccessor<>(tCollection);
     }
     
     Collection<T> filterByAnnotation(final Class<? extends Annotation> annotationClass) {

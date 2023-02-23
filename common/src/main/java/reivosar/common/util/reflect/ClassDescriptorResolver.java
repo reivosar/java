@@ -13,7 +13,10 @@ class ClassDescriptorResolver {
     }
     
     ClassMember resolverClassMember() {
-        return new ClassMember(getFieldDescriptors(), getConstructorDescriptors(), getMethodDescriptors());
+        final FieldMetadataDescriptors fieldDescriptors = getFieldDescriptors();
+        final ConstructorMetadataDescriptors constructorDescriptors = getConstructorDescriptors();
+        final MethodMetadataDescriptors methodDescriptors = getMethodDescriptors();
+        return new ClassMember(fieldDescriptors, constructorDescriptors, methodDescriptors);
     }
     
     private FieldMetadataDescriptors getFieldDescriptors() {

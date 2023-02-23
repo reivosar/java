@@ -20,7 +20,7 @@ class FieldDescriptorsTest {
             // when
             FieldMetadataDescriptors descriptors = new FieldMetadataDescriptors(nullArray);
             // then
-            Assertions.assertTrue(descriptors.descriptors().isEmpty());
+            Assertions.assertTrue(descriptors.getDescriptors().isEmpty());
         }
         
         @Test
@@ -30,7 +30,7 @@ class FieldDescriptorsTest {
             // when
             FieldMetadataDescriptors descriptors = new FieldMetadataDescriptors(emptyArray);
             // then
-            Assertions.assertTrue(descriptors.descriptors().isEmpty());
+            Assertions.assertTrue(descriptors.getDescriptors().isEmpty());
         }
         
         @Test
@@ -40,10 +40,10 @@ class FieldDescriptorsTest {
             // when
             FieldMetadataDescriptors descriptors = new FieldMetadataDescriptors(fields);
             // then
-            assertTrue(descriptors.descriptors().size() > 0);
-            assertTrue(descriptors.names().contains("name"));
-            assertTrue(descriptors.names().contains("this$1"));
-            assertTrue(descriptors.names().contains("result"));
+            assertTrue(descriptors.getDescriptors().size() > 0);
+            assertTrue(descriptors.getMemberNames().contains("name"));
+            assertTrue(descriptors.getMemberNames().contains("this$1"));
+            assertTrue(descriptors.getMemberNames().contains("result"));
         }
         
         private class TestClass {
