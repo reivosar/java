@@ -20,8 +20,12 @@ abstract class ClassMemberDescriptor extends Model {
         return classMemberAccessor.equalsByName(name);
     }
     
-    public String getDetail() {
-        return classMemberAccessor.getDetail();
+    public String getDescribedMember() {
+        return classMemberAccessor.getDescribedMember();
+    }
+    
+    public boolean equalsByDescribedMember(final String describedMember) {
+        return classMemberAccessor.equalsByDescribedMember(describedMember);
     }
     
     public AccessScope getAccessScope() {

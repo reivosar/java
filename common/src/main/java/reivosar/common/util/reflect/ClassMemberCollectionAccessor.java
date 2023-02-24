@@ -37,9 +37,9 @@ class ClassMemberCollectionAccessor<T extends ClassMemberDescriptor> extends Mod
                 .toList();
     }
     
-    Collection<String> getMemberDetails() {
+    Collection<String> getDescribedMembers() {
         return tCollection.stream()
-                .map(ClassMemberDescriptor::getDetail)
+                .map(ClassMemberDescriptor::getDescribedMember)
                 .toList();
     }
 }

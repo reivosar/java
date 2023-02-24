@@ -8,12 +8,12 @@ import java.lang.reflect.Member;
 class ClassMemberAccessor extends Model {
     
     private final String name;
-    private final String detail;
+    private final String describedMember;
     private final AccessScope accessScope;
     
     ClassMemberAccessor(final Member member) {
         this.name = member.getName();
-        this.detail = member.toString();
+        this.describedMember = member.toString();
         this.accessScope = AccessScope.of(new ClassModifier(member.getModifiers()));
     }
     
@@ -25,8 +25,12 @@ class ClassMemberAccessor extends Model {
         return this.getName().equals(ObjectUtil.requireNonNull("name", name));
     }
     
-    String getDetail() {
-        return detail;
+    String getDescribedMember() {
+        return describedMember;
+    }
+    
+    boolean equalsByDescribedMember(final String describedMember) {
+        return this.getDescribedMember().equals(ObjectUtil.requireNonNull("describedMember", describedMember));
     }
     
     AccessScope getAccessScope() {
@@ -34,6 +38,6 @@ class ClassMemberAccessor extends Model {
     }
     
     public boolean equalsByAccessScope(final AccessScope accessScope) {
-        return this.accessScope == accessScope;
+        return this.accessScope == ObjectUtil.requireNonNull("accessScope", accessScope);
     }
 }

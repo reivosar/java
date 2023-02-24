@@ -41,7 +41,7 @@ class ClassMember extends Model {
     }
     
     Collection<String> getConstructorDetails() {
-        return constructorDescriptors.getMemberDetails();
+        return constructorDescriptors.getDescribedMembers();
     }
     
     Collection<ConstructorDescriptor> getConstructorDescriptors() {
