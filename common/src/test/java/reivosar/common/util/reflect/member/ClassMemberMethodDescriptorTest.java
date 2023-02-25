@@ -1,4 +1,4 @@
-package reivosar.common.util.reflect;
+package reivosar.common.util.reflect.member;
 
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -8,7 +8,7 @@ import java.lang.reflect.Method;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-public class MethodDescriptorTest {
+public class ClassMemberMethodDescriptorTest {
     
     @Nested
     class InvokeMethodTests {
@@ -16,9 +16,9 @@ public class MethodDescriptorTest {
         @Test
         void shouldInvokeMethod() {
             Method method = getMethod("sum", int.class, int.class);
-            MethodDescriptor descriptor = new MethodDescriptor(method);
+            MethodDescriptor descriptor = new ClassMemberMethodDescriptor(method);
             
-            int result = (int) descriptor.executeMethod(new Calculator(), 2, 3);
+            int result = (int) descriptor.getMethodAccessor().invokeMethod(new Calculator(), 2, 3);
             
             assertEquals(5, result);
         }
@@ -26,17 +26,17 @@ public class MethodDescriptorTest {
         @Test
         void shouldThrowExceptionIfTargetIsNull() {
             Method method = getMethod("sum", int.class, int.class);
-            MethodDescriptor descriptor = new MethodDescriptor(method);
+            MethodDescriptor descriptor = new ClassMemberMethodDescriptor(method);
             
-            assertThrows(NullPointerException.class, () -> descriptor.executeMethod(null, 2, 3));
+            assertThrows(NullPointerException.class, () -> descriptor.getMethodAccessor().invokeMethod(null, 2, 3));
         }
         
         @Test
         void shouldThrowExceptionIfParameterTypesAreNotMatched() {
             Method method = getMethod("sum", int.class, int.class);
-            MethodDescriptor descriptor = new MethodDescriptor(method);
+            MethodDescriptor descriptor = new ClassMemberMethodDescriptor(method);
             
-            assertThrows(IllegalStateException.class, () -> descriptor.executeMethod(new Calculator(), 2, "3"));
+            assertThrows(IllegalStateException.class, () -> descriptor.getMethodAccessor().invokeMethod(new Calculator(), 2, "3"));
         }
         
         private Method getMethod(String name, Class<?>... parameterTypes) {
@@ -54,9 +54,9 @@ public class MethodDescriptorTest {
         @Test
         void shouldInvokeStaticMethod() {
             Method method = getMethod("subtract", int.class, int.class);
-            MethodDescriptor descriptor = new MethodDescriptor(method);
+            MethodDescriptor descriptor = new ClassMemberMethodDescriptor(method);
             
-            int result = (int) descriptor.executeStaticMethod(5, 2);
+            int result = (int) descriptor.getMethodAccessor().invokeStaticMethod(5, 2);
             
             assertEquals(3, result);
         }
@@ -64,9 +64,9 @@ public class MethodDescriptorTest {
         @Test
         void shouldThrowExceptionIfParameterTypesAreNotMatched() {
             Method method = getMethod("subtract", int.class, int.class);
-            MethodDescriptor descriptor = new MethodDescriptor(method);
+            MethodDescriptor descriptor = new ClassMemberMethodDescriptor(method);
             
-            assertThrows(IllegalStateException.class, () -> descriptor.executeStaticMethod(5, "2"));
+            assertThrows(IllegalStateException.class, () -> descriptor.getMethodAccessor().invokeStaticMethod(5, "2"));
         }
         
         private Method getMethod(String name, Class<?>... parameterTypes) {

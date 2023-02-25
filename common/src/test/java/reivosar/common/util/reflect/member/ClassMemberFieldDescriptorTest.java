@@ -1,4 +1,4 @@
-package reivosar.common.util.reflect;
+package reivosar.common.util.reflect.member;
 
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -8,8 +8,9 @@ import java.util.List;
 import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
-class FieldDescriptorTest {
+class ClassMemberFieldDescriptorTest {
     
     @Nested
     class GetProfileTests {
@@ -28,41 +29,41 @@ class FieldDescriptorTest {
         @Test
         void shouldReturnIntClassForIntField() throws NoSuchFieldException {
             Field field = TestClass.class.getDeclaredField("intField");
-            FieldDescriptor fieldDescriptor = new FieldDescriptor(field);
+            FieldDescriptor fieldDescriptor = new ClassMemberFieldDescriptor(field);
             assertEquals("intField", fieldDescriptor.getName());
-            assertEquals(AccessScope.PUBLIC, fieldDescriptor.getAccessScope());
+            assertTrue(fieldDescriptor.getClassModifier().isPublic());
         }
         
         @Test
         void shouldReturnStringClassForStringField() throws NoSuchFieldException {
             Field field = TestClass.class.getDeclaredField("stringField");
-            FieldDescriptor fieldDescriptor = new FieldDescriptor(field);
+            FieldDescriptor fieldDescriptor = new ClassMemberFieldDescriptor(field);
             assertEquals("stringField", fieldDescriptor.getName());
-            assertEquals(AccessScope.PRIVATE, fieldDescriptor.getAccessScope());
+            assertTrue(fieldDescriptor.getClassModifier().isPrivate());
         }
         
         @Test
         void shouldReturnListClassForListOfBooleanField() throws NoSuchFieldException {
             Field field = TestClass.class.getDeclaredField("listOfBooleanField");
-            FieldDescriptor fieldDescriptor = new FieldDescriptor(field);
+            FieldDescriptor fieldDescriptor = new ClassMemberFieldDescriptor(field);
             assertEquals("listOfBooleanField", fieldDescriptor.getName());
-            assertEquals(AccessScope.PROTECTED, fieldDescriptor.getAccessScope());
+            assertTrue(fieldDescriptor.getClassModifier().isProtected());
         }
         
         @Test
         void shouldReturnMapClassForMapOfStringIntegerField() throws NoSuchFieldException {
             Field field = TestClass.class.getDeclaredField("mapOfStringIntegerField");
-            FieldDescriptor fieldDescriptor = new FieldDescriptor(field);
+            FieldDescriptor fieldDescriptor = new ClassMemberFieldDescriptor(field);
             assertEquals("mapOfStringIntegerField", fieldDescriptor.getName());
-            assertEquals(AccessScope.PACKAGE_PRIVATE, fieldDescriptor.getAccessScope());
+            assertTrue(fieldDescriptor.getClassModifier().isPackagePrivate());
         }
         
         @Test
         void shouldReturnCustomClassForCustomClassField() throws NoSuchFieldException {
             Field field = TestClass.class.getDeclaredField("customClassField");
-            FieldDescriptor fieldDescriptor = new FieldDescriptor(field);
+            FieldDescriptor fieldDescriptor = new ClassMemberFieldDescriptor(field);
             assertEquals("customClassField", fieldDescriptor.getName());
-            assertEquals(AccessScope.PUBLIC, fieldDescriptor.getAccessScope());
+            assertTrue(fieldDescriptor.getClassModifier().isPublic());
         }
     }
     
@@ -77,10 +78,10 @@ class FieldDescriptorTest {
         @Test
         void shouldReadStaticField() throws NoSuchFieldException {
             // given
-            final FieldDescriptor fieldDescriptor = new FieldDescriptor(Example.class.getDeclaredField("STATIC_FIELD"));
+            final FieldDescriptor fieldDescriptor = new ClassMemberFieldDescriptor(Example.class.getDeclaredField("STATIC_FIELD"));
             
             // when
-            final Object fieldValue = fieldDescriptor.readStaticField();
+            final Object fieldValue = fieldDescriptor.getFieldAccessor().readStaticField();
             
             // then
             assertEquals(Example.STATIC_FIELD, fieldValue);
@@ -91,10 +92,10 @@ class FieldDescriptorTest {
             // given
             final Example example = new Example();
             example.publicField = "hello";
-            final FieldDescriptor fieldDescriptor = new FieldDescriptor(Example.class.getDeclaredField("publicField"));
+            final FieldDescriptor fieldDescriptor = new ClassMemberFieldDescriptor(Example.class.getDeclaredField("publicField"));
             
             // when
-            final Object fieldValue = fieldDescriptor.readField(example);
+            final Object fieldValue = fieldDescriptor.getFieldAccessor().readField(example);
             
             // then
             assertEquals(example.publicField, fieldValue);
@@ -112,10 +113,10 @@ class FieldDescriptorTest {
         @Test
         void shouldSetStaticField() throws NoSuchFieldException {
             // given
-            final FieldDescriptor fieldDescriptor = new FieldDescriptor(Example.class.getDeclaredField("STATIC_FIELD"));
+            final FieldDescriptor fieldDescriptor = new ClassMemberFieldDescriptor(Example.class.getDeclaredField("STATIC_FIELD"));
             
             // when
-            fieldDescriptor.writeStaticField("new value");
+            fieldDescriptor.getFieldAccessor().writeStaticField("new value");
             
             // then
             assertEquals("new value", Example.STATIC_FIELD);
@@ -125,10 +126,10 @@ class FieldDescriptorTest {
         void shouldSetNonStaticField() throws NoSuchFieldException {
             // given
             final Example example = new Example();
-            final FieldDescriptor fieldDescriptor = new FieldDescriptor(Example.class.getDeclaredField("publicField"));
+            final FieldDescriptor fieldDescriptor = new ClassMemberFieldDescriptor(Example.class.getDeclaredField("publicField"));
             
             // when
-            fieldDescriptor.writeField(example, "new value");
+            fieldDescriptor.getFieldAccessor().writeField(example, "new value");
             
             // then
             assertEquals("new value", example.publicField);

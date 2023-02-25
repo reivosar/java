@@ -1,9 +1,12 @@
 package reivosar.common.util.reflect;
 
+import reivosar.common.util.reflect.member.ClassMemberDescriptor;
+import reivosar.common.util.reflect.member.MetadataDescriptor;
+
 import java.lang.annotation.Annotation;
 import java.util.Collection;
 
-class ClassMemberMetadataDescriptors<T extends ClassMemberMetadataDescriptor<?>> extends ClassMemberDescriptors<T> {
+class ClassMemberMetadataDescriptors<T extends ClassMemberDescriptor & MetadataDescriptor> extends ClassMemberDescriptors<T> {
     
     private final ClassMemberMetadataCollectionAccessor<T> metadataAccessor;
     

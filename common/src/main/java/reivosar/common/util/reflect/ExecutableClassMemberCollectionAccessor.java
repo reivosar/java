@@ -1,11 +1,14 @@
 package reivosar.common.util.reflect;
 
 import reivosar.common.util.lang.ArrayUtil;
+import reivosar.common.util.reflect.member.ClassMemberDescriptor;
+import reivosar.common.util.reflect.member.ExecutableClassMemberDescriptor;
+import reivosar.common.util.reflect.member.MetadataDescriptor;
 
 import java.lang.annotation.Annotation;
 import java.util.Collection;
 
-class ExecutableClassMemberCollectionAccessor<T extends ExecutableClassMemberDescriptor>
+class ExecutableClassMemberCollectionAccessor<T extends ClassMemberDescriptor & MetadataDescriptor & ExecutableClassMemberDescriptor>
         extends ClassMemberMetadataCollectionAccessor<T> {
     
     protected ExecutableClassMemberCollectionAccessor(final Collection<T> ts) {
@@ -22,7 +25,7 @@ class ExecutableClassMemberCollectionAccessor<T extends ExecutableClassMemberDes
     
     private Collection<T> filterWithParameters(final Collection<T> collection, final Object[] parameters) {
         if (ArrayUtil.isNotEmpty(parameters)) {
-            return filter(collection, t -> t.isMatchParameters(parameters));
+            return filter(collection, t -> t.getParameterTypesDescriptor().isEqualParameterType(parameters));
         }
         return collection;
     }

@@ -13,7 +13,6 @@ class ClassDescriptorsTest {
         void shouldReturnClassDescriptorIfExists() {
             ClassDescriptor descriptor = ClassDescriptors.of(ClassDescriptorsTest.class);
             assertNotNull(descriptor);
-            assertEquals(ClassDescriptorsTest.class.getSimpleName(), descriptor.getClassName());
         }
     }
     
@@ -24,7 +23,6 @@ class ClassDescriptorsTest {
         void shouldReturnClassDescriptorIfExists() {
             ClassDescriptor descriptor = ClassDescriptors.of("reivosar.common.util.reflect.ClassDescriptorsTest");
             assertNotNull(descriptor);
-            assertEquals(ClassDescriptorsTest.class.getSimpleName(), descriptor.getClassName());
         }
         
         @Test

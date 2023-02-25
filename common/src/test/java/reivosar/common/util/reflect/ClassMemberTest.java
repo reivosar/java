@@ -3,6 +3,9 @@ package reivosar.common.util.reflect;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import reivosar.common.util.lang.FieldUtil;
+import reivosar.common.util.reflect.member.ConstructorDescriptor;
+import reivosar.common.util.reflect.member.FieldDescriptor;
+import reivosar.common.util.reflect.member.FieldDescriptorFactory;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -51,7 +54,7 @@ class ClassMemberTest {
         private boolean containsFieldDescriptors(final Collection<FieldDescriptor> descriptors, final String... fields) {
             return descriptors.containsAll(
                     Arrays.stream(fields)
-                            .map(s -> new FieldDescriptor(FieldUtil.getDeclaredField(TestClass.class, s))).toList()
+                            .map(s -> FieldDescriptorFactory.create(FieldUtil.getDeclaredField(TestClass.class, s))).toList()
             );
         }
         

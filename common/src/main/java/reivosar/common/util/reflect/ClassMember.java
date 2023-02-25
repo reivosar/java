@@ -1,6 +1,9 @@
 package reivosar.common.util.reflect;
 
 import reivosar.common.util.model.Model;
+import reivosar.common.util.reflect.member.FieldDescriptor;
+import reivosar.common.util.reflect.member.ConstructorDescriptor;
+import reivosar.common.util.reflect.member.MethodDescriptor;
 
 import java.lang.annotation.Annotation;
 import java.util.Collection;

@@ -1,6 +1,7 @@
 package reivosar.common.util.reflect;
 
 import reivosar.common.util.model.Model;
+import reivosar.common.util.reflect.member.ClassMemberDescriptor;
 
 import java.util.Collection;
 import java.util.function.Predicate;
@@ -14,7 +15,7 @@ class ClassMemberCollectionAccessor<T extends ClassMemberDescriptor> extends Mod
     }
     
     Collection<T> filter(final String name) {
-        return filter(getDescriptors(), t -> t.equalsByName(name));
+        return filter(getDescriptors(), t -> t.getName().equals(name));
     }
     
     protected Collection<T> filter(final Collection<T> collection, final Predicate<T> predicate) {

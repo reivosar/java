@@ -69,6 +69,15 @@ public class ClassModifier extends Model {
     }
     
     /**
+     * Checks whether the class is declared as package private.
+     *
+     * @return true if the class is declared as private, false otherwise.
+     */
+    public boolean isPackagePrivate() {
+        return !isPublic() && !isProtected() && !isPrivate();
+    }
+    
+    /**
      * Checks whether the class is declared as final.
      *
      * @return true if the class is declared as final, false otherwise.

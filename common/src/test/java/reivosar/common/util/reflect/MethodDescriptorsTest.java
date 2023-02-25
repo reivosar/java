@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test;
 
 import java.lang.reflect.Method;
 
-class MethodDescriptorsTest {
+class   MethodDescriptorsTest {
     
     @Nested
     class ConstructorTests {

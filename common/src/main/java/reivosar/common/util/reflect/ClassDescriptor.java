@@ -11,7 +11,6 @@ import java.util.Collection;
  */
 public class ClassDescriptor extends Model {
     
-    private final ClassProfile classProfile;
     private final ClassMember classMember;
     
     /**
@@ -23,35 +22,7 @@ public class ClassDescriptor extends Model {
     public ClassDescriptor(final Class<?> aClass) {
         ObjectUtil.requireNonNull("aClass", aClass);
         final ClassDescriptorResolver resolver = new ClassDescriptorResolver(aClass);
-        this.classProfile = resolver.resolverClassProfile();
         this.classMember = resolver.resolverClassMember();
-    }
-    
-    /**
-     * Returns the package name of the class.
-     *
-     * @return the package name of the class
-     */
-    public String getPackageName() {
-        return classProfile.getPackageName();
-    }
-    
-    /**
-     * Returns the name of the class.
-     *
-     * @return the name of the class
-     */
-    public String getClassName() {
-        return classProfile.getClassName();
-    }
-    
-    /**
-     * Returns the access scope of the class.
-     *
-     * @return the access scope of the class
-     */
-    public AccessScope getAccessScope() {
-        return classProfile.getAccessScope();
     }
     
     /**

@@ -1,6 +1,7 @@
 package reivosar.common.util.reflect;
 
 import java.util.Collection;
+import reivosar.common.util.reflect.member.ClassMemberDescriptor;
 
 class ClassMemberDescriptors<T extends ClassMemberDescriptor> {
     

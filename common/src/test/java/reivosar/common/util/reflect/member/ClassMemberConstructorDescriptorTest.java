@@ -1,4 +1,4 @@
-package reivosar.common.util.reflect;
+package reivosar.common.util.reflect.member;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
@@ -10,7 +10,7 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class ConstructorDescriptorTest {
+class ClassMemberConstructorDescriptorTest {
     
     @Nested
     class IsMatchConstructorTest {
@@ -24,17 +24,17 @@ class ConstructorDescriptorTest {
             void setUp() throws ClassNotFoundException, NoSuchMethodException {
                 Class<?> clazz = Class.forName(NoConstructorClass.class.getName());
                 Constructor<?> constructor = clazz.getDeclaredConstructor();
-                constructorDescriptor = new ConstructorDescriptor(constructor);
+                constructorDescriptor = new ClassMemberConstructorDescriptor(constructor);
             }
     
             @Test
             void shouldReturnTrueWhenMatched() {
-                assertTrue(constructorDescriptor.isMatchParameters());
+                assertTrue(constructorDescriptor.getParameterTypesDescriptor().isEqualParameterType());
             }
     
             @Test
             void shouldReturnFalseWhenNotMatched() {
-                assertFalse(constructorDescriptor.isMatchParameters("not a number"));
+                assertFalse(constructorDescriptor.getParameterTypesDescriptor().isEqualParameterType("not a number"));
             }
     
             static class NoConstructorClass {}
@@ -49,17 +49,17 @@ class ConstructorDescriptorTest {
             void setUp() throws Exception {
                 Class<?> clazz = Class.forName(OneConstructorClass.class.getName());
                 Constructor<?> constructor = clazz.getDeclaredConstructor(String.class);
-                constructorDescriptor = new ConstructorDescriptor(constructor);
+                constructorDescriptor = new ClassMemberConstructorDescriptor(constructor);
             }
     
             @Test
             void shouldReturnTrueWhenMatched() {
-                assertTrue(constructorDescriptor.isMatchParameters("name"));
+                assertTrue(constructorDescriptor.getParameterTypesDescriptor().isEqualParameterType("name"));
             }
     
             @Test
             void shouldReturnFalseWhenNotMatched() {
-                assertFalse(constructorDescriptor.isMatchParameters(123));
+                assertFalse(constructorDescriptor.getParameterTypesDescriptor().isEqualParameterType(123));
             }
     
             static class OneConstructorClass {
@@ -80,17 +80,17 @@ class ConstructorDescriptorTest {
             void setUp() throws Exception {
                 Class<?> clazz = Class.forName(TwoConstructorClass.class.getName());
                 Constructor<?> constructor = clazz.getDeclaredConstructor(String.class, int.class);
-                constructorDescriptor = new ConstructorDescriptor(constructor);
+                constructorDescriptor = new ClassMemberConstructorDescriptor(constructor);
             }
     
             @Test
             void shouldReturnTrueWhenMatched() {
-                assertTrue(constructorDescriptor.isMatchParameters("name", 123));
+                assertTrue(constructorDescriptor.getParameterTypesDescriptor().isEqualParameterType("name", 123));
             }
     
             @Test
             void shouldReturnFalseWhenNotMatched() {
-                assertFalse(constructorDescriptor.isMatchParameters("not a number"));
+                assertFalse(constructorDescriptor.getParameterTypesDescriptor().isEqualParameterType("not a number"));
             }
     
             private static class TwoConstructorClass {
@@ -116,18 +116,18 @@ class ConstructorDescriptorTest {
         @BeforeEach
         void setUp() throws NoSuchMethodException {
             Constructor<ArrayList> constructor = ArrayList.class.getConstructor(int.class);
-            constructorDescriptor = new ConstructorDescriptor(constructor);
+            constructorDescriptor = new ClassMemberConstructorDescriptor(constructor);
         }
         
         @Test
         void shouldReturnNewInstance() {
-            List<?> list = constructorDescriptor.newInstance(10);
+            List<?> list = constructorDescriptor.getConstructorAccessor().newInstance(10);
             assertNotNull(list);
         }
         
         @Test
         void shouldThrowExceptionWhenFailsToCreateInstance() {
-            assertThrows(IllegalStateException.class, () -> constructorDescriptor.newInstance("not a number"));
+            assertThrows(IllegalStateException.class, () -> constructorDescriptor.getConstructorAccessor().newInstance("not a number"));
         }
     }
 }
