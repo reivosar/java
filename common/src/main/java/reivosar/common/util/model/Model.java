@@ -5,11 +5,13 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
+import java.io.Serializable;
+
 /**
  * This is the base class of the model that overrides the
  * equals, hashCode, and toString methods of {@code Object}.
  */
-public abstract class Model {
+public abstract class Model implements Serializable {
     /**
      * <p>Override the equals method ({@link Object#equals(Object)})
      * to check for equivalence with the other object passed as an argument.
