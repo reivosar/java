@@ -8,7 +8,7 @@ import java.util.function.Predicate;
 
 @SuppressWarnings("unchecked")
 class CollectedClassMemberDescriptors<T extends ClassMemberDescriptor,
-        S extends ClassMemberDescriptors<T, S>>
+                                      S extends ClassMemberDescriptors<T, S>>
         extends Model implements ClassMemberDescriptors<T, S> {
     
     private final Collection<T> descriptors;

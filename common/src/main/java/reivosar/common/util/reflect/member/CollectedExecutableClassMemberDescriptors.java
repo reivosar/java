@@ -8,9 +8,8 @@ import java.util.Collection;
 
 @SuppressWarnings("unchecked")
 class CollectedExecutableClassMemberDescriptors<T extends ExecutableClassMemberDescriptor,
-        S extends ExecutableClassMemberDescriptors<T, S>>
-        extends CollectedMetadataDescriptors<T, S>
-        implements ExecutableClassMemberDescriptors<T, S> {
+                                                S extends ExecutableClassMemberDescriptors<T, S>>
+        extends CollectedMetadataDescriptors<T, S> implements ExecutableClassMemberDescriptors<T, S> {
     
     protected CollectedExecutableClassMemberDescriptors(final Collection<T> descriptors) {
         super(descriptors);

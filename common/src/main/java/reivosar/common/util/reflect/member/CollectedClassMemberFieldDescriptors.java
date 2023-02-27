@@ -5,8 +5,7 @@ import reivosar.common.util.lang.ObjectUtil;
 import java.lang.reflect.Field;
 import java.util.Arrays;
 
-class CollectedClassMemberFieldDescriptors
-        extends CollectedMetadataDescriptors<FieldDescriptor, FieldDescriptors>
+class CollectedClassMemberFieldDescriptors extends CollectedMetadataDescriptors<FieldDescriptor, FieldDescriptors>
         implements FieldDescriptors {
     
     protected CollectedClassMemberFieldDescriptors(final Field[] fields) {
