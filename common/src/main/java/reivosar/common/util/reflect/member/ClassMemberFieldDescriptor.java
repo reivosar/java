@@ -10,10 +10,10 @@ class ClassMemberFieldDescriptor extends AbstractAnnotatedMetadataDescriptor<Fie
     private final FieldTypeDescriptor fieldTypeDescriptor;
     private final FieldAccessor fieldAccessor;
     
-    ClassMemberFieldDescriptor(final Field field) {
+    ClassMemberFieldDescriptor(final Field field, final boolean forceAccess) {
         super(field);
         this.fieldTypeDescriptor = FieldTypeFactory.create(field);
-        this.fieldAccessor = new ClassMemberFieldAccessor(field);
+        this.fieldAccessor = new ClassMemberFieldAccessor(field, forceAccess);
     }
     
     @Override

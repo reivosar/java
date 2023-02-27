@@ -18,6 +18,6 @@ public class MethodDescriptorFactory {
      */
     public static MethodDescriptor create(final Method method) {
         ObjectUtil.requireNonNull("method", method);
-        return new ClassMemberMethodDescriptor(method);
+        return new ClassMemberMethodDescriptor(method, true);
     }
 }

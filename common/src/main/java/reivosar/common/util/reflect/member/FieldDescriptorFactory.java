@@ -18,6 +18,6 @@ public class FieldDescriptorFactory {
      */
     public static FieldDescriptor create(final Field field) {
         ObjectUtil.requireNonNull("field", field);
-        return new ClassMemberFieldDescriptor(field);
+        return new ClassMemberFieldDescriptor(field, true);
     }
 }

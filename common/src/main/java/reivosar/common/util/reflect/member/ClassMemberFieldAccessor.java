@@ -10,9 +10,9 @@ class ClassMemberFieldAccessor extends Model implements FieldAccessor {
     
     private final Field field;
     
-    ClassMemberFieldAccessor(final Field field) {
+    ClassMemberFieldAccessor(final Field field, final boolean forceAccess) {
         this.field = field;
-        this.field.setAccessible(true);
+        this.field.setAccessible(forceAccess);
     }
     
     @Override

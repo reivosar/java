@@ -9,9 +9,9 @@ class ClassMemberConstructorAccessor extends Model implements ConstructorAccesso
     
     private final Constructor<?> constructor;
     
-    ClassMemberConstructorAccessor(final Constructor<?> constructor) {
+    ClassMemberConstructorAccessor(final Constructor<?> constructor, final boolean forceAccess) {
         this.constructor = constructor;
-        this.constructor.setAccessible(true);
+        this.constructor.setAccessible(forceAccess);
     }
     
     @Override

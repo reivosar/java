@@ -10,9 +10,9 @@ class ClassMemberMethodAccessor extends Model implements MethodAccessor {
     
     private final Method method;
     
-    ClassMemberMethodAccessor(final Method method) {
+    ClassMemberMethodAccessor(final Method method, final boolean forceAccess) {
         this.method = method;
-        this.method.setAccessible(true);
+        this.method.setAccessible(forceAccess);
     }
     
     @Override

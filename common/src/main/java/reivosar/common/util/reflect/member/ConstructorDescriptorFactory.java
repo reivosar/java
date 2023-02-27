@@ -18,6 +18,6 @@ public class ConstructorDescriptorFactory {
      */
     public static ConstructorDescriptor create(final Constructor<?> constructor) {
         ObjectUtil.requireNonNull("constructor", constructor);
-        return new ClassMemberConstructorDescriptor(constructor);
+        return new ClassMemberConstructorDescriptor(constructor, true);
     }
 }

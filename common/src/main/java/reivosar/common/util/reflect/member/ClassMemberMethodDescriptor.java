@@ -12,11 +12,11 @@ class ClassMemberMethodDescriptor extends AbstractAnnotatedMetadataDescriptor<Me
     private final ParameterTypesDescriptor parameterTypesDescriptor;
     private final MethodAccessor methodAccessor;
     
-    ClassMemberMethodDescriptor(final Method method) {
+    ClassMemberMethodDescriptor(final Method method, final boolean forceAccess) {
         super(method);
         this.returnTypeDescriptor = MethodTypeFactory.createReturnType(method);
         this.parameterTypesDescriptor = MethodTypeFactory.createParameterTypes(method);
-        this.methodAccessor = new ClassMemberMethodAccessor(method);
+        this.methodAccessor = new ClassMemberMethodAccessor(method, forceAccess);
     }
     
     @Override
