@@ -7,8 +7,9 @@ import java.util.Collection;
 import java.util.function.Predicate;
 
 @SuppressWarnings("unchecked")
-class CollectedClassMemberDescriptors<T extends ClassMemberDescriptor, S extends ClassMemberDescriptors<S>>
-        extends Model implements ClassMemberDescriptors<S> {
+class CollectedClassMemberDescriptors<T extends ClassMemberDescriptor,
+        S extends ClassMemberDescriptors<T, S>>
+        extends Model implements ClassMemberDescriptors<T, S> {
     
     private final Collection<T> descriptors;
     
@@ -34,7 +35,8 @@ class CollectedClassMemberDescriptors<T extends ClassMemberDescriptor, S extends
                 .toList();
     }
     
-    protected Collection<T> getDescriptors() {
+    @Override
+    public Collection<T> getDescriptors() {
         return this.descriptors;
     }
 }

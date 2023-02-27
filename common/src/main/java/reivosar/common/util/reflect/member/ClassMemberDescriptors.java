@@ -1,25 +1,35 @@
 package reivosar.common.util.reflect.member;
 
+import java.util.Collection;
+
 /**
- * This interface represents a collection of descriptors for class members.
+ * This interface represents a collection of class member descriptors, which include methods and fields.
  *
- * @param <T> The type of the implementing class.
+ * @param <T> the type of the class member descriptor.
+ * @param <S> the type of the class member descriptors.
  */
-public interface ClassMemberDescriptors<T extends ClassMemberDescriptors<T>> {
+public interface ClassMemberDescriptors<T extends ClassMemberDescriptor, S extends ClassMemberDescriptors<T, S>> {
     
     /**
-     * Filters the descriptors by name.
+     * Filters the class member descriptors by name.
      *
-     * @param name The name to filter by.
-     * @return A new collection of descriptors containing only the descriptors with the given name.
+     * @param name the name to filter by.
+     * @return a new collection of class member descriptors filtered by name.
      */
-    T filterByName(String name);
+    S filterByName(String name);
     
     /**
-     * Filters the descriptors by the described member.
+     * Filters the class member descriptors by a described member.
      *
-     * @param describedMember The described member to filter by.
-     * @return A new collection of descriptors containing only the descriptors with the given described member.
+     * @param describedMember the described member to filter by.
+     * @return a new collection of class member descriptors filtered by the described member.
      */
-    T filterByDescribedMember(String describedMember);
+    S filterByDescribedMember(String describedMember);
+    
+    /**
+     * Gets a collection of method descriptors from the class member descriptors.
+     *
+     * @return a collection of method descriptors.
+     */
+    Collection<T> getDescriptors();
 }

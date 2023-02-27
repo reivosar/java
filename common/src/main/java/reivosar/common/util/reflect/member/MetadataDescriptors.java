@@ -3,21 +3,21 @@ package reivosar.common.util.reflect.member;
 import java.lang.annotation.Annotation;
 
 /**
- * An interface that represents a descriptor for metadata, providing access to metadata about a class member, such as a
- * field, method, or constructor.
- * This interface extends {@code ClassMemberDescriptors<T>}.
+ * This interface represents a collection of metadata descriptors that are also class member descriptors, which
+ * include methods and fields.
  *
- * @param <T> the type of the object that implements this interface
+ * @param <T> the type of the metadata descriptor that is also a class member descriptor.
+ * @param <S> the type of the metadata descriptors that are also class member descriptors.
  */
-public interface MetadataDescriptors<T extends MetadataDescriptors<T>> extends ClassMemberDescriptors<T> {
+public interface MetadataDescriptors<T extends ClassMemberDescriptor & MetadataDescriptor,
+                                     S extends MetadataDescriptors<T, S>>
+        extends ClassMemberDescriptors<T, S> {
     
     /**
-     * Returns a filtered view of this metadata descriptor, containing only those elements that are annotated with the
-     * specified annotation.
+     * Filters the metadata descriptors by annotation.
      *
-     * @param annotationClass the class of the annotation to filter by
-     * @return a filtered view of this metadata descriptor, containing only those elements that are annotated with the
-     * specified annotation
+     * @param annotationClass the annotation to filter by.
+     * @return a new collection of metadata descriptors filtered by the annotation.
      */
-    T filterByAnnotation(Class<? extends Annotation> annotationClass);
+    S filterByAnnotation(Class<? extends Annotation> annotationClass);
 }

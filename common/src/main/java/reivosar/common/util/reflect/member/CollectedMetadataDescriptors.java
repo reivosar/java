@@ -6,8 +6,10 @@ import java.lang.annotation.Annotation;
 import java.util.Collection;
 
 @SuppressWarnings("unchecked")
-class CollectedMetadataDescriptors<T extends ClassMemberDescriptor & MetadataDescriptor, S extends MetadataDescriptors<S>>
-        extends CollectedClassMemberDescriptors<T, S> implements MetadataDescriptors<S> {
+class CollectedMetadataDescriptors<T extends ClassMemberDescriptor & MetadataDescriptor,
+                                   S extends MetadataDescriptors<T, S>>
+        extends CollectedClassMemberDescriptors<T, S>
+        implements MetadataDescriptors<T, S> {
     
     protected CollectedMetadataDescriptors(final Collection<T> descriptors) {
         super(descriptors);

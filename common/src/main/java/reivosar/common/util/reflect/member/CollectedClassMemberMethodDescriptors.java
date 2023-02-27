@@ -4,7 +4,6 @@ import reivosar.common.util.lang.ObjectUtil;
 
 import java.lang.reflect.Method;
 import java.util.Arrays;
-import java.util.Collection;
 
 class CollectedClassMemberMethodDescriptors extends CollectedExecutableClassMemberDescriptors<MethodDescriptor, MethodDescriptors>
         implements MethodDescriptors {
@@ -14,10 +13,5 @@ class CollectedClassMemberMethodDescriptors extends CollectedExecutableClassMemb
                 .filter(ObjectUtil::isNotEmpty)
                 .map(MethodDescriptorFactory::create)
                 .toList());
-    }
-    
-    @Override
-    public Collection<MethodDescriptor> getMethodDescriptors() {
-        return getDescriptors();
     }
 }

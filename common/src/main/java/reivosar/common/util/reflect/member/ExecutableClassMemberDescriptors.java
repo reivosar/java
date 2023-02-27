@@ -7,9 +7,12 @@ import java.lang.annotation.Annotation;
  * access to the behavior and metadata of these members.
  * This interface extends {@code MetadataDescriptors<T>}.
  *
- * @param <T> the type of the object that implements this interface
+ * @param <T> the type of the object that implements {@code ExecutableClassMemberDescriptor}.
+ * @param <S> the type of the object that implements this interface
  */
-public interface ExecutableClassMemberDescriptors<T extends ExecutableClassMemberDescriptors<T>> extends MetadataDescriptors<T> {
+public interface ExecutableClassMemberDescriptors<T extends ExecutableClassMemberDescriptor,
+                                                  S extends ExecutableClassMemberDescriptors<T, S>>
+        extends MetadataDescriptors<T, S> {
     
     /**
      * Returns a filtered view of this executable class member descriptor, containing only those elements that match
@@ -20,7 +23,7 @@ public interface ExecutableClassMemberDescriptors<T extends ExecutableClassMembe
      * @return a filtered view of this executable class member descriptor, containing only those elements that match
      * the specified name and parameter values
      */
-    T filterWithParameters(final String name, final Object... parameters);
+    S filterWithParameters(final String name, final Object... parameters);
     
     /**
      * Returns a filtered view of this executable class member descriptor, containing only those elements that are
@@ -31,5 +34,5 @@ public interface ExecutableClassMemberDescriptors<T extends ExecutableClassMembe
      * @return a filtered view of this executable class member descriptor, containing only those elements that
      * are annotated with the specified annotation and match the specified parameter values
      */
-    T filterWithParameters(final Class<? extends Annotation> annotationClass, final Object... parameters);
+    S filterWithParameters(final Class<? extends Annotation> annotationClass, final Object... parameters);
 }
