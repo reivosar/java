@@ -6,7 +6,7 @@ import reivosar.common.util.reflect.type.ReturnTypeDescriptor;
 
 import java.lang.reflect.Method;
 
-class ClassMemberMethodDescriptor extends AbstractAnnotatedMetadataDescriptor<Method> implements MethodDescriptor {
+class ClassMemberMethodDescriptor extends AbstractMetadataDescriptor<Method> implements MethodDescriptor {
     
     private final ReturnTypeDescriptor returnTypeDescriptor;
     private final ParameterTypesDescriptor parameterTypesDescriptor;

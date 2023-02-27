@@ -8,12 +8,12 @@ import java.lang.reflect.Member;
 import java.util.Collection;
 import java.util.List;
 
-abstract class AbstractAnnotatedMetadataDescriptor<T extends Member & AnnotatedElement> extends AbstractClassMemberDescriptor<T>
+abstract class AbstractMetadataDescriptor<T extends Member & AnnotatedElement> extends AbstractClassMemberDescriptor<T>
         implements MetadataDescriptor {
     
     private final Collection<Annotation> annotations;
     
-    protected AbstractAnnotatedMetadataDescriptor(final T object) {
+    protected AbstractMetadataDescriptor(final T object) {
         super(object);
         this.annotations = (object != null) ? List.of(object.getAnnotations()) : List.of();
     }
