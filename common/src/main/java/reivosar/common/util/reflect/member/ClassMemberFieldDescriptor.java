@@ -5,7 +5,7 @@ import reivosar.common.util.reflect.type.FieldTypeFactory;
 
 import java.lang.reflect.Field;
 
-class ClassMemberFieldDescriptor extends AbstractMetadataDescriptor<Field> implements FieldDescriptor {
+class ClassMemberFieldDescriptor extends MetadataDescriptorTemplate<Field> implements FieldDescriptor {
     
     private final FieldTypeDescriptor fieldTypeDescriptor;
     private final FieldAccessor fieldAccessor;

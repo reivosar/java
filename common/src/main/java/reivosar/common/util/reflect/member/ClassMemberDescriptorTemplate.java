@@ -5,11 +5,11 @@ import reivosar.common.util.reflect.ClassModifier;
 
 import java.lang.reflect.Member;
 
-abstract class AbstractClassMemberDescriptor<T extends Member> extends Model implements ClassMemberDescriptor {
+class ClassMemberDescriptorTemplate<T extends Member> extends Model implements ClassMemberDescriptor {
     
     private final T object;
     
-    protected AbstractClassMemberDescriptor(final T object) {
+    protected ClassMemberDescriptorTemplate(final T object) {
         this.object = object;
     }
     

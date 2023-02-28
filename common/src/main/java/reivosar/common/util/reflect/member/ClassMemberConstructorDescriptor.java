@@ -5,7 +5,7 @@ import reivosar.common.util.reflect.type.ParameterTypesDescriptor;
 
 import java.lang.reflect.Constructor;
 
-class ClassMemberConstructorDescriptor extends AbstractMetadataDescriptor<Constructor<?>> implements ConstructorDescriptor {
+class ClassMemberConstructorDescriptor extends MetadataDescriptorTemplate<Constructor<?>> implements ConstructorDescriptor {
     
     private final ParameterTypesDescriptor parameterTypesDescriptor;
     private final ConstructorAccessor constructorAccessor;
