@@ -1,54 +1,80 @@
 package reivosar.common.util.reflect;
 
-import reivosar.common.util.lang.ObjectUtil;
-import reivosar.common.util.model.Model;
-
-import java.util.Collection;
+import reivosar.common.util.lang.ClassUtil;
+import reivosar.common.util.reflect.member.*;
 
 /**
- * A descriptor for a class, providing information about its package,
- * name, access scope, fields, constructors, and methods.
+ * This interface represents a class descriptor, which provides information about a Java class.
  */
-public class ClassDescriptor extends Model {
-    
-    private final ClassMember classMember;
+public interface ClassDescriptor {
     
     /**
-     * Constructs a new {@code ClassDescriptor} object for the specified class.
+     * Returns the raw {@link Class} object associated with this descriptor.
      *
-     * @param aClass the class for which to construct the descriptor
-     * @throws NullPointerException if {@code aClass} is {@code null}
+     * @return the raw {@code Class} object
      */
-    public ClassDescriptor(final Class<?> aClass) {
-        ObjectUtil.requireNonNull("aClass", aClass);
-        final ClassDescriptorResolver resolver = new ClassDescriptorResolver(aClass);
-        this.classMember = resolver.resolverClassMember();
+    Class<?> getRawClass();
+    
+    /**
+     * Returns the package name of the class.
+     *
+     * @return the package name
+     */
+    default String getPackageName() {
+        return ClassUtil.getPackageName(getRawClass());
     }
     
     /**
-     * Returns the names of the fields in the class.
+     * Returns the simple name of the class.
      *
-     * @return a collection of field names
+     * @return the simple name
      */
-    public Collection<String> getFieldNames() {
-        return classMember.getFieldNames();
+    default String getSimpleName() {
+        return ClassUtil.getSimpleName(getRawClass());
     }
     
     /**
-     * Returns the names of the constructors in the class.
+     * Returns the fully qualified name of the class.
      *
-     * @return a collection of constructor names
+     * @return the fully qualified name
      */
-    public Collection<String> getConstructorNames() {
-        return classMember.getConstructorNames();
+    default String getName() {
+        return getRawClass().getName();
     }
     
     /**
-     * Returns the names of the methods in the class.
+     * Returns the class modifier of the class.
      *
-     * @return a collection of method names
+     * @return the class modifier
      */
-    public Collection<String> getMethodNames() {
-        return classMember.getMethodNames();
+    default ClassModifier getClassModifier() {
+        return new ClassModifier(getRawClass().getModifiers());
+    }
+    
+    /**
+     * Returns the field descriptors of the class.
+     *
+     * @return the field descriptors
+     */
+    default FieldDescriptors getFieldDescriptors() {
+        return FieldDescriptorsFactory.createDescriptors(getRawClass());
+    }
+    
+    /**
+     * Returns the constructor descriptors of the class.
+     *
+     * @return the constructor descriptors
+     */
+    default ConstructorDescriptors getConstructorDescriptors() {
+        return ConstructorDescriptorsFactory.createDescriptors(getRawClass());
+    }
+    
+    /**
+     * Returns the method descriptors of the class.
+     *
+     * @return the method descriptors
+     */
+    default MethodDescriptors getMethodDescriptors() {
+        return MethodDescriptorsFactory.createDescriptors(getRawClass());
     }
 }

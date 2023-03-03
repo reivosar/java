@@ -6,7 +6,7 @@ import reivosar.common.util.reflect.type.ReturnTypeDescriptor;
  * A descriptor for a method, providing information about its access scope,
  * return type, name, parameter types, metadata, and method accessor.
  */
-public interface MethodDescriptor extends ClassMemberDescriptor, MetadataDescriptor, ExecutableClassMemberDescriptor {
+public interface MethodDescriptor extends ExecutableClassMemberDescriptor {
     
     /**
      * Returns the descriptor for the return type of the method.

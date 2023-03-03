@@ -1,8 +1,10 @@
-package reivosar.common.util.reflect;
+package reivosar.common.util.reflect.member;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
+import reivosar.common.util.reflect.member.FieldDescriptors;
+import reivosar.common.util.reflect.member.FieldDescriptorsFactory;
 
 import java.lang.reflect.Field;
 
@@ -18,7 +20,7 @@ class FieldDescriptorsTest {
             // given
             Field[] nullArray = null;
             // when
-            FieldDescriptors descriptors = new FieldDescriptors(nullArray);
+            FieldDescriptors descriptors = FieldDescriptorsFactory.createDescriptors(nullArray);
             // then
             Assertions.assertTrue(descriptors.getDescriptors().isEmpty());
         }
@@ -28,7 +30,7 @@ class FieldDescriptorsTest {
             // given
             Field[] emptyArray = new Field[0];
             // when
-            FieldDescriptors descriptors = new FieldDescriptors(emptyArray);
+            FieldDescriptors descriptors = FieldDescriptorsFactory.createDescriptors(emptyArray);
             // then
             Assertions.assertTrue(descriptors.getDescriptors().isEmpty());
         }
@@ -38,12 +40,12 @@ class FieldDescriptorsTest {
             // given
             Field[] fields = TestClass.class.getDeclaredFields();
             // when
-            FieldDescriptors descriptors = new FieldDescriptors(fields);
+            FieldDescriptors descriptors = FieldDescriptorsFactory.createDescriptors(fields);
             // then
             assertTrue(descriptors.getDescriptors().size() > 0);
-            assertTrue(descriptors.getMemberNames().contains("name"));
-            assertTrue(descriptors.getMemberNames().contains("this$1"));
-            assertTrue(descriptors.getMemberNames().contains("result"));
+            assertTrue(descriptors.getNames().contains("name"));
+            assertTrue(descriptors.getNames().contains("this$1"));
+            assertTrue(descriptors.getNames().contains("result"));
         }
         
         private class TestClass {

@@ -1,8 +1,10 @@
-package reivosar.common.util.reflect;
+package reivosar.common.util.reflect.member;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
+import reivosar.common.util.reflect.member.MethodDescriptors;
+import reivosar.common.util.reflect.member.MethodDescriptorsFactory;
 
 import java.lang.reflect.Method;
 
@@ -16,7 +18,7 @@ class   MethodDescriptorsTest {
             // given
             Method[] nullArray = null;
             // when
-            MethodDescriptors descriptors = new MethodDescriptors(nullArray);
+            MethodDescriptors descriptors = MethodDescriptorsFactory.createDescriptors(nullArray);
             // then
             Assertions.assertTrue(descriptors.getDescriptors().isEmpty());
         }
@@ -26,7 +28,7 @@ class   MethodDescriptorsTest {
             // given
             Method[] emptyArray = new Method[0];
             // when
-            MethodDescriptors descriptors = new MethodDescriptors(emptyArray);
+            MethodDescriptors descriptors = MethodDescriptorsFactory.createDescriptors(emptyArray);
             // then
             Assertions.assertTrue(descriptors.getDescriptors().isEmpty());
         }
@@ -36,7 +38,7 @@ class   MethodDescriptorsTest {
             // given
             Method[] methods = getClass().getDeclaredMethods();
             // when
-            MethodDescriptors descriptors = new MethodDescriptors(getClass().getDeclaredMethods());
+            MethodDescriptors descriptors = MethodDescriptorsFactory.createDescriptors(getClass().getDeclaredMethods());
             // then
             Assertions.assertEquals(3, descriptors.getDescriptors().size());
         }

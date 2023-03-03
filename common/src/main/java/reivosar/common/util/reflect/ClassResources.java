@@ -3,7 +3,6 @@ package reivosar.common.util.reflect;
 import com.google.common.reflect.ClassPath;
 import reivosar.common.util.cache.Cache;
 import reivosar.common.util.cache.CacheFactory;
-import reivosar.common.util.model.Model;
 
 import java.io.IOException;
 
@@ -17,7 +16,7 @@ import java.io.IOException;
  * never expire or be evicted due to time or size constraints. As a consequence, memory usage might grow over time
  * depending on the number of unique classes accessed through this cache.
  */
-public class ClassDescriptors extends Model {
+public class ClassResources {
     
     private static final Cache<String, ClassDescriptor> CACHE;
     
@@ -27,7 +26,7 @@ public class ClassDescriptors extends Model {
             for (final ClassPath.ClassInfo classInfo :
                     ClassPath.from(Thread.currentThread().getContextClassLoader()).getAllClasses()) {
                 try {
-                    CACHE.put(classInfo.getName(), new ClassDescriptor(classInfo.load()));
+                    CACHE.put(classInfo.getName(), ClassDescriptorFactory.create(classInfo.getClass()));
                 } catch (Throwable e) {
                     // Do nothing
                 }

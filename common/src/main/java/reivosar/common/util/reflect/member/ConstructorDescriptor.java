@@ -3,7 +3,7 @@ package reivosar.common.util.reflect.member;
 /**
  * A descriptor for a constructor, providing information and access to the constructor's metadata and behavior.
  */
-public interface ConstructorDescriptor extends ClassMemberDescriptor, MetadataDescriptor, ExecutableClassMemberDescriptor {
+public interface ConstructorDescriptor extends ExecutableClassMemberDescriptor {
     
     /**
      * Returns an instance of the `ConstructorAccessor` interface that provides access to the constructor's behavior at runtime.

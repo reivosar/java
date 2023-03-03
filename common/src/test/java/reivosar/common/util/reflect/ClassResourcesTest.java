@@ -5,13 +5,13 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class ClassDescriptorsTest {
+class ClassResourcesTest {
     
     @Nested
     class OfMethod {
         @Test
         void shouldReturnClassDescriptorIfExists() {
-            ClassDescriptor descriptor = ClassDescriptors.of(ClassDescriptorsTest.class);
+            ClassDescriptor descriptor = ClassResources.of(ClassResourcesTest.class);
             assertNotNull(descriptor);
         }
     }
@@ -21,13 +21,13 @@ class ClassDescriptorsTest {
         
         @Test
         void shouldReturnClassDescriptorIfExists() {
-            ClassDescriptor descriptor = ClassDescriptors.of("reivosar.common.util.reflect.ClassDescriptorsTest");
+            ClassDescriptor descriptor = ClassResources.of("reivosar.common.util.reflect.ClassDescriptorsTest");
             assertNotNull(descriptor);
         }
         
         @Test
         void shouldReturnNullIfNotFound() {
-            ClassDescriptor descriptor = ClassDescriptors.of("com.example.NonExistentClass");
+            ClassDescriptor descriptor = ClassResources.of("com.example.NonExistentClass");
             assertNull(descriptor);
         }
     }

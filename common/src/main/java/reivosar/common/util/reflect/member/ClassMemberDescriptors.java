@@ -3,33 +3,37 @@ package reivosar.common.util.reflect.member;
 import java.util.Collection;
 
 /**
- * This interface represents a collection of class member descriptors, which include methods and fields.
+ * A generic interface for a collection of ClassMemberDescriptor objects.
  *
- * @param <T> the type of the class member descriptor.
- * @param <S> the type of the class member descriptors.
+ * @param <T> the type of ClassMemberDescriptor contained in this collection
  */
-public interface ClassMemberDescriptors<T extends ClassMemberDescriptor, S extends ClassMemberDescriptors<T, S>> {
+public interface ClassMemberDescriptors<T extends ClassMemberDescriptor> {
     
     /**
-     * Filters the class member descriptors by name.
+     * Returns a collection of member names contained in this collection.
      *
-     * @param name the name to filter by.
-     * @return a new collection of class member descriptors filtered by name.
+     * @return a collection of member names
      */
-    S filterByName(String name);
+    Collection<String> getNames();
     
     /**
-     * Filters the class member descriptors by a described member.
+     * Returns the number of members contained in this collection.
      *
-     * @param describedMember the described member to filter by.
-     * @return a new collection of class member descriptors filtered by the described member.
+     * @return the number of members
      */
-    S filterByDescribedMember(String describedMember);
+    int getMemberCount();
     
     /**
-     * Gets a collection of method descriptors from the class member descriptors.
+     * Returns a collection of member names for which descriptors are available.
      *
-     * @return a collection of method descriptors.
+     * @return a collection of described member names
+     */
+    Collection<String> getDescribedMembers();
+    
+    /**
+     * Returns a collection of ClassMemberDescriptor objects contained in this collection.
+     *
+     * @return a collection of ClassMemberDescriptor objects
      */
     Collection<T> getDescriptors();
 }

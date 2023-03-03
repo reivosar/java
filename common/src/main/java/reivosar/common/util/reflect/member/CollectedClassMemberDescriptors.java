@@ -1,16 +1,10 @@
 package reivosar.common.util.reflect.member;
 
-import reivosar.common.util.lang.ObjectUtil;
 import reivosar.common.util.model.Model;
 
 import java.util.Collection;
-import java.util.function.Predicate;
 
-@SuppressWarnings("unchecked")
-class CollectedClassMemberDescriptors<T extends ClassMemberDescriptor,
-                                      S extends ClassMemberDescriptors<T, S>>
-        extends Model
-        implements ClassMemberDescriptors<T, S> {
+abstract class CollectedClassMemberDescriptors<T extends ClassMemberDescriptor> extends Model implements ClassMemberDescriptors<T> {
     
     private final Collection<T> descriptors;
     
@@ -19,21 +13,18 @@ class CollectedClassMemberDescriptors<T extends ClassMemberDescriptor,
     }
     
     @Override
-    public S filterByName(final String name) {
-        ObjectUtil.requireNonNull("name", name);
-        return (S) new CollectedClassMemberDescriptors<T, S>(filter(getDescriptors(), t -> t.getName().equals(name)));
+    public Collection<String> getNames() {
+        return getDescriptors().stream().map(ClassMemberDescriptor::getName).toList();
     }
     
     @Override
-    public S filterByDescribedMember(final String describedMember) {
-        ObjectUtil.requireNonNull("describedMember", describedMember);
-        return (S) new CollectedClassMemberDescriptors<T, S>(filter(getDescriptors(), t -> t.getDescribedMember().equals(describedMember)));
+    public int getMemberCount() {
+        return getDescriptors().size();
     }
     
-    protected final Collection<T> filter(final Collection<T> collection, final Predicate<T> predicate) {
-        return collection.stream()
-                .filter(predicate)
-                .toList();
+    @Override
+    public Collection<String> getDescribedMembers() {
+        return getDescriptors().stream().map(ClassMemberDescriptor::getDescribedMember).toList();
     }
     
     @Override
