@@ -3,6 +3,7 @@ package reivosar.common.util.reflect;
 import com.google.common.reflect.ClassPath;
 import reivosar.common.util.cache.Cache;
 import reivosar.common.util.cache.CacheFactory;
+import reivosar.common.util.lang.ObjectUtil;
 
 import java.io.IOException;
 
@@ -43,6 +44,7 @@ public class ClassResources {
      * @return the {@code ClassDescriptor} for the given {@code Class}, or {@code null} if it is not found
      */
     public static ClassDescriptor of(final Class<?> clazz) {
+        ObjectUtil.requireNonNull("clazz", clazz);
         return of(clazz.getName());
     }
     
@@ -53,6 +55,7 @@ public class ClassResources {
      * @return the class descriptor if found, or null if not found
      */
     public static ClassDescriptor of(final String classPath) {
+        ObjectUtil.requireNonNull("classPath", classPath);
         return CACHE.get(classPath).nullableValue();
     }
 }

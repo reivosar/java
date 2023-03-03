@@ -21,7 +21,7 @@ class ClassResourcesTest {
         
         @Test
         void shouldReturnClassDescriptorIfExists() {
-            ClassDescriptor descriptor = ClassResources.of("reivosar.common.util.reflect.ClassDescriptorsTest");
+            ClassDescriptor descriptor = ClassResources.of("reivosar.common.util.reflect.ClassResourcesTest");
             assertNotNull(descriptor);
         }
         
@@ -31,5 +31,4 @@ class ClassResourcesTest {
             assertNull(descriptor);
         }
     }
-
 }
