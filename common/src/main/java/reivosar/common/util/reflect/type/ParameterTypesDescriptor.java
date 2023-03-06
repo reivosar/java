@@ -25,6 +25,14 @@ public interface ParameterTypesDescriptor {
     /**
      * Checks whether the parameter types are equal to those of the specified descriptor.
      *
+     * @param parameterTypes the descriptor to compare to
+     * @return true if the parameter types are equal, false otherwise
+     */
+    boolean isEqualParameterType(final Class<?>... parameterTypes);
+    
+    /**
+     * Checks whether the parameter types are equal to those of the specified descriptor.
+     *
      * @param parameters the descriptor to compare to
      * @return true if the parameter types are equal, false otherwise
      */

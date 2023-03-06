@@ -27,7 +27,7 @@ public class ClassResources {
             for (final ClassPath.ClassInfo classInfo :
                     ClassPath.from(Thread.currentThread().getContextClassLoader()).getAllClasses()) {
                 try {
-                    CACHE.put(classInfo.getName(), ClassDescriptorFactory.create(classInfo.getClass()));
+                    CACHE.put(classInfo.getName(), ClassDescriptorFactory.create(classInfo.load()));
                 } catch (Throwable e) {
                     // Do nothing
                 }

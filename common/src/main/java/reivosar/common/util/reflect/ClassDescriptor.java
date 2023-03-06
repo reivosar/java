@@ -48,7 +48,7 @@ public interface ClassDescriptor {
      * @return the class modifier
      */
     default ClassModifier getClassModifier() {
-        return new ClassModifier(getRawClass().getModifiers());
+        return new ClassModifier(getRawClass());
     }
     
     /**
@@ -77,4 +77,5 @@ public interface ClassDescriptor {
     default MethodDescriptors getMethodDescriptors() {
         return MethodDescriptorsFactory.createDescriptors(getRawClass());
     }
+    
 }

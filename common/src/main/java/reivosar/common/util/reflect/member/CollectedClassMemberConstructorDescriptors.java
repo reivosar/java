@@ -1,6 +1,6 @@
 package reivosar.common.util.reflect.member;
 
-import reivosar.common.util.lang.ArrayUtil;
+import reivosar.common.util.lang.ClassUtil;
 import reivosar.common.util.lang.ObjectUtil;
 
 import java.lang.annotation.Annotation;
@@ -24,26 +24,37 @@ class CollectedClassMemberConstructorDescriptors
     }
     
     @Override
-    public ConstructorDescriptors filter(final String name, final Object... parameters) {
+    public ConstructorDescriptors filter(final Class<?>... parameterTypes) {
+        return new CollectedClassMemberConstructorDescriptors(
+                getDescriptors().stream()
+                        .filter(d -> d.getParameterTypesDescriptor().isEqualParameterType(parameterTypes))
+                        .toList());
+    }
+    
+    @Override
+    public ConstructorDescriptors filter(final Object... parameters) {
+        return filter(ClassUtil.toClass(parameters));
+    }
+    
+    @Override
+    public ConstructorDescriptors filter(final Class<? extends Annotation> annotationClass, final Class<?>... parameterTypes) {
         return filter(getDescriptors().stream()
-                        .filter(d -> d.getName().equals(name))
+                        .filter(d -> d.hasAnnotation(annotationClass))
                         .toList(),
-                parameters);
+                parameterTypes);
     }
     
     @Override
     public ConstructorDescriptors filter(final Class<? extends Annotation> annotationClass, final Object... parameters) {
-        return filter(getDescriptors().stream()
-                        .filter(d -> d.hasAnnotation(annotationClass))
-                        .toList(),
-                parameters);
+        return filter(annotationClass, ClassUtil.toClass(parameters));
     }
     
-    private CollectedClassMemberConstructorDescriptors filter(final Collection<ConstructorDescriptor> collection, final Object[] parameters) {
+    private CollectedClassMemberConstructorDescriptors filter(final Collection<ConstructorDescriptor> collection,
+                                                              final Class<?>[] parametersTypes) {
         Collection<ConstructorDescriptor> result = collection;
-        if (ArrayUtil.isNotEmpty(parameters)) {
+        if ((parametersTypes != null) && (parametersTypes.length > 0)) {
             result = result.stream()
-                    .filter(d -> d.getParameterTypesDescriptor().isEqualParameterType(parameters))
+                    .filter(d -> d.getParameterTypesDescriptor().isEqualParameterType(parametersTypes))
                     .toList();
         }
         return new CollectedClassMemberConstructorDescriptors(result);

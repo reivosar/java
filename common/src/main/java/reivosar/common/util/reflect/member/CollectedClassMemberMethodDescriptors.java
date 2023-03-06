@@ -1,6 +1,7 @@
 package reivosar.common.util.reflect.member;
 
 import reivosar.common.util.lang.ArrayUtil;
+import reivosar.common.util.lang.ClassUtil;
 import reivosar.common.util.lang.ObjectUtil;
 
 import java.lang.annotation.Annotation;
@@ -25,26 +26,36 @@ class CollectedClassMemberMethodDescriptors
     }
     
     @Override
-    public MethodDescriptors filter(final String name, final Object... parameters) {
+    public MethodDescriptors filter(final String name, final Class<?>... parameterTypes) {
         return filter(getDescriptors().stream()
                         .filter(d -> d.getName().equals(name))
                         .toList(),
-                parameters);
+                parameterTypes);
+    }
+    
+    @Override
+    public MethodDescriptors filter(final String name, final Object... parameters) {
+        return filter(name, ClassUtil.toClass(parameters));
+    }
+    
+    @Override
+    public MethodDescriptors filter(final Class<? extends Annotation> annotationClass, final Class<?>... parameterTypes) {
+        return filter(getDescriptors().stream()
+                        .filter(d -> d.hasAnnotation(annotationClass))
+                        .toList(),
+                parameterTypes);
     }
     
     @Override
     public MethodDescriptors filter(final Class<? extends Annotation> annotationClass, final Object... parameters) {
-        return filter(getDescriptors().stream()
-                        .filter(d -> d.hasAnnotation(annotationClass))
-                        .toList(),
-                parameters);
+        return filter(annotationClass, ClassUtil.toClass(parameters));
     }
     
-    private CollectedClassMemberMethodDescriptors filter(final Collection<MethodDescriptor> collection, final Object[] parameters) {
+    private CollectedClassMemberMethodDescriptors filter(final Collection<MethodDescriptor> collection, final Class<?>[] parameterTypes) {
         Collection<MethodDescriptor> result = collection;
-        if (ArrayUtil.isNotEmpty(parameters)) {
+        if ((parameterTypes != null) && (parameterTypes.length > 0)) {
             result = result.stream()
-                    .filter(d -> d.getParameterTypesDescriptor().isEqualParameterType(parameters))
+                    .filter(d -> d.getParameterTypesDescriptor().isEqualParameterType(parameterTypes))
                     .toList();
         }
         return new CollectedClassMemberMethodDescriptors(result);
