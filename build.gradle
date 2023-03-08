@@ -53,7 +53,7 @@ dependencies {
     testImplementation group: 'org.junit.platform', name: 'junit-platform-launcher', version: '1.8.1'
 
     // Jitpack
-    implementation 'com.github.jitpack:gradle-simple:1.0'
+    implementation 'com.github.reivosar:java:1.0-SNAPSHOT'
 }
 
 java {
