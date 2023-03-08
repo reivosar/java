@@ -1,1 +1,0 @@
-CREATE ROLE appuser WITH LOGIN PASSWORD 'password';

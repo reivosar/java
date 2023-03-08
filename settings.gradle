@@ -9,6 +9,4 @@
 
 rootProject.name = 'java'
 include 'common'
-include 'apache-kafka-docker-sample'
-include 'algorithm'
 

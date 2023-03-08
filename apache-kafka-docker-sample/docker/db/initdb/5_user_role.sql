@@ -1,2 +1,0 @@
-GRANT CONNECT ON DATABASE my_postgres TO appuser;
-GRANT SELECT,UPDATE,INSERT,DELETE ON ALL TABLES IN SCHEMA my_postgres_schema TO appuser;

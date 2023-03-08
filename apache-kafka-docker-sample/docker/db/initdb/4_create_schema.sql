@@ -1,1 +1,0 @@
-CREATE SCHEMA IF NOT EXISTS my_postgres_schema AUTHORIZATION appuser;
