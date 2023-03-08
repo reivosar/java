@@ -12,14 +12,13 @@ plugins {
 }
 
 group 'reivosar'
-version '1.0-SNAPSHOT'
+version '1.0'
 
 compileJava.options.encoding = 'UTF-8'
 compileTestJava.options.encoding = 'UTF-8'
 
 repositories {
     mavenCentral()
-    maven { url "https://jitpack.io" }
 }
 
 dependencies {
@@ -51,9 +50,6 @@ dependencies {
     testImplementation 'org.junit.jupiter:junit-jupiter:5.7.1'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.7.1'
     testImplementation group: 'org.junit.platform', name: 'junit-platform-launcher', version: '1.8.1'
-
-    // Jitpack
-    implementation 'com.github.reivosar:java:1.0-SNAPSHOT'
 }
 
 java {
@@ -66,4 +62,22 @@ java {
 
 test {
     useJUnitPlatform()
+}
+
+java {
+    withSourcesJar()
+    withJavadocJar()
+}
+
+publishing {
+    publications {
+        maven(MavenPublication) {
+            from components.java
+        }
+    }
+}
+
+wrapper {
+    gradleVersion = "7.3"
+    distributionType = Wrapper.DistributionType.ALL
 }
