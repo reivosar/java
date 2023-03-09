@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import reivosar.common.util.lang.ObjectUtil;
 
 import java.io.File;
@@ -18,6 +19,7 @@ public final class JsonUtil {
     static {
         JSON_MAPPER.disable(JsonGenerator.Feature.AUTO_CLOSE_TARGET);
         JSON_MAPPER.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
+        JSON_MAPPER.registerModule(new JavaTimeModule());
     }
     
     private JsonUtil() {
