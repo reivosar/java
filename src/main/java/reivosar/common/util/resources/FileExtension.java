@@ -10,10 +10,6 @@ import java.io.File;
  */
 public record FileExtension(String extension) {
     
-    public FileExtension(final String extension) {
-        this.extension = ObjectUtil.requireNonNull("extension", extension);
-    }
-    
     /**
      * Returns a new FileExtension instance based on the file extension of the given file name.
      *
@@ -21,6 +17,7 @@ public record FileExtension(String extension) {
      * @return a new FileExtension instance
      */
     public static FileExtension of(final String fileName) {
+        ObjectUtil.requireNonNull("FileName", fileName);
         return new FileExtension(Files.getFileExtension(fileName));
     }
     
@@ -31,6 +28,7 @@ public record FileExtension(String extension) {
      * @return a new FileExtension instance
      */
     public static FileExtension of(final File file) {
+        ObjectUtil.requireNonNull("File", file);
         return of(file.getName());
     }
 }

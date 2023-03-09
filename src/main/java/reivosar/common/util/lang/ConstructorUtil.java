@@ -17,6 +17,7 @@ public class ConstructorUtil {
     /**
      * Creates a new instance of the class represented by the specified constructor, using the specified parameters.
      *
+     * @param <T>         the type of the class for creating instance
      * @param constructor the constructor object
      * @param parameters  the parameters to be passed to the constructor
      * @return a new instance of the class represented by the constructor

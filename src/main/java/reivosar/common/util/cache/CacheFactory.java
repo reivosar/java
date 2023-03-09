@@ -1,35 +1,39 @@
 package reivosar.common.util.cache;
 
 /**
- * Factory for creating Cache instances.
+ * The CacheFactory class provides static methods for creating cache objects.
  */
 public class CacheFactory {
     
     /**
-     * Returns a local eternal thread safe cache. This cache will remain in memory unless cleared.
+     * Creates a new eternal local cache.
      *
-     * @return default cache implementation
+     * @param <K> the type of the cache keys
+     * @param <V> the type of the cache values
+     * @return a new eternal local cache
      */
     public static <K, V> Cache<K, V> getEternalLocalCache() {
         return new EternalLocalCache<>();
     }
     
     /**
-     * Returns a fixed maximum size thread safe cache. this cache removes the least recently used entry
-     * if an entry is added when full.
+     * Creates a new LRU (least recently used) local cache with a default maximum size.
      *
-     * @return default cache implementation
+     * @param <K> the type of the cache keys
+     * @param <V> the type of the cache values
+     * @return a new LRU local cache with a default maximum size
      */
     public static <K, V> Cache<K, V> getLRULocalCache() {
         return new LRULocalCache<>();
     }
     
     /**
-     * Returns a fixed maximum size thread safe cache. this cache removes the least recently used entry
-     * if an entry is added when full.
+     * Creates a new LRU (least recently used) local cache with the specified maximum size.
      *
+     * @param <K>     the type of the cache keys
+     * @param <V>     the type of the cache values
      * @param maxSize the maximum size of the cache
-     * @return default cache implementation
+     * @return a new LRU local cache with the specified maximum size
      */
     public static <K, V> Cache<K, V> getLRULocalCache(int maxSize) {
         return new LRULocalCache<>(maxSize);

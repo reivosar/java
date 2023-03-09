@@ -3,42 +3,37 @@ package reivosar.common.util.model;
 import java.util.Optional;
 
 /**
- * The object that implements this interface contains a 
- * method that returns a boolean indicating the success
- * or failure of the processing, a processing result object, 
- * and error information.
- *  
- * @param <T> 
+ * The Result interface represents the result of a computation that may either succeed or fail.
+ *
+ * @param <T> the type of the result value
  */
 public interface Result<T> {
-	
-	/**
-	 * Returns whether the process was successful or not.
-	 * 
-	 * @return {@code true} If the process is successful.
-	 */
-	boolean success();
-	
-	/**
-	 * Returns whether the process failed or not.
-	 * 
-	 * @return {@code true} If the process fails.
-	 */
-	boolean fail();
-
-	/**
-	 * Returns the processing result.This method is of 
-	 * type Optional, and null values will not be returned.
-	 * 
-	 * @return the processing result
-	 */
-	Optional<T> result();
-	
-	/**
-	 * Return an throwable object.This method is of 
-	 * type Optional, and null values will not be returned.
-	 * 
-	 * @return throwable object
-	 */
-	Optional<Throwable> error();
+    
+    /**
+     * Checks whether the computation succeeded.
+     *
+     * @return true if the computation succeeded, false otherwise
+     */
+    boolean success();
+    
+    /**
+     * Checks whether the computation failed.
+     *
+     * @return true if the computation failed, false otherwise
+     */
+    boolean fail();
+    
+    /**
+     * Returns the result value if the computation succeeded.
+     *
+     * @return an optional containing the result value, or an empty optional if the computation failed
+     */
+    Optional<T> result();
+    
+    /**
+     * Returns the error that caused the computation to fail, if the computation failed.
+     *
+     * @return an optional containing the error, or an empty optional if the computation succeeded
+     */
+    Optional<Throwable> error();
 }

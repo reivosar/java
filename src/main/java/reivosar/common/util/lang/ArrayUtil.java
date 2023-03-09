@@ -14,10 +14,22 @@ public final class ArrayUtil {
         // This constructor must be private
     }
     
+    /**
+     * Checks if the specified array is empty.
+     *
+     * @param array the array to check
+     * @return true if the array is null or has zero length, false otherwise
+     */
     public static boolean isEmpty(final Object... array) {
         return array == null || array.length == 0;
     }
     
+    /**
+     * Checks if the specified array is not empty.
+     *
+     * @param array the array to check
+     * @return true if the array is not null and has a positive length, false otherwise
+     */
     public static boolean isNotEmpty(final Object... array) {
         return !isEmpty(array);
     }
