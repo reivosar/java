@@ -92,7 +92,7 @@ public interface Promise<T> extends Result<T> {
     Promise<T> onSuccess(Consumer<T> consumer);
     
     /**
-     * If an exception was occured in the previous process,
+     * If an exception was occurred in the previous process,
      * Exception object is handled with the behavior of the Consumer
      * object passed as an argument.
      * <p>

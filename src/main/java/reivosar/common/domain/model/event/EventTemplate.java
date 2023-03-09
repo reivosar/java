@@ -5,32 +5,48 @@ import java.time.LocalDateTime;
 import reivosar.common.util.model.Model;
 
 /**
- * An abstract class representing an event template that implements the {@link Event} interface.
+ * A base implementation of the {@link Event} interface that provides default implementations
+ * for its methods.
  */
 public abstract class EventTemplate extends Model implements Event {
     
+    /**
+     * The unique identifier of the event.
+     */
     private final EventId eventId;
+    
+    /**
+     * The version of the event.
+     */
     private final EventVersion eventVersion;
+    
+    /**
+     * The topic of the event.
+     */
     private final EventTopic eventTopic;
+    
+    /**
+     * The time the event occurred.
+     */
     private final EventOccurredTime eventOccurredTime;
     
     /**
-     * Creates a new event template with a generated ID, version 1, the specified topic, and the current time as the
-     * occurred time.
+     * Constructs a new instance of the {@code EventTemplate} class with a generated {@code eventId},
+     * default {@code eventVersion}, default {@code eventOccurredTime}, and the specified {@code eventTopic}.
      *
-     * @param eventTopic the topic of the event
+     * @param eventTopic The topic of the event.
      */
     protected EventTemplate(EventTopic eventTopic) {
         this(new EventId(), new EventVersion(), eventTopic, new EventOccurredTime());
     }
     
     /**
-     * Creates a new event template with the specified ID, version, topic, and occurred time.
+     * Constructs a new instance of the {@code EventTemplate} class with the specified parameters.
      *
-     * @param eventId           the ID of the event
-     * @param eventVersion      the version of the event
-     * @param eventTopic        the topic of the event
-     * @param eventOccurredTime the occurred time of the event
+     * @param eventId           The unique identifier of the event.
+     * @param eventVersion      The version of the event.
+     * @param eventTopic        The topic of the event.
+     * @param eventOccurredTime The time the event occurred.
      */
     protected EventTemplate(
             final EventId eventId,
@@ -43,21 +59,33 @@ public abstract class EventTemplate extends Model implements Event {
         this.eventOccurredTime = eventOccurredTime;
     }
     
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String getEventId() {
         return eventId.value;
     }
     
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public int getEventVersion() {
         return eventVersion.value;
     }
     
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String getEventTopic() {
         return eventTopic.value;
     }
     
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public LocalDateTime getEventOccurredTime() {
         return eventOccurredTime.value.toLocalDateTime();
