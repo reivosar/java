@@ -1,32 +1,29 @@
 package reivosar.common.domain.model.event;
 
-import reivosar.common.domain.model.Identity;
 import reivosar.common.util.promise.Promise;
 
+import java.util.Collection;
+
 /**
- * A domain event publisher interface that allows for asynchronous publishing of events
- * <p>
- * and waiting for their completion using promises.
- *
- * @param <ID>     the type of identity used for the entity
- * @param <ENTITY> the type of entity that can publish events
+ * DomainEventPublisher is an interface for publishing domain events asynchronously.
  */
-public interface DomainEventPublisher<ID extends Identity<ID>, ENTITY extends EventPublishableEntity<ID, ENTITY>> {
+public interface DomainEventPublisher {
     
     /**
-     * Asynchronously publishes an eventable entity.
+     * Publishes the specified domain event asynchronously.
      *
-     * @param entity the entity to publish
+     * @param event the domain event to be published
+     * @return a promise object
      */
-    void asyncPublish(ENTITY entity);
+    Promise<?> publish(Event event);
     
     /**
-     * Asynchronously publishes an eventable entity and returns a promise for the result.
+     * Publishes the specified collection of domain events asynchronously.
      *
-     * @param entity the entity to publish
-     * @return a promise that will be resolved when the event is published
+     * @param events the collection of domain events to be published
+     * @return a promise object
      */
-    Promise<Object> awaitPublish(ENTITY entity);
+    Promise<?> publishAll(Collection<Event> events);
 }
 
 
