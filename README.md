@@ -17,7 +17,7 @@ Promise<Integer> promise = Promise.resolve(() -> 1)
     .onSuccess(System.out::println) // Output 36 in your console
     .onFailure(Throwable::printStackTrace); // Not executed
 ```
-https://github.com/reivosar/java/blob/main/common/src/main/java/reivosar/common/util/promise/Promise.java
+https://github.com/reivosar/java/blob/main/src/main/java/reivosar/common/util/promise/Promise.java
 
 ## Cache
 
@@ -31,7 +31,7 @@ assertEquals(Optional.of("value1"), cache.get("key").findFirst());
 assertIterableEquals(List.of("value1", "value2"), cache.get("key").values());
 assertEquals(2, cache.get("key").size());
 ```
-https://github.com/reivosar/java/blob/main/common/src/main/java/reivosar/common/util/cache/Cache.java
+https://github.com/reivosar/java/blob/main/src/main/java/reivosar/common/util/cache/Cache.java
 
 ## PDF Creator
 
@@ -49,4 +49,4 @@ final boolean result = PdfCreator.forCreatingNew()
                 .build())
         .createTo(outputPath);
 ```
-https://github.com/reivosar/java/blob/main/common/src/main/java/reivosar/common/util/io/pdf/creator/PdfCreator.java
+https://github.com/reivosar/java/blob/main/src/main/java/reivosar/common/util/io/pdf/creator/PdfCreator.java
