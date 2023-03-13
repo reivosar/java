@@ -17,7 +17,11 @@ public class FieldDescriptorsFactory {
      */
     public static FieldDescriptors createDescriptors(final Class<?> aClass) {
         ObjectUtil.requireNonNull("aClass", aClass);
-        return createDescriptors(aClass.getDeclaredFields());
+        try {
+            return createDescriptors(aClass.getDeclaredFields());
+        } catch (Throwable e) {
+            return new CollectedClassMemberFieldDescriptors(null);
+        }
     }
     
     /**

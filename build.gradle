@@ -51,9 +51,6 @@ dependencies {
     testImplementation 'org.junit.jupiter:junit-jupiter:5.7.1'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.7.1'
     testImplementation group: 'org.junit.platform', name: 'junit-platform-launcher', version: '1.8.1'
-
-    // Kafka
-    implementation 'org.springframework.kafka:spring-kafka:3.0.4'
 }
 
 java {

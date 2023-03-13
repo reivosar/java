@@ -17,7 +17,11 @@ public class MethodDescriptorsFactory {
      */
     public static MethodDescriptors createDescriptors(final Class<?> aClass) {
         ObjectUtil.requireNonNull("aClass", aClass);
-        return createDescriptors(aClass.getDeclaredMethods());
+        try {
+            return createDescriptors(aClass.getDeclaredMethods());
+        } catch (Throwable e) {
+            return new CollectedClassMemberMethodDescriptors(null);
+        }
     }
     
     /**

@@ -17,7 +17,11 @@ public class ConstructorDescriptorsFactory {
      */
     public static ConstructorDescriptors createDescriptors(final Class<?> aClass) {
         ObjectUtil.requireNonNull("aClass", aClass);
-        return createDescriptors(aClass.getDeclaredConstructors());
+        try {
+            return createDescriptors(aClass.getDeclaredConstructors());
+        } catch (Throwable e) {
+            return new CollectedClassMemberConstructorDescriptors(null);
+        }
     }
     
     /**
