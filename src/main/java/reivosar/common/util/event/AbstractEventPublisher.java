@@ -23,10 +23,11 @@ public abstract class AbstractEventPublisher implements EventPublisher {
      */
     @Override
     public final Promise<Void> publish(final Collection<Event> events) {
-        return Promise.all(events.stream().map(event -> (Supplier<Void>) () -> {
-            eventDispatcher.dispatch(event);
-            // This promise object is for publishing events, so there is no return value.
-            return (Void) null;
-        }).collect(Collectors.toList()));
+        return Promise.all(events.stream()
+                .map(event -> (Supplier<Void>) () -> {
+                    eventDispatcher.dispatch(event);
+                    return (Void) null;
+                }).collect(Collectors.toList())
+        );
     }
 }

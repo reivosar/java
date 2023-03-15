@@ -8,6 +8,7 @@ import java.util.Collections;
 /**
  * An interface for classes that can publish events.
  */
+@FunctionalInterface
 public interface EventPublisher {
     
     /**

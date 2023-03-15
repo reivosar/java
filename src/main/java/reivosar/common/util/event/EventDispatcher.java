@@ -3,6 +3,7 @@ package reivosar.common.util.event;
 /**
  * Defines an interface for an event dispatcher, responsible for dispatching an event to all registered listeners.
  */
+@FunctionalInterface
 public interface EventDispatcher {
     
     /**
@@ -11,5 +12,4 @@ public interface EventDispatcher {
      * @param event the event to dispatch
      */
     void dispatch(Event event);
-    
 }

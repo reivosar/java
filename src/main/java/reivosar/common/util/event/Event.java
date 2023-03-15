@@ -7,6 +7,7 @@ import java.time.LocalDateTime;
  * <p>
  * Implementations of this interface should provide a timestamp for when the event occurred.
  */
+@FunctionalInterface
 public interface Event {
     
     /**
