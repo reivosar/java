@@ -14,6 +14,7 @@ class CollectedClassMemberFieldDescriptors
     CollectedClassMemberFieldDescriptors(final Field[] fields) {
         this(Arrays.stream(ObjectUtil.defaultIfNull(fields, new Field[]{}))
                 .filter(ObjectUtil::isNotEmpty)
+                .filter(field -> !field.getName().startsWith("__")) // IntelliJ's coverage analysis measures
                 .map(FieldDescriptorFactory::create)
                 .toList());
     }

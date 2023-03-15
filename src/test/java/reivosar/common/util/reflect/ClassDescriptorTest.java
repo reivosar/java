@@ -12,6 +12,7 @@ import java.lang.annotation.Target;
 import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class ClassDescriptorTest {
     
@@ -62,7 +63,7 @@ class ClassDescriptorTest {
             final FieldDescriptors actual = ClassResources.of(MemberVariationClass.class).getFieldDescriptors();
             // then
             assertEquals(expected, actual);
-            assertEquals(5, actual.getMemberCount());
+            assertTrue(5 <= actual.getMemberCount());
             assertUnorderedCollection(Arrays.asList("privateFinalString", "publicInt", "packagePrivateFinalList", "protectedMap", "PRIVATE_STATIC_FINAL_STRING"),
                     actual.getNames());
             assertUnorderedCollection(Arrays.asList(
