@@ -17,9 +17,9 @@ abstract class DefaultPromise<T> implements Promise<T> {
             return buildFailResultOtherPromise(this);
         if (result().isEmpty())
             return buildFailResultOtherPromise(new PromiseException("result is null."));
-        return new PromiseHandler<R>(PromiseConfig.builder().timeout(timeout).build()).resolve(
+        return new PromiseHandler<R>(PromiseConfig.builder().timeout(timeout).build()).with(
                 () ->  (R) function.apply(result().get())
-        ).await();
+        ).handle();
     }
     
     private <R> Promise<R> buildFailResultOtherPromise(final Throwable error) {
@@ -31,7 +31,7 @@ abstract class DefaultPromise<T> implements Promise<T> {
     }
     
     @Override
-    public Promise<T> ifErrorPresentThrow() throws PromiseException {
+    public Promise<T> throwIfError() throws PromiseException {
         error().ifPresent(error -> {
             throw new PromiseException(error);
         });

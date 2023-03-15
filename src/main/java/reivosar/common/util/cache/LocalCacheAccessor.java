@@ -31,6 +31,11 @@ class LocalCacheAccessor<K, V> extends CacheAccessor<K, V> {
     }
     
     @Override
+    Collection<V> getAllValues() {
+        return this.localCacheStore.values();
+    }
+    
+    @Override
     void clear(final K key) {
         this.localCacheStore.clear(key);
     }

@@ -2,7 +2,9 @@ package reivosar.common.util.event;
 
 import reivosar.common.util.promise.Promise;
 
+import java.util.Collection;
 import java.util.function.Supplier;
+import java.util.stream.Collectors;
 
 /**
  * An abstract implementation of {@link EventPublisher} that provides a method for
@@ -10,19 +12,21 @@ import java.util.function.Supplier;
  */
 public abstract class AbstractEventPublisher implements EventPublisher {
     
+    private final EventDispatcher eventDispatcher;
+    
+    protected AbstractEventPublisher(final EventDispatcher eventDispatcher) {
+        this.eventDispatcher = eventDispatcher;
+    }
+    
     /**
      * {@inheritDoc}
      */
     @Override
-    public Promise<Void> publishEvent(final Event event) {
-        return Promise.resolve(eventSupplier(event));
+    public final Promise<Void> publish(final Collection<Event> events) {
+        return Promise.all(events.stream().map(event -> (Supplier<Void>) () -> {
+            eventDispatcher.dispatch(event);
+            // This promise object is for publishing events, so there is no return value.
+            return (Void) null;
+        }).collect(Collectors.toList()));
     }
-    
-    /**
-     * Returns a supplier that generates an event handler for the given event.
-     *
-     * @param event the event to generate an event handler for.
-     * @return a supplier that generates an event handler for the given event.
-     */
-    protected abstract Supplier<Void> eventSupplier(final Event event);
 }

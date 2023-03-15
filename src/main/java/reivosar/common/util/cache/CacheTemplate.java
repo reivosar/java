@@ -41,6 +41,11 @@ abstract class CacheTemplate<K, V> implements Cache<K, V> {
     }
     
     @Override
+    public final CacheValues<V> getAllValues() {
+        return new CacheValues<>(cacheAccessor.getAllValues());
+    }
+    
+    @Override
     public final void clear(@Nonnull final K key) {
         ObjectUtil.requireNonNull("key", key);
         cacheAccessor.clear(key);

@@ -69,6 +69,38 @@ public class ClassResources {
     }
     
     /**
+     * Finds all class descriptors that have at least one method annotated with the specified annotation class
+     * and having the specified parameters.
+     *
+     * @param annotationClass the annotation class to search for
+     * @param parameters      the parameters to match against
+     * @return a {@link ClassDescriptors} object containing all matching class descriptors
+     */
+    public static ClassDescriptors findByMethodAnnotation(
+            final Class<? extends Annotation> annotationClass, final Object... parameters) {
+        return findByMethodAnnotation(annotationClass, ClassUtil.toClass(parameters));
+    }
+    
+    /**
+     * Finds all class descriptors that have at least one method annotated with the specified annotation class
+     * and having the specified parameters.
+     *
+     * @param annotationClass the annotation class to search for
+     * @param parameters      the parameters to match against
+     * @return a {@link ClassDescriptors} object containing all matching class descriptors
+     */
+    public static ClassDescriptors findByMethodAnnotation(
+            final Class<? extends Annotation> annotationClass, final Class<?>... parameters) {
+        final List<ClassDescriptor> results = CACHE.getAllValues().values()
+                .stream()
+                .filter(descriptor -> !descriptor.getMethodDescriptors()
+                        .filter(annotationClass, parameters)
+                        .getDescriptors().isEmpty())
+                .collect(Collectors.toList());
+        return new ClassDescriptors(results);
+    }
+    
+    /**
      * Finds all class descriptors whose methods have the same parameter types as the given objects.
      *
      * @param parameters objects to use for finding matching parameter types
@@ -85,9 +117,8 @@ public class ClassResources {
      * @return a {@link ClassDescriptors} object containing all matching class descriptors
      */
     public static ClassDescriptors findByMethodParameters(final Class<?>... parameters) {
-        List<ClassDescriptor> results = CACHE.getAllKeys().stream()
-                .map(CACHE::get)
-                .map(CacheValues::value)
+        final List<ClassDescriptor> results = CACHE.getAllValues().values()
+                .stream()
                 .filter(descriptor -> descriptor.getMethodDescriptors()
                         .getDescriptors()
                         .stream()

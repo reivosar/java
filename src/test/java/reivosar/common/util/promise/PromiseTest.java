@@ -60,7 +60,7 @@ class PromiseTest {
             assertTrue(promise.error().isPresent());
             promise.onSuccess(result -> fail());
             promise.onFailure(error -> assertEquals(errorMessage, error.getMessage()));
-            assertThrows(PromiseException.class, promise::ifErrorPresentThrow);
+            assertThrows(PromiseException.class, promise::throwIfError);
         }
     }
 
@@ -97,7 +97,7 @@ class PromiseTest {
             assertFalse(promise.error().isPresent());
             promise.onSuccess(result -> assertEquals(value, result));
             promise.onFailure(error -> fail());
-            assertDoesNotThrow(promise::ifErrorPresentThrow);
+            assertDoesNotThrow(promise::throwIfError);
         }
     }
 }

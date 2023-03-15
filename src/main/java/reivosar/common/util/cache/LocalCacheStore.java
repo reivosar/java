@@ -4,6 +4,7 @@ import reivosar.common.util.lang.ObjectUtil;
 import reivosar.common.util.model.Model;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 class LocalCacheStore<K, V> extends Model {
     
@@ -34,6 +35,12 @@ class LocalCacheStore<K, V> extends Model {
     
     Collection<K> keySet() {
         return cacheMap.keySet();
+    }
+    
+    Collection<V> values() {
+        return cacheMap.values().stream()
+                .flatMap(vs -> new HashSet<>(vs).stream())
+                .collect(Collectors.toSet());
     }
     
     void put(final K key, final V value) {

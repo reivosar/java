@@ -45,6 +45,13 @@ public interface Cache<K, V> {
     Collection<K> getAllKeys();
     
     /**
+     * Retrieve all values in cache.
+     *
+     * @return all keys in values
+     */
+    CacheValues<V> getAllValues();
+    
+    /**
      * Clears the cache associated with the specified key.
      *
      * @param key key of cache to clear

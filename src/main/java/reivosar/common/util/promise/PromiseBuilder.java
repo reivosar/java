@@ -26,6 +26,27 @@ class PromiseBuilder<T> {
         };
     }
     
+    Promise<T> buildFromMultiCompletableFutures(final CompletableFutures<T> futures) {
+        return new DefaultPromise<>() {
+            public boolean success() {
+                return futures.success();
+            }
+            
+            public boolean fail() {
+                return futures.fail();
+            }
+            
+            public Optional<T> result() {
+                return Optional.empty();
+            }
+            
+            public Optional<Throwable> error() {
+                if (!fail()) return Optional.empty();
+                return futures.errors().stream().findFirst();
+            }
+        };
+    }
+    
     <R> Promise<R> buildFailResultOtherPromise(final Throwable error) {
         return new DefaultPromise<>() {
             @Override

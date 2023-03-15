@@ -4,8 +4,8 @@ import reivosar.common.util.lang.ObjectUtil;
 
 class PromiseConfig {
     
-    private static final int DEFAULT_MULTIPLE_NUMBER = 1;
-    private static final Long DEFAULT_TIMEOUT_SECOND = 30L;
+    static final int DEFAULT_MULTIPLE_NUMBER = 1;
+    static final Long DEFAULT_TIMEOUT_SECOND = 30L;
     
     static final PromiseConfig DEFAULT_CONFIG = new PromiseConfig(DEFAULT_MULTIPLE_NUMBER, DEFAULT_TIMEOUT_SECOND);
     
@@ -14,6 +14,10 @@ class PromiseConfig {
     
     private PromiseConfig(final Builder builder) {
         this(builder.multiple, builder.timeout);
+    }
+    
+    private PromiseConfig(final Integer multiple) {
+        this(multiple, DEFAULT_TIMEOUT_SECOND);
     }
     
     private PromiseConfig(final Integer multiple, final Long timeout) {

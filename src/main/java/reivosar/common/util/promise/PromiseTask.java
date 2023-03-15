@@ -22,6 +22,10 @@ class PromiseTask<T> {
         return this;
     }
     
+    int supplierCount() {
+        return suppliers.size();
+    }
+    
     void forEach(final Consumer<? super Supplier<T>> action) {
         this.suppliers.forEach(action);
     }

@@ -5,6 +5,7 @@ import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
+import reivosar.common.util.lang.ObjectUtil;
 import reivosar.common.util.model.Result;
 
 /**
@@ -35,7 +36,7 @@ public interface Promise<T> extends Result<T> {
      * @return {@link Promise}
      */
     static <T> Promise<T> resolve(Supplier<T> supplier) {
-        return new PromiseHandler<T>().resolve(supplier).await();
+        return new PromiseHandler<T>().with(supplier).handle();
     }
     
     /**
@@ -53,7 +54,7 @@ public interface Promise<T> extends Result<T> {
      */
     static <T> Promise<T> resolve(Supplier<T> supplier, long timeout) {
         return new PromiseHandler<T>(PromiseConfig.builder().timeout(timeout).build())
-                .resolve(supplier).await();
+                .with(supplier).handle();
     }
     
     /**
@@ -110,7 +111,7 @@ public interface Promise<T> extends Result<T> {
      * @return {@link Promise}
      * @throws PromiseException This exception will be thrown if an error occurs during promise generation.
      */
-    Promise<T> ifErrorPresentThrow() throws PromiseException;
+    Promise<T> throwIfError() throws PromiseException;
     
     /**
      * Methods for batch execution of multiple suppliers.
@@ -118,7 +119,8 @@ public interface Promise<T> extends Result<T> {
      * @param suppliers one or many supplier to generate Promise
      * @return {@link Promise}
      */
-    static Promise<Object> all(Collection<Supplier<Object>> suppliers) {
-        return new PromiseHandler<>().resolve(suppliers).await();
+    static Promise<Void> all(Collection<Supplier<Void>> suppliers) {
+        ObjectUtil.requireNonNull("suppliers", suppliers);
+        return new PromiseHandler<Void>(suppliers.size()).with(suppliers).handle();
     }
 }

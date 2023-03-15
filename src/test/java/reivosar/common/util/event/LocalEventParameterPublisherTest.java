@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class LocalEventPublisherTest {
+class LocalEventParameterPublisherTest {
     
     @Nested
     class NotExecuteEventTest {
@@ -27,7 +27,7 @@ class LocalEventPublisherTest {
             // given
             final NoDefaultConstructorEvent testEvent = new NoDefaultConstructorEvent(LocalDateTime.now());
             // when
-            final Promise<Void> result = this.testClass.publishEvent(testEvent);
+            final Promise<Void> result = this.testClass.publish(testEvent);
             // then
             assertFalse(result.success());
         }
@@ -37,7 +37,7 @@ class LocalEventPublisherTest {
             // given
             final NoEventMethodEvent testEvent = new NoEventMethodEvent(LocalDateTime.now());
             // when
-            final Promise<Void> result = this.testClass.publishEvent(testEvent);
+            final Promise<Void> result = this.testClass.publish(testEvent);
             // then
             assertFalse(result.success());
         }
@@ -82,7 +82,7 @@ class LocalEventPublisherTest {
             // given
             final SimpleTestEvent testEvent = new SimpleTestEvent(LocalDateTime.now());
             // when
-            final Promise<Void> result = this.testClass.publishEvent(testEvent);
+            final Promise<Void> result = this.testClass.publish(testEvent);
             // then
             assertTrue(result.success());
         }
@@ -113,7 +113,7 @@ class LocalEventPublisherTest {
             // given
             final ManyTestEvent testEvent = new ManyTestEvent(LocalDateTime.now());
             // when
-            final Promise<Void> result = this.testClass.publishEvent(testEvent);
+            final Promise<Void> result = this.testClass.publish(testEvent);
             // then
             assertTrue(result.success());
         }

@@ -3,7 +3,7 @@ package reivosar.common.util.promise;
 import java.util.concurrent.CompletableFuture;
 import java.util.function.Supplier;
 
-class PromiseHandlerInvoker<T> {
+abstract class PromiseHandlerInvoker<T> {
     
     private final ExecutorServiceProvider executorServiceProvider;
     private final PromiseTask<T> promiseTask;
@@ -13,7 +13,7 @@ class PromiseHandlerInvoker<T> {
         this.promiseTask = promiseTask;
     }
     
-    Promise<T> await() {
+    Promise<T> invoke() {
         final CompletableFutures<T> futures = createCompletableFutures();
         watch(futures);
         return returnPromise(futures);
@@ -23,8 +23,10 @@ class PromiseHandlerInvoker<T> {
         if (this.executorServiceProvider.occurredTimeout()) {
             return new PromiseBuilder<T>().buildFailResultOtherPromise(new PromiseException("timeout occurred."));
         }
-        return new PromiseBuilder<T>().buildFromCompletableFutures(futures);
+        return buildPromise(futures);
     }
+    
+    protected abstract Promise<T> buildPromise(final CompletableFutures<T> futures);
     
     private void watch(final CompletableFutures<T> futures) {
         final CompletableFuture<Void> all = futures.toAllOfFutures();
@@ -52,5 +54,5 @@ class PromiseHandlerInvoker<T> {
         this.promiseTask.forEach(supplier -> result.add(executeSupplyAsync(supplier)));
         return result;
     }
+    
 }
-
