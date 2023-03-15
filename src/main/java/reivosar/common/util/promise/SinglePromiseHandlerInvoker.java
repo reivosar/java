@@ -8,7 +8,7 @@ class SinglePromiseHandlerInvoker<T> extends PromiseHandlerInvoker<T> {
     
     @Override
     protected Promise<T> buildPromise(final CompletableFutures<T> futures) {
-        return new PromiseBuilder<T>().buildFromCompletableFutures(futures);
+        return new PromiseBuilder<T>().buildFromSinglePromise(futures);
     }
 }
 

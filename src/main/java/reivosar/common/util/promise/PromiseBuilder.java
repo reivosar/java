@@ -4,7 +4,7 @@ import java.util.Optional;
 
 class PromiseBuilder<T> {
     
-    Promise<T> buildFromCompletableFutures(final CompletableFutures<T> futures) {
+    Promise<T> buildFromSinglePromise(final CompletableFutures<T> futures) {
         return new DefaultPromise<>() {
             public boolean success() {
                 return futures.success();
@@ -26,7 +26,7 @@ class PromiseBuilder<T> {
         };
     }
     
-    Promise<T> buildFromMultiCompletableFutures(final CompletableFutures<T> futures) {
+    Promise<T> buildFromMultiPromises(final CompletableFutures<T> futures) {
         return new DefaultPromise<>() {
             public boolean success() {
                 return futures.success();

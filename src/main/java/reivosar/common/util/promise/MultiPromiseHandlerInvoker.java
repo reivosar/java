@@ -8,7 +8,7 @@ class MultiPromiseHandlerInvoker<T> extends PromiseHandlerInvoker<T> {
     
     @Override
     protected Promise<T> buildPromise(final CompletableFutures<T> futures) {
-        return new PromiseBuilder<T>().buildFromMultiCompletableFutures(futures);
+        return new PromiseBuilder<T>().buildFromMultiPromises(futures);
     }
 }
 
