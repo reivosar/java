@@ -9,8 +9,10 @@ import java.util.function.Function;
 import java.util.function.Supplier;
 
 /**
- * The Promise object represents the result of the completion (or failure)
- * of an asynchronous operation and the value of the result.
+ * A Promise represents a value that may not yet be available but will be resolved in the future.
+ * It is used for asynchronous operations and provides a way to handle the result or error of that operation
+ * when it becomes available.
+ *
  * <p>
  * Instructions are below.
  * <pre>
@@ -19,108 +21,95 @@ import java.util.function.Supplier;
  *         .onSuccess (System.out::println);
  * </pre>
  *
- * @param <T> The type of result that this Promise holds
+ * @param <T> the type of the promised result
  */
 public interface Promise<T> extends Result<T> {
     
     /**
-     * Asynchronously processes the behavior of the
-     * Supplier passed as an argument.
-     * <p>
-     * It waits for a certain period of time until
-     * the processing is completed, and returns a
-     * Promise object holding the result when it is completed.
+     * Creates and returns a new Promise that will be resolved with the result of the specified supplier.
      *
-     * @param <T>      The type of result that this Promise holds
-     * @param supplier supplier to generate Promise
-     * @return {@link Promise}
+     * @param supplier the supplier that will provide the result for the Promise
+     * @param <T>      the type of the result provided by the supplier
+     * @return a new Promise that will be resolved with the result of the specified supplier
+     * @throws NullPointerException if the specified supplier is null
      */
     static <T> Promise<T> resolve(Supplier<T> supplier) {
+        ObjectUtil.requireNonNull("supplier", supplier);
         final PromiseHandler<T> promiseHandler = PromiseHandlerFactory.create();
         return promiseHandler.with(supplier).handle();
     }
     
     /**
-     * Asynchronously processes the behavior of the
-     * Supplier passed as an argument.
-     * <p>
-     * It waits for a certain period of time until
-     * the processing is completed, and returns a
-     * Promise object holding the result when it is completed.
+     * Creates and returns a new Promise that will be resolved with the result of the specified supplier, or will fail
+     * with a TimeoutException if the specified timeout is exceeded before the supplier returns.
      *
-     * @param <T>      The type of result that this Promise holds
-     * @param supplier supplier to generate Promise
-     * @param timeout  the maximum time to wait
-     * @return {@link Promise}
+     * @param supplier the supplier that will provide the result for the Promise
+     * @param timeout  the maximum amount of time to wait for the supplier to return
+     * @param <T>      the type of the result provided by the supplier
+     * @return a new Promise that will be resolved with the result of the specified supplier, or will fail with a
+     * TimeoutException if the specified timeout is exceeded before the supplier returns.
+     * @throws NullPointerException if the specified supplier is null
      */
     static <T> Promise<T> resolve(Supplier<T> supplier, long timeout) {
+        ObjectUtil.requireNonNull("supplier", supplier);
         final PromiseHandler<T> promiseHandler = PromiseHandlerFactory.createWithTimeout(timeout);
         return promiseHandler.with(supplier).handle();
     }
     
     /**
-     * Generate a new Promise based on the results processed by
-     * the previous Promise. If an exception has been thrown
-     * before, this method will be skipped.
+     * Attaches a callback to the Promise that will be executed when the Promise is resolved successfully with a value.
      *
-     * @param <R>      The type of result that this Promise holds
-     * @param function function to receive and handle the result
-     * @return {@link Promise}
+     * @param function the function that will be applied to the Promise's value
+     * @param <R>      the type of the result of the function
+     * @return a new Promise that will be resolved with the result of the function
      */
     <R> Promise<R> then(Function<? super T, ? super R> function);
     
     /**
-     * Generate a new Promise based on the results processed by
-     * the previous Promise. If an exception has been thrown
-     * before, this method will be skipped.
+     * Attaches a callback to the Promise that will be executed when the Promise is resolved successfully with a value, or
+     * will fail with a TimeoutException if the specified timeout is exceeded before the Promise is resolved.
      *
-     * @param <R>      The type of result that this Promise holds
-     * @param function function to receive and handle the result
-     * @param timeout  the maximum time to wait
-     * @return {@link Promise}
+     * @param function the function that will be applied to the Promise's value
+     * @param timeout  the maximum amount of time to wait for the Promise to be resolved
+     * @param <R>      the type of the result of the function
+     * @return a new Promise that will be resolved with the result of the function, or will fail with a TimeoutException
+     * if the specified timeout is exceeded before the Promise is resolved.
      */
     <R> Promise<R> then(Function<? super T, ? super R> function, long timeout);
     
     /**
-     * If the series of processing is successful, the result of
-     * the processing is handled with the behavior of the Consumer
-     * object passed as an argument.
-     * <p>
-     * If the process fails, this method will not be called.
+     * Attaches a callback to the Promise that will be executed when the Promise is resolved successfully with a value.
      *
-     * @param consumer consumer to receive and process the results of the previous promise
-     * @return {@link Promise}
+     * @param consumer the consumer that will be applied to the Promise's value
+     * @return the Promise with the callback attached
      */
     Promise<T> onSuccess(Consumer<T> consumer);
     
     /**
-     * If an exception was occurred in the previous process,
-     * Exception object is handled with the behavior of the Consumer
-     * object passed as an argument.
-     * <p>
-     * If the processing succeeds, this method will not be called.
+     * Attaches a callback to the Promise that will be executed when the Promise fails with an exception.
      *
-     * @param consumer consumer to receive and process the results of the previous promise
-     * @return {@link Promise}
+     * @param consumer the consumer that will be applied to the Promise's exception
+     * @return the Promise with the callback attached
      */
     Promise<T> onFailure(Consumer<Throwable> consumer);
     
     /**
-     * An exception will be thrown if the previous process
-     * threw an exception.
+     * Throws a PromiseException if the Promise has failed.
      *
-     * @return {@link Promise}
-     * @throws PromiseException This exception will be thrown if an error occurs during promise generation.
+     * @return the Promise instance
+     * @throws PromiseException if the Promise has failed
      */
     Promise<T> throwIfError() throws PromiseException;
     
     /**
-     * Methods for batch execution of multiple suppliers.
+     * Processes multiple given suppliers asynchronously and returns a single Promise object.
+     * If an error occurs in one of the suppliers, the first error information is returned.
      *
-     * @param suppliers one or many supplier to generate Promise
-     * @return {@link Promise}
+     * @param suppliers a collection of Suppliers that return a Void Promise
+     * @return a promise returned when all processing for a given supplier is completed
+     * @throws NullPointerException if the suppliers' argument is null
      */
-    static Promise<Void> all(Collection<Supplier<Void>> suppliers) {
+    static Promise<Void> all(final Collection<Supplier<Void>> suppliers) {
         ObjectUtil.requireNonNull("suppliers", suppliers);
         final PromiseHandler<Void> promiseHandler = PromiseHandlerFactory.createWithMultiple(suppliers.size());
         return promiseHandler.with(suppliers).handle();
