@@ -11,10 +11,6 @@ class PromiseHandler<T> {
     private final ExecutorServiceProvider executorServiceProvider;
     private final PromiseTask<T> promiseTask;
     
-    PromiseHandler() {
-        this(PromiseConfig.DEFAULT_CONFIG);
-    }
-    
     PromiseHandler(final PromiseConfig promiseConfig) {
         this(promiseConfig.multiple, promiseConfig.timeout);
     }

@@ -1,12 +1,12 @@
 package reivosar.common.util.promise;
 
+import reivosar.common.util.lang.ObjectUtil;
+import reivosar.common.util.model.Result;
+
 import java.util.Collection;
 import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Supplier;
-
-import reivosar.common.util.lang.ObjectUtil;
-import reivosar.common.util.model.Result;
 
 /**
  * The Promise object represents the result of the completion (or failure)
@@ -36,7 +36,8 @@ public interface Promise<T> extends Result<T> {
      * @return {@link Promise}
      */
     static <T> Promise<T> resolve(Supplier<T> supplier) {
-        return new PromiseHandler<T>().with(supplier).handle();
+        final PromiseHandler<T> promiseHandler = PromiseHandlerFactory.create();
+        return promiseHandler.with(supplier).handle();
     }
     
     /**
@@ -53,8 +54,8 @@ public interface Promise<T> extends Result<T> {
      * @return {@link Promise}
      */
     static <T> Promise<T> resolve(Supplier<T> supplier, long timeout) {
-        return new PromiseHandler<T>(PromiseConfig.builder().timeout(timeout).build())
-                .with(supplier).handle();
+        final PromiseHandler<T> promiseHandler = PromiseHandlerFactory.createWithTimeout(timeout);
+        return promiseHandler.with(supplier).handle();
     }
     
     /**
@@ -121,6 +122,7 @@ public interface Promise<T> extends Result<T> {
      */
     static Promise<Void> all(Collection<Supplier<Void>> suppliers) {
         ObjectUtil.requireNonNull("suppliers", suppliers);
-        return new PromiseHandler<Void>(suppliers.size()).with(suppliers).handle();
+        final PromiseHandler<Void> promiseHandler = PromiseHandlerFactory.createWithMultiple(suppliers.size());
+        return promiseHandler.with(suppliers).handle();
     }
 }

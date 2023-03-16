@@ -9,17 +9,19 @@ abstract class DefaultPromise<T> implements Promise<T> {
     public <R> Promise<R> then(final Function<? super T, ? super R> function) {
         return then(function, PromiseConfig.DEFAULT_CONFIG.timeout);
     }
-
+    
     @SuppressWarnings("unchecked")
     @Override
     public <R> Promise<R> then(final Function<? super T, ? super R> function, long timeout) {
-        if (fail())
+        if (fail()) {
             return buildFailResultOtherPromise(this);
-        if (result().isEmpty())
+        }
+        if (result().isEmpty()) {
+            // When this method is called, the previous Promise result must not be null.
             return buildFailResultOtherPromise(new PromiseException("result is null."));
-        return new PromiseHandler<R>(PromiseConfig.builder().timeout(timeout).build()).with(
-                () ->  (R) function.apply(result().get())
-        ).handle();
+        }
+        final PromiseHandler<R> promiseHandler = PromiseHandlerFactory.createWithTimeout(timeout);
+        return promiseHandler.with(() -> (R) function.apply(result().get())).handle();
     }
     
     private <R> Promise<R> buildFailResultOtherPromise(final Throwable error) {
