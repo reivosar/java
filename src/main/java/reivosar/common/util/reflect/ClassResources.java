@@ -65,7 +65,7 @@ public class ClassResources {
      */
     public static ClassDescriptor of(final String classPath) {
         ObjectUtil.requireNonNull("classPath", classPath);
-        return CACHE.get(classPath).nullableValue();
+        return CACHE.nullableValue(classPath);
     }
     
     /**

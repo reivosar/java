@@ -1,6 +1,7 @@
 package reivosar.common.util.cache;
 
 import java.util.Collection;
+import java.util.Optional;
 
 /**
  * An interface that defines general cache operations.
@@ -9,7 +10,7 @@ import java.util.Collection;
  * @param <V> value type in cache
  */
 public interface Cache<K, V> {
-
+    
     /**
      * Checks if the specified key exists in the cache.
      *
@@ -26,6 +27,37 @@ public interface Cache<K, V> {
      * @return value in cache
      */
     CacheValues<V> get(K key);
+    
+    /**
+     * Returns the first cached value wrapped in an Optional object.
+     *
+     * @param key key with associated value returned
+     * @return An Optional object containing the first cached value, if one exists.
+     */
+    default Optional<V> findFirst(K key) {
+        return get(key).findFirst();
+    }
+    
+    /**
+     * Returns the first cached value or throws a NullPointerException if no values are cached.
+     *
+     * @param key key with associated value returned
+     * @return The first cached value.
+     * @throws NullPointerException if no values are cached.
+     */
+    default V value(K key) throws NullPointerException {
+        return get(key).value();
+    }
+    
+    /**
+     * Returns the value if present, otherwise returns {@code null}.
+     *
+     * @param key key with associated value returned
+     * @return the value if present, otherwise {@code null}
+     */
+    default V nullableValue(K key) {
+        return get(key).nullableValue();
+    }
     
     /**
      * Associates a given value with a given key in this cache.
