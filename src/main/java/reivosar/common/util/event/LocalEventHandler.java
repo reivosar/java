@@ -15,12 +15,8 @@ class LocalEventHandler {
     }
     
     void handle(final Event event) {
-        classDescriptors.forEach(classDescriptor -> {
-            final Object instance = classDescriptor.newInstance();
-            if (instance != null) {
-                handleEvent(instance, event, classDescriptor.getMethodDescriptors());
-            }
-        });
+        classDescriptors.forEach(classDescriptor -> classDescriptor.newInstance()
+                .ifPresent(instance -> handleEvent(instance, event, classDescriptor.getMethodDescriptors())));
     }
     
     private void handleEvent(

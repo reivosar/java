@@ -3,6 +3,8 @@ package reivosar.common.util.reflect;
 import reivosar.common.util.lang.ClassUtil;
 import reivosar.common.util.reflect.member.*;
 
+import java.util.Optional;
+
 /**
  * This interface represents a class descriptor, which provides information about a Java class.
  */
@@ -75,13 +77,12 @@ public interface ClassDescriptor {
      * @param parameters the parameters to pass to the constructor
      * @return a new instance of the class with the given parameters
      */
-    default Object newInstance(Object... parameters) {
+    default Optional<Object> newInstance(Object... parameters) {
         return getConstructorDescriptors()
                 .filter(parameters)
                 .getDescriptors().stream().findFirst()
                 .map(ConstructorDescriptor::getConstructorAccessor)
-                .map(ConstructorAccessor::newInstance)
-                .orElseGet(null);
+                .map(ConstructorAccessor::newInstance);
     }
     
     /**
