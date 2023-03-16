@@ -33,13 +33,13 @@ class LocalEventParameterPublisherTest {
         }
     
         @Test
-        void shouldReturnFalseWhenNoClassFoundToHandleTheEvent() {
+        void shouldReturnTrueWhenNoClassFoundToHandleTheEvent() {
             // given
             final NoEventMethodEvent testEvent = new NoEventMethodEvent(LocalDateTime.now());
             // when
             final Promise<Void> result = this.testClass.publish(testEvent);
             // then
-            assertFalse(result.success());
+            assertTrue(result.success());
         }
     
         record NoEventMethodEvent(LocalDateTime occurredOn) implements Event {

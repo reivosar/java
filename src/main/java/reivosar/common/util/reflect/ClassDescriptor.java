@@ -70,6 +70,21 @@ public interface ClassDescriptor {
     }
     
     /**
+     * Returns a new instance of the class with the given parameters by invoking the constructor with matching parameter types.
+     *
+     * @param parameters the parameters to pass to the constructor
+     * @return a new instance of the class with the given parameters
+     */
+    default Object newInstance(Object... parameters) {
+        return getConstructorDescriptors()
+                .filter(parameters)
+                .getDescriptors().stream().findFirst()
+                .map(ConstructorDescriptor::getConstructorAccessor)
+                .map(ConstructorAccessor::newInstance)
+                .orElseGet(null);
+    }
+    
+    /**
      * Returns the method descriptors of the class.
      *
      * @return the method descriptors
@@ -77,5 +92,4 @@ public interface ClassDescriptor {
     default MethodDescriptors getMethodDescriptors() {
         return MethodDescriptorsFactory.createDescriptors(getRawClass());
     }
-    
 }

@@ -1,7 +1,36 @@
 package reivosar.common.util.event;
 
 import reivosar.common.util.reflect.ClassDescriptor;
+import reivosar.common.util.reflect.member.MethodDescriptor;
+import reivosar.common.util.reflect.member.MethodDescriptors;
 
-abstract class LocalEventHandler {
-    abstract void handle(final ClassDescriptor classDescriptor, final Event event);
+import java.util.Collection;
+
+class LocalEventHandler {
+    
+    private final Collection<ClassDescriptor> classDescriptors;
+    
+    LocalEventHandler(final Collection<ClassDescriptor> classDescriptors) {
+        this.classDescriptors = classDescriptors;
+    }
+    
+    void handle(final Event event) {
+        classDescriptors.forEach(classDescriptor -> {
+            final Object instance = classDescriptor.newInstance();
+            if (instance != null) {
+                handleEvent(instance, event, classDescriptor.getMethodDescriptors());
+            }
+        });
+    }
+    
+    private void handleEvent(
+            final Object eventHandlerInstance,
+            final Event event,
+            final MethodDescriptors methodDescriptors) {
+        methodDescriptors
+                .getDescriptors().stream()
+                .filter(md -> md.getParameterTypesDescriptor().isEqualParameterType(event))
+                .map(MethodDescriptor::getMethodAccessor)
+                .forEach(accessor -> accessor.invokeMethod(eventHandlerInstance, event));
+    }
 }
