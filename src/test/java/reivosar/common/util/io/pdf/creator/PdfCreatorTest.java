@@ -28,7 +28,7 @@ class PdfCreatorTest {
         // GIVEN
         final Path outputPdfFilePath = OUTPUT_PDF_DIR.resolve("test.pdf");
         // WHEN
-        final boolean result = PdfCreator.forCreatingNew()
+        final boolean result = PdfCreator.instance()
                 .append(new EmbedTextParameter.Builder()
                         .at(0)
                         .coordination(0f, 755f)
