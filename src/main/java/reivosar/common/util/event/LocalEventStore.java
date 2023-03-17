@@ -21,12 +21,12 @@ class LocalEventStore {
         return CACHE.get(getCacheKey(event)).orElse(createCache(event));
     }
     
-    private static String getCacheKey(final Event event) {
-        return event.getClass().getName();
-    }
-    
     private static void put(final Event event, final LocalEventHandler localEventHandler) {
         CACHE.put(getCacheKey(event), localEventHandler);
+    }
+    
+    private static String getCacheKey(final Event event) {
+        return event.getClass().getName();
     }
     
     private static LocalEventHandler createCache(final Event event) {

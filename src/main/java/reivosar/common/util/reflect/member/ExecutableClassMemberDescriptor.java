@@ -15,4 +15,35 @@ public interface ExecutableClassMemberDescriptor extends ClassMemberDescriptor, 
      * @return the parameter types descriptor
      */
     ParameterTypesDescriptor getParameterTypesDescriptor();
+    
+    /**
+     * Checks whether the parameter types are equal to those of the specified descriptor.
+     *
+     * @param descriptor the descriptor to compare to
+     * @return true if the parameter types are equal, false otherwise
+     */
+    default boolean isEqualParameterType(final ParameterTypesDescriptor descriptor) {
+        return getParameterTypesDescriptor().isEqualParameterType(descriptor);
+    }
+    
+    /**
+     * Checks whether the parameter types are equal to those of the specified descriptor.
+     *
+     * @param parameterTypes the descriptor to compare to
+     * @return true if the parameter types are equal, false otherwise
+     */
+    default boolean isEqualParameterType(final Class<?>... parameterTypes) {
+        return getParameterTypesDescriptor().isEqualParameterType(parameterTypes);
+    }
+    
+    /**
+     * Checks whether the parameter types are equal to those of the specified descriptor.
+     *
+     * @param parameters the descriptor to compare to
+     * @return true if the parameter types are equal, false otherwise
+     */
+    default boolean isEqualParameterType(final Object... parameters) {
+        return getParameterTypesDescriptor().isEqualParameterType(parameters);
+    }
+    
 }

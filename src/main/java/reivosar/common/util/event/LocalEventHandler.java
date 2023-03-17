@@ -25,7 +25,7 @@ class LocalEventHandler {
             final MethodDescriptors methodDescriptors) {
         methodDescriptors
                 .getDescriptors().stream()
-                .filter(md -> md.getParameterTypesDescriptor().isEqualParameterType(event))
+                .filter(md -> md.isEqualParameterType(event))
                 .map(MethodDescriptor::getMethodAccessor)
                 .forEach(accessor -> accessor.invokeMethod(eventHandlerInstance, event));
     }
