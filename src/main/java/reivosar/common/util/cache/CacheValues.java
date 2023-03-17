@@ -62,7 +62,7 @@ public class CacheValues<V> extends Model {
      * @return The first cached value.
      * @throws NullPointerException if no values are cached.
      */
-    public V value() throws NullPointerException {
+    public V firstValue() throws NullPointerException {
         return findFirst().orElseThrow(NullPointerException::new);
     }
     
@@ -71,7 +71,7 @@ public class CacheValues<V> extends Model {
      *
      * @return the value if present, otherwise {@code null}
      */
-    public V nullableValue() {
+    public V nullableFirstValue() {
         return orElse(null);
     }
     

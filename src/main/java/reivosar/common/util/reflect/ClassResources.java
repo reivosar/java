@@ -1,18 +1,13 @@
 package reivosar.common.util.reflect;
 
 import com.google.common.reflect.ClassPath;
-import org.w3c.dom.stylesheets.LinkStyle;
 import reivosar.common.util.cache.Cache;
 import reivosar.common.util.cache.CacheFactory;
-import reivosar.common.util.cache.CacheValues;
 import reivosar.common.util.lang.ClassUtil;
 import reivosar.common.util.lang.ObjectUtil;
-import reivosar.common.util.reflect.member.MethodDescriptor;
 
 import java.io.IOException;
 import java.lang.annotation.Annotation;
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -65,7 +60,7 @@ public class ClassResources {
      */
     public static ClassDescriptor of(final String classPath) {
         ObjectUtil.requireNonNull("classPath", classPath);
-        return CACHE.nullableValue(classPath);
+        return CACHE.nullableFirstValue(classPath);
     }
     
     /**

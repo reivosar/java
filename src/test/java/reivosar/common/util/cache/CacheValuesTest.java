@@ -111,7 +111,7 @@ public class CacheValuesTest {
         
         @Test
         void shouldReturnValueIfValuesCached() {
-            String firstValue = cacheValues.value();
+            String firstValue = cacheValues.firstValue();
             Assertions.assertNotNull(firstValue);
             Assertions.assertEquals(firstValue, "a");
         }
@@ -119,7 +119,7 @@ public class CacheValuesTest {
         @Test
         void shouldThrowNullPointerExceptionIfNoValuesCached() {
             CacheValues<String> emptyCacheValues = CacheValues.empty();
-            Assertions.assertThrows(NullPointerException.class, emptyCacheValues::value);
+            Assertions.assertThrows(NullPointerException.class, emptyCacheValues::firstValue);
         }
     }
     
@@ -131,7 +131,7 @@ public class CacheValuesTest {
             List<Integer> values = List.of(1, 2, 3);
             CacheValues<Integer> cache = new CacheValues<>(values);
             // WHEN
-            Integer result = cache.nullableValue();
+            Integer result = cache.nullableFirstValue();
             // THEN
             assertEquals(1, result);
         }
@@ -141,7 +141,7 @@ public class CacheValuesTest {
             // GIVEN
             CacheValues<String> cache = CacheValues.empty();
             // WHEN
-            String result = cache.nullableValue();
+            String result = cache.nullableFirstValue();
             // THEN
             assertNull(result);
         }

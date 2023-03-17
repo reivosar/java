@@ -45,8 +45,8 @@ public interface Cache<K, V> {
      * @return The first cached value.
      * @throws NullPointerException if no values are cached.
      */
-    default V value(K key) throws NullPointerException {
-        return get(key).value();
+    default V firstValue(K key) throws NullPointerException {
+        return get(key).firstValue();
     }
     
     /**
@@ -55,8 +55,8 @@ public interface Cache<K, V> {
      * @param key key with associated value returned
      * @return the value if present, otherwise {@code null}
      */
-    default V nullableValue(K key) {
-        return get(key).nullableValue();
+    default V nullableFirstValue(K key) {
+        return get(key).nullableFirstValue();
     }
     
     /**
