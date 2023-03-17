@@ -82,7 +82,7 @@ public interface ClassDescriptor {
                 .filter(parameters)
                 .getDescriptors().stream().findFirst()
                 .map(ConstructorDescriptor::getConstructorAccessor)
-                .map(ConstructorAccessor::newInstance);
+                .map(constructorAccessor -> constructorAccessor.newInstance(parameters));
     }
     
     /**
