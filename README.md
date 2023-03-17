@@ -11,13 +11,43 @@ This project is a Java implementation of a design methodology and program notati
 
   Promise implementation added in ECMA 2015 by java
 ```
-Promise<Integer> promise = Promise.resolve(() -> 1)
+Promise.resolve(() -> 1)
     .then(i -> i.toString() + "2")
     .then(str -> Integer.parseInt(str) * 3)
     .onSuccess(System.out::println) // Output 36 in your console
     .onFailure(Throwable::printStackTrace); // Not executed
 ```
 https://github.com/reivosar/java/blob/main/src/main/java/reivosar/common/util/promise/Promise.java
+
+## EventPublisher
+
+  The publish method of this class issues the event asynchronously and returns a Promise object
+```
+@Test
+void test() {
+    // given
+    final TestEvent testEvent = new TestEvent(LocalDateTime.now());
+    // when
+    final Promise<Void> result = EventPublisher.instance().publish(testEvent);
+    // then
+    assertTrue(result.success());
+}
+ 
+// Need a class that implemet the Event interface
+record TestEvent(LocalDateTime occurredOn) implements Event {
+}
+
+// Classes that meet the following conditions are called
+// ・A default constructor with no arguments is defined.
+// ・A method that matches the Event object is defined.
+class TestEventHandler {
+    void handle(final TestEvent event) {
+        System.out.println(event.occurredOn());
+    }
+}
+
+```
+https://github.com/reivosar/java/blob/main/src/main/java/reivosar/common/util/event/EventPublisher.java
 
 ## Cache
 
