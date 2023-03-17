@@ -28,4 +28,13 @@ public interface EventPublisher {
      * @return a promise that resolves when all events have been published
      */
     Promise<Void> publish(Collection<Event> events);
+    
+    /**
+     * Returns an instance of the default event publisher.
+     *
+     * @return an instance of the default event publisher
+     */
+    static EventPublisher instance() {
+        return EventPublisherFactory.createDefaultPublisher();
+    }
 }
