@@ -1,20 +1,10 @@
 package reivosar.common.util.event;
 
-import java.time.LocalDateTime;
+import java.io.Serializable;
 
 /**
  * The base interface for events.
- * <p>
- * Implementations of this interface should provide a timestamp for when the event occurred.
  */
-@FunctionalInterface
-public interface Event {
-    
-    /**
-     * Gets the date and time when the event occurred.
-     *
-     * @return the date and time when the event occurred
-     */
-    LocalDateTime occurredOn();
+public interface Event extends Serializable {
 }
 
