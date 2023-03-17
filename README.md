@@ -45,7 +45,6 @@ class TestEventHandler {
         System.out.println(event.occurredOn());
     }
 }
-
 ```
 https://github.com/reivosar/java/blob/main/src/main/java/reivosar/common/util/event/EventPublisher.java
 
