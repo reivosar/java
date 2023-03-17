@@ -27,7 +27,7 @@ class CollectedClassMemberConstructorDescriptors
     public ConstructorDescriptors filter(final Class<?>... parameterTypes) {
         return new CollectedClassMemberConstructorDescriptors(
                 getDescriptors().stream()
-                        .filter(d -> d.getParameterTypesDescriptor().isEqualParameterType(parameterTypes))
+                        .filter(d -> d.matchParameterType(parameterTypes))
                         .toList());
     }
     
@@ -54,7 +54,7 @@ class CollectedClassMemberConstructorDescriptors
         Collection<ConstructorDescriptor> result = collection;
         if ((parametersTypes != null) && (parametersTypes.length > 0)) {
             result = result.stream()
-                    .filter(d -> d.getParameterTypesDescriptor().isEqualParameterType(parametersTypes))
+                    .filter(d -> d.matchParameterType(parametersTypes))
                     .toList();
         }
         return new CollectedClassMemberConstructorDescriptors(result);

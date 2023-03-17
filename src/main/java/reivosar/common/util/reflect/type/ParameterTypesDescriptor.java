@@ -20,7 +20,7 @@ public interface ParameterTypesDescriptor {
      * @param descriptor the descriptor to compare to
      * @return true if the parameter types are equal, false otherwise
      */
-    boolean isEqualParameterType(final ParameterTypesDescriptor descriptor);
+    boolean matchParameterType(final ParameterTypesDescriptor descriptor);
     
     /**
      * Checks whether the parameter types are equal to those of the specified descriptor.
@@ -28,7 +28,7 @@ public interface ParameterTypesDescriptor {
      * @param parameterTypes the descriptor to compare to
      * @return true if the parameter types are equal, false otherwise
      */
-    boolean isEqualParameterType(final Class<?>... parameterTypes);
+    boolean matchParameterType(final Class<?>... parameterTypes);
     
     /**
      * Checks whether the parameter types are equal to those of the specified descriptor.
@@ -36,7 +36,7 @@ public interface ParameterTypesDescriptor {
      * @param parameters the descriptor to compare to
      * @return true if the parameter types are equal, false otherwise
      */
-    boolean isEqualParameterType(final Object... parameters);
+    boolean matchParameterType(final Object... parameters);
     
     /**
      * Returns the parameter types.

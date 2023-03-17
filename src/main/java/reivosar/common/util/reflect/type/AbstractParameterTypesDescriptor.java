@@ -22,17 +22,17 @@ abstract class AbstractParameterTypesDescriptor extends Model implements Paramet
     }
     
     @Override
-    public boolean isEqualParameterType(final ParameterTypesDescriptor descriptor) {
+    public boolean matchParameterType(final ParameterTypesDescriptor descriptor) {
         return CollectionUtil.isSameOrderCollection(getParameterTypes(), descriptor.getParameterTypes());
     }
     
     @Override
-    public boolean isEqualParameterType(final Class<?>... parameterTypes) {
+    public boolean matchParameterType(final Class<?>... parameterTypes) {
         return CollectionUtil.isSameOrderCollection(getParameterTypes(), toTypeDescriptor(parameterTypes));
     }
     
     @Override
-    public boolean isEqualParameterType(final Object... parameters) {
+    public boolean matchParameterType(final Object... parameters) {
         return CollectionUtil.isSameOrderCollection(getParameterTypes(), toTypeDescriptor(ClassUtil.toClass(parameters)));
     }
     

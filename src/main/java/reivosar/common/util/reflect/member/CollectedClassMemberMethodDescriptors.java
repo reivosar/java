@@ -53,7 +53,7 @@ class CollectedClassMemberMethodDescriptors
         Collection<MethodDescriptor> result = collection;
         if ((parameterTypes != null) && (parameterTypes.length > 0)) {
             result = result.stream()
-                    .filter(d -> d.getParameterTypesDescriptor().isEqualParameterType(parameterTypes))
+                    .filter(d -> d.matchParameterType(parameterTypes))
                     .toList();
         }
         return new CollectedClassMemberMethodDescriptors(result);

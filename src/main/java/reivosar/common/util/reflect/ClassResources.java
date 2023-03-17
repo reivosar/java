@@ -117,7 +117,7 @@ public class ClassResources {
                 .filter(descriptor -> descriptor.getMethodDescriptors()
                         .getDescriptors()
                         .stream()
-                        .anyMatch(md -> md.getParameterTypesDescriptor().isEqualParameterType(parameters)))
+                        .anyMatch(md -> md.matchParameterType(parameters)))
                 .collect(Collectors.toList());
         return new ClassDescriptors(results);
     }
