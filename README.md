@@ -38,7 +38,7 @@ https://github.com/reivosar/java/blob/main/src/main/java/reivosar/common/util/ca
   Programs for generating PDFs using PDF Box
 ```
 final Path path = ～
-final boolean result = PdfCreator.forCreatingNew()
+final boolean result = PdfCreator.instance()
         .append(new EmbedTextParameter.Builder()
                 .at(0)
                 .coordination(0f, 755f)
