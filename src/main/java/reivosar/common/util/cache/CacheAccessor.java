@@ -4,15 +4,15 @@ import java.util.Collection;
 
 abstract class CacheAccessor<K, V> {
     
-    abstract Collection<V> get(K key);
+    abstract Collection<CacheValue<V>> get(K key);
     
     abstract boolean exists(K key);
     
-    abstract void put(K key, V value);
+    abstract void put(K key, CacheValue<V> value);
     
     abstract Collection<K> getAllKeys();
     
-    abstract Collection<V> getAllValues();
+    abstract Collection<CacheValue<V>> getAllValues();
     
     abstract void clear(K key);
 }
