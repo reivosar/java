@@ -4,6 +4,7 @@ import reivosar.common.util.lang.ObjectUtil;
 import reivosar.common.util.model.Model;
 
 import java.util.Collection;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Predicate;
@@ -18,7 +19,10 @@ public class CacheValues<V> extends Model {
     private final Collection<CacheValue<V>> values;
     
     static <V> CacheValues<V> from(final Collection<V> values) {
-        return new CacheValues<>(values.stream().map(CacheValue::new).toList());
+        return new CacheValues<>(values.stream()
+                .map(CacheValue::new)
+                .toList()
+        );
     }
     
     CacheValues(final Collection<CacheValue<V>> values) {
@@ -42,7 +46,7 @@ public class CacheValues<V> extends Model {
      * @return An unmodifiable collection of the cached values.
      */
     public Collection<V> values() {
-        return values.stream()
+        return getAndRemoveNonValidCacheValue().stream()
                 .filter(CacheValue::isAvailableCache)
                 .map(CacheValue::getIfCacheAvailable)
                 .toList();
@@ -76,7 +80,9 @@ public class CacheValues<V> extends Model {
      * that satisfy the given predicate
      */
     public CacheValues<V> filter(final Predicate<V> predicate) {
-        return CacheValues.from(values().stream().filter(predicate).toList());
+        return new CacheValues<>(getAndRemoveNonValidCacheValue().stream()
+                .filter(vCacheValue -> predicate.test(vCacheValue.getIfCacheAvailable()))
+                .toList());
     }
     
     /**
@@ -123,5 +129,12 @@ public class CacheValues<V> extends Model {
      */
     public int size() {
         return values.size();
+    }
+    
+    private Collection<CacheValue<V>> getAndRemoveNonValidCacheValue() {
+        // Delete non-valid cache
+        final Collection<CacheValue<V>> immutableSet = new LinkedHashSet<>(values);
+        immutableSet.removeIf(vCacheValue -> !vCacheValue.isAvailableCache());
+        return immutableSet;
     }
 }
