@@ -4,6 +4,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
+import reivosar.common.util.collection.CollectionUtil;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -19,21 +20,21 @@ public class CacheValuesTest {
         
         @Test
         void shouldThrowExceptionWhenGivenNull() {
-            Assertions.assertThrows(NullPointerException.class, () -> new CacheValues<>(null));
+            Assertions.assertThrows(NullPointerException.class, () -> CacheValues.from(null));
         }
         
         @Test
         void shouldCreateCacheValuesObjectWhenGivenEmptyCollection() {
-            CacheValues<Object> cacheValues = new CacheValues<>(new ArrayList<>());
+            CacheValues<Object> cacheValues = CacheValues.from(new ArrayList<>());
             Assertions.assertNotNull(cacheValues);
         }
         
         @Test
         void shouldCreateCacheValuesObjectWhenGivenNonEmptyCollection() {
             Collection<Integer> values = Collections.unmodifiableCollection(List.of(1, 2, 3));
-            CacheValues<Integer> cacheValues = new CacheValues<>(values);
+            CacheValues<Integer> cacheValues = CacheValues.from(values);
             Assertions.assertNotNull(cacheValues);
-            Assertions.assertEquals(cacheValues.values(), values);
+            Assertions.assertTrue(CollectionUtil.isEqualCollection(cacheValues.values(), values));
         }
     }
     
@@ -55,7 +56,7 @@ public class CacheValuesTest {
         @BeforeEach
         void setup() {
             valuesList= Collections.unmodifiableCollection(List.of("a", "b", "c"));
-            cacheValues = new CacheValues<>(valuesList);
+            cacheValues = CacheValues.from(valuesList);
         }
         
         @Test
@@ -69,7 +70,7 @@ public class CacheValuesTest {
         void shouldReturnCachedValues() {
             Collection<String> values = cacheValues.values();
             Assertions.assertNotNull(values);
-            Assertions.assertEquals(values, valuesList);
+            Assertions.assertTrue(CollectionUtil.isEqualCollection(cacheValues.values(), valuesList));
         }
     }
     
@@ -81,7 +82,7 @@ public class CacheValuesTest {
         @BeforeEach
         void setup() {
             List<String> valuesList = List.of("a", "b", "c");
-            cacheValues = new CacheValues<>(valuesList);
+            cacheValues = CacheValues.from(valuesList);
         }
         
         @Test
@@ -106,7 +107,7 @@ public class CacheValuesTest {
         @BeforeEach
         void setup() {
             List<String> valuesList = List.of("a", "b", "c");
-            cacheValues = new CacheValues<>(valuesList);
+            cacheValues = CacheValues.from(valuesList);
         }
         
         @Test
@@ -129,7 +130,7 @@ public class CacheValuesTest {
         void shouldReturnFirstValueWhenValuesExist() {
             // GIVEN
             List<Integer> values = List.of(1, 2, 3);
-            CacheValues<Integer> cache = new CacheValues<>(values);
+            CacheValues<Integer> cache = CacheValues.from(values);
             // WHEN
             Integer result = cache.nullableFirstValue();
             // THEN
@@ -153,7 +154,7 @@ public class CacheValuesTest {
         void shouldReturnFirstValueWhenValuesExist() {
             // GIVEN
             List<Integer> values = List.of(1, 2, 3);
-            CacheValues<Integer> cache = new CacheValues<>(values);
+            CacheValues<Integer> cache = CacheValues.from(values);
             // WHEN
             int result = cache.orElse(0);
             // THEN
@@ -177,7 +178,7 @@ public class CacheValuesTest {
         void shouldReturnTrueWhenValuesExist() {
             // GIVEN
             List<Integer> values = List.of(1, 2, 3);
-            CacheValues<Integer> cache = new CacheValues<>(values);
+            CacheValues<Integer> cache = CacheValues.from(values);
             // WHEN
             boolean result = cache.isNotEmpty();
             // THEN
@@ -201,7 +202,7 @@ public class CacheValuesTest {
         void shouldReturnFalseWhenValuesExist() {
             // GIVEN
             List<Integer> values = List.of(1, 2, 3);
-            CacheValues<Integer> cache = new CacheValues<>(values);
+            CacheValues<Integer> cache = CacheValues.from(values);
             // WHEN
             boolean result = cache.isEmpty();
             // THEN
@@ -225,7 +226,7 @@ public class CacheValuesTest {
         void shouldReturnNumberOfValuesWhenValuesExist() {
             // GIVEN
             List<Integer> values = List.of(1, 2, 3);
-            CacheValues<Integer> cache = new CacheValues<>(values);
+            CacheValues<Integer> cache = CacheValues.from(values);
             // WHEN
             int result = cache.size();
             // THEN

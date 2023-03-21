@@ -4,9 +4,9 @@ import reivosar.common.util.lang.ObjectUtil;
 import reivosar.common.util.model.Model;
 
 import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+import java.util.function.Predicate;
 
 /**
  * A class that wraps a collection of values for caching, using generics.
@@ -15,15 +15,13 @@ import java.util.Optional;
  */
 public class CacheValues<V> extends Model {
     
-    private final Collection<V> values;
+    private final Collection<CacheValue<V>> values;
     
-    /**
-     * Constructs a new instance of the CacheValues class using the given collection of values.
-     *
-     * @param values the collection of values to be cached
-     * @throws NullPointerException if the given collection is null
-     */
-    public CacheValues(final Collection<V> values) {
+    static <V> CacheValues<V> from(final Collection<V> values) {
+        return new CacheValues<>(values.stream().map(CacheValue::new).toList());
+    }
+    
+    CacheValues(final Collection<CacheValue<V>> values) {
         ObjectUtil.requireNonNull("values", values);
         this.values = values;
     }
@@ -44,7 +42,10 @@ public class CacheValues<V> extends Model {
      * @return An unmodifiable collection of the cached values.
      */
     public Collection<V> values() {
-        return Collections.unmodifiableCollection(values);
+        return values.stream()
+                .filter(CacheValue::isAvailableCache)
+                .map(CacheValue::getIfCacheAvailable)
+                .toList();
     }
     
     /**
@@ -53,7 +54,7 @@ public class CacheValues<V> extends Model {
      * @return An Optional object containing the first cached value, if one exists.
      */
     public Optional<V> findFirst() {
-        return values.stream().findFirst();
+        return values().stream().findFirst();
     }
     
     /**
@@ -64,6 +65,18 @@ public class CacheValues<V> extends Model {
      */
     public V firstValue() throws NullPointerException {
         return findFirst().orElseThrow(NullPointerException::new);
+    }
+    
+    /**
+     * Returns a new instance of {@link CacheValues} that contains all values from the cache
+     * that satisfy the given predicate.
+     *
+     * @param predicate the predicate used to filter the cache values
+     * @return a new instance of {@link CacheValues} that contains all values from the cache
+     * that satisfy the given predicate
+     */
+    public CacheValues<V> filter(final Predicate<V> predicate) {
+        return CacheValues.from(values().stream().filter(predicate).toList());
     }
     
     /**
