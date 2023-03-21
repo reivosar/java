@@ -4,14 +4,14 @@ import java.util.Collection;
 
 class LocalCacheAccessor<K, V> extends CacheAccessor<K, V> {
     
-    private final LocalCacheStore<K, V> localCacheStore;
+    private final LocalCacheStore<K, CacheValue<V>> localCacheStore;
     
-    LocalCacheAccessor(final LocalCacheStore<K, V> localCacheStore) {
+    LocalCacheAccessor(final LocalCacheStore<K, CacheValue<V>> localCacheStore) {
         this.localCacheStore = localCacheStore;
     }
     
     @Override
-    Collection<V> get(final K key) {
+    Collection<CacheValue<V>> get(final K key) {
         return this.localCacheStore.get(key);
     }
     
@@ -21,7 +21,7 @@ class LocalCacheAccessor<K, V> extends CacheAccessor<K, V> {
     }
     
     @Override
-    void put(final K key, final V value) {
+    void put(final K key, final CacheValue<V> value) {
         this.localCacheStore.put(key, value);
     }
     
@@ -31,7 +31,7 @@ class LocalCacheAccessor<K, V> extends CacheAccessor<K, V> {
     }
     
     @Override
-    Collection<V> getAllValues() {
+    Collection<CacheValue<V>> getAllValues() {
         return this.localCacheStore.values();
     }
     

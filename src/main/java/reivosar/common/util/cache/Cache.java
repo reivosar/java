@@ -60,14 +60,25 @@ public interface Cache<K, V> {
     }
     
     /**
-     * Associates a given value with a given key in this cache.
-     * If the cache previously contained a mapping for this key, the old value
-     * is replaced with the specified value.
+     * Associates the specified value with the specified key in this cache. This method
+     * is equivalent to calling {@code put(key, value, null)}.
      *
-     * @param key   key with associated value returned
-     * @param value value to be associated with the specified key
+     * @param key   the key with which to associate the value
+     * @param value the value to be associated with the key
      */
     void put(K key, V value);
+    
+    /**
+     * Associates the specified value with the specified key in this cache, and specifies
+     * an expiration time for the cache entry. If the specified cache expiration is null,
+     * the entry will not expire. If an entry with the same key already exists in the cache,
+     * its value will be replaced with the new value and expiration time.
+     *
+     * @param key          the key with which to associate the value
+     * @param value        the value to be associated with the key
+     * @param cacheExpires the expiration time for the cache entry, or null if the entry should not expire
+     */
+    void put(K key, V value, CacheExpires cacheExpires);
     
     /**
      * Retrieve all keys in cache.
