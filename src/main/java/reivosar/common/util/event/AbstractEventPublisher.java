@@ -12,10 +12,10 @@ import java.util.stream.Collectors;
  */
 public abstract class AbstractEventPublisher implements EventPublisher {
     
-    private final EventDispatcher eventDispatcher;
+    private final EventConfig eventConfig;
     
-    protected AbstractEventPublisher(final EventDispatcher eventDispatcher) {
-        this.eventDispatcher = eventDispatcher;
+    protected AbstractEventPublisher(final EventConfig eventConfig) {
+        this.eventConfig = eventConfig;
     }
     
     /**
@@ -25,7 +25,7 @@ public abstract class AbstractEventPublisher implements EventPublisher {
     public final Promise<Void> publish(final Collection<Event> events) {
         return Promise.all(events.stream()
                 .map(event -> (Supplier<Void>) () -> {
-                    eventDispatcher.dispatch(event);
+                    eventConfig.getEventDispatcher().dispatch(event);
                     return (Void) null;
                 }).collect(Collectors.toList())
         );
