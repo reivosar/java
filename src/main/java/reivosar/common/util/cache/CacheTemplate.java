@@ -64,6 +64,6 @@ abstract class CacheTemplate<K, V> implements Cache<K, V> {
     
     @Override
     public final void clearAll() {
-        getAllKeys().forEach(cacheAccessor::clear);
+        cacheAccessor.clearAll();
     }
 }

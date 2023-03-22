@@ -11,7 +11,7 @@ class LocalCacheStore<K, V> extends Model {
     private final Map<K, Collection<V>> cacheMap;
     
     public LocalCacheStore(final Map<K, Collection<V>> cacheMap) {
-        this.cacheMap = cacheMap;
+        this.cacheMap = Collections.synchronizedMap(cacheMap);
     }
     
     Collection<V> get(final K key) {
@@ -20,7 +20,11 @@ class LocalCacheStore<K, V> extends Model {
         if (values == null) {
             return List.of();
         }
-        return values.stream().toList();
+        return getCollection(values);
+    }
+    
+    private Set<V> getCollection(final Collection<V> values) {
+        return Collections.unmodifiableSet(new LinkedHashSet<>(values));
     }
     
     boolean containsKey(final K key) {
@@ -38,9 +42,9 @@ class LocalCacheStore<K, V> extends Model {
     }
     
     Collection<V> values() {
-        return cacheMap.values().stream()
+        return getCollection(cacheMap.values().stream()
                 .flatMap(vs -> new HashSet<>(vs).stream())
-                .collect(Collectors.toSet());
+                .collect(Collectors.toCollection(LinkedHashSet::new)));
     }
     
     void put(final K key, final V value) {
@@ -56,6 +60,10 @@ class LocalCacheStore<K, V> extends Model {
     
     void clear(final K key) {
         ObjectUtil.requireNonNull("key", key);
-        this.cacheMap.remove(key);
+        this.cacheMap.compute(key, (s, o) -> null);
+    }
+    
+    void clearAll() {
+        this.cacheMap.clear();
     }
 }

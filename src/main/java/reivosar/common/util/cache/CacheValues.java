@@ -3,11 +3,9 @@ package reivosar.common.util.cache;
 import reivosar.common.util.lang.ObjectUtil;
 import reivosar.common.util.model.Model;
 
-import java.util.Collection;
-import java.util.LinkedHashSet;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 /**
  * A class that wraps a collection of values for caching, using generics.
@@ -21,7 +19,7 @@ public class CacheValues<V> extends Model {
     static <V> CacheValues<V> from(final Collection<V> values) {
         return new CacheValues<>(values.stream()
                 .map(CacheValue::new)
-                .toList()
+                .collect(Collectors.toCollection(LinkedHashSet::new))
         );
     }
     
@@ -49,7 +47,7 @@ public class CacheValues<V> extends Model {
         return getAndRemoveNonValidCacheValue().stream()
                 .filter(CacheValue::isAvailableCache)
                 .map(CacheValue::getIfCacheAvailable)
-                .toList();
+                .collect(Collectors.toCollection(LinkedHashSet::new));
     }
     
     /**
@@ -82,7 +80,7 @@ public class CacheValues<V> extends Model {
     public CacheValues<V> filter(final Predicate<V> predicate) {
         return new CacheValues<>(getAndRemoveNonValidCacheValue().stream()
                 .filter(vCacheValue -> predicate.test(vCacheValue.getIfCacheAvailable()))
-                .toList());
+                .collect(Collectors.toCollection(LinkedHashSet::new)));
     }
     
     /**
