@@ -14,9 +14,9 @@ import java.util.stream.Collectors;
  */
 public class CacheValues<V> extends Model {
     
-    final Collection<CacheValue<V>> values;
+    private final Collection<CacheValue<V>> values;
     
-    static <V> CacheValues<V> from(final Collection<V> values) {
+    static <V> CacheValues<V> fromNativeCollection(final Collection<V> values) {
         return new CacheValues<>(values.stream()
                 .map(CacheValue::new)
                 .collect(Collectors.toCollection(LinkedHashSet::new))
