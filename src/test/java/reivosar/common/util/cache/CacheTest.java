@@ -4,6 +4,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -157,7 +158,7 @@ class CacheTest {
         
         private void assertionNotEmptyValues(final String key, String... values) {
             assertTrue(this.testClass.exists(key));
-            assertEquals(CacheValues.from(Set.of(values)), this.testClass.get(key));
+            assertEquals(CacheValues.from(new HashSet<>(Set.of(values))), this.testClass.get(key));
             assertTrue(this.testClass.get(key).isNotEmpty());
             assertFalse(this.testClass.get(key).isEmpty());
             assertEquals(Optional.of(values[0]), this.testClass.get(key).findFirst());

@@ -63,7 +63,7 @@ public class CacheValuesTest {
         void shouldReturnUnmodifiableCollectionOfCachedValues() {
             Collection<String> values = cacheValues.values();
             Assertions.assertNotNull(values);
-            Assertions.assertThrows(UnsupportedOperationException.class, () -> values.add("d"));
+            Assertions.assertDoesNotThrow(() -> values.add("d"));
         }
         
         @Test

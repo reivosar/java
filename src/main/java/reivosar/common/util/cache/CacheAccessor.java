@@ -15,4 +15,6 @@ abstract class CacheAccessor<K, V> {
     abstract Collection<CacheValue<V>> getAllValues();
     
     abstract void clear(K key);
+    
+    abstract void clearAll();
 }
