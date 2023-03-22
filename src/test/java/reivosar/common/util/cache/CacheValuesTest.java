@@ -20,19 +20,19 @@ public class CacheValuesTest {
         
         @Test
         void shouldThrowExceptionWhenGivenNull() {
-            Assertions.assertThrows(NullPointerException.class, () -> CacheValues.from(null));
+            Assertions.assertThrows(NullPointerException.class, () -> CacheValues.fromNativeCollection(null));
         }
         
         @Test
         void shouldCreateCacheValuesObjectWhenGivenEmptyCollection() {
-            CacheValues<Object> cacheValues = CacheValues.from(new ArrayList<>());
+            CacheValues<Object> cacheValues = CacheValues.fromNativeCollection(new ArrayList<>());
             Assertions.assertNotNull(cacheValues);
         }
         
         @Test
         void shouldCreateCacheValuesObjectWhenGivenNonEmptyCollection() {
             Collection<Integer> values = Collections.unmodifiableCollection(List.of(1, 2, 3));
-            CacheValues<Integer> cacheValues = CacheValues.from(values);
+            CacheValues<Integer> cacheValues = CacheValues.fromNativeCollection(values);
             Assertions.assertNotNull(cacheValues);
             Assertions.assertTrue(CollectionUtil.isEqualCollection(cacheValues.values(), values));
         }
@@ -56,7 +56,7 @@ public class CacheValuesTest {
         @BeforeEach
         void setup() {
             valuesList = Collections.unmodifiableCollection(List.of("a", "b", "c"));
-            cacheValues = CacheValues.from(valuesList);
+            cacheValues = CacheValues.fromNativeCollection(valuesList);
         }
         
         @Test
@@ -82,7 +82,7 @@ public class CacheValuesTest {
         @BeforeEach
         void setup() {
             List<String> valuesList = List.of("a", "b", "c");
-            cacheValues = CacheValues.from(valuesList);
+            cacheValues = CacheValues.fromNativeCollection(valuesList);
         }
         
         @Test
@@ -107,7 +107,7 @@ public class CacheValuesTest {
         @BeforeEach
         void setup() {
             List<String> valuesList = List.of("a", "b", "c");
-            cacheValues = CacheValues.from(valuesList);
+            cacheValues = CacheValues.fromNativeCollection(valuesList);
         }
         
         @Test
@@ -130,7 +130,7 @@ public class CacheValuesTest {
         void shouldReturnFirstValueWhenValuesExist() {
             // GIVEN
             List<Integer> values = List.of(1, 2, 3);
-            CacheValues<Integer> cache = CacheValues.from(values);
+            CacheValues<Integer> cache = CacheValues.fromNativeCollection(values);
             // WHEN
             Integer result = cache.nullableFirstValue();
             // THEN
@@ -154,7 +154,7 @@ public class CacheValuesTest {
         void shouldReturnFirstValueWhenValuesExist() {
             // GIVEN
             List<Integer> values = List.of(1, 2, 3);
-            CacheValues<Integer> cache = CacheValues.from(values);
+            CacheValues<Integer> cache = CacheValues.fromNativeCollection(values);
             // WHEN
             int result = cache.orElse(0);
             // THEN
@@ -178,7 +178,7 @@ public class CacheValuesTest {
         void shouldReturnTrueWhenValuesExist() {
             // GIVEN
             List<Integer> values = List.of(1, 2, 3);
-            CacheValues<Integer> cache = CacheValues.from(values);
+            CacheValues<Integer> cache = CacheValues.fromNativeCollection(values);
             // WHEN
             boolean result = cache.isNotEmpty();
             // THEN
@@ -202,7 +202,7 @@ public class CacheValuesTest {
         void shouldReturnFalseWhenValuesExist() {
             // GIVEN
             List<Integer> values = List.of(1, 2, 3);
-            CacheValues<Integer> cache = CacheValues.from(values);
+            CacheValues<Integer> cache = CacheValues.fromNativeCollection(values);
             // WHEN
             boolean result = cache.isEmpty();
             // THEN
@@ -226,7 +226,7 @@ public class CacheValuesTest {
         void shouldReturnNumberOfValuesWhenValuesExist() {
             // GIVEN
             List<Integer> values = List.of(1, 2, 3);
-            CacheValues<Integer> cache = CacheValues.from(values);
+            CacheValues<Integer> cache = CacheValues.fromNativeCollection(values);
             // WHEN
             int result = cache.size();
             // THEN
