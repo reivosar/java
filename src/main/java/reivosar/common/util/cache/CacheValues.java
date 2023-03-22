@@ -14,7 +14,7 @@ import java.util.stream.Collectors;
  */
 public class CacheValues<V> extends Model {
     
-    private final Collection<CacheValue<V>> values;
+    final Collection<CacheValue<V>> values;
     
     static <V> CacheValues<V> from(final Collection<V> values) {
         return new CacheValues<>(values.stream()
@@ -44,10 +44,11 @@ public class CacheValues<V> extends Model {
      * @return An unmodifiable collection of the cached values.
      */
     public Collection<V> values() {
-        return getAndRemoveNonValidCacheValue().stream()
+        final Set<V> result = getAndRemoveNonValidCacheValue().stream()
                 .filter(CacheValue::isAvailableCache)
                 .map(CacheValue::getIfCacheAvailable)
                 .collect(Collectors.toCollection(LinkedHashSet::new));
+        return Collections.unmodifiableSet(result);
     }
     
     /**
@@ -78,9 +79,11 @@ public class CacheValues<V> extends Model {
      * that satisfy the given predicate
      */
     public CacheValues<V> filter(final Predicate<V> predicate) {
-        return new CacheValues<>(getAndRemoveNonValidCacheValue().stream()
-                .filter(vCacheValue -> predicate.test(vCacheValue.getIfCacheAvailable()))
-                .collect(Collectors.toCollection(LinkedHashSet::new)));
+        return new CacheValues<>(
+                getAndRemoveNonValidCacheValue().stream()
+                        .filter(vCacheValue -> predicate.test(vCacheValue.getIfCacheAvailable()))
+                        .collect(Collectors.toCollection(LinkedHashSet::new))
+        );
     }
     
     /**

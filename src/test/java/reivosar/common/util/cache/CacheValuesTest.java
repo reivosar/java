@@ -55,7 +55,7 @@ public class CacheValuesTest {
         
         @BeforeEach
         void setup() {
-            valuesList= Collections.unmodifiableCollection(List.of("a", "b", "c"));
+            valuesList = Collections.unmodifiableCollection(List.of("a", "b", "c"));
             cacheValues = CacheValues.from(valuesList);
         }
         
@@ -63,7 +63,7 @@ public class CacheValuesTest {
         void shouldReturnUnmodifiableCollectionOfCachedValues() {
             Collection<String> values = cacheValues.values();
             Assertions.assertNotNull(values);
-            Assertions.assertDoesNotThrow(() -> values.add("d"));
+            Assertions.assertThrows(UnsupportedOperationException.class, () -> values.add("d"));
         }
         
         @Test
