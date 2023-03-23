@@ -50,10 +50,7 @@ class LocalCacheStore<K, V> extends Model {
     void put(final K key, final V value) {
         ObjectUtil.requireNonNull("key", key);
         ObjectUtil.requireNonNullAndEmpty("value", value);
-        Collection<V> values = this.cacheMap.get(key);
-        if (values == null || values.isEmpty()) {
-            values = new LinkedHashSet<>();
-        }
+        Collection<V> values = ObjectUtil.defaultIfNull(this.cacheMap.get(key), new LinkedHashSet<>());
         values.add(value);
         this.cacheMap.put(key, values);
     }
