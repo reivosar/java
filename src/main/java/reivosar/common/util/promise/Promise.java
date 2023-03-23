@@ -34,7 +34,6 @@ public interface Promise<T> extends Result<T> {
      * @throws NullPointerException if the specified supplier is null
      */
     static <T> Promise<T> resolve(Supplier<T> supplier) {
-        ObjectUtil.requireNonNull("supplier", supplier);
         final PromiseHandler<T> promiseHandler = PromiseHandlerFactory.create();
         return promiseHandler.with(supplier).handle();
     }
@@ -110,8 +109,7 @@ public interface Promise<T> extends Result<T> {
      * @throws NullPointerException if the suppliers' argument is null
      */
     static Promise<Void> all(final Collection<Supplier<Void>> suppliers) {
-        ObjectUtil.requireNonNull("suppliers", suppliers);
-        final PromiseHandler<Void> promiseHandler = PromiseHandlerFactory.createWithMultiple(suppliers.size());
+        final PromiseHandler<Void> promiseHandler = PromiseHandlerFactory.createWithSuppliers(suppliers);
         return promiseHandler.with(suppliers).handle();
     }
 }
