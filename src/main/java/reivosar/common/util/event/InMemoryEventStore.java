@@ -2,10 +2,8 @@ package reivosar.common.util.event;
 
 import reivosar.common.util.function.LockableFunction;
 
-import java.util.Collection;
-import java.util.Collections;
-import java.util.LinkedList;
-import java.util.Optional;
+import java.util.*;
+import java.util.stream.Collectors;
 
 class InMemoryEventStore implements EventStore {
     
@@ -34,7 +32,7 @@ class InMemoryEventStore implements EventStore {
      */
     @Override
     public Optional<Event> nextEvent() {
-        return lock.with(() -> EVENTS.stream().findFirst());
+        return lock.with(() -> getAll().stream().findFirst());
     }
     
     /**
@@ -42,7 +40,7 @@ class InMemoryEventStore implements EventStore {
      */
     @Override
     public boolean hasEvent() {
-        return lock.with(() ->!EVENTS.isEmpty());
+        return lock.with(() -> !EVENTS.isEmpty());
     }
     
     /**
@@ -58,7 +56,12 @@ class InMemoryEventStore implements EventStore {
      */
     @Override
     public Collection<Event> getAll() {
-        return lock.with(() -> Collections.unmodifiableCollection(EVENTS));
+        return lock.with(() -> Collections.unmodifiableCollection(
+                EVENTS.stream()
+                        .sorted(Comparator.comparing(Event::eventPriority).reversed()
+                                .thenComparing(Event::eventOccurredOn))
+                        .collect(Collectors.toList()))
+        );
     }
     
     /**

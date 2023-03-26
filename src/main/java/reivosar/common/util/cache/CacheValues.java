@@ -3,10 +3,9 @@ package reivosar.common.util.cache;
 import reivosar.common.util.lang.ObjectUtil;
 import reivosar.common.util.model.Model;
 
-import java.util.Collection;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 /**
  * A class that wraps a collection of values for caching, using generics.
@@ -17,8 +16,11 @@ public class CacheValues<V> extends Model {
     
     private final Collection<CacheValue<V>> values;
     
-    static <V> CacheValues<V> from(final Collection<V> values) {
-        return new CacheValues<>(values.stream().map(CacheValue::new).toList());
+    static <V> CacheValues<V> fromNativeCollection(final Collection<V> values) {
+        return new CacheValues<>(values.stream()
+                .map(CacheValue::new)
+                .collect(Collectors.toCollection(LinkedHashSet::new))
+        );
     }
     
     CacheValues(final Collection<CacheValue<V>> values) {
@@ -42,10 +44,11 @@ public class CacheValues<V> extends Model {
      * @return An unmodifiable collection of the cached values.
      */
     public Collection<V> values() {
-        return values.stream()
+        final Set<V> result = getAndRemoveNonValidCacheValue().stream()
                 .filter(CacheValue::isAvailableCache)
                 .map(CacheValue::getIfCacheAvailable)
-                .toList();
+                .collect(Collectors.toCollection(LinkedHashSet::new));
+        return Collections.unmodifiableSet(result);
     }
     
     /**
@@ -76,7 +79,11 @@ public class CacheValues<V> extends Model {
      * that satisfy the given predicate
      */
     public CacheValues<V> filter(final Predicate<V> predicate) {
-        return CacheValues.from(values().stream().filter(predicate).toList());
+        return new CacheValues<>(
+                getAndRemoveNonValidCacheValue().stream()
+                        .filter(vCacheValue -> predicate.test(vCacheValue.getIfCacheAvailable()))
+                        .collect(Collectors.toCollection(LinkedHashSet::new))
+        );
     }
     
     /**
@@ -123,5 +130,12 @@ public class CacheValues<V> extends Model {
      */
     public int size() {
         return values.size();
+    }
+    
+    private Collection<CacheValue<V>> getAndRemoveNonValidCacheValue() {
+        // Delete non-valid cache
+        final Collection<CacheValue<V>> immutableSet = new LinkedHashSet<>(values);
+        immutableSet.removeIf(vCacheValue -> !vCacheValue.isAvailableCache());
+        return immutableSet;
     }
 }
