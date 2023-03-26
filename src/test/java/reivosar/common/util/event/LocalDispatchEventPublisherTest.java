@@ -11,7 +11,7 @@ import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class LocalEventParameterPublisherTest {
+class LocalDispatchEventPublisherTest {
     
     @Nested
     class NotExecuteEventTest {
@@ -104,7 +104,7 @@ class LocalEventParameterPublisherTest {
         
         private LocalDispatchEventPublisher testClass;
         
-        private static List<String> eventResults = Collections.synchronizedList(new ArrayList<>());
+        private static final List<String> eventResults = Collections.synchronizedList(new ArrayList<>());
         
         @BeforeEach
         void setup() {
@@ -144,7 +144,7 @@ class LocalEventParameterPublisherTest {
         
         private LocalDispatchEventPublisher testClass;
         
-        private static List<String> eventResults = Collections.synchronizedList(new ArrayList<>());
+        private static final List<String> eventResults = Collections.synchronizedList(new ArrayList<>());
         
         @BeforeEach
         void setup() {

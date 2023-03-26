@@ -6,52 +6,51 @@ import java.util.Collection;
 
 class EventLoop {
     
-    private final EventStore eventStore;
-    private final EventProcessor eventProcessor;
-    private final DaemonThread loopThread;
+    private final Thread thread;
     private final LockableFunction lockableFunction = new LockableFunction();
     private volatile boolean isRunning = false;
     
-    private static final long SLEEP_TIME = 1000;
+    private static final long SLEEP_TIME = 2000;
     
-    public EventLoop(final EventStore eventStore, final EventProcessor eventProcessor) {
-        this.eventStore = eventStore;
-        this.eventProcessor = eventProcessor;
-        this.loopThread = new DaemonThread(EventPriority.MAX, ()-> {
+    EventLoop(final EventStore eventStore, final EventProcessor eventProcessor) {
+        this.thread = new Thread(()-> {
             while (isRunning) {
                 Collection<Event> events = eventStore.getAll();
                 if (events.isEmpty()) {
                     try {
                         Thread.sleep(SLEEP_TIME);
                     } catch (InterruptedException e) {
-                        Thread.currentThread().interrupt();
+                        stop();
+                        if (eventStore.hasEvent()) {
+                            start();
+                        }
                     }
                 } else {
                     for (Event event : events) {
-                        //TODO
+                        eventProcessor.process(event);
                     }
                 }
             }
         });
     }
     
-    public void start() {
+    void start() {
         lockableFunction.with(() -> {
             if (isRunning) {
                 return;
             }
             isRunning = true;
-            loopThread.start();
+            thread.start();
         });
     }
     
-    public void stop() {
+    void stop() {
         lockableFunction.with(() -> {
             if (!isRunning) {
                 return;
             }
             isRunning = false;
-            loopThread.interrupt();
+            thread.interrupt();
         });
     }
 }
