@@ -21,23 +21,5 @@ public interface Event extends Serializable {
     default EventPriority eventPriority() {
         return EventPriority.NORMAL;
     }
-    
-    /**
-     * Returns the date and time when this event occurred.
-     *
-     * @return the date and time when this event occurred
-     */
-    default LocalDateTime eventOccurredOn() {
-        return new EventOccurredOn().localDateTime;
-    }
-    
-    // An inner class that encapsulates the date and time when an event occurred.
-    class EventOccurredOn {
-        private final LocalDateTime localDateTime;
-        
-        public EventOccurredOn() {
-            this.localDateTime = LocalDateTime.now();
-        }
-    }
 }
 

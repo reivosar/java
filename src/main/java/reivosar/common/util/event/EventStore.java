@@ -12,8 +12,9 @@ public interface EventStore {
      * Adds an event to the store.
      *
      * @param event the event to add
+     * @return true if this store changed as a result of the call, false otherwise
      */
-    void add(Event event);
+    boolean add(Event event);
     
     /**
      * Retrieves the next event in the store.
@@ -27,7 +28,9 @@ public interface EventStore {
      *
      * @return true if there is at least one event, false otherwise
      */
-    boolean hasEvent();
+    default boolean hasEvent() {
+        return nextEvent().isPresent();
+    }
     
     /**
      * Removes an event from the store.

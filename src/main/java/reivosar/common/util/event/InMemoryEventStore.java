@@ -13,18 +13,18 @@ class InMemoryEventStore implements EventStore {
         EVENTS = Collections.synchronizedList(new LinkedList<>());
     }
     
-    private final LockableFunction lock;
+    private final LockableFunction lockableFunction;
     
-    public InMemoryEventStore() {
-        this.lock = new LockableFunction();
+    InMemoryEventStore() {
+        this.lockableFunction = new LockableFunction();
     }
     
     /**
      * {@inheritDoc}
      */
     @Override
-    public void add(final Event event) {
-        lock.with(() -> EVENTS.add(event));
+    public boolean add(final Event event) {
+        return lockableFunction.with(() -> EVENTS.add(event));
     }
     
     /**
@@ -32,7 +32,7 @@ class InMemoryEventStore implements EventStore {
      */
     @Override
     public Optional<Event> nextEvent() {
-        return lock.with(() -> getAll().stream().findFirst());
+        return lockableFunction.with(() -> getAll().stream().findFirst());
     }
     
     /**
@@ -40,7 +40,7 @@ class InMemoryEventStore implements EventStore {
      */
     @Override
     public boolean hasEvent() {
-        return lock.with(() -> !EVENTS.isEmpty());
+        return lockableFunction.with(() -> !EVENTS.isEmpty());
     }
     
     /**
@@ -48,7 +48,7 @@ class InMemoryEventStore implements EventStore {
      */
     @Override
     public void remove(final Event event) {
-        lock.with(() -> EVENTS.removeIf(storedEvent -> storedEvent.equals(event)));
+        lockableFunction.with(() -> EVENTS.removeIf(storedEvent -> storedEvent.equals(event)));
     }
     
     /**
@@ -56,11 +56,11 @@ class InMemoryEventStore implements EventStore {
      */
     @Override
     public Collection<Event> getAll() {
-        return lock.with(() -> Collections.unmodifiableCollection(
-                EVENTS.stream()
-                        .sorted(Comparator.comparing(Event::eventPriority).reversed()
-                                .thenComparing(Event::eventOccurredOn))
-                        .collect(Collectors.toList()))
+        return lockableFunction.with(() ->
+                Collections.unmodifiableCollection(
+                        EVENTS.stream()
+                                .sorted(Comparator.comparing(Event::eventPriority).reversed())
+                                .collect(Collectors.toList()))
         );
     }
     
@@ -69,6 +69,6 @@ class InMemoryEventStore implements EventStore {
      */
     @Override
     public void clear() {
-        lock.with(EVENTS::clear);
+        lockableFunction.with(EVENTS::clear);
     }
 }
