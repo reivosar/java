@@ -2,7 +2,6 @@ package reivosar.common.util.cache;
 
 import reivosar.common.util.lang.ObjectUtil;
 
-import javax.annotation.Nonnull;
 import java.util.Collection;
 
 abstract class CacheTemplate<K, V> implements Cache<K, V> {
@@ -31,15 +30,15 @@ abstract class CacheTemplate<K, V> implements Cache<K, V> {
     @Override
     public final void put(final K key, final V value) {
         ObjectUtil.requireNonNull("key", key);
-        ObjectUtil.requireNonNullAndEmpty("value", value);
+        ObjectUtil.requireNonNull("value", value);
         put(key, value, CacheExpires.EXTERNAl);
     }
     
     @Override
     public final void put(final K key, final V value, final CacheExpires cacheExpires) {
         ObjectUtil.requireNonNull("key", key);
-        ObjectUtil.requireNonNullAndEmpty("value", value);
-        ObjectUtil.requireNonNullAndEmpty("CacheExpires", cacheExpires);
+        ObjectUtil.requireNonNull("value", value);
+        ObjectUtil.requireNonNull("CacheExpires", cacheExpires);
         final CacheValue<V> cacheValue = new CacheValue<>(value, cacheExpires);
         if (cacheValue.isAvailableCache()) {
             cacheAccessor.put(key, cacheValue);
@@ -57,7 +56,7 @@ abstract class CacheTemplate<K, V> implements Cache<K, V> {
     }
     
     @Override
-    public final void clear(@Nonnull final K key) {
+    public final void clear(final K key) {
         ObjectUtil.requireNonNull("key", key);
         cacheAccessor.clear(key);
     }
