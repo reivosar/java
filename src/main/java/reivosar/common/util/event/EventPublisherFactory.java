@@ -7,6 +7,6 @@ class EventPublisherFactory {
     }
     
     static EventPublisher createLocalEventPublisher() {
-        return new LocalEventPublisher();
+        return new LocalDispatchEventPublisher();
     }
 }

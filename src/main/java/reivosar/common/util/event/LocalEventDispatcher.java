@@ -4,7 +4,7 @@ class LocalEventDispatcher implements EventDispatcher {
     
     @Override
     public void dispatch(final Event event) {
-        final LocalEventHandler handler = LocalEventHandlerCache.getLocalEventHandlers(event);
-        handler.handle(event);
+        final EventHandler eventHandler = LocalEventHandlerCache.getLocalEventHandlers(event);
+        eventHandler.handle(event);
     }
 }
