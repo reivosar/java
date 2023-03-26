@@ -2,12 +2,13 @@ package reivosar.common.util.event;
 
 import reivosar.common.util.function.LockableFunction;
 
+import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
 
 class InMemoryEventStore implements EventStore {
     
-    private static final Collection<Event> EVENTS;
+    private static final Collection<StoredEvent> EVENTS;
     
     static {
         EVENTS = Collections.synchronizedList(new LinkedList<>());
@@ -24,14 +25,29 @@ class InMemoryEventStore implements EventStore {
      */
     @Override
     public boolean add(final Event event) {
-        return lockableFunction.with(() -> EVENTS.add(event));
+        return lockableFunction.with(() -> EVENTS.add(new StoredEvent() {
+            @Override
+            public StoredEventId getStoredEventId() {
+                return () -> UUID.randomUUID().toString();
+            }
+            
+            @Override
+            public Event getEvent() {
+                return event;
+            }
+            
+            @Override
+            public LocalDateTime getStoredOn() {
+                return LocalDateTime.now();
+            }
+        }));
     }
     
     /**
      * {@inheritDoc}
      */
     @Override
-    public Optional<Event> nextEvent() {
+    public Optional<StoredEvent> nextEvent() {
         return lockableFunction.with(() -> getAll().stream().findFirst());
     }
     
@@ -47,19 +63,19 @@ class InMemoryEventStore implements EventStore {
      * {@inheritDoc}
      */
     @Override
-    public void remove(final Event event) {
-        lockableFunction.with(() -> EVENTS.removeIf(storedEvent -> storedEvent.equals(event)));
+    public void remove(final StoredEvent event) {
+        lockableFunction.with(() -> EVENTS.removeIf(storedEvent -> storedEvent.getStoredEventId().equals(event.getStoredEventId())));
     }
     
     /**
      * {@inheritDoc}
      */
     @Override
-    public Collection<Event> getAll() {
+    public Collection<StoredEvent> getAll() {
         return lockableFunction.with(() ->
                 Collections.unmodifiableCollection(
                         EVENTS.stream()
-                                .sorted(Comparator.comparing(Event::eventPriority).reversed())
+                                .sorted(Comparator.comparing(StoredEvent::getStoredOn))
                                 .collect(Collectors.toList()))
         );
     }

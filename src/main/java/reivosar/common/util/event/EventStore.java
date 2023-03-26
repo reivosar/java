@@ -21,7 +21,7 @@ public interface EventStore {
      *
      * @return an optional containing the next event, or an empty optional if there are no more events
      */
-    Optional<Event> nextEvent();
+    Optional<StoredEvent> nextEvent();
     
     /**
      * Checks if there is at least one event in the store.
@@ -37,14 +37,14 @@ public interface EventStore {
      *
      * @param event the event to remove
      */
-    void remove(Event event);
+    void remove(StoredEvent event);
     
     /**
      * Retrieves all events in the store.
      *
      * @return a collection of all events in the store
      */
-    Collection<Event> getAll();
+    Collection<StoredEvent> getAll();
     
     /**
      * Clears all events from the store.

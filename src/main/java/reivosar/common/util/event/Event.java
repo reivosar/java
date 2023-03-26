@@ -12,14 +12,5 @@ import java.time.LocalDateTime;
  * transmitted over a network or stored in a file.
  */
 public interface Event extends Serializable {
-    
-    /**
-     * Returns the priority of this event.
-     *
-     * @return the priority of this event
-     */
-    default EventPriority eventPriority() {
-        return EventPriority.NORMAL;
-    }
 }
 

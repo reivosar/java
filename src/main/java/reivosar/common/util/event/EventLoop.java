@@ -15,7 +15,7 @@ class EventLoop {
     EventLoop(final EventStore eventStore, final EventProcessor eventProcessor) {
         this.thread = new Thread(()-> {
             while (isRunning) {
-                Collection<Event> events = eventStore.getAll();
+                Collection<StoredEvent> events = eventStore.getAll();
                 if (events.isEmpty()) {
                     try {
                         Thread.sleep(SLEEP_TIME);
@@ -26,8 +26,9 @@ class EventLoop {
                         }
                     }
                 } else {
-                    for (Event event : events) {
-                        eventProcessor.process(event);
+                    for (final StoredEvent storedEvent : events) {
+                        eventProcessor.process(storedEvent.getEvent());
+                        eventStore.remove(storedEvent);
                     }
                 }
             }
