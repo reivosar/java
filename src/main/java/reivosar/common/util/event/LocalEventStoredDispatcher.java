@@ -23,7 +23,7 @@ class LocalEventStoredDispatcher implements EventDispatcher {
     
     @Override
     public void dispatch(final Event event) {
-        if (eventStore.add(event)) {
+        if (eventStore.create(event)) {
             eventLoop.start();
         }
     }

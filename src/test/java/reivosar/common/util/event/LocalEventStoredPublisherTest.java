@@ -38,7 +38,7 @@ class LocalEventStoredPublisherTest {
             assertTrue(result.success());
             Thread.sleep(7000);
             assertTrue(CollectionUtil.isEqualCollection(eventResults,
-                    Arrays.asList("TestEventHandler")));
+                    List.of("TestEventHandler")));
         }
         
         record SimpleTestEvent(LocalDateTime occurredOn) implements Event {
@@ -46,7 +46,6 @@ class LocalEventStoredPublisherTest {
         
         static class TestEventHandler {
             void handle(final SimpleTestEvent event) {
-                System.out.println("TestEventHandler");
                 eventResults.add("TestEventHandler");
             }
         }
