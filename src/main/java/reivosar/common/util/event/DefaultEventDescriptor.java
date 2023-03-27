@@ -9,12 +9,23 @@ class DefaultEventDescriptor implements EventDescriptor {
     private final EventDescriptorIdentify eventDescriptorIdentify;
     private final Event event;
     private final Instant storedOn;
+    private final Instant publishedOn;
     private final Instant completedOn;
     
     static EventDescriptor createNew(final Event event) {
         return new DefaultEventDescriptor(
                 ()-> UUID.randomUUID().toString(),
                 event,
+                Instant.now(),
+                null,
+                null);
+    }
+    
+    static EventDescriptor publishedBy(final EventDescriptor event) {
+        return new DefaultEventDescriptor(
+                event.getEventDescriptorIdentify(),
+                event.getEvent(),
+                event.getStoredOn(),
                 Instant.now(),
                 null);
     }
@@ -24,16 +35,19 @@ class DefaultEventDescriptor implements EventDescriptor {
                 event.getEventDescriptorIdentify(),
                 event.getEvent(),
                 event.getStoredOn(),
+                event.getPublishedOn().orElse(Instant.now()),
                 Instant.now());
     }
     
     private DefaultEventDescriptor(final EventDescriptorIdentify eventDescriptorIdentify,
                                    final Event event,
                                    final Instant storedOn,
+                                   final Instant publishedOn,
                                    final Instant completedOn) {
         this.eventDescriptorIdentify = eventDescriptorIdentify;
         this.event = event;
         this.storedOn = storedOn;
+        this.publishedOn = publishedOn;
         this.completedOn = completedOn;
     }
     
@@ -50,6 +64,11 @@ class DefaultEventDescriptor implements EventDescriptor {
     @Override
     public Instant getStoredOn() {
         return storedOn;
+    }
+    
+    @Override
+    public Optional<Instant> getPublishedOn() {
+        return Optional.ofNullable(publishedOn);
     }
     
     @Override

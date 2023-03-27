@@ -31,6 +31,24 @@ public interface EventDescriptor extends Serializable {
     Instant getStoredOn();
     
     /**
+     * Returns whether this event has been published.
+     *
+     * @return true if this event has been published, false otherwise
+     */
+    default boolean isPublished() {
+        return getPublishedOn().isPresent();
+    }
+    
+    /**
+     * Returns the instant at which this event was published.
+     *
+     * @return the instant at which this event was published, or empty if not published
+     */
+    default Optional<Instant> getPublishedOn() {
+        return Optional.empty();
+    }
+    
+    /**
      * Returns whether this event has been completed.
      *
      * @return true if this event has been completed, false otherwise

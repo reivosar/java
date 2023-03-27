@@ -27,7 +27,7 @@ class InMemoryEventStore implements EventStore {
     @Override
     public boolean create(final Event event) {
         ObjectUtil.requireNonNull("Event", event);
-        return lockableFunction.with(() -> {
+        return lockableFunction.withLock(() -> {
             final EventDescriptor eventDescriptor =
                     DefaultEventDescriptor.createNew(event);
             EVENTS.put(eventDescriptor.getEventDescriptorIdentify(), eventDescriptor);
@@ -41,7 +41,7 @@ class InMemoryEventStore implements EventStore {
     @Override
     public Optional<EventDescriptor> findById(final EventDescriptorIdentify eventDescriptorIdentify) {
         ObjectUtil.requireNonNull("EventDescriptorIdentify", eventDescriptorIdentify);
-        return lockableFunction.with(() -> Optional.ofNullable(EVENTS.get(eventDescriptorIdentify)));
+        return lockableFunction.withLock(() -> Optional.ofNullable(EVENTS.get(eventDescriptorIdentify)));
     }
     
     /**
@@ -49,7 +49,7 @@ class InMemoryEventStore implements EventStore {
      */
     @Override
     public boolean hasUncompletedEvent() {
-        return lockableFunction.with(() -> !EVENTS.isEmpty());
+        return lockableFunction.withLock(() -> !EVENTS.isEmpty());
     }
     
     /**
@@ -58,7 +58,7 @@ class InMemoryEventStore implements EventStore {
     @Override
     public boolean update(final EventDescriptor eventDescriptor) {
         ObjectUtil.requireNonNull("EventDescriptor", eventDescriptor);
-        return lockableFunction.with(() -> {
+        return lockableFunction.withLock(() -> {
             Optional<EventDescriptor> original = findById(eventDescriptor.getEventDescriptorIdentify());
             EVENTS.put(eventDescriptor.getEventDescriptorIdentify(), eventDescriptor);
             return original.isEmpty() || !original.get().equals(eventDescriptor);
@@ -69,8 +69,20 @@ class InMemoryEventStore implements EventStore {
      * {@inheritDoc}
      */
     @Override
+    public Collection<EventDescriptor> getUnpublishedEvents() {
+        return lockableFunction.withLock(() -> Collections.unmodifiableCollection(
+                EVENTS.values().stream()
+                        .filter(eventDescriptor -> !eventDescriptor.isPublished())
+                        .sorted(Comparator.comparing(EventDescriptor::getStoredOn))
+                        .collect(Collectors.toList())));
+    }
+    
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public Collection<EventDescriptor> getUncompletedEvents() {
-        return lockableFunction.with(() -> Collections.unmodifiableCollection(
+        return lockableFunction.withLock(() -> Collections.unmodifiableCollection(
                 EVENTS.values().stream()
                         .filter(eventDescriptor -> !eventDescriptor.isCompleted())
                         .sorted(Comparator.comparing(EventDescriptor::getStoredOn))
