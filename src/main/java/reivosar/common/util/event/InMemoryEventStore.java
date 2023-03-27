@@ -37,7 +37,7 @@ class InMemoryEventStore implements EventStore {
             }
             
             @Override
-            public LocalDateTime getStoredOn() {
+            public LocalDateTime getEventStoredDateTime() {
                 return LocalDateTime.now();
             }
         }));
@@ -75,7 +75,7 @@ class InMemoryEventStore implements EventStore {
         return lockableFunction.with(() ->
                 Collections.unmodifiableCollection(
                         EVENTS.stream()
-                                .sorted(Comparator.comparing(StoredEvent::getStoredOn))
+                                .sorted(Comparator.comparing(StoredEvent::getEventStoredDateTime))
                                 .collect(Collectors.toList()))
         );
     }
