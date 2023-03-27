@@ -9,7 +9,7 @@ import reivosar.common.util.reflect.ClassResources;
 import java.util.Collection;
 import java.util.List;
 
-class LocalEventStore {
+class LocalEventHandlerCache {
     
     private static final Cache<String, LocalEventHandler> CACHE;
     

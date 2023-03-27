@@ -1,14 +1,14 @@
 package reivosar.common.util.event;
 
 /**
- * The EventConfig interface provides a method to obtain an EventDispatcher instance.
+ * An interface for retrieving the configured event dispatcher and event store.
  */
 public interface EventConfig {
     
     /**
-     * Returns an EventDispatcher instance that can be used to dispatch events.
+     * Returns the event dispatcher instance configured for this application.
      *
-     * @return the EventDispatcher instance
+     * @return the event dispatcher instance
      */
     EventDispatcher getEventDispatcher();
 }

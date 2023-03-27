@@ -11,16 +11,16 @@ import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class LocalEventParameterPublisherTest {
+class LocalDispatchEventPublisherTest {
     
     @Nested
     class NotExecuteEventTest {
         
-        private LocalEventPublisher testClass;
+        private LocalDispatchEventPublisher testClass;
         
         @BeforeEach
         void setup() {
-            this.testClass = new LocalEventPublisher();
+            this.testClass = new LocalDispatchEventPublisher();
         }
         
         @Test
@@ -71,11 +71,11 @@ class LocalEventParameterPublisherTest {
     @Nested
     class OneEventOneHandlerTest {
         
-        private LocalEventPublisher testClass;
+        private LocalDispatchEventPublisher testClass;
         
         @BeforeEach
         void setup() {
-            this.testClass = new LocalEventPublisher();
+            this.testClass = new LocalDispatchEventPublisher();
         }
         
         @Test
@@ -102,13 +102,13 @@ class LocalEventParameterPublisherTest {
     @Nested
     class OneEvenTwoHandlerTest {
         
-        private LocalEventPublisher testClass;
+        private LocalDispatchEventPublisher testClass;
         
-        private static List<String> eventResults = Collections.synchronizedList(new ArrayList<>());
+        private static final List<String> eventResults = Collections.synchronizedList(new ArrayList<>());
         
         @BeforeEach
         void setup() {
-            this.testClass = new LocalEventPublisher();
+            this.testClass = new LocalDispatchEventPublisher();
         }
         
         @Test
@@ -142,13 +142,13 @@ class LocalEventParameterPublisherTest {
     @Nested
     class ManyEvenManyHandlerTest {
         
-        private LocalEventPublisher testClass;
+        private LocalDispatchEventPublisher testClass;
         
-        private static List<String> eventResults = Collections.synchronizedList(new ArrayList<>());
+        private static final List<String> eventResults = Collections.synchronizedList(new ArrayList<>());
         
         @BeforeEach
         void setup() {
-            this.testClass = new LocalEventPublisher();
+            this.testClass = new LocalDispatchEventPublisher();
         }
         
         @Test

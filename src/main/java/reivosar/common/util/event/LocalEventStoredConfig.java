@@ -1,9 +1,9 @@
 package reivosar.common.util.event;
 
-class LocalEventConfig implements EventConfig {
+class LocalEventStoredConfig implements EventConfig {
     
     @Override
     public EventDispatcher getEventDispatcher() {
-        return LocalEventDispatcher.getInstance();
+        return LocalEventStoredDispatcher.getInstance();
     }
 }

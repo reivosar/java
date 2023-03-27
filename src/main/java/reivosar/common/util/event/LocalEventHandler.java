@@ -6,7 +6,7 @@ import reivosar.common.util.reflect.member.MethodDescriptors;
 
 import java.util.Collection;
 
-class LocalEventHandler {
+class LocalEventHandler implements EventHandler {
     
     private final Collection<ClassDescriptor> classDescriptors;
     
@@ -14,7 +14,8 @@ class LocalEventHandler {
         this.classDescriptors = classDescriptors;
     }
     
-    void handle(final Event event) {
+    @Override
+    public void handle(final Event event) {
         classDescriptors.forEach(classDescriptor -> classDescriptor.newInstance()
                 .ifPresent(instance -> handleEvent(instance, event, classDescriptor.getMethodDescriptors())));
     }
