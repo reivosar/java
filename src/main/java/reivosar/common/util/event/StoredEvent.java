@@ -27,5 +27,5 @@ public interface StoredEvent extends Serializable {
      *
      * @return the date and time that the event was stored
      */
-    LocalDateTime getStoredOn();
+    LocalDateTime getEventStoredDateTime();
 }
