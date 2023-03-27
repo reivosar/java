@@ -15,20 +15,20 @@ class EventLoop {
     EventLoop(final EventStore eventStore, final EventProcessor eventProcessor) {
         this.thread = new Thread(()-> {
             while (isRunning) {
-                final Collection<StoredEvent> events = eventStore.getAll();
+                final Collection<EventDescriptor> events = eventStore.getUncompletedEvents();
                 if (events.isEmpty()) {
                     try {
                         Thread.sleep(SLEEP_TIME);
                     } catch (InterruptedException e) {
                         stop();
-                        if (eventStore.hasEvent()) {
+                        if (eventStore.hasUncompletedEvent()) {
                             start();
                         }
                     }
                 } else {
-                    for (final StoredEvent storedEvent : events) {
-                        eventProcessor.process(storedEvent.getEvent());
-                        eventStore.remove(storedEvent);
+                    for (final EventDescriptor eventDescriptor : events) {
+                        eventProcessor.process(eventDescriptor.getEvent());
+                        eventStore.update(DefaultEventDescriptor.completedBy(eventDescriptor));
                     }
                 }
             }
