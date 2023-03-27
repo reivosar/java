@@ -11,7 +11,7 @@ class EventPipeline {
     }
     
     boolean beforeProcess(EventDescriptor eventDescriptor) {
-        return eventStore.update(DefaultEventDescriptor.publishedBy(eventDescriptor));
+        return eventStore.update(eventDescriptor);
     }
     
     void process(EventDescriptor eventDescriptor) {
@@ -19,6 +19,6 @@ class EventPipeline {
     }
     
     boolean afterProcess(EventDescriptor eventDescriptor) {
-        return eventStore.update(DefaultEventDescriptor.completedBy(eventDescriptor));
+        return eventStore.update(eventDescriptor);
     }
 }

@@ -42,13 +42,14 @@ class EventLoop {
     
     private void processEvents(final Collection<EventDescriptor> eventDescriptors) {
         eventDescriptors.forEach(eventDescriptor -> {
+            // Need refactoring
             final EventDescriptor processEventDescriptor = eventDescriptor.isPublished() ?
                     eventDescriptor : DefaultEventDescriptor.publishedBy(eventDescriptor);
-            if (eventPipeline.beforeProcess(processEventDescriptor)) {
+            if (eventDescriptor.isPublished() || eventPipeline.beforeProcess(processEventDescriptor)) {
                 try {
                     eventPipeline.process(processEventDescriptor);
                 } finally {
-                    eventPipeline.afterProcess(processEventDescriptor);
+                    eventPipeline.afterProcess(DefaultEventDescriptor.completedBy(processEventDescriptor));
                 }
             }
         });
