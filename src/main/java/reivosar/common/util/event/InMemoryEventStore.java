@@ -59,9 +59,11 @@ class InMemoryEventStore implements EventStore {
     public boolean update(final EventDescriptor eventDescriptor) {
         ObjectUtil.requireNonNull("EventDescriptor", eventDescriptor);
         return lockableFunction.withLock(() -> {
-            Optional<EventDescriptor> original = findById(eventDescriptor.getEventDescriptorIdentify());
-            EVENTS.put(eventDescriptor.getEventDescriptorIdentify(), eventDescriptor);
-            return original.isEmpty() || !original.get().equals(eventDescriptor);
+            final Optional<EventDescriptor> original = findById(eventDescriptor.getEventDescriptorIdentify());
+            if (original.isPresent() && original.get().equals(eventDescriptor)) {
+                return false;
+            }
+            return ObjectUtil.isNotEmpty(EVENTS.put(eventDescriptor.getEventDescriptorIdentify(), eventDescriptor));
         });
     }
     
