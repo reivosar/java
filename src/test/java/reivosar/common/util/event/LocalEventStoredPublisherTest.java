@@ -47,7 +47,8 @@ class LocalEventStoredPublisherTest {
         }
         
         static class TestEventHandler {
-            void handle(final SimpleTestEvent event) {
+            void handle(final SimpleTestEvent event) throws InterruptedException {
+                Thread.sleep(5000);
                 eventResults.add("TestEventHandler");
             }
         }

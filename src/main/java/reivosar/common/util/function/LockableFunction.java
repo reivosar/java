@@ -2,6 +2,7 @@ package reivosar.common.util.function;
 
 import reivosar.common.util.lang.ObjectUtil;
 
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 import java.util.function.Supplier;
@@ -11,7 +12,8 @@ import java.util.function.Supplier;
  */
 public class LockableFunction {
     
-    private final Lock lock;
+    private final Lock delegate;
+    private final AtomicBoolean locked;
     
     /**
      * Constructs a new `LockFunction` with a new `ReentrantLock`.
@@ -23,10 +25,29 @@ public class LockableFunction {
     /**
      * Constructs a new `LockFunction` with the given `Lock`.
      *
-     * @param lock the lock to use
+     * @param delegate the lock to use
      */
-    public LockableFunction(final Lock lock) {
-        this.lock = ObjectUtil.requireNonNull("Lock", lock);
+    public LockableFunction(final Lock delegate) {
+        this.delegate = ObjectUtil.requireNonNull("Lock", delegate);
+        this.locked = new AtomicBoolean(false);
+    }
+    
+    /**
+     * Returns true if the lock is currently locked, false otherwise.
+     *
+     * @return true if the lock is currently locked, false otherwise
+     */
+    public boolean isLocked() {
+        return locked.get();
+    }
+    
+    /**
+     * Returns true if the lock is not currently locked, false otherwise.
+     *
+     * @return true if the lock is not currently locked, false otherwise
+     */
+    public boolean isNotLocked() {
+        return !isLocked();
     }
     
     /**
@@ -39,10 +60,11 @@ public class LockableFunction {
     public <T> T withLock(final Supplier<T> supplier) {
         ObjectUtil.requireNonNull("Supplier", supplier);
         try {
-            lock.lock();
+            locked.set(delegate.tryLock());
             return supplier.get();
         } finally {
-            lock.unlock();
+            delegate.unlock();
+            locked.set(false);
         }
     }
     
@@ -54,10 +76,11 @@ public class LockableFunction {
     public void withLock(final VoidConsumer consumer) {
         ObjectUtil.requireNonNull("Consumer", consumer);
         try {
-            lock.lock();
+            locked.set(delegate.tryLock());
             consumer.accept();
         } finally {
-            lock.unlock();
+            delegate.unlock();
+            locked.set(false);
         }
     }
 }
