@@ -2,6 +2,7 @@ package reivosar.common.util.log;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import reivosar.common.util.lang.ObjectUtil;
 
 class LogbackLoggers extends LoggersTemplate
 {
@@ -16,52 +17,56 @@ class LogbackLoggers extends LoggersTemplate
 	}
 
 	@Override
-	public void info(String msg, Object... params) {
-		this.logger.info(msg, params);
+	public void info(Object msg, Object... params) {
+		this.logger.info(getMsgAsString(msg), params);
+	}
+    
+    private String getMsgAsString(final Object msg) {
+        return ObjectUtil.defaultIfNull(msg, "").toString();
+    }
+    
+    @Override
+	public void info(Object msg, Throwable t) {
+		this.logger.info(getMsgAsString(msg), t);
 	}
 
 	@Override
-	public void info(String msg, Throwable t) {
-		this.logger.info(msg, t);
+	public void warn(Object msg, Object... params) {
+		this.logger.warn(getMsgAsString(msg), params);
 	}
 
 	@Override
-	public void warn(String msg, Object... params) {
-		this.logger.warn(msg, params);
+	public void warn(Object msg, Throwable t) {
+		this.logger.warn(getMsgAsString(msg), t);
 	}
 
 	@Override
-	public void warn(String msg, Throwable t) {
-		this.logger.warn(msg, t);
+	public void trace(Object msg, Object... params) {
+		this.logger.trace(getMsgAsString(msg), params);
 	}
 
 	@Override
-	public void trace(String msg, Object... params) {
-		this.logger.trace(msg, params);
+	public void trace(Object msg, Throwable t) {
+		this.logger.trace(getMsgAsString(msg), t);
 	}
 
 	@Override
-	public void trace(String msg, Throwable t) {
-		this.logger.trace(msg, t);
+	public void error(Object msg, Object... params) {
+		this.logger.error(getMsgAsString(msg), params);
 	}
 
 	@Override
-	public void error(String msg, Object... params) {
-		this.logger.error(msg, params);
+	public void error(Object msg, Throwable t) {
+		this.logger.error(getMsgAsString(msg), t);
 	}
 
 	@Override
-	public void error(String msg, Throwable t) {
-		this.logger.error(msg, t);
+	public void debug(Object msg, Object... params) {
+		this.logger.debug(getMsgAsString(msg), params);
 	}
 
 	@Override
-	public void debug(String msg, Object... params) {
-		this.logger.debug(msg, params);
-	}
-
-	@Override
-	public void debug(String msg, Throwable t) {
-		this.logger.debug(msg, t);
+	public void debug(Object msg, Throwable t) {
+		this.logger.debug(getMsgAsString(msg), t);
 	}
 }

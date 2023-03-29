@@ -17,6 +17,16 @@ public interface EventDescriptor extends Serializable {
     EventDescriptorIdentify getEventDescriptorIdentify();
     
     /**
+     * Checks whether this event descriptor has the same event as the given event descriptor.
+     *
+     * @param eventDescriptor the event descriptor to compare with
+     * @return true if this event descriptor has the same event as the given event descriptor, false otherwise
+     */
+    default boolean isSameEvent(EventDescriptor eventDescriptor) {
+        return getEventDescriptorIdentify().equals(eventDescriptor.getEventDescriptorIdentify());
+    }
+    
+    /**
      * Returns the event of this descriptor.
      *
      * @return the event of this descriptor

@@ -32,7 +32,7 @@ class EventPipeline {
         if (eventRunnableCollection.size() >= MAX_THREAD_SIZE) {
             return false;
         }
-        return eventRunnableCollection.stream().noneMatch(eventRunnable -> eventRunnable.sameEventAs(eventDescriptor));
+        return eventRunnableCollection.stream().noneMatch(eventRunnable -> eventRunnable.isSameEvent(eventDescriptor));
     }
     
     boolean hasPipelinedData() {
