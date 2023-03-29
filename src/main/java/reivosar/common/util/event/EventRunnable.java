@@ -1,12 +1,15 @@
 package reivosar.common.util.event;
 
 import reivosar.common.util.function.LockableFunction;
+import reivosar.common.util.log.Loggers;
 import reivosar.common.util.model.Model;
 import reivosar.common.util.promise.Promise;
 
 import java.util.Optional;
 
 class EventRunnable extends Model implements Runnable {
+    
+    private final Loggers LOGGER = Loggers.getLoggers(EventRunnable.class);
     
     private final EventStore eventStore;
     private final EventProcessor eventProcessor;
@@ -59,10 +62,12 @@ class EventRunnable extends Model implements Runnable {
     public void run() {
         if (lockableFunction.isNotLocked()) {
             lockableFunction.withLock(() -> {
+                LOGGER.debug("start:{}", eventDescriptor.getEventDescriptorIdentify());
                 final EventDescriptor processEventDescriptor = getHoldEventDescriptor();
                 Promise.resolve(() -> beforeProcess(processEventDescriptor))
                         .then(result -> result && process(processEventDescriptor))
                         .then(result -> result && afterProcess(processEventDescriptor));
+                LOGGER.debug("end:{}", eventDescriptor.getEventDescriptorIdentify());
             });
         }
     }
@@ -86,6 +91,7 @@ class EventRunnable extends Model implements Runnable {
     
     private boolean process(final EventDescriptor processEventDescriptor) {
         if (isPrepared()) {
+            LOGGER.debug("Main process start:{}", eventDescriptor.getEventDescriptorIdentify());
             try {
                 changeStatus(STATUS.PROCESSING);
                 this.eventProcessor.process(processEventDescriptor.getEvent());
@@ -94,6 +100,7 @@ class EventRunnable extends Model implements Runnable {
             } finally {
                 changeStatus(STATUS.PROCESSED);
             }
+            LOGGER.debug("Main process end:{}", eventDescriptor.getEventDescriptorIdentify());
         }
         return isProcessed();
     }

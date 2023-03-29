@@ -1,8 +1,11 @@
 package reivosar.common.util.event;
 
 import reivosar.common.util.function.LockableFunction;
+import reivosar.common.util.log.Loggers;
 
 class EventLoop {
+    
+    private final Loggers LOGGER = Loggers.getLoggers(EventRunnable.class);
     
     private final DaemonThread thread;
     private final EventStore eventStore;
@@ -23,6 +26,7 @@ class EventLoop {
             eventPipeline.push(eventStore.getUncompletedEvents());
             if (eventPipeline.hasPipelinedData()) {
                 eventPipeline.process();
+                sleep();
             } else {
                 try {
                     synchronized (this) {
@@ -46,6 +50,14 @@ class EventLoop {
             isRunning = true;
             thread.start();
         });
+    }
+    
+    private void sleep() {
+        try {
+            Thread.sleep(EVENT_WAIT_TIME);
+        } catch (InterruptedException e) {
+            // Do nothing
+        }
     }
     
     void stop() {

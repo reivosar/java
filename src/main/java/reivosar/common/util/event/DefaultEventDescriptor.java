@@ -4,7 +4,6 @@ import reivosar.common.util.model.Model;
 
 import java.time.Instant;
 import java.util.Optional;
-import java.util.UUID;
 
 class DefaultEventDescriptor extends Model implements EventDescriptor {
     
@@ -16,7 +15,7 @@ class DefaultEventDescriptor extends Model implements EventDescriptor {
     
     static EventDescriptor createNew(final Event event) {
         return new DefaultEventDescriptor(
-                ()-> UUID.randomUUID().toString(),
+                new UUIDEventDescriptorIdentify(),
                 event,
                 Instant.now(),
                 null,

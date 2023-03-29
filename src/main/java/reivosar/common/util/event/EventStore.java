@@ -38,7 +38,7 @@ public interface EventStore {
      * @return true if there are unpublished events, false otherwise
      */
     default boolean hasUnpublishedEvent() {
-        return !getUnpublishedEvents().isEmpty();
+        return getUnpublishedEvents().size() > 0;
     }
     
     /**
@@ -54,7 +54,7 @@ public interface EventStore {
      * @return true if there are uncompleted events, false otherwise
      */
     default boolean hasUncompletedEvent() {
-        return !getUncompletedEvents().isEmpty();
+        return getUncompletedEvents().size() > 0;
     }
     
     /**
