@@ -1,5 +1,7 @@
 package reivosar.common.util.reflect.member;
 
+import reivosar.common.util.cache.Cache;
+import reivosar.common.util.cache.CacheFactory;
 import reivosar.common.util.lang.ObjectUtil;
 
 import java.lang.reflect.Constructor;
@@ -8,6 +10,8 @@ import java.lang.reflect.Constructor;
  * This class provides a factory constructor to create a collection of constructor descriptors for a given class.
  */
 public class ConstructorDescriptorsFactory {
+    
+    private static final Cache<String, Constructor<?>[]> CACHE = CacheFactory.getEternalLocalCache();
     
     /**
      * Returns a collection of constructor descriptors for the specified class.
@@ -18,10 +22,15 @@ public class ConstructorDescriptorsFactory {
     public static ConstructorDescriptors createDescriptors(final Class<?> aClass) {
         ObjectUtil.requireNonNull("aClass", aClass);
         try {
-            return createDescriptors(aClass.getDeclaredConstructors());
+            return createDescriptors(CACHE.get(aClass.getName()).orElse(createCache(aClass)));
         } catch (Throwable e) {
             return new CollectedClassMemberConstructorDescriptors(null);
         }
+    }
+    
+    private static Constructor<?>[] createCache(final Class<?> aClass) {
+        CACHE.put(aClass.getName(), aClass.getDeclaredConstructors());
+        return CACHE.get(aClass.getName()).firstValue();
     }
     
     /**
