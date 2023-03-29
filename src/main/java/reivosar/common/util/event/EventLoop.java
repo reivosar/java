@@ -1,11 +1,8 @@
 package reivosar.common.util.event;
 
 import reivosar.common.util.function.LockableFunction;
-import reivosar.common.util.log.Loggers;
 
 class EventLoop {
-    
-    private final Loggers LOGGER = Loggers.getLoggers(EventRunnable.class);
     
     private final DaemonThread thread;
     private final EventStore eventStore;

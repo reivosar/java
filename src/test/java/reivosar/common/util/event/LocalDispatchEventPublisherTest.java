@@ -100,7 +100,7 @@ class LocalDispatchEventPublisherTest {
     }
     
     @Nested
-    class OneEvenTwoHandlerTest {
+    class OneEventTwoHandlerTest {
         
         private LocalDispatchEventPublisher testClass;
         
@@ -140,7 +140,7 @@ class LocalDispatchEventPublisherTest {
     }
     
     @Nested
-    class ManyEvenManyHandlerTest {
+    class ManyEventManyHandlerTest {
         
         private LocalDispatchEventPublisher testClass;
         
