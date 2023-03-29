@@ -10,7 +10,7 @@ public interface Loggers {
      *
      * @param logMessage the message output to log
      */
-    void info(String logMessage);
+    void info(Object logMessage);
     
     /**
      * Log a message at the INFO level according to the specified format
@@ -19,7 +19,7 @@ public interface Loggers {
      * @param format the format string
      * @param params a list of arguments
      */
-    void info(String format, Object... params);
+    void info(Object format, Object... params);
     
     /**
      * Log an exception (throwable) at the INFO level with an
@@ -28,14 +28,14 @@ public interface Loggers {
      * @param logMessage the message accompanying the exception
      * @param t          the exception (throwable) to log
      */
-    void info(String logMessage, Throwable t);
+    void info(Object logMessage, Throwable t);
     
     /**
      * Log a message at the WARN level.
      *
      * @param logMessage the message output to log
      */
-    void warn(String logMessage);
+    void warn(Object logMessage);
     
     /**
      * Log a message at the WARN level according to the specified format
@@ -44,7 +44,7 @@ public interface Loggers {
      * @param format the format string
      * @param params a list of arguments
      */
-    void warn(String format, Object... params);
+    void warn(Object format, Object... params);
     
     /**
      * Log an exception (throwable) at the WARN level with an
@@ -53,14 +53,14 @@ public interface Loggers {
      * @param logMessage the message accompanying the exception
      * @param t          the exception (throwable) to log
      */
-    void warn(String logMessage, Throwable t);
+    void warn(Object logMessage, Throwable t);
     
     /**
      * Log a message at the TRACE level.
      *
      * @param logMessage the message output to log
      */
-    void trace(String logMessage);
+    void trace(Object logMessage);
     
     /**
      * Log a message at the TRACE level according to the specified format
@@ -69,7 +69,7 @@ public interface Loggers {
      * @param format the format string
      * @param params a list of arguments
      */
-    void trace(String format, Object... params);
+    void trace(Object format, Object... params);
     
     /**
      * Log an exception (throwable) at the TRACE level with an
@@ -78,14 +78,14 @@ public interface Loggers {
      * @param logMessage the message accompanying the exception
      * @param t          the exception (throwable) to log
      */
-    void trace(String logMessage, Throwable t);
+    void trace(Object logMessage, Throwable t);
     
     /**
      * Log a message at the ERROR level.
      *
      * @param logMessage the message output to log
      */
-    void error(String logMessage);
+    void error(Object logMessage);
     
     /**
      * Log a message at the ERROR level according to the specified format
@@ -94,7 +94,7 @@ public interface Loggers {
      * @param format the format string
      * @param params a list of arguments
      */
-    void error(String format, Object... params);
+    void error(Object format, Object... params);
     
     /**
      * Log an exception (throwable) at the ERROR level with an
@@ -103,14 +103,14 @@ public interface Loggers {
      * @param logMessage the message accompanying the exception
      * @param t          the exception (throwable) to log
      */
-    void error(String logMessage, Throwable t);
+    void error(Object logMessage, Throwable t);
     
     /**
      * Log a message at the DEBUG level.
      *
      * @param logMessage the message output to log
      */
-    void debug(String logMessage);
+    void debug(Object logMessage);
     
     /**
      * Log a message at the DEBUG level according to the specified format
@@ -119,7 +119,7 @@ public interface Loggers {
      * @param format the format string
      * @param params a list of arguments
      */
-    void debug(String format, Object... params);
+    void debug(Object format, Object... params);
     
     /**
      * Log an exception (throwable) at the DEBUG level with an
@@ -128,7 +128,7 @@ public interface Loggers {
      * @param logMessage the message accompanying the exception
      * @param t          the exception (throwable) to log
      */
-    void debug(String logMessage, Throwable t);
+    void debug(Object logMessage, Throwable t);
     
     /**
      * Return a logger named according to the name parameter using the
