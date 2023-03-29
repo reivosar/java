@@ -7,11 +7,12 @@ import reivosar.common.util.collection.CollectionUtil;
 import reivosar.common.util.promise.Promise;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class LocalEventStoredPublisherTest {
@@ -47,9 +48,122 @@ class LocalEventStoredPublisherTest {
         }
         
         static class TestEventHandler {
-            void handle(final SimpleTestEvent event) throws InterruptedException {
-                Thread.sleep(5000);
+            void handle(final SimpleTestEvent event) {
                 eventResults.add("TestEventHandler");
+            }
+        }
+    }
+    
+    @Nested
+    class ManyEventManyHandlerTest {
+        
+        private LocalEventStoredPublisher testClass;
+        
+        private static final List<String> eventResults = Collections.synchronizedList(new ArrayList<>());
+        
+        @BeforeEach
+        void setup() {
+            this.testClass = new LocalEventStoredPublisher();
+        }
+        
+        @Test
+        void shouldReturnTrueWhenPassedExecutableEvents() throws InterruptedException {
+            // given
+            final Collection<Event> testEvents = Arrays.asList(new ParentEvent(), new ChildEvent());
+            final GrandChildEvent testEvent = new GrandChildEvent();
+            // when
+            final Promise<Void> result1 = this.testClass.publish(testEvents);
+            final Promise<Void> result2 = this.testClass.publish(testEvent);
+            // then
+            assertTrue(result1.success() && result2.success());
+            while (eventResults.size() != 5) {
+                Thread.sleep(1000);
+            }
+            assertTrue(CollectionUtil.isEqualCollection(eventResults,
+                    Arrays.asList("TestEventHandler1", "TestEventHandler2", "TestEventHandler3", "TestEventHandler4", "TestEventHandler6")));
+        }
+        
+        class ParentEvent implements Event {
+        }
+        
+        class ChildEvent extends ParentEvent {
+        }
+    
+        class GrandChildEvent extends ChildEvent {
+        }
+        
+        record NotCalledEvent() implements Event {
+        }
+        
+        static class TestEventHandler1 {
+            void handle(final ParentEvent event) {
+                eventResults.add("TestEventHandler1");
+            }
+        }
+        
+        static class TestEventHandler2 {
+            void handle(final ChildEvent event) {
+                eventResults.add("TestEventHandler2");
+            }
+        }
+        
+        static class TestEventHandler3 {
+            void handle(final ParentEvent event) {
+                eventResults.add("TestEventHandler3");
+            }
+        }
+        
+        static class TestEventHandler4 {
+            void handle(final ChildEvent event) {
+                eventResults.add("TestEventHandler4");
+            }
+        }
+        
+        static class TestEventHandler5 {
+            void handle(final NotCalledEvent event) {
+                eventResults.add("TestEventHandler5");
+            }
+        }
+    
+        static class TestEventHandler6 {
+            void handle(final ChildEvent event) {
+                eventResults.add("TestEventHandler6");
+            }
+        }
+    }
+    
+    @Nested
+    class TooManyEventTest {
+    
+        private LocalEventStoredPublisher testClass;
+    
+        private static final AtomicInteger ATOMIC_INTEGER = new AtomicInteger(1);
+    
+        @BeforeEach
+        void setup() {
+            this.testClass = new LocalEventStoredPublisher();
+        }
+    
+        @Test
+        void shouldReturnTrueWhenPassedExecutableEvents() throws InterruptedException {
+            // given
+            final Collection<Event> testEvents = IntStream.range(0, 102).mapToObj(value -> new TestEvent()).collect(Collectors.toList());
+            // when
+            final Promise<Void> result = this.testClass.publish(testEvents);
+            // then
+            assertTrue(result.success());
+            while (ATOMIC_INTEGER.get() != 101) {
+                Thread.sleep(1000);
+            }
+            assertEquals(ATOMIC_INTEGER.get(), 101);
+        }
+    
+        record TestEvent() implements Event {
+        }
+    
+        static class TestEventHandler {
+            void handle(final TestEvent event) {
+                ATOMIC_INTEGER.set(ATOMIC_INTEGER.incrementAndGet());
             }
         }
     }

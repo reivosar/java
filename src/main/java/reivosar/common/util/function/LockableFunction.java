@@ -59,12 +59,14 @@ public class LockableFunction {
      */
     public <T> T withLock(final Supplier<T> supplier) {
         ObjectUtil.requireNonNull("Supplier", supplier);
-        try {
-            locked.set(delegate.tryLock());
-            return supplier.get();
-        } finally {
-            delegate.unlock();
-            locked.set(false);
+        synchronized (delegate) {
+            try {
+                locked.set(delegate.tryLock());
+                return supplier.get();
+            } finally {
+                delegate.unlock();
+                locked.set(false);
+            }
         }
     }
     
@@ -75,12 +77,14 @@ public class LockableFunction {
      */
     public void withLock(final VoidConsumer consumer) {
         ObjectUtil.requireNonNull("Consumer", consumer);
-        try {
-            locked.set(delegate.tryLock());
-            consumer.accept();
-        } finally {
-            delegate.unlock();
-            locked.set(false);
+        synchronized (delegate) {
+            try {
+                locked.set(delegate.tryLock());
+                consumer.accept();
+            } finally {
+                delegate.unlock();
+                locked.set(false);
+            }
         }
     }
 }

@@ -6,6 +6,7 @@ import reivosar.common.util.reflect.ClassDescriptor;
 import reivosar.common.util.reflect.ClassDescriptors;
 import reivosar.common.util.reflect.ClassResources;
 
+import java.time.Instant;
 import java.util.Collection;
 import java.util.List;
 

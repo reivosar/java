@@ -23,6 +23,7 @@ class EventLoop {
             eventPipeline.push(eventStore.getUncompletedEvents());
             if (eventPipeline.hasPipelinedData()) {
                 eventPipeline.process();
+                sleep();
             } else {
                 try {
                     synchronized (this) {
@@ -46,6 +47,14 @@ class EventLoop {
             isRunning = true;
             thread.start();
         });
+    }
+    
+    private void sleep() {
+        try {
+            Thread.sleep(EVENT_WAIT_TIME);
+        } catch (InterruptedException e) {
+            // Do nothing
+        }
     }
     
     void stop() {
