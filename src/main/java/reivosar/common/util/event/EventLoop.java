@@ -2,31 +2,31 @@ package reivosar.common.util.event;
 
 import reivosar.common.util.function.LockableFunction;
 
-import java.util.Collection;
-
 class EventLoop {
     
-    private final Thread thread;
+    private final DaemonThread thread;
     private final EventStore eventStore;
     private final EventPipeline eventPipeline;
     private final LockableFunction lockableFunction = new LockableFunction();
     private volatile boolean isRunning = false;
     
-    private static final long SLEEP_TIME = 2000;
+    private static final long EVENT_WAIT_TIME = 1000;
     
     EventLoop(final EventStore eventStore, final EventProcessor eventProcessor) {
         this.eventStore = eventStore;
         this.eventPipeline = new EventPipeline(eventStore, eventProcessor);
-        this.thread = new Thread(this::run);
+        this.thread = new DaemonThread(this::run);
     }
     
     private void run() {
         while (isRunning) {
-            final Collection<EventDescriptor> events = eventStore.getUncompletedEvents();
-            if (events.isEmpty()) {
+            eventPipeline.push(eventStore.getUncompletedEvents());
+            if (eventPipeline.hasPipelinedData()) {
+                eventPipeline.process();
+            } else {
                 try {
                     synchronized (this) {
-                        wait(SLEEP_TIME);
+                        wait(EVENT_WAIT_TIME);
                     }
                 } catch (InterruptedException e) {
                     if (eventStore.hasUncompletedEvent()) {
@@ -34,25 +34,8 @@ class EventLoop {
                     }
                     stop();
                 }
-            } else {
-                processEvents(events);
             }
         }
-    }
-    
-    private void processEvents(final Collection<EventDescriptor> eventDescriptors) {
-        eventDescriptors.forEach(eventDescriptor -> {
-            // Need refactoring
-            final EventDescriptor processEventDescriptor = eventDescriptor.isPublished() ?
-                    eventDescriptor : DefaultEventDescriptor.publishedBy(eventDescriptor);
-            if (eventDescriptor.isPublished() || eventPipeline.beforeProcess(processEventDescriptor)) {
-                try {
-                    eventPipeline.process(processEventDescriptor);
-                } finally {
-                    eventPipeline.afterProcess(DefaultEventDescriptor.completedBy(processEventDescriptor));
-                }
-            }
-        });
     }
     
     void start() {

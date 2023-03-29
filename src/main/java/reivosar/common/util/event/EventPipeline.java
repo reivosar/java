@@ -1,24 +1,56 @@
 package reivosar.common.util.event;
 
+import java.util.Collection;
+import java.util.Collections;
+import java.util.LinkedList;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
 class EventPipeline {
+    
+    private static final int MAX_THREAD_SIZE = 100;
     
     private final EventStore eventStore;
     private final EventProcessor eventProcessor;
+    private final ExecutorService pool;
+    private final Collection<EventRunnable> eventRunnableCollection;
     
     EventPipeline(final EventStore eventStore, final EventProcessor eventProcessor) {
         this.eventStore = eventStore;
         this.eventProcessor = eventProcessor;
+        this.pool = Executors.newFixedThreadPool(MAX_THREAD_SIZE);
+        this.eventRunnableCollection = Collections.synchronizedList(new LinkedList<>());
     }
     
-    boolean beforeProcess(EventDescriptor eventDescriptor) {
-        return eventStore.update(eventDescriptor);
+    void push(final Collection<EventDescriptor> eventDescriptors) {
+        eventDescriptors.stream()
+                .filter(this::isProcessableEventDescriptor)
+                .forEach(eventDescriptor -> eventRunnableCollection.add(new EventRunnable(eventStore, eventProcessor, eventDescriptor)));
     }
     
-    void process(EventDescriptor eventDescriptor) {
-        eventProcessor.process(eventDescriptor.getEvent());
+    private boolean isProcessableEventDescriptor(final EventDescriptor eventDescriptor) {
+        if (eventRunnableCollection.size() >= MAX_THREAD_SIZE) {
+            return false;
+        }
+        return eventRunnableCollection.stream().noneMatch(eventRunnable -> eventRunnable.sameEventAs(eventDescriptor));
     }
     
-    boolean afterProcess(EventDescriptor eventDescriptor) {
-        return eventStore.update(eventDescriptor);
+    boolean hasPipelinedData() {
+        return !eventRunnableCollection.isEmpty();
+    }
+    
+    void process() {
+        try {
+            eventRunnableCollection.forEach(eventRunnable -> {
+                if (eventRunnable.isPending()) {
+                    pool.execute(eventRunnable);
+                }
+                if (eventRunnable.isCompleted()) {
+                    eventRunnableCollection.remove(eventRunnable);
+                }
+            });
+        } catch (Exception e) {
+            pool.shutdown();
+        }
     }
 }

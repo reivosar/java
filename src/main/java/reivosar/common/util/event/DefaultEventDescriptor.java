@@ -1,10 +1,12 @@
 package reivosar.common.util.event;
 
+import reivosar.common.util.model.Model;
+
 import java.time.Instant;
 import java.util.Optional;
 import java.util.UUID;
 
-class DefaultEventDescriptor implements EventDescriptor {
+class DefaultEventDescriptor extends Model implements EventDescriptor {
     
     private final EventDescriptorIdentify eventDescriptorIdentify;
     private final Event event;
@@ -35,7 +37,7 @@ class DefaultEventDescriptor implements EventDescriptor {
                 event.getEventDescriptorIdentify(),
                 event.getEvent(),
                 event.getStoredOn(),
-                event.getPublishedOn().orElse(Instant.now()),
+                event.getPublishedOn().orElse(null),
                 Instant.now());
     }
     

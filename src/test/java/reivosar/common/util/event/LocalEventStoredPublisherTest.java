@@ -36,7 +36,9 @@ class LocalEventStoredPublisherTest {
             final Promise<Void> result = this.testClass.publish(testEvent);
             // then
             assertTrue(result.success());
-            Thread.sleep(7000);
+            while (eventResults.isEmpty()) {
+                Thread.sleep(1000);
+            }
             assertTrue(CollectionUtil.isEqualCollection(eventResults,
                     List.of("TestEventHandler")));
         }
