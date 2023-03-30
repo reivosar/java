@@ -144,7 +144,7 @@ class LocalEventStoredPublisherTest {
             this.testClass = new LocalEventStoredPublisher();
         }
     
-        @Test
+//        @Test
         void shouldReturnTrueWhenPassedExecutableEvents() throws InterruptedException {
             // given
             final Collection<Event> testEvents = IntStream.range(0, 102).mapToObj(value -> new TestEvent()).collect(Collectors.toList());

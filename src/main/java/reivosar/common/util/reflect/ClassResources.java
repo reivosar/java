@@ -1,14 +1,15 @@
 package reivosar.common.util.reflect;
 
-import com.google.common.reflect.ClassPath;
 import reivosar.common.util.cache.Cache;
 import reivosar.common.util.cache.CacheFactory;
 import reivosar.common.util.lang.ClassUtil;
 import reivosar.common.util.lang.ObjectUtil;
+import reivosar.common.util.reflect.member.MethodDescriptor;
 
 import java.io.IOException;
 import java.lang.annotation.Annotation;
-import java.util.List;
+import java.time.Instant;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -28,14 +29,7 @@ public class ClassResources {
     static {
         try {
             CACHE = CacheFactory.getEternalLocalCache();
-            for (final ClassPath.ClassInfo classInfo :
-                    ClassPath.from(Thread.currentThread().getContextClassLoader()).getAllClasses()) {
-                try {
-                    CACHE.put(classInfo.getName(), ClassDescriptorFactory.create(classInfo.load()));
-                } catch (Throwable e) {
-                    // Do nothing
-                }
-            }
+            ClassDescriptorCache.getCache().forEach(CACHE::put);
         } catch (IOException e) {
             throw new IllegalStateException(e);
         }
@@ -112,13 +106,16 @@ public class ClassResources {
      * @return a {@link ClassDescriptors} object containing all matching class descriptors
      */
     public static ClassDescriptors findByMethodParameters(final Class<?>... parameters) {
-        final List<ClassDescriptor> results = CACHE.getAllValues().values()
-                .stream()
-                .filter(descriptor -> descriptor.getMethodDescriptors()
-                        .getDescriptors()
-                        .stream()
-                        .anyMatch(md -> md.matchParameterType(parameters)))
-                .collect(Collectors.toList());
+        final Set<ClassDescriptor> results = new HashSet<>();
+        for (final ClassDescriptor classDescriptor : CACHE.getAllValues().values()) {
+            for (final MethodDescriptor methodDescriptor : classDescriptor.getMethodDescriptors().getDescriptors()) {
+                if (methodDescriptor.getParameterTypesDescriptor().getParameterCount() == parameters.length
+                        && methodDescriptor.getParameterTypesDescriptor().matchParameterType(parameters)) {
+                    results.add(classDescriptor);
+                    break;
+                }
+            }
+        }
         return new ClassDescriptors(results);
     }
 }

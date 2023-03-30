@@ -1,5 +1,7 @@
 package reivosar.common.util.promise;
 
+import reivosar.common.util.function.VoidConsumer;
+
 import java.util.Collection;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
@@ -28,12 +30,20 @@ class PromiseHandler<T> {
         this.promiseTask = new PromiseTask<>();
     }
     
-    PromiseHandler<T> with(final Supplier<T> supplier) {
-        return with(List.of(supplier));
+    PromiseHandler<T> withSupplier(final Supplier<T> supplier) {
+        return withSuppliers(List.of(supplier));
     }
     
-    PromiseHandler<T> with(final Collection<Supplier<T>> suppliers) {
+    PromiseHandler<T> withSuppliers(final Collection<Supplier<T>> suppliers) {
         suppliers.forEach(this.promiseTask::addTask);
+        return this;
+    }
+    
+    PromiseHandler<T> withVoidConsumers(final Collection<VoidConsumer> voidConsumers) {
+        voidConsumers.forEach(voidConsumer -> this.promiseTask.addTask(() -> {
+            voidConsumer.accept();
+            return null;
+        }));
         return this;
     }
     

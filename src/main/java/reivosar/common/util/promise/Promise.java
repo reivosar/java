@@ -1,5 +1,6 @@
 package reivosar.common.util.promise;
 
+import reivosar.common.util.function.VoidConsumer;
 import reivosar.common.util.lang.ObjectUtil;
 import reivosar.common.util.model.Result;
 
@@ -35,7 +36,7 @@ public interface Promise<T> extends Result<T> {
      */
     static <T> Promise<T> resolve(Supplier<T> supplier) {
         final PromiseHandler<T> promiseHandler = PromiseHandlerFactory.create();
-        return promiseHandler.with(supplier).handle();
+        return promiseHandler.withSupplier(supplier).handle();
     }
     
     /**
@@ -52,7 +53,7 @@ public interface Promise<T> extends Result<T> {
     static <T> Promise<T> resolve(Supplier<T> supplier, long timeout) {
         ObjectUtil.requireNonNull("supplier", supplier);
         final PromiseHandler<T> promiseHandler = PromiseHandlerFactory.createWithTimeout(timeout);
-        return promiseHandler.with(supplier).handle();
+        return promiseHandler.withSupplier(supplier).handle();
     }
     
     /**
@@ -101,15 +102,13 @@ public interface Promise<T> extends Result<T> {
     Promise<T> throwIfError() throws PromiseException;
     
     /**
-     * Processes multiple given suppliers asynchronously and returns a single Promise object.
-     * If an error occurs in one of the suppliers, the first error information is returned.
+     * Returns a {@link Promise} that resolves when all the provided {@link VoidConsumer}s have been executed.
      *
-     * @param suppliers a collection of Suppliers that return a Void Promise
-     * @return a promise returned when all processing for a given supplier is completed
-     * @throws NullPointerException if the suppliers' argument is null
+     * @param voidConsumers the collection of {@link VoidConsumer}s to execute.
+     * @return a {@link Promise} that resolves when all the provided {@link VoidConsumer}s have been executed.
      */
-    static Promise<Void> all(final Collection<Supplier<Void>> suppliers) {
-        final PromiseHandler<Void> promiseHandler = PromiseHandlerFactory.createWithSuppliers(suppliers);
-        return promiseHandler.with(suppliers).handle();
+    static Promise<Void> all(final Collection<VoidConsumer> voidConsumers) {
+        final PromiseHandler<Void> promiseHandler = PromiseHandlerFactory.createWithMultiple(voidConsumers.size());
+        return promiseHandler.withVoidConsumers(voidConsumers).handle();
     }
 }
