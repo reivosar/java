@@ -10,7 +10,7 @@ class EventLoop {
     private final LockableFunction lockableFunction = new LockableFunction();
     private volatile boolean isRunning = false;
     
-    private static final long EVENT_WAIT_TIME = 1000;
+    private static final long EVENT_WAIT_TIME = 300;
     
     EventLoop(final EventStore eventStore, final EventProcessor eventProcessor) {
         this.eventStore = eventStore;
