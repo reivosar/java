@@ -5,7 +5,6 @@ import reivosar.common.util.cache.CacheFactory;
 import reivosar.common.util.lang.ObjectUtil;
 
 import java.lang.reflect.Field;
-import java.lang.reflect.Method;
 
 /**
  * This class provides a factory field to create a collection of field descriptors for a given class.
@@ -23,15 +22,10 @@ public class FieldDescriptorsFactory {
     public static FieldDescriptors createDescriptors(final Class<?> aClass) {
         ObjectUtil.requireNonNull("aClass", aClass);
         try {
-            return createDescriptors(CACHE.get(aClass.getName()).orElse(createCache(aClass)));
+            return createDescriptors(CACHE.getOrPut(aClass.getName(), aClass.getDeclaredFields()).nullableFirstValue());
         } catch (Throwable e) {
             return new CollectedClassMemberFieldDescriptors(null);
         }
-    }
-    
-    private static Field[] createCache(final Class<?> aClass) {
-        CACHE.put(aClass.getName(), aClass.getDeclaredFields());
-        return CACHE.get(aClass.getName()).firstValue();
     }
     
     /**

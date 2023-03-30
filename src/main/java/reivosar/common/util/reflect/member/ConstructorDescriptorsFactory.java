@@ -22,15 +22,10 @@ public class ConstructorDescriptorsFactory {
     public static ConstructorDescriptors createDescriptors(final Class<?> aClass) {
         ObjectUtil.requireNonNull("aClass", aClass);
         try {
-            return createDescriptors(CACHE.get(aClass.getName()).orElse(createCache(aClass)));
+            return createDescriptors(CACHE.getOrPut(aClass.getName(), aClass.getDeclaredConstructors()).nullableFirstValue());
         } catch (Throwable e) {
             return new CollectedClassMemberConstructorDescriptors(null);
         }
-    }
-    
-    private static Constructor<?>[] createCache(final Class<?> aClass) {
-        CACHE.put(aClass.getName(), aClass.getDeclaredConstructors());
-        return CACHE.get(aClass.getName()).firstValue();
     }
     
     /**

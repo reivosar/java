@@ -1,5 +1,8 @@
 package reivosar.common.util.cache;
 
+import reivosar.common.util.lang.ArrayUtil;
+
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Optional;
 
@@ -27,6 +30,25 @@ public interface Cache<K, V> {
      * @return value in cache
      */
     CacheValues<V> get(K key);
+    
+    /**
+     * Retrieves the value associated with the specified key, or puts the provided value if the key is not present in the cache.
+     * If the key is present, the corresponding CacheValues object is returned, which contains the current values in the cache for the given key.
+     * If the key is not present, a new CacheValues object is created and returned, containing the provided value as its initial value.
+     *
+     * @param key   the key whose associated valu
+     *              e is to be retrieved or set
+     * @param value the value to be associated with the specified key, if the key is not already associated with a value
+     * @return the CacheValues object associated with the specified key
+     */
+    default CacheValues<V> getOrPut(K key, V value) {
+        final CacheValues<V> cacheValues = get(key);
+        if (cacheValues.isNotEmpty()) {
+            return cacheValues;
+        }
+        put(key, value);
+        return get(key);
+    }
     
     /**
      * Returns the first cached value wrapped in an Optional object.

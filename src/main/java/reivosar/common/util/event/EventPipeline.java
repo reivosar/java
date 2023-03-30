@@ -19,13 +19,13 @@ class EventPipeline {
         this.eventStore = eventStore;
         this.eventProcessor = eventProcessor;
         this.pool = Executors.newFixedThreadPool(MAX_THREAD_SIZE);
-        this.eventRunnableCollection = Collections.synchronizedList(new LinkedList<>());
+        this.eventRunnableCollection = Collections.synchronizedCollection(new LinkedList<>());
     }
     
     void push(final Collection<EventDescriptor> eventDescriptors) {
-        eventDescriptors.stream()
-                .filter(this::isProcessableEventDescriptor)
-                .forEach(eventDescriptor -> eventRunnableCollection.add(new EventRunnable(eventStore, eventProcessor, eventDescriptor)));
+        eventDescriptors.stream().filter(this::isProcessableEventDescriptor).forEach(
+                eventDescriptor -> eventRunnableCollection.add(new EventRunnable(eventStore, eventProcessor, eventDescriptor))
+        );
     }
     
     private boolean isProcessableEventDescriptor(final EventDescriptor eventDescriptor) {
@@ -41,16 +41,12 @@ class EventPipeline {
     
     void process() {
         try {
-            eventRunnableCollection.forEach(eventRunnable -> {
-                if (eventRunnable.isPending()) {
-                    pool.execute(eventRunnable);
-                }
-                if (eventRunnable.isCompleted()) {
-                    eventRunnableCollection.remove(eventRunnable);
-                }
-            });
+            // Process start
+            eventRunnableCollection.stream().filter(EventRunnable::isPending).forEach(pool::execute);
+            // Process end
+            eventRunnableCollection.removeIf(EventRunnable::isCompleted);
         } catch (Exception e) {
-            pool.shutdown();
+            pool.shutdownNow();
         }
     }
 }
