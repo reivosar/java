@@ -1,8 +1,5 @@
 package reivosar.common.util.cache;
 
-import reivosar.common.util.lang.ArrayUtil;
-
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.Optional;
 

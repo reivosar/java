@@ -2,10 +2,7 @@ package reivosar.common.util.collection;
 
 import org.apache.commons.collections4.CollectionUtils;
 
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 
 /**
  * A utility class that provides methods for working with collections.
@@ -44,19 +41,11 @@ public final class CollectionUtil {
         if (a.size() != b.size()) {
             return false;
         }
-        Iterator<?> iteratorA = a.iterator();
-        Iterator<?> iteratorB = b.iterator();
-        while (iteratorA.hasNext() && iteratorB.hasNext()) {
-            Object nextA = iteratorA.next();
-            Object nextB = iteratorB.next();
-            if (nextA == null) {
-                if (nextB != null) {
-                    return false;
-                }
-            } else {
-                if (nextB == null || !nextA.getClass().equals(nextB.getClass()) || !nextA.equals(nextB)) {
-                    return false;
-                }
+        final ArrayList<?> arrayListA = new ArrayList<>(a);
+        final ArrayList<?> arrayListB = new ArrayList<>(b);
+        for (int i = 0; i < arrayListA.size(); i++) {
+            if (!arrayListA.get(i).equals(arrayListB.get(i))) {
+                return false;
             }
         }
         return true;

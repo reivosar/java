@@ -1,5 +1,6 @@
 package reivosar.common.util.event;
 
+import reivosar.common.util.function.VoidConsumer;
 import reivosar.common.util.promise.Promise;
 
 import java.util.Collection;
@@ -18,10 +19,9 @@ abstract class AbstractEventPublisher implements EventPublisher {
     public final Promise<Void> publish(final Collection<Event> events) {
         return Promise.all(
                 events.stream()
-                        .map(event -> (Supplier<Void>) () -> {
-                            doPublishEvent(eventConfig, event);
-                            return (Void) null;
-                        })
+                        .map(event -> (VoidConsumer) () ->
+                                doPublishEvent(eventConfig, event)
+                        )
                         .collect(Collectors.toList())
         );
     }
