@@ -23,7 +23,7 @@ public interface ExecutableClassMemberDescriptor extends ClassMemberDescriptor, 
      * @return true if the parameter types are equal, false otherwise
      */
     default boolean matchParameterType(final ParameterTypesDescriptor descriptor) {
-        return getParameterTypesDescriptor().matchParameterType(descriptor);
+        return getParameterTypesDescriptor().isMatchParameterType(descriptor);
     }
     
     /**
@@ -33,7 +33,7 @@ public interface ExecutableClassMemberDescriptor extends ClassMemberDescriptor, 
      * @return true if the parameter types are equal, false otherwise
      */
     default boolean matchParameterType(final Class<?>... parameterTypes) {
-        return getParameterTypesDescriptor().matchParameterType(parameterTypes);
+        return getParameterTypesDescriptor().isMatchParameterType(parameterTypes);
     }
     
     /**
@@ -43,7 +43,7 @@ public interface ExecutableClassMemberDescriptor extends ClassMemberDescriptor, 
      * @return true if the parameter types are equal, false otherwise
      */
     default boolean matchParameterType(final Object... parameters) {
-        return getParameterTypesDescriptor().matchParameterType(parameters);
+        return getParameterTypesDescriptor().isMatchParameterType(parameters);
     }
     
 }

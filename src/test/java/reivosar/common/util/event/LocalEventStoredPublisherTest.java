@@ -38,10 +38,9 @@ class LocalEventStoredPublisherTest {
             // then
             assertTrue(result.success());
             while (eventResults.isEmpty()) {
-                Thread.sleep(1000);
+                Thread.sleep(300);
             }
-            assertTrue(CollectionUtil.isEqualCollection(eventResults,
-                    List.of("TestEventHandler")));
+            assertTrue(CollectionUtil.isEqualCollection(eventResults,  List.of("TestEventHandler")));
         }
         
         record SimpleTestEvent(LocalDateTime occurredOn) implements Event {
@@ -77,7 +76,7 @@ class LocalEventStoredPublisherTest {
             // then
             assertTrue(result1.success() && result2.success());
             while (eventResults.size() != 5) {
-                Thread.sleep(1000);
+                Thread.sleep(300);
             }
             assertTrue(CollectionUtil.isEqualCollection(eventResults,
                     Arrays.asList("TestEventHandler1", "TestEventHandler2", "TestEventHandler3", "TestEventHandler4", "TestEventHandler6")));
@@ -144,7 +143,7 @@ class LocalEventStoredPublisherTest {
             this.testClass = new LocalEventStoredPublisher();
         }
     
-//        @Test
+        @Test
         void shouldReturnTrueWhenPassedExecutableEvents() throws InterruptedException {
             // given
             final Collection<Event> testEvents = IntStream.range(0, 102).mapToObj(value -> new TestEvent()).collect(Collectors.toList());
@@ -153,7 +152,8 @@ class LocalEventStoredPublisherTest {
             // then
             assertTrue(result.success());
             while (ATOMIC_INTEGER.get() != 101) {
-                Thread.sleep(1000);
+                System.out.println(ATOMIC_INTEGER);
+                Thread.sleep(300);
             }
             assertEquals(ATOMIC_INTEGER.get(), 101);
         }
