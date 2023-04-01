@@ -67,12 +67,12 @@ class DefaultClassDescriptor extends Model implements ClassDescriptor {
     
     @Override
     public boolean hasConstructorWithAssignableParameterTypes(final Class<?>... parameterTypes) {
-        return isSameType(getConstructorDescriptors(), parameterTypes, false);
+        return isAssignable(getConstructorDescriptors(), parameterTypes, false);
     }
     
     @Override
     public boolean hasConstructorWithMatchingParameterTypes(final Class<?>... parameterTypes) {
-        return isSameType(getConstructorDescriptors(), parameterTypes, true);
+        return isAssignable(getConstructorDescriptors(), parameterTypes, true);
     }
     
     @Override
@@ -93,12 +93,12 @@ class DefaultClassDescriptor extends Model implements ClassDescriptor {
     
     @Override
     public boolean hasMethodWithAssignableParameterTypes(final Class<?>... parameterTypes) {
-        return isSameType(getMethodDescriptors(), parameterTypes, false);
+        return isAssignable(getMethodDescriptors(), parameterTypes, false);
     }
     
     @Override
     public boolean hasMethodWithMatchingParameterTypes(final Class<?>... parameterTypes) {
-        return isSameType(getMethodDescriptors(), parameterTypes, true);
+        return isAssignable(getMethodDescriptors(), parameterTypes, true);
     }
     
     @Override
@@ -106,14 +106,14 @@ class DefaultClassDescriptor extends Model implements ClassDescriptor {
         return methodDescriptors;
     }
     
-    private boolean isSameType(final ExecutableClassMemberDescriptors<?> descriptors,
-                               final Class<?>[] parameterTypes,
-                               final boolean strictComparison) {
+    private boolean isAssignable(final ExecutableClassMemberDescriptors<?> descriptors,
+                                 final Class<?>[] parameterTypes,
+                                 final boolean strictComparison) {
         return descriptors.getDescriptors()
                 .stream()
                 .anyMatch(descriptor ->
-                        ClassUtil.isAssignable(Arrays.stream(parameterTypes).toList(),
-                                getTypeDescriptors(descriptor), strictComparison));
+                        ClassUtil.isAssignable(getTypeDescriptors(descriptor),
+                                Arrays.stream(parameterTypes).toList(), strictComparison));
     }
 }
 

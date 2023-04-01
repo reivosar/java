@@ -40,7 +40,7 @@ class EventHandlerClassResourcesTest {
         }
     
         private static List<ClassDescriptor> getExpected(Class<?>... classes) {
-            return Arrays.stream(classes).map(aClass -> ClassDescriptorFactory.create(aClass)).toList();
+            return Arrays.stream(classes).map(ClassDescriptorFactory::create).toList();
         }
     
         static class ParentEvent implements Event {

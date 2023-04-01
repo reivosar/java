@@ -25,7 +25,9 @@ class EventHandlerClassResources {
     
     static Collection<ClassDescriptor> findByEvent(final Event event) {
         return CLASS_DESCRIPTORS.stream()
-                .filter(classDescriptor -> classDescriptor.hasMethodWithMatchingParameterTypes(event.getClass()))
+                .filter(classDescriptor -> {
+                    return classDescriptor.hasMethodWithMatchingParameterTypes(event.getClass());
+                })
                 .collect(Collectors.toList());
     }
 }

@@ -58,19 +58,15 @@ public final class ClassUtil {
         return ClassUtils.toClass(ArrayUtil.nullToEmpty(array));
     }
     
-    
     /**
-     * Determines whether the types in a source collection are assignable to the
-     * corresponding types in a target collection. If strict comparison is used,
-     * the types must match exactly. Otherwise, the method will attempt to determine
-     * whether the source types are assignable to the target types, taking into
-     * account parameterized types and inheritance.
+     * Determines if all classes in the first collection are assignable to their corresponding classes in the second collection,
+     * based on Java's type inheritance rules.
      *
-     * @param froms the source collection of types to be checked
-     * @param tos the target collection of types to be checked against
-     * @param strictComparison whether strict comparison is to be used
-     * @return true if the types in the source collection are assignable to the types
-     *         in the target collection; false otherwise
+     * @param froms            a Collection of Class objects representing the classes to check for assignability
+     * @param tos              a Collection of Class objects representing the classes that froms will be assigned to
+     * @param strictComparison if true, only an exact match will be considered assignable, otherwise inheritance will be considered
+     * @return true if all classes in froms are assignable to their corresponding classes in tos, false otherwise
+     * @throws NullPointerException if either froms or tos is null
      */
     public static boolean isAssignable(final Collection<Class<?>> froms,
                                        final Collection<Class<?>> tos,
@@ -92,26 +88,23 @@ public final class ClassUtil {
     }
     
     /**
-     * Determines whether a from type is assignable to a to type. If strict
-     * comparison is used, the types must match exactly. Otherwise, the method will
-     * attempt to determine whether the from type is assignable to the to type,
-     * taking into account parameterized types and inheritance.
+     * Determines if a Class object is assignable toClass another Class object, based on Java's type inheritance rules.
      *
-     * @param from the from type to be checked
-     * @param to the to type to be checked against
-     * @param strictComparison whether strict comparison is to be used
-     * @return true if the from type is assignable to the to type; false otherwise
-     * @throws NullPointerException if either the from or to type is null
+     * @param fromCLass             a Class object representing the class toClass check for assignability
+     * @param toClass               a Class object representing the class that fromCLass will be assigned toClass
+     * @param strictComparison if true, only an exact match will be considered assignable, otherwise inheritance will be considered
+     * @return true if fromCLass is assignable to toClass, false otherwise
+     * @throws NullPointerException if either fromCLass or toClass is null
      */
-    public static boolean isAssignable(final Class<?> from, final Class<?> to, boolean strictComparison) {
-        ObjectUtil.requireNonNull("From", from);
-        ObjectUtil.requireNonNull("To", to);
+    public static boolean isAssignable(final Class<?> fromCLass, final Class<?> toClass, boolean strictComparison) {
+        ObjectUtil.requireNonNull("FromCLass", fromCLass);
+        ObjectUtil.requireNonNull("ToCLass", toClass);
         if (strictComparison) {
-            return from.equals(to);
+            return fromCLass.equals(toClass);
         }
-        if (to == Object.class) {
+        if (toClass == Object.class) {
             return false;
         }
-        return ClassUtils.isAssignable(from, to, true);
+        return ClassUtils.isAssignable(fromCLass, toClass, true);
     }
 }

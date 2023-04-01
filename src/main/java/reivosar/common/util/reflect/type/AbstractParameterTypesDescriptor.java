@@ -30,13 +30,13 @@ abstract class AbstractParameterTypesDescriptor extends Model implements Paramet
     @Override
     public boolean isMatchParameterType(final Class<?>... parameterTypes) {
         ObjectUtil.requireNonNull("ParameterTypes", parameterTypes);
-        return isSameType(parameterTypes, true);
+        return isAssignable(parameterTypes, true);
     }
     
     @Override
     public boolean isMatchParameterType(final Object... parameters) {
         ObjectUtil.requireNonNull("Parameters", parameters);
-        return isSameType(ClassUtil.toClass(parameters), true);
+        return isAssignable(ClassUtil.toClass(parameters), true);
     }
     
     @Override
@@ -48,19 +48,18 @@ abstract class AbstractParameterTypesDescriptor extends Model implements Paramet
     @Override
     public boolean isMatchAssignableParameterType(final Class<?>... parameterTypes) {
         ObjectUtil.requireNonNull("ParameterTypes", parameterTypes);
-        return isSameType(parameterTypes, false);
+        return isAssignable(parameterTypes, false);
     }
     
     @Override
     public boolean isMatchAssignableParameterType(final Object... parameters) {
         ObjectUtil.requireNonNull("Parameters", parameters);
-        return isSameType(ClassUtil.toClass(parameters), false);
+        return isAssignable(ClassUtil.toClass(parameters), false);
     }
     
-    private boolean isSameType(final Class<?>[] parameterTypes, final boolean strictComparison) {
-        final Collection<TypeDescriptor> a = getParameterTypes();
-        final Collection<TypeDescriptor> b = toTypeDescriptor(parameterTypes);
-        return ClassUtil.isAssignable(toTypeClasses(b), toTypeClasses(a), strictComparison);
+    private boolean isAssignable(final Class<?>[] parameterTypes, final boolean strictComparison) {
+        return ClassUtil.isAssignable(toTypeClasses(toTypeDescriptor(parameterTypes)),
+                toTypeClasses(getParameterTypes()), strictComparison);
     }
     
     private Collection<Class<?>> toTypeClasses(final Collection<TypeDescriptor> descriptors) {
