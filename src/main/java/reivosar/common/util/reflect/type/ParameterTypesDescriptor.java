@@ -3,7 +3,7 @@ package reivosar.common.util.reflect.type;
 import java.util.Collection;
 
 /**
- * Represents a descriptor for the parameter types of a method or constructor.
+ * This interface represents a descriptor of the parameter types for a method or constructor.
  */
 public interface ParameterTypesDescriptor {
     
@@ -15,33 +15,57 @@ public interface ParameterTypesDescriptor {
     int getParameterCount();
     
     /**
-     * Checks whether the parameter types are equal to those of the specified descriptor.
+     * Tests whether the parameter types of this descriptor match those of another descriptor exactly.
      *
-     * @param descriptor the descriptor to compare to
-     * @return true if the parameter types are equal, false otherwise
+     * @param descriptor the descriptor to test against
+     * @return {@code true} if the parameter types match exactly, otherwise {@code false}
      */
-    boolean matchParameterType(final ParameterTypesDescriptor descriptor);
+    boolean isMatchParameterType(final ParameterTypesDescriptor descriptor);
     
     /**
-     * Checks whether the parameter types are equal to those of the specified descriptor.
+     * Tests whether the parameter types of this descriptor match those specified in the given array exactly.
      *
-     * @param parameterTypes the descriptor to compare to
-     * @return true if the parameter types are equal, false otherwise
+     * @param parameterTypes the array of parameter types to test against
+     * @return {@code true} if the parameter types match exactly, otherwise {@code false}
      */
-    boolean matchParameterType(final Class<?>... parameterTypes);
+    boolean isMatchParameterType(final Class<?>... parameterTypes);
     
     /**
-     * Checks whether the parameter types are equal to those of the specified descriptor.
+     * Tests whether the parameter types of this descriptor match those of the given parameters exactly.
      *
-     * @param parameters the descriptor to compare to
-     * @return true if the parameter types are equal, false otherwise
+     * @param parameters the array of parameters to test against
+     * @return {@code true} if the parameter types match exactly, otherwise {@code false}
      */
-    boolean matchParameterType(final Object... parameters);
+    boolean isMatchParameterType(final Object... parameters);
     
     /**
-     * Returns the parameter types.
+     * Tests whether the parameter types of this descriptor are assignable from those of another descriptor.
      *
-     * @return a collection of parameter types
+     * @param descriptor the descriptor to test against
+     * @return {@code true} if the parameter types are assignable, otherwise {@code false}
+     */
+    boolean isMatchAssignableParameterType(final ParameterTypesDescriptor descriptor);
+    
+    /**
+     * Tests whether the parameter types of this descriptor are assignable from those specified in the given array.
+     *
+     * @param parameterTypes the array of parameter types to test against
+     * @return {@code true} if the parameter types are assignable, otherwise {@code false}
+     */
+    boolean isMatchAssignableParameterType(final Class<?>... parameterTypes);
+    
+    /**
+     * Tests whether the parameter types of this descriptor are assignable from the given parameters.
+     *
+     * @param parameters the array of parameters to test against
+     * @return {@code true} if the parameter types are assignable, otherwise {@code false}
+     */
+    boolean isMatchAssignableParameterType(final Object... parameters);
+    
+    /**
+     * Returns a collection of TypeDescriptors representing the parameter types of this descriptor.
+     *
+     * @return a collection of TypeDescriptors representing the parameter types
      */
     Collection<TypeDescriptor> getParameterTypes();
 }

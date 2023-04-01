@@ -18,10 +18,7 @@ class LocalEventHandler implements EventHandler {
     @Override
     public void handle(final Event event) {
         for (final ClassDescriptor classDescriptor : classDescriptors) {
-            final Optional<Object> instance = classDescriptor.newInstance();
-            if (instance.isPresent()) {
-                handleEvent(instance.get(), event, classDescriptor.getMethodDescriptors());
-            }
+            classDescriptor.newInstance().ifPresent(o -> handleEvent(o, event, classDescriptor.getMethodDescriptors()));
         }
     }
     

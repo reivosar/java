@@ -12,6 +12,6 @@ public class ClassDescriptorFactory {
      * @return a new instance of {@link ClassDescriptor} for the given class.
      */
     public static ClassDescriptor create(final Class<?> aClass) {
-        return () -> aClass;
+        return new DefaultClassDescriptor(aClass);
     }
 }

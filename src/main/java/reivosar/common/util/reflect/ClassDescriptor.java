@@ -1,6 +1,5 @@
 package reivosar.common.util.reflect;
 
-import reivosar.common.util.lang.ClassUtil;
 import reivosar.common.util.reflect.member.*;
 
 import java.util.Optional;
@@ -22,54 +21,59 @@ public interface ClassDescriptor {
      *
      * @return the package name
      */
-    default String getPackageName() {
-        return ClassUtil.getPackageName(getRawClass());
-    }
+    String getPackageName();
     
     /**
      * Returns the simple name of the class.
      *
      * @return the simple name
      */
-    default String getSimpleName() {
-        return ClassUtil.getSimpleName(getRawClass());
-    }
+    String getSimpleName();
     
     /**
      * Returns the fully qualified name of the class.
      *
      * @return the fully qualified name
      */
-    default String getName() {
-        return getRawClass().getName();
-    }
+    String getName();
     
     /**
      * Returns the class modifier of the class.
      *
      * @return the class modifier
      */
-    default ClassModifier getClassModifier() {
-        return new ClassModifier(getRawClass());
-    }
+    ClassModifier getClassModifier();
     
     /**
      * Returns the field descriptors of the class.
      *
      * @return the field descriptors
      */
-    default FieldDescriptors getFieldDescriptors() {
-        return FieldDescriptorsFactory.createDescriptors(getRawClass());
-    }
+    FieldDescriptors getFieldDescriptors();
     
     /**
      * Returns the constructor descriptors of the class.
      *
      * @return the constructor descriptors
      */
-    default ConstructorDescriptors getConstructorDescriptors() {
-        return ConstructorDescriptorsFactory.createDescriptors(getRawClass());
-    }
+    ConstructorDescriptors getConstructorDescriptors();
+    
+    /**
+     * Returns whether the class has a constructor that can be invoked with the given parameter types.
+     *
+     * @param parameterTypes the types of the parameters to match
+     * @return true if a constructor with matching parameter types is found, false otherwise
+     */
+    boolean hasConstructorWithAssignableParameterTypes(Class<?>... parameterTypes);
+    
+    /**
+     * Returns whether the class has a constructor that can be invoked with the given parameter types,
+     * using exact matching.
+     *
+     * @param parameterTypes the types of the parameters to match exactly
+     * @return true if a constructor with exactly matching parameter types is found, false otherwise
+     */
+    boolean hasConstructorWithMatchingParameterTypes(Class<?>... parameterTypes);
     
     /**
      * Returns a new instance of the class with the given parameters by invoking the constructor with matching parameter types.
@@ -77,20 +81,29 @@ public interface ClassDescriptor {
      * @param parameters the parameters to pass to the constructor
      * @return a new instance of the class with the given parameters
      */
-    default Optional<Object> newInstance(Object... parameters) {
-        return getConstructorDescriptors()
-                .filter(parameters)
-                .getDescriptors().stream().findFirst()
-                .map(ConstructorDescriptor::getConstructorAccessor)
-                .map(constructorAccessor -> constructorAccessor.newInstance(parameters));
-    }
+    Optional<Object> newInstance(Object... parameters);
+    
+    /**
+     * Returns whether the class has a method that can be invoked with the given parameter types.
+     *
+     * @param parameterTypes the types of the parameters to match
+     * @return true if a method with matching parameter types is found, false otherwise
+     */
+    boolean hasMethodWithAssignableParameterTypes(Class<?>... parameterTypes);
+    
+    /**
+     * Returns whether the class has a method that can be invoked with the given parameter types,
+     * using exact matching.
+     *
+     * @param parameterTypes the types of the parameters to match exactly
+     * @return true if a method with exactly matching parameter types is found, false otherwise
+     */
+    boolean hasMethodWithMatchingParameterTypes(Class<?>... parameterTypes);
     
     /**
      * Returns the method descriptors of the class.
      *
      * @return the method descriptors
      */
-    default MethodDescriptors getMethodDescriptors() {
-        return MethodDescriptorsFactory.createDescriptors(getRawClass());
-    }
+    MethodDescriptors getMethodDescriptors();
 }

@@ -7,7 +7,7 @@ class PromiseHandlerFactory {
     }
     
     static <T> PromiseHandler<T> createWithMultiple(final int multiple) {
-        return new PromiseHandler<>(Math.min(multiple, 128));
+        return new PromiseHandler<>(Math.min(multiple, 64));
     }
     
     static <T> PromiseHandler<T> createWithTimeout(final long timeout) {

@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Test;
 import reivosar.common.util.collection.CollectionUtil;
 import reivosar.common.util.promise.Promise;
 
+import java.time.Instant;
 import java.time.LocalDateTime;
 import java.util.*;
 
@@ -73,6 +74,8 @@ class LocalDispatchEventPublisherTest {
         
         private LocalDispatchEventPublisher testClass;
         
+        private static final List<String> eventResults = Collections.synchronizedList(new ArrayList<>());
+        
         @BeforeEach
         void setup() {
             this.testClass = new LocalDispatchEventPublisher();
@@ -84,8 +87,10 @@ class LocalDispatchEventPublisherTest {
             final SimpleTestEvent testEvent = new SimpleTestEvent(LocalDateTime.now());
             // when
             final Promise<Void> result = this.testClass.publish(testEvent);
+            result.throwIfError();
             // then
             assertTrue(result.success());
+            assertTrue(CollectionUtil.isEqualCollection(eventResults, List.of("TestEventHandler")));
         }
         
         record SimpleTestEvent(LocalDateTime occurredOn) implements Event {
@@ -93,8 +98,7 @@ class LocalDispatchEventPublisherTest {
         
         static class TestEventHandler {
             void handle(final SimpleTestEvent event) {
-                System.out.println("TestEventHandler2");
-                System.out.println(event.occurredOn());
+                eventResults.add("TestEventHandler");
             }
         }
     }
@@ -159,6 +163,7 @@ class LocalDispatchEventPublisherTest {
             final Promise<Void> result = this.testClass.publish(testEvents);
             // then
             assertTrue(result.success());
+            System.out.println(eventResults);
             assertTrue(CollectionUtil.isEqualCollection(eventResults,
                     Arrays.asList("TestEventHandler1", "TestEventHandler2", "TestEventHandler3", "TestEventHandler4")));
         }
