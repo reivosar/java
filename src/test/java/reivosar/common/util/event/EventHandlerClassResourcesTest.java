@@ -26,7 +26,6 @@ class EventHandlerClassResourcesTest {
         @MethodSource("source")
         void shouldBeReturnExpectedValues(final Event event, Collection<ClassDescriptor> expected) {
             final Collection<ClassDescriptor> actual = EventHandlerClassResources.findByEvent(event);
-            System.out.println(actual);
             assertTrue(CollectionUtil.isEqualCollection(expected, actual));
         }
     
