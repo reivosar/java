@@ -8,7 +8,6 @@ import reivosar.common.util.promise.Promise;
 
 import java.time.LocalDateTime;
 import java.util.*;
-import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -136,7 +135,9 @@ class LocalEventStoredPublisherTest {
     
         private LocalEventStoredPublisher testClass;
     
-        private static final AtomicInteger ATOMIC_INTEGER = new AtomicInteger(1);
+        private static final List<String> eventResults = Collections.synchronizedList(new ArrayList<>());
+        
+        private static final int MAX_EVENT_SIZE = 512;
     
         @BeforeEach
         void setup() {
@@ -146,16 +147,16 @@ class LocalEventStoredPublisherTest {
         @Test
         void shouldReturnTrueWhenPassedExecutableEvents() throws InterruptedException {
             // given
-            final Collection<Event> testEvents = IntStream.range(0, 102).mapToObj(value -> new TestEvent()).collect(Collectors.toList());
+            final Collection<Event> testEvents = IntStream.range(0, MAX_EVENT_SIZE).mapToObj(value ->
+                    new TestEvent()).collect(Collectors.toList());
             // when
             final Promise<Void> result = this.testClass.publish(testEvents);
             // then
             assertTrue(result.success());
-            while (ATOMIC_INTEGER.get() != 101) {
-                System.out.println(ATOMIC_INTEGER);
+            while (eventResults.size() != MAX_EVENT_SIZE) {
                 Thread.sleep(300);
             }
-            assertEquals(ATOMIC_INTEGER.get(), 101);
+            assertEquals(eventResults.size(), MAX_EVENT_SIZE);
         }
     
         record TestEvent() implements Event {
@@ -163,7 +164,7 @@ class LocalEventStoredPublisherTest {
     
         static class TestEventHandler {
             void handle(final TestEvent event) {
-                ATOMIC_INTEGER.set(ATOMIC_INTEGER.incrementAndGet());
+                eventResults.add(event.toString());
             }
         }
     }

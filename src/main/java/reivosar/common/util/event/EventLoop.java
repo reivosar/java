@@ -22,7 +22,7 @@ class EventLoop {
         while (isRunning) {
             eventPipeline.push(eventStore.getUncompletedEvents());
             if (eventPipeline.hasPipelinedData()) {
-                eventPipeline.process();
+                eventPipeline.start();
                 sleep();
             } else {
                 try {
@@ -30,7 +30,7 @@ class EventLoop {
                         wait(EVENT_WAIT_TIME);
                     }
                 } catch (InterruptedException e) {
-                    if (eventStore.hasUncompletedEvent()) {
+                    if (eventPipeline.hasPipelinedData() || eventStore.hasUncompletedEvent()) {
                         continue;
                     }
                     stop();
@@ -60,6 +60,7 @@ class EventLoop {
     void stop() {
         lockableFunction.withLock(() -> {
             isRunning = false;
+            eventPipeline.stop();
         });
     }
 }

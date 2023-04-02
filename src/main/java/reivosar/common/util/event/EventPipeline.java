@@ -23,30 +23,39 @@ class EventPipeline {
     }
     
     void push(final Collection<EventDescriptor> eventDescriptors) {
-        eventDescriptors.stream().filter(this::isProcessableEventDescriptor).forEach(
-                eventDescriptor -> eventRunnableCollection.add(new EventRunnable(eventStore, eventProcessor, eventDescriptor))
-        );
+        eventDescriptors.stream()
+                .filter(this::isProcessableEventDescriptor)
+                .forEach(
+                        eventDescriptor -> eventRunnableCollection.add(
+                                new EventRunnable(eventStore, eventProcessor, eventDescriptor)
+                        )
+                );
     }
     
     private boolean isProcessableEventDescriptor(final EventDescriptor eventDescriptor) {
         if (eventRunnableCollection.size() >= MAX_THREAD_SIZE) {
             return false;
         }
-        return eventRunnableCollection.stream().noneMatch(eventRunnable -> eventRunnable.isSameEvent(eventDescriptor));
+        return eventRunnableCollection.stream()
+                .noneMatch(eventRunnable -> eventRunnable.isSameEvent(eventDescriptor));
     }
     
     boolean hasPipelinedData() {
         return !eventRunnableCollection.isEmpty();
     }
     
-    void process() {
+    void start() {
         try {
             // Process start
             eventRunnableCollection.stream().filter(EventRunnable::isPending).forEach(pool::execute);
             // Process end
             eventRunnableCollection.removeIf(EventRunnable::isCompleted);
         } catch (Exception e) {
-            pool.shutdownNow();
+            stop();
         }
+    }
+    
+    void stop() {
+        pool.shutdownNow();
     }
 }
