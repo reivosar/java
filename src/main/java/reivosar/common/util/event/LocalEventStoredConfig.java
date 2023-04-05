@@ -4,8 +4,7 @@ import reivosar.common.util.lang.SingletonFactory;
 
 class LocalEventStoredConfig implements EventConfig {
     
-    static final SingletonFactory<LocalEventStoredConfig> FACTORY =
-            new SingletonFactory<>(LocalEventStoredConfig::new);
+    static final SingletonFactory<LocalEventStoredConfig> FACTORY = new SingletonFactory<>(LocalEventStoredConfig::new);
     
     @Override
     public EventDispatcher getEventDispatcher() {
