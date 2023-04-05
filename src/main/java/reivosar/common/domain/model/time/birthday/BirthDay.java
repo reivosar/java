@@ -1,11 +1,11 @@
 package reivosar.common.domain.model.time.birthday;
 
-import java.time.LocalDate;
-import java.time.temporal.ChronoUnit;
-
 import reivosar.common.domain.model.ValueObject;
 import reivosar.common.domain.model.time.YearMonthDay;
 import reivosar.common.util.lang.ObjectUtil;
+
+import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 
 /**
  * Represents a birth date as a value object.

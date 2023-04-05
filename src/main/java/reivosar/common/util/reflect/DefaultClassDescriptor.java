@@ -5,7 +5,10 @@ import reivosar.common.util.model.Model;
 import reivosar.common.util.reflect.member.*;
 import reivosar.common.util.reflect.type.TypeDescriptor;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.LinkedHashSet;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 class DefaultClassDescriptor extends Model implements ClassDescriptor {

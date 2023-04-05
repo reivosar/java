@@ -1,7 +1,6 @@
 package reivosar.common.util.event;
 
 import java.io.Serializable;
-import java.time.LocalDateTime;
 
 /**
  * The interface for events in the event-driven architecture.

@@ -5,7 +5,6 @@ import reivosar.common.util.reflect.member.MethodDescriptor;
 import reivosar.common.util.reflect.member.MethodDescriptors;
 
 import java.util.Collection;
-import java.util.Optional;
 
 class LocalEventHandler implements EventHandler {
     

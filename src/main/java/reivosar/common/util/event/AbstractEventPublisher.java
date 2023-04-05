@@ -4,7 +4,6 @@ import reivosar.common.util.function.VoidConsumer;
 import reivosar.common.util.promise.Promise;
 
 import java.util.Collection;
-import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
 abstract class AbstractEventPublisher implements EventPublisher {

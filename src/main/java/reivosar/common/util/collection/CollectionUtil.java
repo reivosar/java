@@ -2,7 +2,8 @@ package reivosar.common.util.collection;
 
 import org.apache.commons.collections4.CollectionUtils;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
 
 /**
  * A utility class that provides methods for working with collections.

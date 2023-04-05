@@ -6,11 +6,10 @@ import org.junit.jupiter.api.Test;
 import reivosar.common.util.collection.CollectionUtil;
 import reivosar.common.util.promise.Promise;
 
-import java.time.Instant;
 import java.time.LocalDateTime;
 import java.util.*;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class LocalDispatchEventPublisherTest {
     

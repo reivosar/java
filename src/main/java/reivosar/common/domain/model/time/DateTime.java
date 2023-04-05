@@ -1,10 +1,10 @@
 package reivosar.common.domain.model.time;
 
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-
 import reivosar.common.domain.model.ValueObject;
 import reivosar.common.util.lang.ObjectUtil;
+
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 /**
  * A value object that represents a specific date and time.

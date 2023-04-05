@@ -1,9 +1,9 @@
 package reivosar.common.domain.model.time;
 
-import java.time.LocalTime;
-
 import reivosar.common.domain.model.ValueObject;
 import reivosar.common.util.lang.ObjectUtil;
+
+import java.time.LocalTime;
 
 /**
  * Value object representing an hour and minute time of day.

@@ -1,19 +1,15 @@
 package reivosar.common.domain.model.time.holiday;
 
+import reivosar.common.domain.model.ValueObject;
+import reivosar.common.domain.model.time.YearMonthDay;
+import reivosar.common.util.lang.ObjectUtil;
+
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.nio.charset.Charset;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
-
-import reivosar.common.domain.model.ValueObject;
-import reivosar.common.domain.model.time.YearMonthDay;
-import reivosar.common.util.lang.ObjectUtil;
+import java.util.*;
 
 /**
  * JapaneseHolidays class provides functions for finding holidays in Japan.

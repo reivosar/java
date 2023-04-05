@@ -1,8 +1,10 @@
 package reivosar.common.util.promise;
 
-import java.util.*;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.LinkedHashSet;
+import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
-import java.util.stream.Collectors;
 
 class CompletableFutures<T> {
     
