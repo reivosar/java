@@ -37,17 +37,6 @@ public class ClassPathResources {
     }
     
     /**
-     * Finds the first {@link ResourceFile} in the underlying collection that matches the given filename.
-     *
-     * @param fileName the name of the file to search for
-     * @return an {@link Optional} containing the first {@link ResourceFile} that matches the given filename, or an empty {@link Optional} if no match is found
-     */
-    public Optional<ResourceFile> findFirstMatchingFileName(final String fileName) {
-        ObjectUtil.requireNonNull("fileName", fileName);
-        return filterByFilename(fileName).stream().findFirst();
-    }
-    
-    /**
      * Filters the underlying collection of {@link ResourceFile}s by file path.
      *
      * @param filePath the path of the file to filter by, in Unix format
