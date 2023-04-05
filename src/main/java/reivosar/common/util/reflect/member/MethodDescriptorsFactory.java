@@ -1,5 +1,7 @@
 package reivosar.common.util.reflect.member;
 
+import reivosar.common.util.cache.Cache;
+import reivosar.common.util.cache.CacheFactory;
 import reivosar.common.util.lang.ObjectUtil;
 
 import java.lang.reflect.Method;
@@ -8,6 +10,8 @@ import java.lang.reflect.Method;
  * This class provides a factory method to create a collection of method descriptors for a given class.
  */
 public class MethodDescriptorsFactory {
+    
+    private static final Cache<String, Method[]> CACHE = CacheFactory.getEternalLocalCache();
     
     /**
      * Returns a collection of method descriptors for the specified class.
@@ -18,7 +22,7 @@ public class MethodDescriptorsFactory {
     public static MethodDescriptors createDescriptors(final Class<?> aClass) {
         ObjectUtil.requireNonNull("aClass", aClass);
         try {
-            return createDescriptors(aClass.getDeclaredMethods());
+            return createDescriptors(CACHE.getOrPut(aClass.getName(), aClass.getDeclaredMethods()).nullableFirstValue());
         } catch (Throwable e) {
             return new CollectedClassMemberMethodDescriptors(null);
         }

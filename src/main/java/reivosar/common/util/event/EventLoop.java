@@ -10,7 +10,7 @@ class EventLoop {
     private final LockableFunction lockableFunction = new LockableFunction();
     private volatile boolean isRunning = false;
     
-    private static final long EVENT_WAIT_TIME = 1000;
+    private static final long EVENT_WAIT_TIME = 300;
     
     EventLoop(final EventStore eventStore, final EventProcessor eventProcessor) {
         this.eventStore = eventStore;
@@ -22,7 +22,7 @@ class EventLoop {
         while (isRunning) {
             eventPipeline.push(eventStore.getUncompletedEvents());
             if (eventPipeline.hasPipelinedData()) {
-                eventPipeline.process();
+                eventPipeline.start();
                 sleep();
             } else {
                 try {
@@ -30,7 +30,7 @@ class EventLoop {
                         wait(EVENT_WAIT_TIME);
                     }
                 } catch (InterruptedException e) {
-                    if (eventStore.hasUncompletedEvent()) {
+                    if (eventPipeline.hasPipelinedData() || eventStore.hasUncompletedEvent()) {
                         continue;
                     }
                     stop();
@@ -60,6 +60,7 @@ class EventLoop {
     void stop() {
         lockableFunction.withLock(() -> {
             isRunning = false;
+            eventPipeline.stop();
         });
     }
 }

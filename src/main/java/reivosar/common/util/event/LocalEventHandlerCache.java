@@ -3,10 +3,8 @@ package reivosar.common.util.event;
 import reivosar.common.util.cache.Cache;
 import reivosar.common.util.cache.CacheFactory;
 import reivosar.common.util.reflect.ClassDescriptor;
-import reivosar.common.util.reflect.ClassDescriptors;
-import reivosar.common.util.reflect.ClassResources;
 
-import java.time.Instant;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
@@ -18,8 +16,8 @@ class LocalEventHandlerCache {
         CACHE = CacheFactory.getLRULocalCache();
     }
     
-    static LocalEventHandler getLocalEventHandlers(final Event event) {
-        return CACHE.get(getCacheKey(event)).orElse(createCache(event));
+    static synchronized LocalEventHandler getLocalEventHandlers(final Event event) {
+        return CACHE.getOrPut(getCacheKey(event), createCache(event)).nullableFirstValue();
     }
     
     private static void put(final Event event, final LocalEventHandler localEventHandler) {
@@ -31,11 +29,11 @@ class LocalEventHandlerCache {
     }
     
     private static LocalEventHandler createCache(final Event event) {
-        final ClassDescriptors classDescriptors = ClassResources.findByMethodParameters(event);
-        if (!classDescriptors.hasDescriptor()) {
+        final Collection<ClassDescriptor> classDescriptors = EventHandlerClassResources.findByEvent(event);
+        if (classDescriptors.isEmpty()) {
             return getLocalEventHandler(event, List.of());
         }
-        return getLocalEventHandler(event, classDescriptors.getClassDescriptors());
+        return getLocalEventHandler(event, classDescriptors);
     }
     
     private static LocalEventHandler getLocalEventHandler(final Event event, final Collection<ClassDescriptor> classDescriptors) {

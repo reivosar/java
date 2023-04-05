@@ -2,6 +2,9 @@ package reivosar.common.util.lang;
 
 import org.apache.commons.lang3.ClassUtils;
 
+import java.util.ArrayList;
+import java.util.Collection;
+
 /**
  * The ClassUtil class provides utility methods for working with classes.
  */
@@ -53,5 +56,55 @@ public final class ClassUtil {
      */
     public static Class<?>[] toClass(final Object... array) {
         return ClassUtils.toClass(ArrayUtil.nullToEmpty(array));
+    }
+    
+    /**
+     * Determines if all classes in the first collection are assignable to their corresponding classes in the second collection,
+     * based on Java's type inheritance rules.
+     *
+     * @param froms            a Collection of Class objects representing the classes to check for assignability
+     * @param tos              a Collection of Class objects representing the classes that froms will be assigned to
+     * @param strictComparison if true, only an exact match will be considered assignable, otherwise inheritance will be considered
+     * @return true if all classes in froms are assignable to their corresponding classes in tos, false otherwise
+     * @throws NullPointerException if either froms or tos is null
+     */
+    public static boolean isAssignable(final Collection<Class<?>> froms,
+                                       final Collection<Class<?>> tos,
+                                       boolean strictComparison) {
+        if (froms == null || tos == null) {
+            return froms == tos;
+        }
+        if (froms.size() != tos.size()) {
+            return false;
+        }
+        final ArrayList<Class<?>> arrayListA = new ArrayList<>(froms);
+        final ArrayList<Class<?>> arrayListB = new ArrayList<>(tos);
+        for (int i = 0; i < arrayListA.size(); i++) {
+            if (!isAssignable(arrayListA.get(i), arrayListB.get(i), strictComparison)) {
+                return false;
+            }
+        }
+        return true;
+    }
+    
+    /**
+     * Determines if a Class object is assignable toClass another Class object, based on Java's type inheritance rules.
+     *
+     * @param fromCLass             a Class object representing the class toClass check for assignability
+     * @param toClass               a Class object representing the class that fromCLass will be assigned toClass
+     * @param strictComparison if true, only an exact match will be considered assignable, otherwise inheritance will be considered
+     * @return true if fromCLass is assignable to toClass, false otherwise
+     * @throws NullPointerException if either fromCLass or toClass is null
+     */
+    public static boolean isAssignable(final Class<?> fromCLass, final Class<?> toClass, boolean strictComparison) {
+        ObjectUtil.requireNonNull("FromCLass", fromCLass);
+        ObjectUtil.requireNonNull("ToCLass", toClass);
+        if (strictComparison) {
+            return fromCLass.equals(toClass);
+        }
+        if (toClass == Object.class) {
+            return false;
+        }
+        return ClassUtils.isAssignable(fromCLass, toClass, true);
     }
 }

@@ -21,7 +21,7 @@ abstract class DefaultPromise<T> implements Promise<T> {
             return buildFailResultOtherPromise(new PromiseException("result is null."));
         }
         final PromiseHandler<R> promiseHandler = PromiseHandlerFactory.createWithTimeout(timeout);
-        return promiseHandler.with(() -> (R) function.apply(result().get())).handle();
+        return promiseHandler.withSupplier(() -> (R) function.apply(result().get())).handle();
     }
     
     private <R> Promise<R> buildFailResultOtherPromise(final Throwable error) {
