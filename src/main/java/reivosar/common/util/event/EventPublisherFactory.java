@@ -7,6 +7,6 @@ class EventPublisherFactory {
     }
     
     static EventPublisher createLocalEventPublisher() {
-        return new LocalDispatchEventPublisher();
+        return LocalDispatchEventPublisher.FACTORY.getInstance();
     }
 }
