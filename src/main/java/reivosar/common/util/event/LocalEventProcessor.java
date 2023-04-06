@@ -1,10 +1,10 @@
 package reivosar.common.util.event;
 
-import reivosar.common.util.lang.SingletonFactory;
+import reivosar.common.util.lang.Singleton;
 
 class LocalEventProcessor implements EventProcessor {
     
-    static final SingletonFactory<LocalEventProcessor> FACTORY = new SingletonFactory<>(LocalEventProcessor::new);
+    static final Singleton<LocalEventProcessor> FACTORY = new Singleton<>(LocalEventProcessor::new);
     
     @Override
     public void process(final Event event) {

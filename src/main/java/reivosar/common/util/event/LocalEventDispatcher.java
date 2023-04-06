@@ -1,11 +1,12 @@
 package reivosar.common.util.event;
 
-import reivosar.common.util.lang.SingletonFactory;
+import reivosar.common.util.lang.Singleton;
 
 class LocalEventDispatcher implements EventDispatcher {
     
-    static final SingletonFactory<LocalEventDispatcher> FACTORY =
-            new SingletonFactory<>(() -> new LocalEventDispatcher(LocalEventProcessor.FACTORY.getInstance()));
+    static final Singleton<LocalEventDispatcher> FACTORY = new Singleton<>(
+            () -> new LocalEventDispatcher(LocalEventProcessor.FACTORY.getInstance())
+    );
     
     private final EventProcessor eventProcessor;
     

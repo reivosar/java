@@ -1,10 +1,10 @@
 package reivosar.common.util.event;
 
-import reivosar.common.util.lang.SingletonFactory;
+import reivosar.common.util.lang.Singleton;
 
 class LocalEventStoredConfig implements EventConfig {
     
-    static final SingletonFactory<LocalEventStoredConfig> FACTORY = new SingletonFactory<>(LocalEventStoredConfig::new);
+    static final Singleton<LocalEventStoredConfig> FACTORY = new Singleton<>(LocalEventStoredConfig::new);
     
     @Override
     public EventDispatcher getEventDispatcher() {

@@ -2,7 +2,7 @@ package reivosar.common.util.event;
 
 import reivosar.common.util.function.LockableFunction;
 import reivosar.common.util.lang.ObjectUtil;
-import reivosar.common.util.lang.SingletonFactory;
+import reivosar.common.util.lang.Singleton;
 
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
@@ -10,7 +10,7 @@ import java.util.stream.Collectors;
 
 class InMemoryEventStore implements EventStore {
     
-    static final SingletonFactory<InMemoryEventStore> FACTORY = new SingletonFactory<>(InMemoryEventStore::new);
+    static final Singleton<InMemoryEventStore> FACTORY = new Singleton<>(InMemoryEventStore::new);
     
     private static final Map<EventDescriptorIdentify, EventDescriptor> EVENTS;
     

@@ -7,7 +7,7 @@ import java.util.function.Supplier;
  *
  * @param <T> The type of the singleton instance to be produced.
  */
-public class SingletonFactory<T> {
+public class Singleton<T> {
     
     private final Supplier<T> instanceSupplier;
     private volatile T instance;
@@ -17,7 +17,7 @@ public class SingletonFactory<T> {
      *
      * @param instanceSupplier The supplier to be used for producing the singleton instance.
      */
-    public SingletonFactory(Supplier<T> instanceSupplier) {
+    public Singleton(Supplier<T> instanceSupplier) {
         this.instanceSupplier = instanceSupplier;
     }
     
