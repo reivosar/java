@@ -31,10 +31,7 @@ public class Singleton<T> {
         T result = instance;
         if (result == null) {
             synchronized (this) {
-                result = instance;
-                if (result == null) {
-                    instance = result = instanceSupplier.get();
-                }
+                instance = result = instanceSupplier.get();
             }
         }
         return result;
