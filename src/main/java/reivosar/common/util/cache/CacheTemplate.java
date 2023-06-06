@@ -14,13 +14,13 @@ abstract class CacheTemplate<K, V> implements Cache<K, V> {
     }
     
     @Override
-    public final boolean exists(final K key) {
+    public synchronized final boolean exists(final K key) {
         ObjectUtil.requireNonNull("key", key);
         return cacheAccessor.exists(key);
     }
     
     @Override
-    public final CacheValues<V> get(final K key) {
+    public synchronized final CacheValues<V> get(final K key) {
         ObjectUtil.requireNonNull("key", key);
         if (!exists(key)) {
             return CacheValues.empty();
@@ -29,14 +29,14 @@ abstract class CacheTemplate<K, V> implements Cache<K, V> {
     }
     
     @Override
-    public final void put(final K key, final V value) {
+    public synchronized final void put(final K key, final V value) {
         ObjectUtil.requireNonNull("key", key);
         ObjectUtil.requireNonNullAndEmpty("value", value);
         put(key, value, CacheExpires.EXTERNAl);
     }
     
     @Override
-    public final void put(final K key, final V value, final CacheExpires cacheExpires) {
+    public synchronized final void put(final K key, final V value, final CacheExpires cacheExpires) {
         ObjectUtil.requireNonNull("key", key);
         ObjectUtil.requireNonNullAndEmpty("value", value);
         ObjectUtil.requireNonNullAndEmpty("CacheExpires", cacheExpires);
@@ -47,23 +47,23 @@ abstract class CacheTemplate<K, V> implements Cache<K, V> {
     }
     
     @Override
-    public final Collection<K> getAllKeys() {
+    public synchronized final Collection<K> getAllKeys() {
         return cacheAccessor.getAllKeys();
     }
     
     @Override
-    public final CacheValues<V> getAllValues() {
+    public synchronized final CacheValues<V> getAllValues() {
         return new CacheValues<>(cacheAccessor.getAllValues());
     }
     
     @Override
-    public final void clear(@Nonnull final K key) {
+    public synchronized final void clear(@Nonnull final K key) {
         ObjectUtil.requireNonNull("key", key);
         cacheAccessor.clear(key);
     }
     
     @Override
-    public final void clearAll() {
+    public synchronized final void clearAll() {
         cacheAccessor.clearAll();
     }
 }

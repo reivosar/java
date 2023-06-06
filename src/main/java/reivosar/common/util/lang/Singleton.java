@@ -1,5 +1,7 @@
 package reivosar.common.util.lang;
 
+import reivosar.common.util.function.LockableFunction;
+
 import java.util.function.Supplier;
 
 /**
@@ -10,6 +12,7 @@ import java.util.function.Supplier;
 public class Singleton<T> {
     
     private final Supplier<T> instanceSupplier;
+    private final LockableFunction lockableFunction;
     private volatile T instance;
     
     /**
@@ -19,6 +22,7 @@ public class Singleton<T> {
      */
     public Singleton(Supplier<T> instanceSupplier) {
         this.instanceSupplier = instanceSupplier;
+        this.lockableFunction = new LockableFunction();
     }
     
     /**
@@ -28,12 +32,14 @@ public class Singleton<T> {
      * @return The singleton instance of type T.
      */
     public T getInstance() {
-        T result = instance;
-        if (result == null) {
-            synchronized (this) {
-                instance = result = instanceSupplier.get();
+        return lockableFunction.withLock(() -> {
+            T result = instance;
+            if (result == null) {
+                synchronized (this) {
+                    instance = result = instanceSupplier.get();
+                }
             }
-        }
-        return result;
+            return result;
+        });
     }
 }

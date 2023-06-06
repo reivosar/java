@@ -135,7 +135,7 @@ class LocalEventStoredPublisherTest {
     
         private LocalEventStoredPublisher testClass;
     
-        private static final List<String> eventResults = Collections.synchronizedList(new ArrayList<>());
+        private static final List<Integer> eventResults = Collections.synchronizedList(new ArrayList<>());
         
         private static final int MAX_EVENT_SIZE = 512;
     
@@ -147,24 +147,24 @@ class LocalEventStoredPublisherTest {
         @Test
         void shouldReturnTrueWhenPassedExecutableEvents() throws InterruptedException {
             // given
-            final Collection<Event> testEvents = IntStream.range(0, MAX_EVENT_SIZE).mapToObj(value ->
-                    new TestEvent()).collect(Collectors.toList());
+            final Collection<Event> testEvents = IntStream.range(0, MAX_EVENT_SIZE).mapToObj(TestEvent::new).collect(Collectors.toList());
             // when
             final Promise<Void> result = this.testClass.publish(testEvents);
             // then
             assertTrue(result.success());
             while (eventResults.size() != MAX_EVENT_SIZE) {
+                System.out.println(eventResults.size());
                 Thread.sleep(300);
             }
             assertEquals(eventResults.size(), MAX_EVENT_SIZE);
         }
     
-        record TestEvent() implements Event {
+        record TestEvent(int value) implements Event {
         }
     
         static class TestEventHandler {
             void handle(final TestEvent event) {
-                eventResults.add(event.toString());
+                eventResults.add(event.value());
             }
         }
     }

@@ -7,7 +7,7 @@ class EventLoop {
     private final DaemonThread thread;
     private final EventStore eventStore;
     private final EventPipeline eventPipeline;
-    private final LockableFunction lockableFunction = new LockableFunction();
+    private final LockableFunction lockableFunction;
     private volatile boolean isRunning = false;
     
     private static final long EVENT_WAIT_TIME = 300;
@@ -15,6 +15,7 @@ class EventLoop {
     EventLoop(final EventStore eventStore, final EventProcessor eventProcessor) {
         this.eventStore = eventStore;
         this.eventPipeline = new EventPipeline(eventStore, eventProcessor);
+        this.lockableFunction = new LockableFunction();
         this.thread = new DaemonThread(this::run);
     }
     
@@ -41,7 +42,7 @@ class EventLoop {
     
     void start() {
         lockableFunction.withLock(() -> {
-            if (isRunning) {
+            if (isRunning || thread.isAlive()) {
                 return;
             }
             isRunning = true;
