@@ -32,6 +32,9 @@ public class Singleton<T> {
      * @return The singleton instance of type T.
      */
     public T getInstance() {
+        if (instance != null) {
+            return instance;
+        }
         return lockableFunction.withLock(() -> {
             T result = instance;
             if (result == null) {
