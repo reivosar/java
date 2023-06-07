@@ -32,7 +32,7 @@ class LockableFunctionTest {
             };
             
             // when
-            Integer result = lockableFunction.withLock(supplier);
+            Integer result = lockableFunction.lockOn(supplier);
             
             // then
             assertEquals(1, result);
@@ -45,7 +45,7 @@ class LockableFunctionTest {
             VoidConsumer consumer = () -> executed.set(true);
             
             // when
-            lockableFunction.withLock(consumer);
+            lockableFunction.lockOn(consumer);
             
             // then
             assertTrue(executed.get());
@@ -59,7 +59,7 @@ class LockableFunctionTest {
             };
             
             // when
-            assertThrows(RuntimeException.class, () -> lockableFunction.withLock(supplier));
+            assertThrows(RuntimeException.class, () -> lockableFunction.lockOn(supplier));
         }
         
         @Test
@@ -70,14 +70,14 @@ class LockableFunctionTest {
             };
             
             // when
-            assertThrows(RuntimeException.class, () -> lockableFunction.withLock(consumer));
+            assertThrows(RuntimeException.class, () -> lockableFunction.lockOn(consumer));
         }
         
         @Test
         void shouldNotBlockOtherThreads() throws InterruptedException {
             // given
             AtomicInteger counter = new AtomicInteger(0);
-            Runnable runnable = () -> lockableFunction.withLock(counter::incrementAndGet);
+            Runnable runnable = () -> lockableFunction.lockOn(counter::incrementAndGet);
             
             // when
             Thread thread1 = new Thread(runnable);

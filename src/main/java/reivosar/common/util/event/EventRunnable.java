@@ -58,7 +58,7 @@ class EventRunnable extends Model implements Runnable {
     @Override
     public void run() {
         if (lockableFunction.isNotLocked()) {
-            lockableFunction.withLock(() -> {
+            lockableFunction.lockOn(() -> {
                 final EventDescriptor processEventDescriptor = getHoldEventDescriptor();
                 Promise.resolve(() -> beforeProcess(processEventDescriptor))
                         .then(result -> result && process(processEventDescriptor))

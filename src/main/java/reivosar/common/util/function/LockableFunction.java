@@ -57,7 +57,7 @@ public class LockableFunction {
      * @param <T>      the type of the return value of the `Supplier`
      * @return the result of executing the `Supplier`
      */
-    public <T> T withLock(final Supplier<T> supplier) {
+    public <T> T lockOn(final Supplier<T> supplier) {
         ObjectUtil.requireNonNull("Supplier", supplier);
         synchronized (delegate) {
             try {
@@ -75,7 +75,7 @@ public class LockableFunction {
      *
      * @param consumer the `VoidConsumer` to execute
      */
-    public void withLock(final VoidConsumer consumer) {
+    public void lockOn(final VoidConsumer consumer) {
         ObjectUtil.requireNonNull("Consumer", consumer);
         synchronized (delegate) {
             try {

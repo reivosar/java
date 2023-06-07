@@ -30,7 +30,7 @@ class InMemoryEventStore implements EventStore {
     @Override
     public boolean create(final Event event) {
         ObjectUtil.requireNonNull("Event", event);
-        return lockableFunction.withLock(() -> {
+        return lockableFunction.lockOn(() -> {
             final EventDescriptor eventDescriptor =
                     DefaultEventDescriptor.createNew(event);
             EVENTS.put(eventDescriptor.getEventDescriptorIdentify(), eventDescriptor);
@@ -44,7 +44,7 @@ class InMemoryEventStore implements EventStore {
     @Override
     public Optional<EventDescriptor> findById(final EventDescriptorIdentify eventDescriptorIdentify) {
         ObjectUtil.requireNonNull("EventDescriptorIdentify", eventDescriptorIdentify);
-        return lockableFunction.withLock(() -> Optional.ofNullable(EVENTS.get(eventDescriptorIdentify)));
+        return lockableFunction.lockOn(() -> Optional.ofNullable(EVENTS.get(eventDescriptorIdentify)));
     }
     
     /**
@@ -52,7 +52,7 @@ class InMemoryEventStore implements EventStore {
      */
     @Override
     public boolean hasUncompletedEvent() {
-        return lockableFunction.withLock(() -> !EVENTS.isEmpty());
+        return lockableFunction.lockOn(() -> !EVENTS.isEmpty());
     }
     
     /**
@@ -61,7 +61,7 @@ class InMemoryEventStore implements EventStore {
     @Override
     public boolean update(final EventDescriptor eventDescriptor) {
         ObjectUtil.requireNonNull("EventDescriptor", eventDescriptor);
-        return lockableFunction.withLock(() -> {
+        return lockableFunction.lockOn(() -> {
             final Optional<EventDescriptor> original = findById(eventDescriptor.getEventDescriptorIdentify());
             if (original.isPresent() && original.get().equals(eventDescriptor)) {
                 return false;
@@ -75,7 +75,7 @@ class InMemoryEventStore implements EventStore {
      */
     @Override
     public Collection<EventDescriptor> getUnpublishedEvents() {
-        return lockableFunction.withLock(() -> Collections.unmodifiableCollection(
+        return lockableFunction.lockOn(() -> Collections.unmodifiableCollection(
                 EVENTS.values().stream()
                         .filter(eventDescriptor -> !eventDescriptor.isPublished())
                         .sorted(Comparator.comparing(EventDescriptor::getStoredOn))
@@ -87,7 +87,7 @@ class InMemoryEventStore implements EventStore {
      */
     @Override
     public Collection<EventDescriptor> getUncompletedEvents() {
-        return lockableFunction.withLock(() -> Collections.unmodifiableCollection(
+        return lockableFunction.lockOn(() -> Collections.unmodifiableCollection(
                 EVENTS.values().stream()
                         .filter(eventDescriptor -> !eventDescriptor.isCompleted())
                         .sorted(Comparator.comparing(EventDescriptor::getStoredOn))

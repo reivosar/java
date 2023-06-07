@@ -41,7 +41,7 @@ class EventLoop {
     }
     
     void start() {
-        lockableFunction.withLock(() -> {
+        lockableFunction.lockOn(() -> {
             if (isRunning || thread.isAlive()) {
                 return;
             }
@@ -59,7 +59,7 @@ class EventLoop {
     }
     
     void stop() {
-        lockableFunction.withLock(() -> {
+        lockableFunction.lockOn(() -> {
             isRunning = false;
             eventPipeline.stop();
         });

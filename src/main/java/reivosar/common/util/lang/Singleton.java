@@ -35,7 +35,7 @@ public class Singleton<T> {
         if (instance != null) {
             return instance;
         }
-        return lockableFunction.withLock(() -> {
+        return lockableFunction.lockOn(() -> {
             T result = instance;
             if (result == null) {
                 synchronized (this) {
