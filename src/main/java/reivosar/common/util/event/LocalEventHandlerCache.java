@@ -15,7 +15,7 @@ class LocalEventHandlerCache {
         CACHE = CacheFactory.getLRULocalCache();
     }
     
-    static synchronized LocalEventHandler getLocalEventHandlers(final Event event) {
+    static LocalEventHandler getLocalEventHandlers(final Event event) {
         return CACHE.getOrPut(getCacheKey(event), createCache(event)).nullableFirstValue();
     }
     
@@ -35,7 +35,8 @@ class LocalEventHandlerCache {
         return getLocalEventHandler(event, classDescriptors);
     }
     
-    private static LocalEventHandler getLocalEventHandler(final Event event, final Collection<ClassDescriptor> classDescriptors) {
+    private static LocalEventHandler getLocalEventHandler(final Event event,
+                                                          final Collection<ClassDescriptor> classDescriptors) {
         final LocalEventHandler localEventHandlers = new LocalEventHandler(classDescriptors);
         put(event, localEventHandlers);
         return localEventHandlers;

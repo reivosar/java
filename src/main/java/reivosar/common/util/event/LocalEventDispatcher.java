@@ -5,7 +5,7 @@ import reivosar.common.util.lang.Singleton;
 class LocalEventDispatcher implements EventDispatcher {
     
     static final Singleton<LocalEventDispatcher> FACTORY = new Singleton<>(
-            () -> new LocalEventDispatcher(LocalEventProcessor.FACTORY.getInstance())
+            () -> new LocalEventDispatcher(LocalEventProcessor.SINGLETON.getInstance())
     );
     
     private final EventProcessor eventProcessor;

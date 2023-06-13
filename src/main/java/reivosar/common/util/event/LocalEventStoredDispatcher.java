@@ -4,10 +4,10 @@ import reivosar.common.util.lang.Singleton;
 
 class LocalEventStoredDispatcher implements EventDispatcher {
     
-    static final Singleton<LocalEventStoredDispatcher> FACTORY = new Singleton<>(
+    static final Singleton<LocalEventStoredDispatcher> SINGLETON = new Singleton<>(
             () -> new LocalEventStoredDispatcher(
-                    InMemoryEventStore.FACTORY.getInstance(),
-                    LocalEventProcessor.FACTORY.getInstance()
+                    InMemoryEventStore.SINGLETON.getInstance(),
+                    LocalEventProcessor.SINGLETON.getInstance()
             )
     );
     

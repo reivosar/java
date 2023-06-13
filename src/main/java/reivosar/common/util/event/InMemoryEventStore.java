@@ -10,7 +10,7 @@ import java.util.stream.Collectors;
 
 class InMemoryEventStore implements EventStore {
     
-    static final Singleton<InMemoryEventStore> FACTORY = new Singleton<>(InMemoryEventStore::new);
+    static final Singleton<InMemoryEventStore> SINGLETON = new Singleton<>(InMemoryEventStore::new);
     
     private static final Map<EventDescriptorIdentify, EventDescriptor> EVENTS;
     
@@ -31,8 +31,7 @@ class InMemoryEventStore implements EventStore {
     public boolean create(final Event event) {
         ObjectUtil.requireNonNull("Event", event);
         return lockableFunction.lockOn(() -> {
-            final EventDescriptor eventDescriptor =
-                    DefaultEventDescriptor.createNew(event);
+            final EventDescriptor eventDescriptor = DefaultEventDescriptor.createNew(event);
             EVENTS.put(eventDescriptor.getEventDescriptorIdentify(), eventDescriptor);
             return EVENTS.containsKey(eventDescriptor.getEventDescriptorIdentify());
         });

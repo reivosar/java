@@ -9,7 +9,7 @@ class UUIDEventDescriptorIdentify extends Model implements EventDescriptorIdenti
     private final UUID uuid;
     
     UUIDEventDescriptorIdentify() {
-        this.uuid = UUID.randomUUID();
+        this(UUID.randomUUID());
     }
     
     UUIDEventDescriptorIdentify(final UUID uuid) {
