@@ -2,7 +2,8 @@ package reivosar.common.util.promise;
 
 class SinglePromiseHandlerInvoker<T> extends PromiseHandlerInvoker<T> {
     
-    SinglePromiseHandlerInvoker(final ExecutorServiceProvider executorServiceProvider, final PromiseTask<T> promiseTask) {
+    SinglePromiseHandlerInvoker(final ExecutorServiceProvider executorServiceProvider,
+                                final PromiseTask<T> promiseTask) {
         super(executorServiceProvider, promiseTask);
     }
     

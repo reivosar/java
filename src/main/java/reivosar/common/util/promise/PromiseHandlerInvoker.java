@@ -8,7 +8,8 @@ abstract class PromiseHandlerInvoker<T> {
     private final ExecutorServiceProvider executorServiceProvider;
     private final PromiseTask<T> promiseTask;
     
-    PromiseHandlerInvoker(final ExecutorServiceProvider executorServiceProvider, final PromiseTask<T> promiseTask) {
+    PromiseHandlerInvoker(final ExecutorServiceProvider executorServiceProvider,
+                          final PromiseTask<T> promiseTask) {
         this.executorServiceProvider = executorServiceProvider;
         this.promiseTask = promiseTask;
     }

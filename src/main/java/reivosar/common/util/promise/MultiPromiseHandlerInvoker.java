@@ -2,7 +2,8 @@ package reivosar.common.util.promise;
 
 class MultiPromiseHandlerInvoker<T> extends PromiseHandlerInvoker<T> {
     
-    MultiPromiseHandlerInvoker(final ExecutorServiceProvider executorServiceProvider, final PromiseTask<T> promiseTask) {
+    MultiPromiseHandlerInvoker(final ExecutorServiceProvider executorServiceProvider,
+                               final PromiseTask<T> promiseTask) {
         super(executorServiceProvider, promiseTask);
     }
     
