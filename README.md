@@ -4,7 +4,7 @@ This project is a Java implementation of a design methodology and program notati
 
 # Requirement
 
-* Java SE 17
+* Java 21
 
 # Feature in repository
 ## Promise
