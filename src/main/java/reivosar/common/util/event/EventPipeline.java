@@ -18,7 +18,7 @@ class EventPipeline {
     EventPipeline(final EventStore eventStore, final EventProcessor eventProcessor) {
         this.eventStore = eventStore;
         this.eventProcessor = eventProcessor;
-        this.pool = Executors.newFixedThreadPool(MAX_THREAD_SIZE);
+        this.pool = Executors.newVirtualThreadPerTaskExecutor();
         this.eventRunnableCollection = Collections.synchronizedCollection(new LinkedList<>());
     }
     
