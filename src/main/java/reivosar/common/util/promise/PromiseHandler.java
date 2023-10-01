@@ -13,16 +13,16 @@ class PromiseHandler<T> {
     private final ExecutorServiceProvider executorServiceProvider;
     private final PromiseTask<T> promiseTask;
     
-    PromiseHandler(final PromiseConfig promiseConfig) {
-        this(promiseConfig.multiple, promiseConfig.timeout);
-    }
-    
-    PromiseHandler(final int multiple) {
-        this(Executors.newFixedThreadPool(multiple), PromiseConfig.DEFAULT_TIMEOUT_SECOND);
+    static <T>PromiseHandler<T> createNormalThreadPromiseHandler(final PromiseConfig promiseConfig) {
+        return new PromiseHandler<>(promiseConfig.multiple, promiseConfig.timeout);
     }
     
     private PromiseHandler(final int multiple, final long timeout) {
         this(Executors.newFixedThreadPool(multiple), timeout);
+    }
+    
+    static <T>PromiseHandler<T> createVirtualThreadPromiseHandler(final PromiseConfig promiseConfig) {
+        return new PromiseHandler<>(Executors.newVirtualThreadPerTaskExecutor(),promiseConfig.timeout);
     }
     
     private PromiseHandler(final ExecutorService executorService, final long timeout) {
