@@ -11,8 +11,7 @@ class PromiseHandlerFactory {
                 PromiseConfig.builder().timeout(timeout).build());
     }
     
-    static <T> PromiseHandler<T> createMultiplePromiseHandler(final long timeout) {
-        return PromiseHandler.createVirtualThreadPromiseHandler(
-                PromiseConfig.builder().timeout(timeout).build());
+    static <T> PromiseHandler<T> createMultiplePromiseHandler() {
+        return PromiseHandler.createVirtualThreadPromiseHandler(PromiseConfig.DEFAULT_CONFIG);
     }
 }

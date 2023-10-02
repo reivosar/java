@@ -108,7 +108,7 @@ public interface Promise<T> extends Result<T> {
      * @return a {@link Promise} that resolves when all the provided {@link VoidConsumer}s have been executed.
      */
     static Promise<Void> all(final Collection<VoidConsumer> voidConsumers) {
-        final PromiseHandler<Void> promiseHandler = PromiseHandlerFactory.createMultiplePromiseHandler(voidConsumers.size());
+        final PromiseHandler<Void> promiseHandler = PromiseHandlerFactory.createMultiplePromiseHandler();
         return promiseHandler.withVoidConsumers(voidConsumers).handle();
     }
 }
