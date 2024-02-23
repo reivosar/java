@@ -5,35 +5,31 @@ import reivosar.common.util.function.VoidConsumer;
 import reivosar.common.util.promise.Promise;
 
 import java.io.IOException;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 class ClassDescriptorCache {
-    
-    private static final Collection<String> EXCEPT_LOADING_CLASS_PACKAGES;
+
+    private static final Collection<String> EXCLUDED_PACKAGES = Set.of(
+            "apache",
+            "checkerframework",
+            "fasterxml",
+            "google",
+            "javax",
+            "junit",
+            "picocli",
+            "qos",
+            "slf4j",
+            "springframework");
+
+    private static final Map<String, ClassDescriptor> CACHE;
     static {
-        EXCEPT_LOADING_CLASS_PACKAGES = Set.of(
-                "javax",
-                "org.apache",
-                "com.google",
-                "com.fasterxml",
-                "ch.qos",
-                "picocli",
-                "org.checkerframework",
-                "org.slf4j",
-                "org.springframework");
-    }
-    
-    static synchronized Map<String, ClassDescriptor> getCache() {
         final Map<String, ClassDescriptor> map = new HashMap<>();
         try {
             Promise.all(ClassPath.from(Thread.currentThread().getContextClassLoader())
                     .getAllClasses().stream()
-                    .filter(classInfo -> EXCEPT_LOADING_CLASS_PACKAGES.stream()
-                            .noneMatch(s -> classInfo.getName().startsWith(s)))
+                    .filter(classInfo -> EXCLUDED_PACKAGES.stream()
+                            .noneMatch(s -> classInfo.getName().contains(s)))
                     .map(classInfo -> (VoidConsumer) () -> {
                         try {
                             map.put(classInfo.getName(), ClassDescriptorFactory.create(classInfo.load()));
@@ -42,9 +38,13 @@ class ClassDescriptorCache {
                         }
                     })
                     .collect(Collectors.toList()));
+            CACHE = Collections.unmodifiableMap(map);
         } catch (IOException e) {
             throw new IllegalStateException(e);
         }
-        return map;
+    }
+
+    static synchronized Map<String, ClassDescriptor> getCache() {
+        return CACHE;
     }
 }
