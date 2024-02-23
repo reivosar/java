@@ -1,12 +1,9 @@
 package reivosar.common.util.reflect;
 
 import com.google.common.reflect.ClassPath;
-import reivosar.common.util.function.VoidConsumer;
-import reivosar.common.util.promise.Promise;
 
 import java.io.IOException;
 import java.util.*;
-import java.util.stream.Collectors;
 
 class ClassDescriptorCache {
 
@@ -23,28 +20,27 @@ class ClassDescriptorCache {
             "springframework");
 
     private static final Map<String, ClassDescriptor> CACHE;
+
     static {
         final Map<String, ClassDescriptor> map = new HashMap<>();
         try {
-            Promise.all(ClassPath.from(Thread.currentThread().getContextClassLoader())
-                    .getAllClasses().stream()
+            ClassPath.from(Thread.currentThread().getContextClassLoader()).getAllClasses().stream()
                     .filter(classInfo -> EXCLUDED_PACKAGES.stream()
                             .noneMatch(s -> classInfo.getName().contains(s)))
-                    .map(classInfo -> (VoidConsumer) () -> {
+                    .forEach(classInfo -> {
                         try {
                             map.put(classInfo.getName(), ClassDescriptorFactory.create(classInfo.load()));
-                        } catch (Throwable e) {
+                        } catch (Throwable throwable) {
                             // Do nothing
                         }
-                    })
-                    .collect(Collectors.toList()));
+                    });
             CACHE = Collections.unmodifiableMap(map);
         } catch (IOException e) {
             throw new IllegalStateException(e);
         }
     }
 
-    static synchronized Map<String, ClassDescriptor> getCache() {
+    static Map<String, ClassDescriptor> getCache() {
         return CACHE;
     }
 }
