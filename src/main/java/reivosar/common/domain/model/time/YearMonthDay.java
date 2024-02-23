@@ -1,7 +1,7 @@
 package reivosar.common.domain.model.time;
 
 import reivosar.common.domain.model.ValueObject;
-import reivosar.common.domain.model.time.holiday.CountryHoliday;
+import reivosar.common.domain.model.time.holiday.LocaleHoliday;
 import reivosar.common.util.lang.ObjectUtil;
 
 import java.time.DayOfWeek;
@@ -160,7 +160,7 @@ public class YearMonthDay extends ValueObject<YearMonthDay> {
      * @return true if the date is a holiday, false otherwise
      */
     public boolean isHoliday() {
-        return CountryHoliday.of(Locale.getDefault()).isHoliday(this);
+        return LocaleHoliday.of(Locale.getDefault()).isHoliday(this);
     }
     
     /**

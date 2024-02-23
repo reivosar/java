@@ -9,7 +9,7 @@ import java.util.Locale;
  * The {@code CountryHoliday} enum represents holidays specific to a country or region.
  * Each enum constant associates a {@code Locale} with a set of holidays.
  */
-public enum CountryHoliday {
+public enum LocaleHoliday {
 
     /**
      * Represents Japanese holidays.
@@ -25,7 +25,7 @@ public enum CountryHoliday {
      * @param locale   the locale associated with the country or region
      * @param holidays the holidays specific to the country or region
      */
-    CountryHoliday(final Locale locale, final Holidays holidays) {
+    LocaleHoliday(final Locale locale, final Holidays holidays) {
         this.locale = locale;
         this.holidays = holidays;
     }
@@ -37,7 +37,7 @@ public enum CountryHoliday {
      * @return the {@code CountryHoliday} associated with the specified locale
      * @throws IllegalArgumentException if no enum constant is associated with the specified locale
      */
-    public static CountryHoliday of(final Locale locale) {
+    public static LocaleHoliday of(final Locale locale) {
         return Arrays.stream(values())
                 .filter(ch -> ch.locale.getLanguage().equals(locale.getLanguage()))
                 .findFirst()
