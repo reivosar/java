@@ -1,11 +1,12 @@
 package reivosar.common.domain.model.time;
 
 import reivosar.common.domain.model.ValueObject;
-import reivosar.common.domain.model.time.holiday.JapaneseHolidays;
+import reivosar.common.domain.model.time.holiday.CountryHoliday;
 import reivosar.common.util.lang.ObjectUtil;
 
 import java.time.DayOfWeek;
 import java.time.LocalDate;
+import java.util.Locale;
 
 /**
  * A value object that represents a date in year-month-day format.
@@ -55,16 +56,7 @@ public class YearMonthDay extends ValueObject<YearMonthDay> {
         ObjectUtil.requireNonNull("localDate", localDate);
         this.localDate = localDate;
     }
-    
-    /**
-     * Returns a new YearMonthDay object representing the current date.
-     *
-     * @return A new YearMonthDay object representing the current date.
-     */
-    public static YearMonthDay now() {
-        return new YearMonthDay(LocalDate.now());
-    }
-    
+
     /**
      * Returns a new YearMonthDay object representing the specified year, month, and day.
      *
@@ -168,7 +160,7 @@ public class YearMonthDay extends ValueObject<YearMonthDay> {
      * @return true if the date is a holiday, false otherwise
      */
     public boolean isHoliday() {
-        return JapaneseHolidays.findHoliday(this).isPresent();
+        return CountryHoliday.of(Locale.getDefault()).isHoliday(this);
     }
     
     /**

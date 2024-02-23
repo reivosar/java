@@ -1,20 +1,21 @@
 package reivosar.common.domain.model.time.holiday;
 
-import reivosar.common.domain.model.ValueObject;
 import reivosar.common.domain.model.time.YearMonthDay;
-import reivosar.common.util.lang.ObjectUtil;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.nio.charset.Charset;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
 
 /**
  * JapaneseHolidays class provides functions for finding holidays in Japan.
  */
-public class JapaneseHolidays extends ValueObject<JapaneseHolidays> {
+class JapaneseHolidays implements Holidays {
     /**
      * HOLIDAYS is a collection of Japanese holidays.
      */
@@ -51,21 +52,13 @@ public class JapaneseHolidays extends ValueObject<JapaneseHolidays> {
     /*
      * The resolveHoliday method creates a Holiday object from a line of CSV data.
      */
-    private static Holiday resolveHoliday(String[] splitedlines) {
-        return new Holiday(YearMonthDay.fromSlashFormat(splitedlines[0]), new HolidayName(splitedlines[1]));
+    private static Holiday resolveHoliday(String[] data) {
+        return new Holiday(YearMonthDay.fromSlashFormat(data[0]), new HolidayName(data[1]));
     }
-    
-    /**
-     * The findHoliday method searches for a Holiday object with a given YearMonthDay.
-     *
-     * @param yearMonthDay the YearMonthDay to search for
-     * @return an Optional containing the Holiday, or empty if not found
-     */
-    public static Optional<Holiday> findHoliday(final YearMonthDay yearMonthDay) {
-        ObjectUtil.requireNonNull("YearMonthDay", yearMonthDay);
-        return HOLIDAYS.stream()
-                .filter(holiday -> holiday.yearMonthDay.equals(yearMonthDay))
-                .findAny();
+
+    @Override
+    public Collection<Holiday> getHolidays() {
+        return HOLIDAYS;
     }
 }
 

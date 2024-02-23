@@ -15,16 +15,7 @@ public class DateTime extends ValueObject<DateTime> {
      * The underlying LocalDateTime object representing the date and time.
      */
     private final LocalDateTime value;
-    
-    /**
-     * Constructs a new DateTime object with the current date and time.
-     *
-     * @return the new DateTime object
-     */
-    public static DateTime now() {
-        return new DateTime(LocalDateTime.now());
-    }
-    
+
     /**
      * Constructs a new DateTime object with the specified date and time.
      *
@@ -34,16 +25,7 @@ public class DateTime extends ValueObject<DateTime> {
         ObjectUtil.requireNonNull("LocalDateTime", value);
         this.value = value;
     }
-    
-    /**
-     * Returns the underlying LocalDateTime object.
-     *
-     * @return the LocalDateTime object
-     */
-    public LocalDateTime toLocalDateTime() {
-        return value;
-    }
-    
+
     /**
      * Formats the date and time as a string using the specified format string.
      *
