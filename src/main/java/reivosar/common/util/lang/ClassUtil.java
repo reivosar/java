@@ -97,8 +97,8 @@ public final class ClassUtil {
      * @throws NullPointerException if either fromCLass or toClass is null
      */
     public static boolean isAssignable(final Class<?> fromCLass, final Class<?> toClass, boolean strictComparison) {
-        ObjectUtil.requireNonNull("FromCLass", fromCLass);
-        ObjectUtil.requireNonNull("ToCLass", toClass);
+        ObjectUtil.requireNonNull("fromCLass", fromCLass);
+        ObjectUtil.requireNonNull("toClass", toClass);
         if (strictComparison) {
             return fromCLass.equals(toClass);
         }

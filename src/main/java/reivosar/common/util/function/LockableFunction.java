@@ -28,7 +28,7 @@ public class LockableFunction {
      * @param delegate the lock to use
      */
     public LockableFunction(final Lock delegate) {
-        this.delegate = ObjectUtil.requireNonNull("Lock", delegate);
+        this.delegate = ObjectUtil.requireNonNull("delegate", delegate);
         this.locked = new AtomicBoolean(false);
     }
     
@@ -58,7 +58,7 @@ public class LockableFunction {
      * @return the result of executing the `Supplier`
      */
     public <T> T lockOn(final Supplier<T> supplier) {
-        ObjectUtil.requireNonNull("Supplier", supplier);
+        ObjectUtil.requireNonNull("supplier", supplier);
         synchronized (delegate) {
             try {
                 locked.set(delegate.tryLock());
@@ -76,7 +76,7 @@ public class LockableFunction {
      * @param consumer the `VoidConsumer` to execute
      */
     public void lockOn(final VoidConsumer consumer) {
-        ObjectUtil.requireNonNull("Consumer", consumer);
+        ObjectUtil.requireNonNull("consumer", consumer);
         synchronized (delegate) {
             try {
                 locked.set(delegate.tryLock());

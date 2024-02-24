@@ -7,11 +7,11 @@ abstract class BasicTypeValueObject<T> extends ValueObject<BasicTypeValueObject<
     protected final T value;
     
     BasicTypeValueObject(final T value) {
-        this.value = ObjectUtil.requireNonNull("Value", value);
+        this.value = ObjectUtil.requireNonNull("value", value);
     }
     
     BasicTypeValueObject(final BasicTypeValueObject<T> vo) {
-        ObjectUtil.requireNonNull("BasicTypeValueObject", vo);
+        ObjectUtil.requireNonNull("vo", vo);
         this.value = vo.value;
     }
 }

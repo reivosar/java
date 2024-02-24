@@ -28,7 +28,7 @@ public interface Holidays {
      * @throws NullPointerException if the specified {@code yearMonthDay} is {@code null}
      */
     default Optional<Holiday> findHoliday(final YearMonthDay yearMonthDay) {
-        ObjectUtil.requireNonNull("YearMonthDay", yearMonthDay);
+        ObjectUtil.requireNonNull("yearMonthDay", yearMonthDay);
         return getHolidays().stream()
                 .filter(holiday -> holiday.yearMonthDay.equals(yearMonthDay))
                 .findAny();

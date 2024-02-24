@@ -29,7 +29,7 @@ class InMemoryEventStore implements EventStore {
      */
     @Override
     public boolean create(final Event event) {
-        ObjectUtil.requireNonNull("Event", event);
+        ObjectUtil.requireNonNull("event", event);
         return lockableFunction.lockOn(() -> {
             final EventDescriptor eventDescriptor = DefaultEventDescriptor.createNew(event);
             EVENTS.put(eventDescriptor.getEventDescriptorIdentify(), eventDescriptor);
@@ -42,7 +42,7 @@ class InMemoryEventStore implements EventStore {
      */
     @Override
     public Optional<EventDescriptor> findById(final EventDescriptorIdentify eventDescriptorIdentify) {
-        ObjectUtil.requireNonNull("EventDescriptorIdentify", eventDescriptorIdentify);
+        ObjectUtil.requireNonNull("eventDescriptorIdentify", eventDescriptorIdentify);
         return lockableFunction.lockOn(() -> Optional.ofNullable(EVENTS.get(eventDescriptorIdentify)));
     }
     
@@ -59,7 +59,7 @@ class InMemoryEventStore implements EventStore {
      */
     @Override
     public boolean update(final EventDescriptor eventDescriptor) {
-        ObjectUtil.requireNonNull("EventDescriptor", eventDescriptor);
+        ObjectUtil.requireNonNull("eventDescriptor", eventDescriptor);
         return lockableFunction.lockOn(() -> {
             final Optional<EventDescriptor> original = findById(eventDescriptor.getEventDescriptorIdentify());
             if (original.isPresent() && original.get().equals(eventDescriptor)) {

@@ -61,7 +61,7 @@ public class HourMinute extends ValueObject<HourMinute> {
      * @return true if this instance is before the given hour and minute, false otherwise
      */
     public boolean isBefore(final HourMinute hm) {
-        ObjectUtil.requireNonNull("HourMinute", hm);
+        ObjectUtil.requireNonNull("hm", hm);
         return toLocalTime().isBefore(hm.toLocalTime());
     }
     
@@ -72,8 +72,8 @@ public class HourMinute extends ValueObject<HourMinute> {
      * @return true if this instance is before or the same as the given hour and minute, false otherwise
      */
     public boolean isBeforeThan(final HourMinute hm) {
-        ObjectUtil.requireNonNull("HourMinute", hm);
-        return toLocalTime().compareTo(hm.toLocalTime()) <= 0;
+        ObjectUtil.requireNonNull("hm", hm);
+        return !toLocalTime().isAfter(hm.toLocalTime());
     }
     
     /**
@@ -83,7 +83,7 @@ public class HourMinute extends ValueObject<HourMinute> {
      * @return true if this instance is after the given hour and minute, false otherwise
      */
     public boolean isAfter(final HourMinute hm) {
-        ObjectUtil.requireNonNull("HourMinute", hm);
+        ObjectUtil.requireNonNull("hm", hm);
         return toLocalTime().isAfter(hm.toLocalTime());
     }
     
@@ -94,7 +94,7 @@ public class HourMinute extends ValueObject<HourMinute> {
      * @return true if this instance is after or the same as the given hour and minute, false otherwise
      */
     public boolean isAfterThan(final HourMinute hm) {
-        ObjectUtil.requireNonNull("HourMinute", hm);
-        return toLocalTime().compareTo(hm.toLocalTime()) >= 0;
+        ObjectUtil.requireNonNull("hm", hm);
+        return !toLocalTime().isBefore(hm.toLocalTime());
     }
 }

@@ -88,7 +88,7 @@ public final class CacheExpires extends Model {
      * @return true if this instance is before the given hour and minute, false otherwise
      */
     public boolean isBefore(final LocalDateTime localDateTime) {
-        ObjectUtil.requireNonNull("LocalDateTime", localDateTime);
+        ObjectUtil.requireNonNull("localDateTime", localDateTime);
         return this.localDateTime.isBefore(localDateTime);
     }
     
@@ -108,8 +108,8 @@ public final class CacheExpires extends Model {
      * @return true if this instance is before or the same as the given hour and minute, false otherwise
      */
     public boolean isBeforeThan(final LocalDateTime localDateTime) {
-        ObjectUtil.requireNonNull("LocalDateTime", localDateTime);
-        return this.localDateTime.compareTo(localDateTime) <= 0;
+        ObjectUtil.requireNonNull("localDateTime", localDateTime);
+        return !this.localDateTime.isAfter(localDateTime);
     }
     
     /**
@@ -128,7 +128,7 @@ public final class CacheExpires extends Model {
      * @return true if this instance is after the given hour and minute, false otherwise
      */
     public boolean isAfter(final LocalDateTime localDateTime) {
-        ObjectUtil.requireNonNull("LocalDateTime", localDateTime);
+        ObjectUtil.requireNonNull("localDateTime", localDateTime);
         return this.localDateTime.isAfter(localDateTime);
     }
     
@@ -148,7 +148,7 @@ public final class CacheExpires extends Model {
      * @return true if this instance is after or the same as the given hour and minute, false otherwise
      */
     public boolean isAfterThan(final LocalDateTime localDateTime) {
-        ObjectUtil.requireNonNull("LocalDateTime", localDateTime);
-        return this.localDateTime.compareTo(localDateTime) >= 0;
+        ObjectUtil.requireNonNull("localDateTime", localDateTime);
+        return !this.localDateTime.isBefore(localDateTime);
     }
 }

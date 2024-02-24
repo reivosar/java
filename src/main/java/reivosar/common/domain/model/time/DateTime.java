@@ -22,7 +22,7 @@ public class DateTime extends ValueObject<DateTime> {
      * @param value the date and time to represent
      */
     public DateTime(final LocalDateTime value) {
-        ObjectUtil.requireNonNull("LocalDateTime", value);
+        ObjectUtil.requireNonNull("value", value);
         this.value = value;
     }
 

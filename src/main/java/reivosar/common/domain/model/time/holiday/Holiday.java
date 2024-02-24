@@ -27,6 +27,6 @@ public class Holiday extends ValueObject<Holiday> {
      */
     public Holiday(final YearMonthDay yearMonthDay, final HolidayName holidayName) {
         this.yearMonthDay = ObjectUtil.requireNonNull("yearMonthDay", yearMonthDay);
-        this.holidayName = ObjectUtil.requireNonNull("HolidayName", holidayName);
+        this.holidayName = ObjectUtil.requireNonNull("holidayName", holidayName);
     }
 }

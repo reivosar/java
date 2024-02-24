@@ -17,7 +17,7 @@ public record FileExtension(String extension) {
      * @return a new FileExtension instance
      */
     public static FileExtension of(final String fileName) {
-        ObjectUtil.requireNonNull("FileName", fileName);
+        ObjectUtil.requireNonNull("fileName", fileName);
         return new FileExtension(Files.getFileExtension(fileName));
     }
     
@@ -28,7 +28,7 @@ public record FileExtension(String extension) {
      * @return a new FileExtension instance
      */
     public static FileExtension of(final File file) {
-        ObjectUtil.requireNonNull("File", file);
+        ObjectUtil.requireNonNull("file", file);
         return of(file.getName());
     }
 }

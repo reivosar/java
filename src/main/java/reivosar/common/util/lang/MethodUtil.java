@@ -24,7 +24,7 @@ public final class MethodUtil {
      * @throws IllegalStateException if an exception is thrown during the method invocation
      */
     public static Object invokeMethod(final Method method, final Object target, final Object... parameters) {
-        ObjectUtil.requireNonNull("Method", method);
+        ObjectUtil.requireNonNull("method", method);
         ObjectUtil.requireNonNull("target", target);
         try {
             return method.invoke(target, ArrayUtil.nullToEmpty(parameters));
@@ -42,7 +42,7 @@ public final class MethodUtil {
      * @throws IllegalStateException if an exception is thrown during the method invocation
      */
     public static Object invokeStaticMethod(final Method method, final Object... parameters) {
-        ObjectUtil.requireNonNull("Method", method);
+        ObjectUtil.requireNonNull("method", method);
         try {
             return method.invoke(null, ArrayUtil.nullToEmpty(parameters));
         } catch (Exception e) {
