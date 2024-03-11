@@ -1,10 +1,19 @@
-package reivosar.common.util.io.pdf.creator;
+package reivosar.common.util.io.pdf;
 
 import org.apache.pdfbox.pdmodel.font.PDFont;
 
 import java.io.IOException;
 
-record EmbedText(TextContent textContent, TextFont textFont, TextAlign textAlign) {
+/**
+ * A record representing text to be embedded in a PDF document, including content, font, and alignment details.
+ * It provides functionality to access font details, calculate appropriate font size based on PDF item dimensions,
+ * and compute the width and height of the text.
+ *
+ * @param textContent The content of the text to be embedded.
+ * @param textFont The font of the text, including font name and size.
+ * @param textAlign The alignment of the text.
+ */
+public record EmbedText(TextContent textContent, TextFont textFont, TextAlign textAlign) {
     
     PDFont pdFont() {
         return textFont.pdFont();

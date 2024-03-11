@@ -1,4 +1,4 @@
-package reivosar.common.util.io.pdf.creator;
+package reivosar.common.util.io.pdf;
 
 class IpaFontFileLoader extends TrueTypeFontFileLoader {
     
