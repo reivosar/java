@@ -1,4 +1,4 @@
-package reivosar.common.util.io.pdf.creator;
+package reivosar.common.util.io.pdf;
 
 import reivosar.common.util.resources.ClassPathResources;
 import reivosar.common.util.resources.FileExtension;
@@ -8,6 +8,12 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.nio.file.Path;
 
+/**
+ * Represents a PDF template, encapsulating the logic to locate the PDF template file and its associated item definition file.
+ * This record is designed to work with resources located in the classpath, specifically within a predefined base directory path.
+ *
+ * @param templateName The name of the template, used to construct filenames for the PDF template and its item definition.
+ */
 public record PdfTemplate(String templateName) {
     
     private static final ClassPathResources PDF_TEMPLATE;

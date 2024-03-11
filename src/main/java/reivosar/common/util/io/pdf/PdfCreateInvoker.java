@@ -1,4 +1,4 @@
-package reivosar.common.util.io.pdf.creator;
+package reivosar.common.util.io.pdf;
 
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.PDPage;
@@ -24,7 +24,6 @@ abstract class PdfCreateInvoker {
             saveDocument(path, doc);
             return path.toFile().exists();
         } catch (Exception e) {
-            e.printStackTrace();
             return false;
         }
     }

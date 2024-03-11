@@ -1,11 +1,11 @@
-package reivosar.common.util.io.pdf.creator;
+package reivosar.common.util.io.pdf;
 
 /**
  * Represents a set of parameters for embedding text in a PDF document.
  * <p>
  * This class extends the {@link PdfCreateParameter} class.
  */
-public class EmbedTextParameter extends PdfCreateParameter {
+public class EmbedTextParameter implements PdfCreateParameter {
     
     private final int page;
     private final float xCoordination;
@@ -132,17 +132,17 @@ public class EmbedTextParameter extends PdfCreateParameter {
     }
     
     @Override
-    PdfPage pdfPage() {
+    public PdfPage pdfPage() {
         return new PdfPage(page);
     }
     
     @Override
-    PdfItem pdfItem() {
+    public PdfItem pdfItem() {
         return new PdfItem(new PdfItemLocation(xCoordination, yCoordination), new PdfItemSize(width, height));
     }
     
     @Override
-    EmbedText embedText() {
+    public EmbedText embedText() {
         return new EmbedText(new TextContent(text), new TextFont(fontName, fontSize), TextAlign.of(align));
     }
 }

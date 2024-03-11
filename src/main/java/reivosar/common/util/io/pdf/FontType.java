@@ -1,4 +1,4 @@
-package reivosar.common.util.io.pdf.creator;
+package reivosar.common.util.io.pdf;
 
 import org.apache.pdfbox.pdmodel.font.PDFont;
 import org.apache.pdfbox.pdmodel.font.PDType1Font;

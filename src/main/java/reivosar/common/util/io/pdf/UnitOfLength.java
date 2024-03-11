@@ -1,4 +1,4 @@
-package reivosar.common.util.io.pdf.creator;
+package reivosar.common.util.io.pdf;
 
 import reivosar.common.util.model.Model;
 
