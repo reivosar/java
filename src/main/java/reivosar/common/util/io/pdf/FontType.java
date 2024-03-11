@@ -19,7 +19,7 @@ enum FontType {
     COURIER_BOLD_OBLIQUE("Courier-BoldOblique"),
     SYMBOL("Symbol"),
     ZAPF_DINGBATS("ZapfDingbats"),
-    JAPANESE("japanese", new IpaFontFileLoader()),
+    JAPANESE("Japanese", new IpaFontFileLoader()),
     ;
     
     private final String fontName;
