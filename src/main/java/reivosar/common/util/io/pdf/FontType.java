@@ -1,21 +1,34 @@
 package reivosar.common.util.io.pdf;
 
 import org.apache.pdfbox.pdmodel.font.PDFont;
-import org.apache.pdfbox.pdmodel.font.PDType1Font;
 
 import java.util.Arrays;
 
 enum FontType {
-    TIMES_ROMAN("times_roman", new PdfBoxStandardFontLoader(PDType1Font.TIMES_ROMAN)),
-    HELVETICA("helvetica", new PdfBoxStandardFontLoader(PDType1Font.HELVETICA)),
-    COURIER("courier", new PdfBoxStandardFontLoader(PDType1Font.COURIER)),
-    SYMBOL("symbol", new PdfBoxStandardFontLoader(PDType1Font.SYMBOL)),
+    TIMES_ROMAN("Times-Roman"),
+    TIMES_BOLD("Times-Bold"),
+    TIMES_ITALIC("Times-Italic"),
+    TIMES_BOLD_ITALIC("Times-BoldItalic"),
+    HELVETICA("Helvetica"),
+    HELVETICA_BOLD("Helvetica-Bold"),
+    HELVETICA_OBLIQUE("Helvetica-Oblique"),
+    HELVETICA_BOLD_OBLIQUE("Helvetica-BoldOblique"),
+    COURIER("Courier"),
+    COURIER_BOLD("Courier-Bold"),
+    COURIER_OBLIQUE("Courier-Oblique"),
+    COURIER_BOLD_OBLIQUE("Courier-BoldOblique"),
+    SYMBOL("Symbol"),
+    ZAPF_DINGBATS("ZapfDingbats"),
     JAPANESE("japanese", new IpaFontFileLoader()),
     ;
     
     private final String fontName;
     private final FontLoader fontLoader;
     
+    FontType(final String fontName) {
+        this(fontName, new PdfBoxStandardFontLoader(fontName));
+    }
+
     FontType(final String fontName, final FontLoader fontLoader) {
         this.fontName = fontName;
         this.fontLoader = fontLoader;
