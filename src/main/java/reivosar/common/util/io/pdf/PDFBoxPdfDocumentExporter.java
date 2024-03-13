@@ -9,15 +9,15 @@ import java.nio.file.Path;
 import java.util.Comparator;
 import java.util.stream.IntStream;
 
-abstract class PdfCreateInvoker {
+abstract class PDFBoxPdfDocumentExporter extends PdfDocumentExporter {
     
     private final PdfCreateParameters pdfCreateParameters;
     
-    PdfCreateInvoker(final PdfCreateParameters pdfCreateParameters) {
+    PDFBoxPdfDocumentExporter(final PdfCreateParameters pdfCreateParameters) {
         this.pdfCreateParameters = pdfCreateParameters;
     }
     
-    final boolean invoke(final Path path) {
+    final boolean export(final Path path) {
         try (final PDDocument doc = createPDDocument()) {
             init(doc);
             embedTextInDocument(doc);

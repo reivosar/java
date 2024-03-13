@@ -4,11 +4,11 @@ import org.apache.pdfbox.pdmodel.PDDocument;
 
 import java.io.File;
 
-class PdfTemplateEmbedInvoker extends PdfCreateInvoker {
+class PDFBoxPdfTemplateEmbedExporter extends PDFBoxPdfDocumentExporter {
     
     private final PdfTemplate pdfTemplate;
     
-    PdfTemplateEmbedInvoker(final PdfTemplate pdfTemplate, final PdfCreateParameters pdfCreateParameters) {
+    PDFBoxPdfTemplateEmbedExporter(final PdfTemplate pdfTemplate, final PdfCreateParameters pdfCreateParameters) {
         super(pdfCreateParameters);
         this.pdfTemplate = pdfTemplate;
     }

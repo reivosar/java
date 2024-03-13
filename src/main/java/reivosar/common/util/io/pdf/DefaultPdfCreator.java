@@ -5,7 +5,7 @@ import reivosar.common.util.lang.ObjectUtil;
 import java.nio.file.Path;
 
 final class DefaultPdfCreator implements PdfCreator {
-    
+
     private final PdfTemplate pdfTemplate;
     private final PdfCreateParameters pdfCreateParameters;
 
@@ -14,16 +14,16 @@ final class DefaultPdfCreator implements PdfCreator {
         this.pdfCreateParameters = new PdfCreateParameters();
     }
 
-    public DefaultPdfCreator append(final PdfCreateParameter pdfCreateParameter) {
+    public DefaultPdfCreator addContent(final PdfCreateParameter pdfCreateParameter) {
         ObjectUtil.requireNonNull("pdfCreateParameter", pdfCreateParameter);
         this.pdfCreateParameters.add(pdfCreateParameter);
         return this;
     }
 
-    public boolean createTo(final Path path) {
+    public boolean saveAs(final Path path) {
         ObjectUtil.requireNonNull("path", path);
-        final PdfCreateInvokerSelector selector = new PdfCreateInvokerSelector(pdfTemplate, pdfCreateParameters);
-        final PdfCreateInvoker invoker = selector.selectInvoker();
-        return invoker.invoke(path);
+        final PdfDocumentExporterFactory factory = new PdfDocumentExporterFactory(pdfTemplate, pdfCreateParameters);
+        final PdfDocumentExporter exporter = factory.getExporter();
+        return exporter.export(path);
     }
 }

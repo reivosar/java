@@ -28,8 +28,8 @@ class PdfCreatorTest {
         // GIVEN
         final Path outputPdfFilePath = OUTPUT_PDF_DIR.resolve("test.pdf");
         // WHEN
-        final boolean result = PdfCreator.instance()
-                .append(new EmbedTextParameter.Builder()
+        final boolean result = PdfCreator.create()
+                .addContent(new EmbedTextParameter.Builder()
                         .at(0)
                         .coordination(0f, 755f)
                         .areaSize(200, 100)
@@ -37,7 +37,7 @@ class PdfCreatorTest {
                         .align("center")
                         .text(1234567890)
                         .build())
-                .createTo(outputPdfFilePath);
+                .saveAs(outputPdfFilePath);
         // THEN
         assertTrue(result);
         assertTrue(Files.exists(outputPdfFilePath));

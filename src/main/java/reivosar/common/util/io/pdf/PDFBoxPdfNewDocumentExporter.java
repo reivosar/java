@@ -2,9 +2,9 @@ package reivosar.common.util.io.pdf;
 
 import org.apache.pdfbox.pdmodel.PDDocument;
 
-class PdfNewCreateInvoker extends PdfCreateInvoker {
+class PDFBoxPdfNewDocumentExporter extends PDFBoxPdfDocumentExporter {
     
-    PdfNewCreateInvoker(final PdfCreateParameters pdfCreateParameters) {
+    PDFBoxPdfNewDocumentExporter(final PdfCreateParameters pdfCreateParameters) {
         super(pdfCreateParameters);
     }
     
