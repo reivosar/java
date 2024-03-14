@@ -10,47 +10,42 @@ import java.util.Comparator;
 import java.util.stream.IntStream;
 
 abstract class PDFBoxPdfDocumentExporter extends PdfDocumentExporter {
-    
-    private final PdfCreateParameters pdfCreateParameters;
-    
-    PDFBoxPdfDocumentExporter(final PdfCreateParameters pdfCreateParameters) {
-        this.pdfCreateParameters = pdfCreateParameters;
-    }
-    
-    final boolean export(final Path path) {
+
+    final boolean export(final Path path, final PdfTemplate pdfTemplate, final PdfCreateParameters pdfCreateParameters) {
         try (final PDDocument doc = createPDDocument()) {
-            init(doc);
-            embedTextInDocument(doc);
+            init(doc, pdfCreateParameters);
+            embedTextInDocument(doc, pdfCreateParameters);
             saveDocument(path, doc);
             return path.toFile().exists();
         } catch (Exception e) {
             return false;
         }
     }
-    
+
     abstract PDDocument createPDDocument() throws Exception;
-    
+
     abstract boolean needToAddNewPages();
-    
-    private void init(final PDDocument pagesDocument) {
+
+    private void init(final PDDocument pagesDocument, final PdfCreateParameters pdfCreateParameters) {
         if (needToAddNewPages()) {
             IntStream.range(0, pdfCreateParameters.pageNumbers().stream()
                             .max(Comparator.naturalOrder()).orElse(0) + 1)
                     .forEach(value -> pagesDocument.addPage(new PDPage()));
         }
     }
-    
-    private void embedTextInDocument(final PDDocument pagesDocument) throws IOException {
+
+    private void embedTextInDocument(final PDDocument pagesDocument, final PdfCreateParameters pdfCreateParameters) throws IOException {
         for (final int pageNumber : pdfCreateParameters.pageNumbers()) {
             try (final PDPageContentStream stream = PDPageContentStream(pagesDocument, pageNumber)) {
-                embedTextForNumberOfParameters(pageNumber, stream);
+                embedTextForNumberOfParameters(pageNumber, stream, pdfCreateParameters);
             }
         }
     }
-    
+
     private void embedTextForNumberOfParameters(
             final int pageNumber,
-            final PDPageContentStream stream) throws IOException {
+            final PDPageContentStream stream,
+            final PdfCreateParameters pdfCreateParameters) throws IOException {
         // Loop for number of parameters and add text to PDF
         for (final PdfCreateParameter parameter : pdfCreateParameters.get(new PdfPage(pageNumber))) {
             final PdfItem pdfItem = parameter.pdfItem();
@@ -68,7 +63,7 @@ abstract class PDFBoxPdfDocumentExporter extends PdfDocumentExporter {
             }
         }
     }
-    
+
     private PDPageContentStream PDPageContentStream(
             final PDDocument pagesDocument,
             final int pageNumber) throws IOException {
@@ -78,7 +73,7 @@ abstract class PDFBoxPdfDocumentExporter extends PdfDocumentExporter {
                 PDPageContentStream.AppendMode.APPEND,
                 false);
     }
-    
+
     private void saveDocument(final Path path, final PDDocument document) throws IOException {
         document.save(path.toFile());
     }
