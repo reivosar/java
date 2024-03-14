@@ -14,7 +14,7 @@ import java.util.stream.Collectors;
  */
 public class PdfMetadata extends Model {
 
-    private static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("yyyyMMddHHmmss");
+    private static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
     static final String TITLE = "Title";
     static final String AUTHOR = "Author";
     static final String SUBJECT = "Subject";
