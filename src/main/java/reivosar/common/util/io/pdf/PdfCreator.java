@@ -1,5 +1,7 @@
 package reivosar.common.util.io.pdf;
 
+import reivosar.common.util.lang.ObjectUtil;
+
 import java.nio.file.Path;
 
 /**
@@ -13,8 +15,8 @@ public interface PdfCreator {
      *
      * @return The default {@code PdfCreator} instance.
      */
-    static PdfCreator instance() {
-        return instance(null);
+    static PdfCreator create() {
+        return PdfCreatorFactory.gatDefault(null);
     }
 
     /**
@@ -22,8 +24,10 @@ public interface PdfCreator {
      *
      * @param pdfTemplate The {@code PdfTemplate} to configure the {@code PdfCreator} instance.
      * @return The configured {@code PdfCreator} instance.
+     * @throws NullPointerException if the provided pdfTemplate is null.
      */
-    static PdfCreator instance(PdfTemplate pdfTemplate) {
+    static PdfCreator createWithTemplate(PdfTemplate pdfTemplate) {
+        ObjectUtil.requireNonNull("pdfTemplate", pdfTemplate);
         return PdfCreatorFactory.gatDefault(pdfTemplate);
     }
 
@@ -34,7 +38,7 @@ public interface PdfCreator {
      * @param pdfCreateParameter The parameters defining the content to be added to the PDF.
      * @return The {@code PdfCreator} instance for chaining method calls.
      */
-    PdfCreator append(final PdfCreateParameter pdfCreateParameter);
+    PdfCreator addContent(final PdfCreateParameter pdfCreateParameter);
 
     /**
      * Creates the PDF file at the specified path. This method finalizes the PDF creation process
@@ -43,6 +47,6 @@ public interface PdfCreator {
      * @param path The path where the PDF file will be created.
      * @return {@code true} if the file was successfully created, {@code false} otherwise.
      */
-    boolean createTo(final Path path);
+    boolean saveAs(final Path path);
 }
 

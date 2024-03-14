@@ -4,15 +4,14 @@ import org.apache.pdfbox.pdmodel.PDDocument;
 
 import java.io.File;
 
-class PdfTemplateEmbedInvoker extends PdfCreateInvoker {
-    
+class PDFBoxPdfTemplateEmbedExporter extends PDFBoxPdfDocumentExporter {
+
     private final PdfTemplate pdfTemplate;
-    
-    PdfTemplateEmbedInvoker(final PdfTemplate pdfTemplate, final PdfCreateParameters pdfCreateParameters) {
-        super(pdfCreateParameters);
+
+    PDFBoxPdfTemplateEmbedExporter(final PdfTemplate pdfTemplate) {
         this.pdfTemplate = pdfTemplate;
     }
-    
+
     @Override
     PDDocument createPDDocument() throws Exception {
         final File pdfTemplateFile = pdfTemplate.pdfTemplateFilePath().toFile();
