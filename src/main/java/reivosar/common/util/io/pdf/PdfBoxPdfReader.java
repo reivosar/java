@@ -14,6 +14,7 @@ import org.apache.pdfbox.text.PDFTextStripper;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
@@ -46,10 +47,12 @@ final class PdfBoxPdfReader implements PdfReader {
         pdfMetadata.addMetadata(PdfMetadata.AUTHOR, info.getAuthor());
         pdfMetadata.addMetadata(PdfMetadata.SUBJECT, info.getSubject());
         pdfMetadata.addMetadata(PdfMetadata.KEYWORDS, info.getKeywords());
+
+        final SimpleDateFormat SIMPLE_DATE_FORMAT = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
         pdfMetadata.addMetadata(PdfMetadata.CREATION_DATE,
-                info.getCreationDate() != null ? info.getCreationDate().getTime().toString() : null);
+                info.getCreationDate() != null ? SIMPLE_DATE_FORMAT.format(info.getCreationDate().getTime()) : null);
         pdfMetadata.addMetadata(PdfMetadata.MOD_DATE,
-                info.getModificationDate() != null ? info.getModificationDate().getTime().toString() : null);
+                info.getModificationDate() != null ? SIMPLE_DATE_FORMAT.format(info.getModificationDate().getTime()) : null);
 
         return pdfMetadata;
     }
