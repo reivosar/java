@@ -117,6 +117,7 @@ class PdfReaderTests {
             // when & then
             assertThrows(PdfReadException.class, () -> PdfReader.open(pdfPath, password).read());
         }
+        
         @Test
         void shouldThrowNullPointerExceptionForNullPassword() {
             // given
