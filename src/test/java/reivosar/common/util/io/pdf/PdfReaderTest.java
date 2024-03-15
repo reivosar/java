@@ -29,7 +29,7 @@ class PdfReaderTests {
             assertNotNull(documentInfo);
             assertTrue(documentInfo.pages().totalPages() > 0);
 
-            final PdfMetadata pdfMetadata = documentInfo.metadata();
+            PdfMetadata pdfMetadata = documentInfo.metadata();
             assertEquals("PdfReaderTests", pdfMetadata.title().get());
             assertEquals("reivosar", pdfMetadata.author().get());
             assertEquals("shouldOpenNonProtectedPdfSuccessfully", pdfMetadata.subject().get());
@@ -89,7 +89,7 @@ class PdfReaderTests {
             assertNotNull(documentInfo);
             assertTrue(documentInfo.pages().totalPages() > 0);
 
-            final PdfMetadata pdfMetadata = documentInfo.metadata();
+            PdfMetadata pdfMetadata = documentInfo.metadata();
             assertEquals(Optional.empty(), pdfMetadata.title());
             assertTrue(pdfMetadata.author().isPresent());
             assertFalse(pdfMetadata.subject().isPresent());
