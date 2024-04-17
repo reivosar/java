@@ -4,7 +4,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
-import reivosar.common.util.collection.CollectionUtil;
+import reivosar.common.data.collection.CollectionUtil;
 
 import java.util.ArrayList;
 import java.util.Collection;

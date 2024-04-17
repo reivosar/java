@@ -1,7 +1,7 @@
 package reivosar.common.util.cache;
 
-import reivosar.common.util.lang.ObjectUtil;
-import reivosar.common.util.model.Model;
+import reivosar.common.lang.ObjectUtil;
+import reivosar.common.data.model.Model;
 
 import java.util.*;
 import java.util.stream.Collectors;

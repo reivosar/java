@@ -1,6 +1,6 @@
 package reivosar.common.util.cache;
 
-import reivosar.common.util.lang.ObjectUtil;
+import reivosar.common.lang.ObjectUtil;
 
 import javax.annotation.Nonnull;
 import java.util.Collection;

@@ -1,6 +1,6 @@
 package reivosar.common.domain.model;
 
-import reivosar.common.util.model.Model;
+import reivosar.common.data.model.Model;
 
 /**
  * The Entity abstract class represents an entity in a domain model. An entity has an identity,

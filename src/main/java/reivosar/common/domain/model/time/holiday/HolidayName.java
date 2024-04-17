@@ -1,7 +1,7 @@
 package reivosar.common.domain.model.time.holiday;
 
 import reivosar.common.domain.model.ValueObject;
-import reivosar.common.util.lang.ObjectUtil;
+import reivosar.common.lang.ObjectUtil;
 
 /**
  * Value object representing the name of a holiday.

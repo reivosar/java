@@ -2,7 +2,7 @@ package reivosar.common.domain.model.time;
 
 import reivosar.common.domain.model.ValueObject;
 import reivosar.common.domain.model.time.holiday.LocaleHoliday;
-import reivosar.common.util.lang.ObjectUtil;
+import reivosar.common.lang.ObjectUtil;
 
 import java.time.DayOfWeek;
 import java.time.LocalDate;

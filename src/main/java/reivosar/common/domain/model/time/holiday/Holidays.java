@@ -1,7 +1,7 @@
 package reivosar.common.domain.model.time.holiday;
 
 import reivosar.common.domain.model.time.YearMonthDay;
-import reivosar.common.util.lang.ObjectUtil;
+import reivosar.common.lang.ObjectUtil;
 
 import java.util.Collection;
 import java.util.Optional;

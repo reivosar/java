@@ -1,7 +1,7 @@
 package reivosar.common.domain.model.type;
 
 import reivosar.common.domain.model.ValueObject;
-import reivosar.common.util.lang.ObjectUtil;
+import reivosar.common.lang.ObjectUtil;
 
 abstract class BasicTypeValueObject<T> extends ValueObject<BasicTypeValueObject<T>> {
     protected final T value;

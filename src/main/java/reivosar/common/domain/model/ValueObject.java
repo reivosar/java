@@ -1,6 +1,6 @@
 package reivosar.common.domain.model;
 
-import reivosar.common.util.model.Model;
+import reivosar.common.data.model.Model;
 
 /**
  * Immutable objects that represent things or business properties.
