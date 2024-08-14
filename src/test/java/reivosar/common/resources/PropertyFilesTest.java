@@ -6,38 +6,24 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
-import java.util.Arrays;
-import java.util.Collection;
+import java.io.FileNotFoundException;
 import java.util.Optional;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.params.provider.Arguments.arguments;
 
 class PropertyFilesTest {
-    
-    @Nested
-    class TestForGetLoadedPropertyFiles {
-        
-        @Test
-        void test() {
-            final Collection<ResourceFile> actual = PropertyFiles.loadedPropertyFiles();
-            assertEquals(actual.size(), 2);
-            assertEquals(Arrays.asList("test1.properties", "test2.properties"),
-                    actual.stream().map(ResourceFile::fileName).sorted().collect(Collectors.toList()));
-        }
-    }
-    
+
     @Nested
     class TestForGetProperty {
-        
+
         @ParameterizedTest
         @MethodSource("testParameters")
         void test(final String key, final Optional<String> expected) {
             assertEquals(PropertyFiles.getProperty(key), expected);
         }
-        
+
         public static Stream<Arguments> testParameters() {
             return Stream.of(
                     arguments("test1_ng", Optional.empty()),
@@ -51,16 +37,44 @@ class PropertyFilesTest {
             );
         }
     }
-    
+
+    @Nested
+    class FindFileMethodTests {
+
+        @Test
+        void shouldFindPropertyFileByFullName() throws Exception {
+            PropertyFile foundFile = PropertyFiles.findFile("test1.properties");
+            assertNotNull(foundFile);
+            assertEquals("test1.properties", foundFile.fileName());
+        }
+
+        @Test
+        void shouldFindPropertyFileByBaseName() throws Exception {
+            PropertyFile foundFile = PropertyFiles.findFile("test2");
+            assertNotNull(foundFile);
+            assertEquals("test2.properties", foundFile.fileName());
+        }
+
+        @Test
+        void shouldThrowFileNotFoundExceptionWhenFileNotFound() {
+            assertThrows(FileNotFoundException.class, () -> PropertyFiles.findFile("nonexistent.properties"));
+        }
+
+        @Test
+        void shouldThrowNullPointerExceptionWhenNameIsNull() {
+            assertThrows(NullPointerException.class, () -> PropertyFiles.findFile(null));
+        }
+    }
+
     @Nested
     class TestForGetPropertyWithDefaultValue {
-        
+
         @ParameterizedTest
         @MethodSource("testParameters")
         void test(final String key, final String defaultValue, final String expected) {
             assertEquals(PropertyFiles.getProperty(key, defaultValue), expected);
         }
-        
+
         public static Stream<Arguments> testParameters() {
             return Stream.of(
                     arguments("test1_ng", "default", "default"),
@@ -74,16 +88,16 @@ class PropertyFilesTest {
             );
         }
     }
-    
+
     @Nested
     class TestForContainsKey {
-        
+
         @ParameterizedTest
         @MethodSource("testParameters")
         void test(final String key, final boolean expected) {
             assertEquals(PropertyFiles.containsKey(key), expected);
         }
-        
+
         public static Stream<Arguments> testParameters() {
             return Stream.of(
                     arguments("test1_ng", false),
