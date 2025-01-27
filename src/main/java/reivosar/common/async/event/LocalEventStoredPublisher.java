@@ -1,8 +1,9 @@
 package reivosar.common.async.event;
 
-class LocalEventStoredPublisher extends AbstractDispatchEventPublisher {
-    
+class LocalEventStoredPublisher<E extends Event> extends DispatchEventPublisherTemplate<E> {
+
+    @SuppressWarnings("unchecked")
     LocalEventStoredPublisher() {
-        super(LocalEventStoredConfig.SINGLETON.getInstance());
+        super((EventConfig<E>) LocalEventStoredConfig.SINGLETON.getInstance());
     }
 }

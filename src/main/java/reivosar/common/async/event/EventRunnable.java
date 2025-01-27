@@ -1,29 +1,29 @@
 package reivosar.common.async.event;
 
-import reivosar.common.lang.function.LockableFunction;
-import reivosar.common.data.model.Model;
 import reivosar.common.async.promise.Promise;
+import reivosar.common.data.model.Model;
+import reivosar.common.lang.function.LockableFunction;
 
 import java.util.Optional;
 
-class EventRunnable extends Model implements Runnable {
-    
-    private final EventStore eventStore;
-    private final EventProcessor eventProcessor;
-    private final EventDescriptor eventDescriptor;
+class EventRunnable<E extends Event> extends Model implements Runnable {
+
+    private final EventStore<E> eventStore;
+    private final EventProcessor<E> eventProcessor;
+    private final EventDescriptor<E> eventDescriptor;
     private final LockableFunction lockableFunction;
-    
-    private EventDescriptor holdEventDescriptor;
+
+    private EventDescriptor<E> holdEventDescriptor;
     private Throwable throwable;
     private STATUS status;
     
     private enum STATUS {
         PENDING, PREPARED, PROCESSING, PROCESSED,COMPLETED
     }
-    
-    EventRunnable(final EventStore eventStore,
-                  final EventProcessor eventProcessor,
-                  final EventDescriptor eventDescriptor) {
+
+    EventRunnable(final EventStore<E> eventStore,
+                  final EventProcessor<E> eventProcessor,
+                  final EventDescriptor<E> eventDescriptor) {
         this.eventStore = eventStore;
         this.eventProcessor = eventProcessor;
         this.eventDescriptor = eventDescriptor;
@@ -46,36 +46,36 @@ class EventRunnable extends Model implements Runnable {
     boolean isCompleted() {
         return this.status == STATUS.COMPLETED;
     }
-    
-    boolean isSameEvent(final EventDescriptor eventDescriptor) {
+
+    boolean isSameEvent(final EventDescriptor<E> eventDescriptor) {
         return this.eventDescriptor.isSameEvent(eventDescriptor);
     }
-    
+
     Optional<Throwable> getError() {
         return Optional.ofNullable(this.throwable);
     }
-    
+
     @Override
     public void run() {
         if (lockableFunction.isNotLocked()) {
             lockableFunction.lockOn(() -> {
-                final EventDescriptor processEventDescriptor = getHoldEventDescriptor();
+                final EventDescriptor<E> processEventDescriptor = getHoldEventDescriptor();
                 Promise.resolve(() -> beforeProcess(processEventDescriptor))
                         .then(result -> result && process(processEventDescriptor))
                         .then(result -> result && afterProcess(processEventDescriptor));
             });
         }
     }
-    
-    private EventDescriptor getHoldEventDescriptor() {
-        final EventDescriptor processEventDescriptor = (this.holdEventDescriptor == null) ?
+
+    private EventDescriptor<E> getHoldEventDescriptor() {
+        final EventDescriptor<E> processEventDescriptor = (this.holdEventDescriptor == null) ?
                 DefaultEventDescriptor.publishedBy(this.eventDescriptor) :
                 this.holdEventDescriptor;
         this.holdEventDescriptor = processEventDescriptor;
         return processEventDescriptor;
     }
-    
-    private boolean beforeProcess(final EventDescriptor processEventDescriptor) {
+
+    private boolean beforeProcess(final EventDescriptor<E> processEventDescriptor) {
         if (isPending()) {
             final boolean result = this.eventStore.update(processEventDescriptor);
             changeStatus(STATUS.PREPARED);
@@ -83,8 +83,8 @@ class EventRunnable extends Model implements Runnable {
         }
         return isPrepared();
     }
-    
-    private boolean process(final EventDescriptor processEventDescriptor) {
+
+    private boolean process(final EventDescriptor<E> processEventDescriptor) {
         if (isPrepared()) {
             try {
                 changeStatus(STATUS.PROCESSING);
@@ -97,9 +97,9 @@ class EventRunnable extends Model implements Runnable {
         }
         return isProcessed();
     }
-    
-    private boolean afterProcess(final EventDescriptor processEventDescriptor) {
-        final EventDescriptor completedEventDescriptor = DefaultEventDescriptor.completedBy(processEventDescriptor);
+
+    private boolean afterProcess(final EventDescriptor<E> processEventDescriptor) {
+        final EventDescriptor<E> completedEventDescriptor = DefaultEventDescriptor.completedBy(processEventDescriptor);
         this.eventStore.update(completedEventDescriptor);
         this.holdEventDescriptor = completedEventDescriptor;
         changeStatus(STATUS.COMPLETED);

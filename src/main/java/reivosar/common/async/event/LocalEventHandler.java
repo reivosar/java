@@ -6,7 +6,7 @@ import reivosar.common.lang.reflect.member.MethodDescriptors;
 
 import java.util.Collection;
 
-class LocalEventHandler implements EventHandler {
+class LocalEventHandler<E extends Event> implements EventHandler<E> {
     
     private final Collection<ClassDescriptor> classDescriptors;
     
@@ -15,7 +15,7 @@ class LocalEventHandler implements EventHandler {
     }
     
     @Override
-    public void handle(final Event event) {
+    public void handle(final E event) {
         for (final ClassDescriptor classDescriptor : classDescriptors) {
             classDescriptor.newInstance().ifPresent(o -> handleEvent(o, event, classDescriptor.getMethodDescriptors()));
         }
@@ -23,7 +23,7 @@ class LocalEventHandler implements EventHandler {
     
     private void handleEvent(
             final Object eventHandlerInstance,
-            final Event event,
+            final E event,
             final MethodDescriptors methodDescriptors) {
         methodDescriptors
                 .getDescriptors().stream()

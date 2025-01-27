@@ -3,8 +3,8 @@ package reivosar.common.async.event;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
-import reivosar.common.data.collection.CollectionUtil;
 import reivosar.common.async.promise.Promise;
+import reivosar.common.data.collection.CollectionUtil;
 
 import java.time.LocalDateTime;
 import java.util.*;
@@ -15,12 +15,12 @@ class LocalDispatchEventPublisherTest {
     
     @Nested
     class NotExecuteEventTest {
-        
-        private LocalDispatchEventPublisher testClass;
+
+        private LocalDispatchEventPublisher<Event> testClass;
         
         @BeforeEach
         void setup() {
-            this.testClass = new LocalDispatchEventPublisher();
+            this.testClass = new LocalDispatchEventPublisher<>();
         }
         
         @Test
@@ -70,14 +70,14 @@ class LocalDispatchEventPublisherTest {
     
     @Nested
     class OneEventOneHandlerTest {
-        
-        private LocalDispatchEventPublisher testClass;
+
+        private LocalDispatchEventPublisher<Event> testClass;
         
         private static final List<String> eventResults = Collections.synchronizedList(new ArrayList<>());
         
         @BeforeEach
         void setup() {
-            this.testClass = new LocalDispatchEventPublisher();
+            this.testClass = new LocalDispatchEventPublisher<>();
         }
         
         @Test
@@ -104,14 +104,14 @@ class LocalDispatchEventPublisherTest {
     
     @Nested
     class OneEventTwoHandlerTest {
-        
-        private LocalDispatchEventPublisher testClass;
+
+        private LocalDispatchEventPublisher<Event> testClass;
         
         private static final List<String> eventResults = Collections.synchronizedList(new ArrayList<>());
         
         @BeforeEach
         void setup() {
-            this.testClass = new LocalDispatchEventPublisher();
+            this.testClass = new LocalDispatchEventPublisher<>();
         }
         
         @Test
@@ -144,14 +144,14 @@ class LocalDispatchEventPublisherTest {
     
     @Nested
     class ManyEventManyHandlerTest {
-        
-        private LocalDispatchEventPublisher testClass;
+
+        private LocalDispatchEventPublisher<Event> testClass;
         
         private static final List<String> eventResults = Collections.synchronizedList(new ArrayList<>());
         
         @BeforeEach
         void setup() {
-            this.testClass = new LocalDispatchEventPublisher();
+            this.testClass = new LocalDispatchEventPublisher<>();
         }
         
         @Test

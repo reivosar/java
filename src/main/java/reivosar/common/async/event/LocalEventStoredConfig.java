@@ -2,12 +2,13 @@ package reivosar.common.async.event;
 
 import reivosar.common.lang.Singleton;
 
-class LocalEventStoredConfig implements EventConfig {
-    
-    static final Singleton<LocalEventStoredConfig> SINGLETON = new Singleton<>(LocalEventStoredConfig::new);
-    
+class LocalEventStoredConfig<E extends Event> implements EventConfig<E> {
+
+    static final Singleton<LocalEventStoredConfig<? extends Event>> SINGLETON = new Singleton<>(LocalEventStoredConfig::new);
+
+    @SuppressWarnings("unchecked")
     @Override
-    public EventDispatcher getEventDispatcher() {
-        return LocalEventStoredDispatcher.SINGLETON.getInstance();
+    public EventDispatcher<E> getEventDispatcher() {
+        return (EventDispatcher<E>) LocalEventStoredDispatcher.SINGLETON.getInstance();
     }
 }
