@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
  */
 public final class CacheExpires extends Model {
     
-    public static CacheExpires EXTERNAl = new CacheExpires(LocalDateTime.MAX);
+    public final static CacheExpires EXTERNAl = new CacheExpires(LocalDateTime.MAX);
     
     private final LocalDateTime localDateTime;
     

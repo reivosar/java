@@ -39,7 +39,7 @@ class MethodUtilTest {
             
             // Then
             assertNotNull(exception.getCause());
-            assertTrue(exception.getCause() instanceof InvocationTargetException);
+            assertInstanceOf(InvocationTargetException.class, exception.getCause());
         }
     }
     
@@ -71,7 +71,7 @@ class MethodUtilTest {
             
             // Then
             assertNotNull(exception.getCause());
-            assertTrue(exception.getCause() instanceof InvocationTargetException);
+            assertInstanceOf(InvocationTargetException.class, exception.getCause());
         }
     }
 }

@@ -46,7 +46,7 @@ dependencies {
     implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.14.2'
 
     // Logger
-    implementation group: 'ch.qos.logback', name: 'logback-classic', version: '1.4.14'
+    implementation group: 'ch.qos.logback', name: 'logback-classic', version: '1.5.13'
 
     // Junit
     testImplementation 'org.junit.jupiter:junit-jupiter:5.7.1'

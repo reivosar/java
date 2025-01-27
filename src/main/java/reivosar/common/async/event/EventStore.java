@@ -31,30 +31,14 @@ public interface EventStore {
      * @return an optional containing the event descriptor with the given identifier, or empty if it does not exist
      */
     Optional<EventDescriptor> findById(EventDescriptorIdentify eventDescriptorIdentify);
-    
-    /**
-     * Checks whether there are any unpublished events in the event store.
-     *
-     * @return true if there are unpublished events, false otherwise
-     */
-    default boolean hasUnpublishedEvent() {
-        return getUnpublishedEvents().size() > 0;
-    }
-    
-    /**
-     * Returns a collection of all unpublished event descriptors in the event store.
-     *
-     * @return a collection of all unpublished event descriptors
-     */
-    Collection<EventDescriptor> getUnpublishedEvents();
-    
+
     /**
      * Checks whether there are any uncompleted events in the event store.
      *
      * @return true if there are uncompleted events, false otherwise
      */
     default boolean hasUncompletedEvent() {
-        return getUncompletedEvents().size() > 0;
+        return !getUncompletedEvents().isEmpty();
     }
     
     /**

@@ -68,19 +68,7 @@ class InMemoryEventStore implements EventStore {
             return ObjectUtil.isNotEmpty(EVENTS.put(eventDescriptor.getEventDescriptorIdentify(), eventDescriptor));
         });
     }
-    
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public Collection<EventDescriptor> getUnpublishedEvents() {
-        return lockableFunction.lockOn(() -> Collections.unmodifiableCollection(
-                EVENTS.values().stream()
-                        .filter(eventDescriptor -> !eventDescriptor.isPublished())
-                        .sorted(Comparator.comparing(EventDescriptor::getStoredOn))
-                        .collect(Collectors.toList())));
-    }
-    
+
     /**
      * {@inheritDoc}
      */

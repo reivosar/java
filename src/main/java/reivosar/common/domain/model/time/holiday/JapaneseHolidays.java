@@ -5,6 +5,7 @@ import reivosar.common.domain.model.time.YearMonthDay;
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.net.URI;
 import java.net.URL;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
@@ -33,7 +34,7 @@ class JapaneseHolidays implements Holidays {
     static {
         final List<Holiday> holidaysList = new ArrayList<>();
         try (
-                final BufferedInputStream bis = new BufferedInputStream(new URL(FILE_URL).openStream());
+                final BufferedInputStream bis = new BufferedInputStream(URL.of(URI.create(FILE_URL), null).openStream());
                 final InputStreamReader isr = new InputStreamReader(bis, Charset.forName("MS932"));
                 final BufferedReader br = new BufferedReader(isr)
         ) {
