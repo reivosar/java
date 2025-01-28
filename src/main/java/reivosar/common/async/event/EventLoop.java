@@ -2,19 +2,19 @@ package reivosar.common.async.event;
 
 import reivosar.common.lang.function.LockableFunction;
 
-class EventLoop {
+class EventLoop<E extends Event> {
     
     private final DaemonThread thread;
-    private final EventStore eventStore;
-    private final EventPipeline eventPipeline;
+    private final EventStore<E> eventStore;
+    private final EventPipeline<E> eventPipeline;
     private final LockableFunction lockableFunction;
     private volatile boolean isRunning = false;
     
     private static final long EVENT_WAIT_TIME = 300;
-    
-    EventLoop(final EventStore eventStore, final EventProcessor eventProcessor) {
+
+    EventLoop(final EventStore<E> eventStore, final EventProcessor<E> eventProcessor) {
         this.eventStore = eventStore;
-        this.eventPipeline = new EventPipeline(eventStore, eventProcessor);
+        this.eventPipeline = new EventPipeline<>(eventStore, eventProcessor);
         this.lockableFunction = new LockableFunction();
         this.thread = new DaemonThread(this::run);
     }

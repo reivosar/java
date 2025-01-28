@@ -2,11 +2,12 @@ package reivosar.common.async.event;
 
 import reivosar.common.lang.Singleton;
 
-class LocalDispatchEventPublisher extends AbstractDispatchEventPublisher {
-    
-    static final Singleton<LocalDispatchEventPublisher> SINGLETON = new Singleton<>(LocalDispatchEventPublisher::new);
-    
+class LocalDispatchEventPublisher<E extends Event> extends DispatchEventPublisherTemplate<E> {
+
+    static final Singleton<LocalDispatchEventPublisher<? extends Event>> SINGLETON = new Singleton<>(LocalDispatchEventPublisher::new);
+
+    @SuppressWarnings("unchecked")
     LocalDispatchEventPublisher() {
-        super(LocalEventConfig.SINGLETON.getInstance());
+        super((EventConfig<E>) LocalEventConfig.SINGLETON.getInstance());
     }
 }

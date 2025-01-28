@@ -3,8 +3,8 @@ package reivosar.common.async.event;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
-import reivosar.common.data.collection.CollectionUtil;
 import reivosar.common.async.promise.Promise;
+import reivosar.common.data.collection.CollectionUtil;
 
 import java.time.LocalDateTime;
 import java.util.*;
@@ -15,19 +15,19 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class LocalEventStoredPublisherTest {
-    
+
     @Nested
     class OneEventOneHandlerTest {
-        
-        private LocalEventStoredPublisher testClass;
-    
+
+        private LocalEventStoredPublisher<Event> testClass;
+
         private static final List<String> eventResults = Collections.synchronizedList(new ArrayList<>());
-        
+
         @BeforeEach
         void setup() {
-            this.testClass = new LocalEventStoredPublisher();
+            this.testClass = new LocalEventStoredPublisher<>();
         }
-        
+
         @Test
         void shouldReturnTrueWhenPassedExecutableEvent() throws InterruptedException {
             // given
@@ -39,31 +39,31 @@ class LocalEventStoredPublisherTest {
             while (eventResults.isEmpty()) {
                 Thread.sleep(300);
             }
-            assertTrue(CollectionUtil.isEqualCollection(eventResults,  List.of("TestEventHandler")));
+            assertTrue(CollectionUtil.isEqualCollection(eventResults, List.of("TestEventHandler")));
         }
-        
+
         record SimpleTestEvent(LocalDateTime occurredOn) implements Event {
         }
-        
+
         static class TestEventHandler {
             void handle(final SimpleTestEvent event) {
                 eventResults.add("TestEventHandler");
             }
         }
     }
-    
+
     @Nested
     class ManyEventManyHandlerTest {
-        
-        private LocalEventStoredPublisher testClass;
-        
+
+        private LocalEventStoredPublisher<Event> testClass;
+
         private static final List<String> eventResults = Collections.synchronizedList(new ArrayList<>());
-        
+
         @BeforeEach
         void setup() {
-            this.testClass = new LocalEventStoredPublisher();
+            this.testClass = new LocalEventStoredPublisher<>();
         }
-        
+
         @Test
         void shouldReturnTrueWhenPassedExecutableEvents() throws InterruptedException {
             // given
@@ -80,70 +80,70 @@ class LocalEventStoredPublisherTest {
             assertTrue(CollectionUtil.isEqualCollection(eventResults,
                     Arrays.asList("TestEventHandler1", "TestEventHandler2", "TestEventHandler3", "TestEventHandler4", "TestEventHandler6")));
         }
-        
+
         class ParentEvent implements Event {
         }
-        
+
         class ChildEvent extends ParentEvent {
         }
-    
+
         class GrandChildEvent extends ChildEvent {
         }
-        
+
         record NotCalledEvent() implements Event {
         }
-        
+
         static class TestEventHandler1 {
             void handle(final ParentEvent event) {
                 eventResults.add("TestEventHandler1");
             }
         }
-        
+
         static class TestEventHandler2 {
             void handle(final ChildEvent event) {
                 eventResults.add("TestEventHandler2");
             }
         }
-        
+
         static class TestEventHandler3 {
             void handle(final ParentEvent event) {
                 eventResults.add("TestEventHandler3");
             }
         }
-        
+
         static class TestEventHandler4 {
             void handle(final ChildEvent event) {
                 eventResults.add("TestEventHandler4");
             }
         }
-        
+
         static class TestEventHandler5 {
             void handle(final NotCalledEvent event) {
                 eventResults.add("TestEventHandler5");
             }
         }
-    
+
         static class TestEventHandler6 {
             void handle(final ChildEvent event) {
                 eventResults.add("TestEventHandler6");
             }
         }
     }
-    
+
     @Nested
     class TooManyEventTest {
-    
-        private LocalEventStoredPublisher testClass;
-    
+
+        private LocalEventStoredPublisher<Event> testClass;
+
         private static final List<Integer> eventResults = Collections.synchronizedList(new ArrayList<>());
-        
+
         private static final int MAX_EVENT_SIZE = 512;
-    
+
         @BeforeEach
         void setup() {
-            this.testClass = new LocalEventStoredPublisher();
+            this.testClass = new LocalEventStoredPublisher<>();
         }
-    
+
         @Test
         void shouldReturnTrueWhenPassedExecutableEvents() throws InterruptedException {
             // given
@@ -158,10 +158,10 @@ class LocalEventStoredPublisherTest {
             }
             assertEquals(eventResults.size(), MAX_EVENT_SIZE);
         }
-    
+
         record TestEvent(int value) implements Event {
         }
-    
+
         static class TestEventHandler {
             void handle(final TestEvent event) {
                 eventResults.add(event.value());

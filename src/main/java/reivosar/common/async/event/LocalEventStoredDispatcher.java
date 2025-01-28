@@ -2,26 +2,28 @@ package reivosar.common.async.event;
 
 import reivosar.common.lang.Singleton;
 
-class LocalEventStoredDispatcher implements EventDispatcher {
-    
-    static final Singleton<LocalEventStoredDispatcher> SINGLETON = new Singleton<>(
-            () -> new LocalEventStoredDispatcher(
+class LocalEventStoredDispatcher<E extends Event> implements EventDispatcher<E> {
+
+    @SuppressWarnings("unchecked")
+    static final Singleton<LocalEventStoredDispatcher<?>> SINGLETON = new Singleton<>(
+            () -> new LocalEventStoredDispatcher<>(
                     InMemoryEventStore.SINGLETON.getInstance(),
                     LocalEventProcessor.SINGLETON.getInstance()
             )
     );
-    
-    private final EventStore eventStore;
-    private final EventLoop eventLoop;
-    
-    private LocalEventStoredDispatcher(final EventStore eventStore,
-                                       final EventProcessor eventProcessor) {
-        this.eventStore = eventStore;
-        this.eventLoop = new EventLoop(eventStore, eventProcessor);
+
+    private final EventStore<E> eventStore;
+    private final EventLoop<E> eventLoop;
+
+    @SuppressWarnings("unchecked")
+    private LocalEventStoredDispatcher(final EventStore<?> eventStore,
+                                       final EventProcessor<?> eventProcessor) {
+        this.eventStore = (EventStore<E>) eventStore;
+        this.eventLoop = new EventLoop<>((EventStore<E>) eventStore, (EventProcessor<E>) eventProcessor);
     }
-    
+
     @Override
-    public void dispatch(final Event event) {
+    public void dispatch(final E event) {
         if (eventStore.create(event)) {
             eventLoop.start();
         }
