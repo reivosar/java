@@ -9,6 +9,6 @@ class LocalEventConfig<E extends Event> implements EventConfig<E> {
     @SuppressWarnings("unchecked")
     @Override
     public EventDispatcher<E> getEventDispatcher() {
-        return (EventDispatcher<E>) LocalEventDispatcher.FACTORY.getInstance();
+        return (EventDispatcher<E>) LocalEventDispatcher.SINGLETON.getInstance();
     }
 }

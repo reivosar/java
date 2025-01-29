@@ -4,7 +4,7 @@ import reivosar.common.lang.Singleton;
 
 class LocalEventDispatcher<E extends Event> implements EventDispatcher<E> {
 
-    static final Singleton<LocalEventDispatcher<? extends Event>> FACTORY = new Singleton<>(
+    static final Singleton<LocalEventDispatcher<? extends Event>> SINGLETON = new Singleton<>(
             () -> new LocalEventDispatcher<>(LocalEventProcessor.SINGLETON.getInstance())
     );
 
