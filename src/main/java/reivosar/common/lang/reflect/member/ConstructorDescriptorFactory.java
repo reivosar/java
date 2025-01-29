@@ -12,7 +12,7 @@ public class ConstructorDescriptorFactory {
     /**
      * Creates a new {@link ConstructorDescriptor} object for the specified Constructor.
      *
-     * @param constructor the Constructor for which to create the descriptor
+     * @param constructor the Constructor for which to append the descriptor
      * @return a new {@link ConstructorDescriptor} object for the specified Constructor
      * @throws NullPointerException if {@code Constructor} is {@code null}
      */

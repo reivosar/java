@@ -77,7 +77,7 @@ class EventRunnable<E extends Event> extends Model implements Runnable {
 
     private boolean beforeProcess(final EventDescriptor<E> processEventDescriptor) {
         if (isPending()) {
-            final boolean result = this.eventStore.update(processEventDescriptor);
+            final boolean result = this.eventStore.applyEventResult(processEventDescriptor);
             changeStatus(STATUS.PREPARED);
             return result;
         }
@@ -100,7 +100,7 @@ class EventRunnable<E extends Event> extends Model implements Runnable {
 
     private boolean afterProcess(final EventDescriptor<E> processEventDescriptor) {
         final EventDescriptor<E> completedEventDescriptor = DefaultEventDescriptor.completedBy(processEventDescriptor);
-        this.eventStore.update(completedEventDescriptor);
+        this.eventStore.applyEventResult(completedEventDescriptor);
         this.holdEventDescriptor = completedEventDescriptor;
         changeStatus(STATUS.COMPLETED);
         return isCompleted();

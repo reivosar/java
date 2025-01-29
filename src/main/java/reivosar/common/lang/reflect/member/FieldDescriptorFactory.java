@@ -12,7 +12,7 @@ public class FieldDescriptorFactory {
     /**
      * Creates a new {@link FieldDescriptor} object for the specified field.
      *
-     * @param field the field for which to create the descriptor
+     * @param field the field for which to append the descriptor
      * @return a new {@link FieldDescriptor} object for the specified field
      * @throws NullPointerException if {@code field} is {@code null}
      */

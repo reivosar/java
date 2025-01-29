@@ -1,13 +1,13 @@
 package reivosar.common.lang.reflect.member;
 
+import reivosar.common.lang.ObjectUtil;
 import reivosar.common.util.cache.Cache;
 import reivosar.common.util.cache.CacheFactory;
-import reivosar.common.lang.ObjectUtil;
 
 import java.lang.reflect.Method;
 
 /**
- * This class provides a factory method to create a collection of method descriptors for a given class.
+ * This class provides a factory method to append a collection of method descriptors for a given class.
  */
 public class MethodDescriptorsFactory {
     
@@ -16,7 +16,7 @@ public class MethodDescriptorsFactory {
     /**
      * Returns a collection of method descriptors for the specified class.
      *
-     * @param aClass the class for which to create method descriptors.
+     * @param aClass the class for which to append method descriptors.
      * @return a new collection of method descriptors for the specified class.
      */
     public static MethodDescriptors createDescriptors(final Class<?> aClass) {
@@ -31,7 +31,7 @@ public class MethodDescriptorsFactory {
     /**
      * Returns a collection of method descriptors for the specified methods.
      *
-     * @param methods the methods for which to create method descriptors.
+     * @param methods the methods for which to append method descriptors.
      * @return a new collection of method descriptors for the specified class.
      */
     public static MethodDescriptors createDescriptors(final Method... methods) {

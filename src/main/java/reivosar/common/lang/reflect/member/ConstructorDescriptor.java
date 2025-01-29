@@ -8,7 +8,7 @@ public interface ConstructorDescriptor extends ExecutableClassMemberDescriptor {
     /**
      * Returns an instance of the `ConstructorAccessor` interface that provides access to the constructor's behavior at runtime.
      *
-     * @return an instance of the `ConstructorAccessor` interface that can be used to create new instances of the constructor's class.
+     * @return an instance of the `ConstructorAccessor` interface that can be used to append new instances of the constructor's class.
      */
     ConstructorAccessor getConstructorAccessor();
     

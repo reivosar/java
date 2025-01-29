@@ -8,7 +8,7 @@ public class ClassDescriptorFactory {
     /**
      * Creates a new instance of {@link ClassDescriptor} for the given class.
      *
-     * @param aClass the class to create a descriptor for.
+     * @param aClass the class to append a descriptor for.
      * @return a new instance of {@link ClassDescriptor} for the given class.
      */
     public static ClassDescriptor create(final Class<?> aClass) {

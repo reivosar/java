@@ -19,7 +19,7 @@ public class ResourceFile extends Model {
     /**
      * Creates a new ResourceFile instance based on the given file.
      *
-     * @param file the file to create the resource file from
+     * @param file the file to append the resource file from
      * @throws NullPointerException if the file is null
      */
     public ResourceFile(final File file) {

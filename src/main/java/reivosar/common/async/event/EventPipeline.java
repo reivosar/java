@@ -7,19 +7,25 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 class EventPipeline<E extends Event> {
-    
-    private static final int MAX_THREAD_SIZE = 100;
 
+    private static final int DEFAULT_MAX_THREAD_SIZE = 100;
+
+    private final int maxThreadSize;
     private final EventStore<E> eventStore;
     private final EventProcessor<E> eventProcessor;
     private final ExecutorService pool;
     private final Collection<EventRunnable<E>> eventRunnableCollection;
 
     EventPipeline(final EventStore<E> eventStore, final EventProcessor<E> eventProcessor) {
+        this(eventStore, eventProcessor, DEFAULT_MAX_THREAD_SIZE);
+    }
+
+    EventPipeline(final EventStore<E> eventStore, final EventProcessor<E> eventProcessor, final int maxThreadSize) {
         this.eventStore = eventStore;
         this.eventProcessor = eventProcessor;
         this.pool = Executors.newVirtualThreadPerTaskExecutor();
         this.eventRunnableCollection = Collections.synchronizedCollection(new LinkedList<>());
+        this.maxThreadSize = maxThreadSize;
     }
 
     void push(final Collection<EventDescriptor<E>> eventDescriptors) {
@@ -33,7 +39,7 @@ class EventPipeline<E extends Event> {
     }
 
     private boolean isProcessableEventDescriptor(final EventDescriptor<E> eventDescriptor) {
-        if (eventRunnableCollection.size() >= MAX_THREAD_SIZE) {
+        if (eventRunnableCollection.size() >= maxThreadSize) {
             return false;
         }
         return eventRunnableCollection.stream()

@@ -5,7 +5,7 @@ import reivosar.common.lang.ObjectUtil;
 import java.nio.file.Path;
 
 /**
- * Interface for creating PDF documents. Provides methods to append content to a PDF and create the PDF file.
+ * Interface for creating PDF documents. Provides methods to append content to a PDF and append the PDF file.
  * This interface uses a factory method pattern to obtain an instance of {@code PdfCreator}.
  */
 public interface PdfCreator {

@@ -12,7 +12,7 @@ public class MethodDescriptorFactory {
     /**
      * Creates a new {@link MethodDescriptor} object for the specified Method.
      *
-     * @param method the Method for which to create the descriptor
+     * @param method the Method for which to append the descriptor
      * @return a new {@link MethodDescriptor} object for the specified Method
      * @throws NullPointerException if {@code Method} is {@code null}
      */
