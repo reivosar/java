@@ -1,6 +1,7 @@
 package reivosar.common.async.event;
 
 import reivosar.common.async.promise.Promise;
+import reivosar.common.lang.ObjectUtil;
 import reivosar.common.lang.function.VoidConsumer;
 
 import java.util.Collection;
@@ -26,10 +27,7 @@ public abstract class EventPublisherTemplate<E extends Event> implements EventPu
      * @throws IllegalArgumentException if {@code eventConfig} is null
      */
     protected EventPublisherTemplate(final EventConfig<E> eventConfig) {
-        if (eventConfig == null) {
-            throw new IllegalArgumentException("EventConfig cannot be null");
-        }
-        this.eventConfig = eventConfig;
+        this.eventConfig = ObjectUtil.requireNonNull("eventConfig", eventConfig);
     }
 
     /**
@@ -44,9 +42,7 @@ public abstract class EventPublisherTemplate<E extends Event> implements EventPu
      */
     @Override
     public final Promise<Void> publish(final Collection<E> events) {
-        if (events == null) {
-            throw new NullPointerException("Events collection cannot be null");
-        }
+        ObjectUtil.requireNonNullAndEmpty("events", events);
         return Promise.all(
                 events.stream()
                         .map(event -> (VoidConsumer) () ->
