@@ -16,20 +16,20 @@ public interface EventStore<E extends Event> {
     /**
      * Creates a new event descriptor for the given event and stores it in the event store.
      *
-     * @param event the event to create and store; must not be {@code null}
+     * @param event the event to append and store; must not be {@code null}
      * @return {@code true} if the event was successfully created and stored, {@code false} otherwise
      * @throws NullPointerException if {@code event} is {@code null}
      */
-    boolean create(E event);
+    boolean append(E event);
 
     /**
      * Updates the given event descriptor in the event store.
      *
-     * @param event the event descriptor to update; must not be {@code null}
+     * @param event the event descriptor to applyEventResult; must not be {@code null}
      * @return {@code true} if the event descriptor was successfully updated, {@code false} otherwise
      * @throws NullPointerException if {@code event} is {@code null}
      */
-    boolean update(EventDescriptor<E> event);
+    boolean applyEventResult(EventDescriptor<E> event);
 
     /**
      * Finds and returns an event descriptor with the given identifier, if it exists in the event store.
@@ -39,7 +39,7 @@ public interface EventStore<E extends Event> {
      *         or {@link Optional#empty()} if it does not exist
      * @throws NullPointerException if {@code eventDescriptorIdentify} is {@code null}
      */
-    Optional<EventDescriptor<E>> findById(EventDescriptorIdentify eventDescriptorIdentify);
+    Optional<EventDescriptor<E>> readEventById(EventDescriptorIdentify eventDescriptorIdentify);
 
     /**
      * Checks whether there are any uncompleted events in the event store.

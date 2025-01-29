@@ -4,7 +4,6 @@ import reivosar.common.lang.Singleton;
 
 class LocalEventStoredDispatcher<E extends Event> implements EventDispatcher<E> {
 
-    @SuppressWarnings("unchecked")
     static final Singleton<LocalEventStoredDispatcher<?>> SINGLETON = new Singleton<>(
             () -> new LocalEventStoredDispatcher<>(
                     InMemoryEventStore.SINGLETON.getInstance(),
@@ -24,7 +23,7 @@ class LocalEventStoredDispatcher<E extends Event> implements EventDispatcher<E> 
 
     @Override
     public void dispatch(final E event) {
-        if (eventStore.create(event)) {
+        if (eventStore.append(event)) {
             eventLoop.start();
         }
     }

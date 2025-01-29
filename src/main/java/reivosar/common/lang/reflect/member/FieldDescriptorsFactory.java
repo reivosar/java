@@ -1,13 +1,13 @@
 package reivosar.common.lang.reflect.member;
 
+import reivosar.common.lang.ObjectUtil;
 import reivosar.common.util.cache.Cache;
 import reivosar.common.util.cache.CacheFactory;
-import reivosar.common.lang.ObjectUtil;
 
 import java.lang.reflect.Field;
 
 /**
- * This class provides a factory field to create a collection of field descriptors for a given class.
+ * This class provides a factory field to append a collection of field descriptors for a given class.
  */
 public class FieldDescriptorsFactory {
     
@@ -16,7 +16,7 @@ public class FieldDescriptorsFactory {
     /**
      * Returns a collection of field descriptors for the specified class.
      *
-     * @param aClass the class for which to create field descriptors.
+     * @param aClass the class for which to append field descriptors.
      * @return a new collection of field descriptors for the specified class.
      */
     public static FieldDescriptors createDescriptors(final Class<?> aClass) {
@@ -31,7 +31,7 @@ public class FieldDescriptorsFactory {
     /**
      * Returns a collection of field descriptors for the specified class.
      *
-     * @param fields the fields for which to create field descriptors.
+     * @param fields the fields for which to append field descriptors.
      * @return a new collection of field descriptors for the specified class.
      */
     public static FieldDescriptors createDescriptors(final Field... fields) {

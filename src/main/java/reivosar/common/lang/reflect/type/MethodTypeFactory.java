@@ -10,7 +10,7 @@ public class MethodTypeFactory {
     /**
      * Creates a new {@link ReturnTypeDescriptor} for the given method.
      *
-     * @param method the method to create a return type descriptor for
+     * @param method the method to append a return type descriptor for
      * @return a new return type descriptor for the given method
      */
     public static ReturnTypeDescriptor createReturnType(final Method method) {
@@ -20,7 +20,7 @@ public class MethodTypeFactory {
     /**
      * Creates a new {@link ParameterTypesDescriptor} for the given method.
      *
-     * @param method the method to create a parameter types descriptor for
+     * @param method the method to append a parameter types descriptor for
      * @return a new parameter types descriptor for the given method
      */
     public static ParameterTypesDescriptor createParameterTypes(final Method method) {

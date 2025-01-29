@@ -12,7 +12,7 @@ public class FieldTypeFactory {
     /**
      * Creates a new instance of FieldTypeDescriptor for the given Field.
      *
-     * @param field The Field object to create a FieldTypeDescriptor for.
+     * @param field The Field object to append a FieldTypeDescriptor for.
      * @return A new instance of FieldTypeDescriptor that describes the type of the given field.
      */
     public static FieldTypeDescriptor create(final Field field) {

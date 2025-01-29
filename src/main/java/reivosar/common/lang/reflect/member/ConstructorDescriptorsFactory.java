@@ -1,13 +1,13 @@
 package reivosar.common.lang.reflect.member;
 
+import reivosar.common.lang.ObjectUtil;
 import reivosar.common.util.cache.Cache;
 import reivosar.common.util.cache.CacheFactory;
-import reivosar.common.lang.ObjectUtil;
 
 import java.lang.reflect.Constructor;
 
 /**
- * This class provides a factory constructor to create a collection of constructor descriptors for a given class.
+ * This class provides a factory constructor to append a collection of constructor descriptors for a given class.
  */
 public class ConstructorDescriptorsFactory {
     
@@ -16,7 +16,7 @@ public class ConstructorDescriptorsFactory {
     /**
      * Returns a collection of constructor descriptors for the specified class.
      *
-     * @param aClass the class for which to create constructor descriptors.
+     * @param aClass the class for which to append constructor descriptors.
      * @return a new collection of constructor descriptors for the specified class.
      */
     public static ConstructorDescriptors createDescriptors(final Class<?> aClass) {
@@ -31,7 +31,7 @@ public class ConstructorDescriptorsFactory {
     /**
      * Returns a collection of constructor descriptors for the specified constructors.
      *
-     * @param constructors the constructors for which to create constructor descriptors.
+     * @param constructors the constructors for which to append constructor descriptors.
      * @return a new collection of constructor descriptors for the specified class.
      */
     public static ConstructorDescriptors createDescriptors(final Constructor<?>... constructors) {

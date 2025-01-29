@@ -31,7 +31,7 @@ class InMemoryEventStore<E extends Event> implements EventStore<E> {
      * {@inheritDoc}
      */
     @Override
-    public boolean create(final E event) {
+    public boolean append(final E event) {
         ObjectUtil.requireNonNull("event", event);
         return lockableFunction.lockOn(() -> {
             final EventDescriptor<E> eventDescriptor = DefaultEventDescriptor.createNew(event);
@@ -45,7 +45,7 @@ class InMemoryEventStore<E extends Event> implements EventStore<E> {
      */
     @SuppressWarnings("unchecked")
     @Override
-    public Optional<EventDescriptor<E>> findById(final EventDescriptorIdentify eventDescriptorIdentify) {
+    public Optional<EventDescriptor<E>> readEventById(final EventDescriptorIdentify eventDescriptorIdentify) {
         ObjectUtil.requireNonNull("eventDescriptorIdentify", eventDescriptorIdentify);
         return lockableFunction.lockOn(() -> Optional.ofNullable((EventDescriptor<E>) EVENTS.get(eventDescriptorIdentify)));
     }
@@ -62,10 +62,10 @@ class InMemoryEventStore<E extends Event> implements EventStore<E> {
      * {@inheritDoc}
      */
     @Override
-    public boolean update(final EventDescriptor<E> eventDescriptor) {
+    public boolean applyEventResult(final EventDescriptor<E> eventDescriptor) {
         ObjectUtil.requireNonNull("eventDescriptor", eventDescriptor);
         return lockableFunction.lockOn(() -> {
-            final Optional<EventDescriptor<E>> original = findById(eventDescriptor.getEventDescriptorIdentify());
+            final Optional<EventDescriptor<E>> original = readEventById(eventDescriptor.getEventDescriptorIdentify());
             if (original.isPresent() && original.get().equals(eventDescriptor)) {
                 return false;
             }

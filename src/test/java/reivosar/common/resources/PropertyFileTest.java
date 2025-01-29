@@ -172,7 +172,7 @@ class PropertyFileTest {
         if (tempFile.createNewFile()) {
             return tempFile;
         }
-        throw new IOException("Failed to create temp file.");
+        throw new IOException("Failed to append temp file.");
     }
 
     private File createTempFileWithContent(String content) throws IOException {
