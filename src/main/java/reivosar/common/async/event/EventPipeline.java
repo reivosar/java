@@ -28,14 +28,12 @@ class EventPipeline<E extends Event> {
         this.maxThreadSize = maxThreadSize;
     }
 
-    void push(final Collection<EventDescriptor<E>> eventDescriptors) {
+    void enqueueEvents(final Collection<EventDescriptor<E>> eventDescriptors) {
         eventDescriptors.stream()
                 .filter(this::isProcessableEventDescriptor)
-                .forEach(
-                        eventDescriptor -> eventRunnableCollection.add(
-                                new EventRunnable<>(eventStore, eventProcessor, eventDescriptor)
-                        )
-                );
+                .forEach(eventDescriptor -> eventRunnableCollection.add(
+                        new EventRunnable<>(eventStore, eventProcessor, eventDescriptor)
+                ));
     }
 
     private boolean isProcessableEventDescriptor(final EventDescriptor<E> eventDescriptor) {
@@ -45,23 +43,27 @@ class EventPipeline<E extends Event> {
         return eventRunnableCollection.stream()
                 .noneMatch(eventRunnable -> eventRunnable.isSameEvent(eventDescriptor));
     }
-    
-    boolean hasPipelinedData() {
+
+    boolean hasPendingEvents() {
         return !eventRunnableCollection.isEmpty();
     }
-    
-    void start() {
+
+    void processAndCleanupEvents() {
         try {
-            // Process start
-            eventRunnableCollection.stream().filter(EventRunnable::isPending).forEach(pool::execute);
-            // Process end
+            // Start processing events
+            eventRunnableCollection.stream()
+                    .filter(EventRunnable::isPending)
+                    .forEach(pool::execute);
+
+            // Remove completed events from the queue
             eventRunnableCollection.removeIf(EventRunnable::isCompleted);
         } catch (Exception e) {
-            stop();
+            shutdownProcessor();
         }
     }
-    
-    void stop() {
+
+    void shutdownProcessor() {
         pool.shutdownNow();
     }
 }
+
