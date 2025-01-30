@@ -37,9 +37,9 @@ public abstract class EventStoredProcessorWorkerTemplate<E extends Event> implem
 
     private void run() {
         while (isProcessing) {
-            eventPipeline.push(eventStore.getUncompletedEvents());
-            if (eventPipeline.hasPipelinedData()) {
-                eventPipeline.start();
+            eventPipeline.enqueueEvents(eventStore.getUncompletedEvents());
+            if (eventPipeline.hasPendingEvents()) {
+                eventPipeline.processAndCleanupEvents();
                 sleep();
             } else {
                 try {
@@ -47,7 +47,7 @@ public abstract class EventStoredProcessorWorkerTemplate<E extends Event> implem
                         wait(EVENT_WAIT_TIME);
                     }
                 } catch (InterruptedException e) {
-                    if (eventPipeline.hasPipelinedData() || eventStore.hasUncompletedEvent()) {
+                    if (eventPipeline.hasPendingEvents() || eventStore.hasUncompletedEvent()) {
                         continue;
                     }
                     stop();
@@ -56,6 +56,9 @@ public abstract class EventStoredProcessorWorkerTemplate<E extends Event> implem
         }
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public final void start() {
         lockableFunction.lockOn(() -> {
             if (isProcessing || thread.isAlive()) {
@@ -66,9 +69,6 @@ public abstract class EventStoredProcessorWorkerTemplate<E extends Event> implem
         });
     }
 
-    /**
-     * {@inheritDoc}
-     */
     private void sleep() {
         try {
             Thread.sleep(EVENT_WAIT_TIME);
@@ -91,7 +91,7 @@ public abstract class EventStoredProcessorWorkerTemplate<E extends Event> implem
     public final void stop() {
         lockableFunction.lockOn(() -> {
             isProcessing = false;
-            eventPipeline.stop();
+            eventPipeline.shutdownProcessor();
         });
     }
 }
