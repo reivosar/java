@@ -9,7 +9,6 @@ import java.util.Optional;
 class EventRunnable<E extends Event> extends Model implements Runnable {
 
     private final EventStore<E> eventStore;
-    private final EventProcessor<E> eventProcessor;
     private final EventDescriptor<E> eventDescriptor;
     private final LockableFunction lockableFunction;
 
@@ -22,10 +21,8 @@ class EventRunnable<E extends Event> extends Model implements Runnable {
     }
 
     EventRunnable(final EventStore<E> eventStore,
-                  final EventProcessor<E> eventProcessor,
                   final EventDescriptor<E> eventDescriptor) {
         this.eventStore = eventStore;
-        this.eventProcessor = eventProcessor;
         this.eventDescriptor = eventDescriptor;
         this.lockableFunction = new LockableFunction();
         this.status = STATUS.PENDING;
@@ -88,7 +85,9 @@ class EventRunnable<E extends Event> extends Model implements Runnable {
         if (isPrepared()) {
             try {
                 changeStatus(STATUS.PROCESSING);
-                this.eventProcessor.process(processEventDescriptor.getEvent());
+                final E event = processEventDescriptor.getEvent();
+                final EventHandler<E> eventHandler = LocalEventHandlerCache.getLocalEventHandlers(event);
+                eventHandler.handle(event);
             } catch (Throwable throwable) {
                 this.throwable = throwable;
             } finally {

@@ -2,20 +2,11 @@ package reivosar.common.async.event;
 
 import reivosar.common.lang.Singleton;
 
-class LocalEventDispatcher<E extends Event> implements EventDispatcher<E> {
+class LocalEventDispatcher<E extends Event> extends EventDispatcherTemplate<E> {
 
-    static final Singleton<LocalEventDispatcher<? extends Event>> SINGLETON = new Singleton<>(
-            () -> new LocalEventDispatcher<>(LocalEventProcessor.SINGLETON.getInstance())
-    );
+    static final Singleton<LocalEventDispatcher<? extends Event>> SINGLETON = new Singleton<>(LocalEventDispatcher::new);
 
-    private final EventProcessor<E> eventProcessor;
-
-    private LocalEventDispatcher(final EventProcessor<E> eventProcessor) {
-        this.eventProcessor = eventProcessor;
-    }
-
-    @Override
-    public void dispatch(final E event) {
-        eventProcessor.process(event);
+    protected LocalEventDispatcher() {
+        super();
     }
 }

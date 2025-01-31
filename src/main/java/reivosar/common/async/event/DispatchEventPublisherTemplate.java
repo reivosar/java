@@ -6,37 +6,32 @@ import reivosar.common.lang.ObjectUtil;
  * An abstract implementation of {@link EventPublisherTemplate} that provides
  * event publishing functionality by dispatching events using an {@link EventDispatcher}.
  * <p>
- * This class defines the {@link #doPublishEvent(EventConfig, Event)} method to publish events
- * by delegating them to the {@link EventDispatcher} obtained from the {@link EventConfig}.
+ * This class defines the {@link #doPublishEvent(Event)} method to publish events
  *
  * @param <E> the type of event to be published, which extends the {@link Event} interface
  */
 public abstract class DispatchEventPublisherTemplate<E extends Event> extends EventPublisherTemplate<E> {
 
+    private final EventDispatcher<E> eventDispatcher;
+
     /**
      * Creates a new instance of {@code DispatchEventPublisherTemplate}.
      *
-     * @param eventConfig the event configuration to be used for publishing events
+     * @param eventDispatcher the event configuration to be used for publishing events
      * @throws IllegalArgumentException if {@code eventConfig} is null
      */
-    protected DispatchEventPublisherTemplate(final EventConfig<E> eventConfig) {
-        super(eventConfig);
+    protected DispatchEventPublisherTemplate(final EventDispatcher<E> eventDispatcher) {
+        this.eventDispatcher = ObjectUtil.requireNonNull("eventDispatcher", eventDispatcher);
     }
 
     /**
      * Publishes a single event by dispatching it using the {@link EventDispatcher}.
-     * <p>
-     * This method retrieves the {@link EventDispatcher} from the provided {@link EventConfig}
-     * and invokes its {@code dispatch} method with the specified event.
      *
-     * @param eventConfig the configuration used to obtain the {@link EventDispatcher}
-     * @param event       the event to be dispatched
-     * @throws NullPointerException if {@code eventConfig} or {@code event} is null
+     * @param event the event to be dispatched
+     * @throws NullPointerException if {@code event} is null
      */
     @Override
-    protected final void doPublishEvent(final EventConfig<E> eventConfig, final E event) {
-        ObjectUtil.requireNonNull("eventConfig", eventConfig);
-        ObjectUtil.requireNonNull("event", event);
-        eventConfig.getEventDispatcher().dispatch(event);
+    protected final void doPublishEvent(final E event) {
+        this.eventDispatcher.dispatch(ObjectUtil.requireNonNull("event", event));
     }
 }
