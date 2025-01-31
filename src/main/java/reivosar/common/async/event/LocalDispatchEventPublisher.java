@@ -4,6 +4,6 @@ class LocalDispatchEventPublisher<E extends Event> extends DispatchEventPublishe
 
     @SuppressWarnings("unchecked")
     LocalDispatchEventPublisher() {
-        super((EventConfig<E>) LocalEventConfig.SINGLETON.getInstance());
+        super((EventDispatcher<E>) LocalEventDispatcher.SINGLETON.getInstance());
     }
 }

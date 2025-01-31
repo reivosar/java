@@ -7,7 +7,7 @@ import reivosar.common.util.cache.CacheFactory;
 import java.util.Collection;
 import java.util.List;
 
-class LocalEventHandlerCache<E extends Event> {
+class LocalEventHandlerCache {
 
     private static final Cache<String, LocalEventHandler<? extends Event>> CACHE;
 

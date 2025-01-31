@@ -22,15 +22,12 @@ public abstract class EventStoredProcessorWorkerTemplate<E extends Event> implem
 
     /**
      * Constructs an {@code EventStoredProcessorWorkerTemplate} with the specified {@link EventStore}
-     * and {@link EventProcessor}.
      *
-     * @param eventStore     the event store that holds unprocessed events
-     * @param eventProcessor the processor responsible for handling events
+     * @param eventStore the event store that holds unprocessed events
      */
-    protected EventStoredProcessorWorkerTemplate(final EventStore<E> eventStore,
-                                                 final EventProcessor<E> eventProcessor) {
+    protected EventStoredProcessorWorkerTemplate(final EventStore<E> eventStore) {
         this.eventStore = eventStore;
-        this.eventPipeline = new EventPipeline<>(eventStore, eventProcessor);
+        this.eventPipeline = new EventPipeline<>(eventStore);
         this.lockableFunction = new LockableFunction();
         this.thread = new DaemonThread(this::run);
     }

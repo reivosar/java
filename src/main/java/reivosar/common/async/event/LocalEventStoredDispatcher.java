@@ -2,14 +2,9 @@ package reivosar.common.async.event;
 
 import reivosar.common.lang.Singleton;
 
-class LocalEventStoredDispatcher<E extends Event> extends EventStoredDispatcherTemplate<E> implements EventDispatcher<E> {
+class LocalEventStoredDispatcher<E extends Event> extends EventStoredDispatcherTemplate<E> {
 
-    static final Singleton<LocalEventStoredDispatcher<?>> SINGLETON = new Singleton<>(
-            () -> new LocalEventStoredDispatcher<>(
-                    InMemoryEventStore.SINGLETON.getInstance(),
-                    EventStoredProcessorWorker.SINGLETON.getInstance()
-            )
-    );
+    static final Singleton<LocalEventStoredDispatcher<? extends Event>> SINGLETON = new Singleton<>(() -> new LocalEventStoredDispatcher<>(InMemoryEventStore.SINGLETON.getInstance(), EventStoredProcessorWorker.SINGLETON.getInstance()));
 
     @SuppressWarnings("unchecked")
     private LocalEventStoredDispatcher(final EventStore<?> eventStore,
