@@ -16,11 +16,11 @@ class LocalDispatchEventPublisherTest {
     @Nested
     class NotExecuteEventTest {
 
-        private LocalDispatchEventPublisher<Event> testClass;
+        private LocalEventPublisher<Event> testClass;
         
         @BeforeEach
         void setup() {
-            this.testClass = new LocalDispatchEventPublisher<>();
+            this.testClass = new LocalEventPublisher<>();
         }
         
         @Test
@@ -71,13 +71,13 @@ class LocalDispatchEventPublisherTest {
     @Nested
     class OneEventOneHandlerTest {
 
-        private LocalDispatchEventPublisher<Event> testClass;
+        private LocalEventPublisher<Event> testClass;
         
         private static final List<String> eventResults = Collections.synchronizedList(new ArrayList<>());
         
         @BeforeEach
         void setup() {
-            this.testClass = new LocalDispatchEventPublisher<>();
+            this.testClass = new LocalEventPublisher<>();
         }
         
         @Test
@@ -105,13 +105,13 @@ class LocalDispatchEventPublisherTest {
     @Nested
     class OneEventTwoHandlerTest {
 
-        private LocalDispatchEventPublisher<Event> testClass;
+        private LocalEventPublisher<Event> testClass;
         
         private static final List<String> eventResults = Collections.synchronizedList(new ArrayList<>());
         
         @BeforeEach
         void setup() {
-            this.testClass = new LocalDispatchEventPublisher<>();
+            this.testClass = new LocalEventPublisher<>();
         }
         
         @Test
@@ -145,13 +145,13 @@ class LocalDispatchEventPublisherTest {
     @Nested
     class ManyEventManyHandlerTest {
 
-        private LocalDispatchEventPublisher<Event> testClass;
+        private LocalEventPublisher<Event> testClass;
         
         private static final List<String> eventResults = Collections.synchronizedList(new ArrayList<>());
         
         @BeforeEach
         void setup() {
-            this.testClass = new LocalDispatchEventPublisher<>();
+            this.testClass = new LocalEventPublisher<>();
         }
         
         @Test

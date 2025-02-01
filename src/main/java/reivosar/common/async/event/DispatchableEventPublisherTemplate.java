@@ -10,17 +10,17 @@ import reivosar.common.lang.ObjectUtil;
  *
  * @param <E> the type of event to be published, which extends the {@link Event} interface
  */
-public abstract class DispatchEventPublisherTemplate<E extends Event> extends EventPublisherTemplate<E> {
+public abstract class DispatchableEventPublisherTemplate<E extends Event> extends EventPublisherTemplate<E> {
 
     private final EventDispatcher<E> eventDispatcher;
 
     /**
-     * Creates a new instance of {@code DispatchEventPublisherTemplate}.
+     * Creates a new instance of {@code DispatchableEventPublisherTemplate}.
      *
      * @param eventDispatcher the event configuration to be used for publishing events
      * @throws IllegalArgumentException if {@code eventConfig} is null
      */
-    protected DispatchEventPublisherTemplate(final EventDispatcher<E> eventDispatcher) {
+    protected DispatchableEventPublisherTemplate(final EventDispatcher<E> eventDispatcher) {
         this.eventDispatcher = ObjectUtil.requireNonNull("eventDispatcher", eventDispatcher);
     }
 
