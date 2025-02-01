@@ -6,11 +6,11 @@ import reivosar.common.lang.reflect.member.MethodDescriptors;
 
 import java.util.Collection;
 
-class LocalEventHandler<E extends Event> implements EventHandler<E> {
+class LoadedClassPathEventHandler<E extends Event> implements EventHandler<E> {
     
     private final Collection<ClassDescriptor> classDescriptors;
-    
-    LocalEventHandler(final Collection<ClassDescriptor> classDescriptors) {
+
+    LoadedClassPathEventHandler(final Collection<ClassDescriptor> classDescriptors) {
         this.classDescriptors = classDescriptors;
     }
     

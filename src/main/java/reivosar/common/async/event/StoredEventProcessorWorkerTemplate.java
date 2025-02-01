@@ -11,7 +11,7 @@ import reivosar.common.lang.function.LockableFunction;
  *
  * @param <E> the type of event to be processed
  */
-public abstract class EventStoredProcessorWorkerTemplate<E extends Event> implements EventProcessingLifecycle {
+public abstract class StoredEventProcessorWorkerTemplate<E extends Event> implements EventProcessingLifecycle {
 
     private static final long EVENT_WAIT_TIME = 300;
     private final DaemonThread thread;
@@ -25,7 +25,7 @@ public abstract class EventStoredProcessorWorkerTemplate<E extends Event> implem
      *
      * @param eventStore the event store that holds unprocessed events
      */
-    protected EventStoredProcessorWorkerTemplate(final EventStore<E> eventStore) {
+    protected StoredEventProcessorWorkerTemplate(final EventStore<E> eventStore) {
         this.eventStore = eventStore;
         this.eventPipeline = new EventPipeline<>(eventStore);
         this.lockableFunction = new LockableFunction();

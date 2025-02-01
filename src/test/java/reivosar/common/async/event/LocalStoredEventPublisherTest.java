@@ -14,18 +14,18 @@ import java.util.stream.IntStream;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-class LocalEventStoredPublisherTest {
+class LocalStoredEventPublisherTest {
 
     @Nested
     class OneEventOneHandlerTest {
 
-        private LocalEventStoredPublisher<Event> testClass;
+        private LocalStoredEventPublisher<Event> testClass;
 
         private static final List<String> eventResults = Collections.synchronizedList(new ArrayList<>());
 
         @BeforeEach
         void setup() {
-            this.testClass = new LocalEventStoredPublisher<>();
+            this.testClass = new LocalStoredEventPublisher<>();
         }
 
         @Test
@@ -55,13 +55,13 @@ class LocalEventStoredPublisherTest {
     @Nested
     class ManyEventManyHandlerTest {
 
-        private LocalEventStoredPublisher<Event> testClass;
+        private LocalStoredEventPublisher<Event> testClass;
 
         private static final List<String> eventResults = Collections.synchronizedList(new ArrayList<>());
 
         @BeforeEach
         void setup() {
-            this.testClass = new LocalEventStoredPublisher<>();
+            this.testClass = new LocalStoredEventPublisher<>();
         }
 
         @Test
@@ -133,7 +133,7 @@ class LocalEventStoredPublisherTest {
     @Nested
     class TooManyEventTest {
 
-        private LocalEventStoredPublisher<Event> testClass;
+        private LocalStoredEventPublisher<Event> testClass;
 
         private static final List<Integer> eventResults = Collections.synchronizedList(new ArrayList<>());
 
@@ -141,7 +141,7 @@ class LocalEventStoredPublisherTest {
 
         @BeforeEach
         void setup() {
-            this.testClass = new LocalEventStoredPublisher<>();
+            this.testClass = new LocalStoredEventPublisher<>();
         }
 
         @Test

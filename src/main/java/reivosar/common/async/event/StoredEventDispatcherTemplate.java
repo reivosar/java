@@ -12,7 +12,7 @@ import reivosar.common.lang.ObjectUtil;
  *
  * @param <E> the type of event to be dispatched
  */
-public abstract class EventStoredDispatcherTemplate<E extends Event> implements EventDispatcher<E> {
+public abstract class StoredEventDispatcherTemplate<E extends Event> implements EventDispatcher<E> {
 
     private final EventStore<E> eventStore;
     private final EventProcessingLifecycle eventProcessingLifecycle;
@@ -24,7 +24,7 @@ public abstract class EventStoredDispatcherTemplate<E extends Event> implements 
      * @param eventStore               the event store where events are persisted
      * @param eventProcessingLifecycle the lifecycle manager for event processing
      */
-    public EventStoredDispatcherTemplate(final EventStore<E> eventStore,
+    public StoredEventDispatcherTemplate(final EventStore<E> eventStore,
                                          final EventProcessingLifecycle eventProcessingLifecycle) {
         this.eventStore = eventStore;
         this.eventProcessingLifecycle = eventProcessingLifecycle;
