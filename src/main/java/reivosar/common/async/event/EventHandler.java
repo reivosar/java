@@ -8,8 +8,8 @@ package reivosar.common.async.event;
  *
  * @param <E> the type of event to be handled, which extends the {@link Event} interface
  */
-@FunctionalInterface
-public interface EventHandler<E extends Event> {
+
+abstract class EventHandler<E extends Event> {
 
     /**
      * Processes the given event.
@@ -20,5 +20,5 @@ public interface EventHandler<E extends Event> {
      * @param event the event to be handled; must not be {@code null}
      * @throws NullPointerException if the event is {@code null}
      */
-    void handle(E event);
+    abstract void handle(E event);
 }
