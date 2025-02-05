@@ -16,7 +16,7 @@ import java.util.stream.Stream;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.params.provider.Arguments.arguments;
 
-class EventHandlerClassResourcesTest {
+class LocalEventHandlerRegistryTest {
     
     @Nested
     class FindByEventTest {
@@ -24,7 +24,7 @@ class EventHandlerClassResourcesTest {
         @ParameterizedTest
         @MethodSource("source")
         void shouldBeReturnExpectedValues(final Event event, Collection<ClassDescriptor> expected) {
-            final Collection<ClassDescriptor> actual = EventHandlerClassResources.findByEvent(event);
+            final Collection<ClassDescriptor> actual = LocalEventHandlerRegistry.findByEvent(event);
             assertTrue(CollectionUtil.isEqualCollection(expected, actual));
         }
     

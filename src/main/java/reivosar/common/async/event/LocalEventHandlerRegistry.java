@@ -9,7 +9,7 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-class EventHandlerClassResources {
+class LocalEventHandlerRegistry {
     
     private static final Collection<ClassDescriptor> CLASS_DESCRIPTORS;
     

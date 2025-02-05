@@ -1,10 +1,10 @@
 package reivosar.common.domain.event;
 
-import reivosar.common.async.event.DispatchEventPublisherTemplate;
+import reivosar.common.async.event.DispatchableEventPublisherTemplate;
 import reivosar.common.async.event.EventDispatcher;
 import reivosar.common.lang.Singleton;
 
-public class DomainEventPublisher<E extends DomainEvent> extends DispatchEventPublisherTemplate<E> {
+public class DomainEventPublisher<E extends DomainEvent> extends DispatchableEventPublisherTemplate<E> {
 
     private static final Singleton<DomainEventPublisher<? extends DomainEvent>> SINGLETON =
             new Singleton<>(() -> new DomainEventPublisher<>(DomainEventDispatcher.SINGLETON.getInstance()));
