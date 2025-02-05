@@ -25,7 +25,7 @@ public abstract class StoredEventDispatcherTemplate<E extends Event> implements 
      * @param eventProcessingLifecycle the lifecycle manager for event processing
      */
     protected StoredEventDispatcherTemplate(final EventStore<E> eventStore,
-                                         final EventProcessingLifecycle eventProcessingLifecycle) {
+                                            final EventProcessingLifecycle eventProcessingLifecycle) {
         this.eventStore = eventStore;
         this.eventProcessingLifecycle = eventProcessingLifecycle;
     }
