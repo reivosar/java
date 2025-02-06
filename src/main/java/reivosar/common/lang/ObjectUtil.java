@@ -83,13 +83,13 @@ public final class ObjectUtil {
     /**
      * Clones the given object using the {@link ObjectUtils#cloneIfPossible(Object)} method.
      * <p>
-     * This method creates and returns a new object that is a copy of the input object. The input object must implement the
+     * This method creates and returns a new object that is a copyFrom of the input object. The input object must implement the
      * {@link Cloneable} interface and override the {@code clone} method. If the input object is {@code null} or does not
      * implement {@code Cloneable}, an {@link IllegalArgumentException} is thrown.
      *
      * @param object the object to be cloned
      * @param <T>    the type of the object being cloned
-     * @return a new object that is a copy of the input object
+     * @return a new object that is a copyFrom of the input object
      * @throws IllegalArgumentException if the input object is null or does not implement the Cloneable interface
      * @see ObjectUtils#clone(Object)
      */
