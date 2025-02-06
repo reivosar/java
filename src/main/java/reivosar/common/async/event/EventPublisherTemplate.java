@@ -11,42 +11,85 @@ import java.util.stream.Collectors;
  * A template class for publishing events.
  * <p>
  * This abstract class provides a framework for event publishing by implementing the {@link EventPublisher} interface.
- * Subclasses should implement the {@link #doPublishEvent(Event)} method to define how an event
- * is published based on a specific configuration.
+ * It defines common behavior for publishing events while allowing subclasses to specify the actual publishing mechanism.
+ * </p>
  *
- * @param <E> the type of event to be published, which extends the {@link Event} interface
+ * @param <E>    the type of event to be published, which extends the {@link Event} interface
+ * @param <This> the concrete type of the publisher that extends this template
  */
-public abstract class EventPublisherTemplate<E extends Event> implements EventPublisher<E> {
+public abstract class EventPublisherTemplate<E extends Event, This extends EventPublisher<E, This>>
+        implements EventPublisher<E, This> {
+
+    private final PublishOptions options;
+
+    /**
+     * Creates an instance of {@code EventPublisherTemplate} with default publishing options.
+     */
+    protected EventPublisherTemplate() {
+        this.options = PublishOptions.builder().build();
+    }
+
+    /**
+     * Configures the publisher for single (sequential) event processing.
+     * <p>
+     * This method allows the publisher to be configured for sequential processing with the specified {@link PublishOptions}.
+     * </p>
+     *
+     * @param options the {@link PublishOptions} to apply
+     * @return the current instance of the publisher
+     */
+    @SuppressWarnings("unchecked")
+    @Override
+    public This single(PublishOptions options) {
+        this.options.copyFrom(options);
+        return (This) this;
+    }
+
+    /**
+     * Configures the publisher for multiple (parallel) event processing.
+     * <p>
+     * This method allows the publisher to be configured for parallel processing with the specified {@link PublishOptions}.
+     * </p>
+     *
+     * @param options the {@link PublishOptions} to apply
+     * @return the current instance of the publisher
+     */
+    @SuppressWarnings("unchecked")
+    @Override
+    public This multi(PublishOptions options) {
+        this.options.copyFrom(options);
+        return (This) this;
+    }
 
     /**
      * Publishes a collection of events asynchronously.
      * <p>
-     * This method takes a collection of events and publishes them using a {@link Promise}.
-     * Subclasses should define the actual publishing logic by overriding the {@link #doPublishEvent(Event)} method.
+     * This method takes a collection of events and processes them using a {@link Promise}.
+     * Subclasses must implement the {@link #doPublishEvent(Event)} method to define the actual publishing logic.
+     * </p>
      *
-     * @param events the collection of events to be published
+     * @param events the collection of events to be published; must not be {@code null} or empty
      * @return a {@link Promise} representing the asynchronous publishing process
-     * @throws NullPointerException if {@code events} is null
+     * @throws NullPointerException if {@code events} is {@code null} or empty
      */
     @Override
     public final Promise<Void> publish(final Collection<E> events) {
         ObjectUtil.requireNonNullAndEmpty("events", events);
         return Promise.all(
                 events.stream()
-                        .map(event -> (VoidConsumer) () ->
-                                doPublishEvent(event)
-                        )
+                        .map(event -> (VoidConsumer) () -> doPublishEvent(event))
                         .collect(Collectors.toList())
         );
     }
 
     /**
-     * Publishes a single event.
+     * Defines how a single event should be published.
      * <p>
      * This method must be implemented by subclasses to provide the actual event publishing logic.
+     * </p>
      *
-     * @param event the event to be published
-     * @throws NullPointerException if {@code eventConfig} or {@code event} is null
+     * @param event the event to be published; must not be {@code null}
+     * @throws NullPointerException if {@code event} is {@code null}
      */
     protected abstract void doPublishEvent(final E event);
 }

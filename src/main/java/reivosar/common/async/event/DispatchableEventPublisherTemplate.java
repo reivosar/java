@@ -9,8 +9,10 @@ import reivosar.common.lang.ObjectUtil;
  * This class defines the {@link #doPublishEvent(Event)} method to publish events
  *
  * @param <E> the type of event to be published, which extends the {@link Event} interface
+ * @param <This> the concrete type of the publisher that extends this template
  */
-public abstract class DispatchableEventPublisherTemplate<E extends Event> extends EventPublisherTemplate<E> {
+public abstract class DispatchableEventPublisherTemplate<E extends Event, This extends EventPublisher<E, This>>
+        extends EventPublisherTemplate<E, This> {
 
     private final EventDispatcher<E> eventDispatcher;
 
