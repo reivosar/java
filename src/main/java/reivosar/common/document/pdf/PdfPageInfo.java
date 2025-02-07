@@ -1,6 +1,7 @@
 package reivosar.common.document.pdf;
 
 import reivosar.common.lang.ObjectUtil;
+import reivosar.common.lang.StringUtil;
 import reivosar.common.data.model.Model;
 
 import java.util.Collection;
@@ -19,11 +20,11 @@ public class PdfPageInfo extends Model {
     private final float height;
 
     PdfPageInfo(final int pageNumber,
-                final String text,
-                final Collection<byte[]> images,
-                final Collection<String> fontNames,
-                final float width,
-                final float height) {
+            final String text,
+            final Collection<byte[]> images,
+            final Collection<String> fontNames,
+            final float width,
+            final float height) {
         this.pageNumber = pageNumber;
         this.text = text;
         this.images = images;
@@ -47,7 +48,16 @@ public class PdfPageInfo extends Model {
      * @return The text content.
      */
     public String text() {
-        return text;
+        return StringUtil.defaultIfNullOrEmpty(this.text, "");
+    }
+
+    /**
+     * Returns the trimed text content of the page.
+     *
+     * @return The text content.
+     */
+    public String trimedText() {
+        return text().trim();
     }
 
     /**

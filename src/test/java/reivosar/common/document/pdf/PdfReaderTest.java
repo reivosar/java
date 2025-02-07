@@ -41,21 +41,21 @@ class PdfReaderTest {
 
             documentInfo.at(1).ifPresent(pdfPageInfo -> {
                 assertEquals(1, pdfPageInfo.pageNumber());
-                assertEquals(1387, pdfPageInfo.text().length());
+                assertEquals(1356, pdfPageInfo.trimedText().length());
                 assertTrue(pdfPageInfo.images().isEmpty());
                 assertEquals(595.3200073242188, pdfPageInfo.width());
                 assertEquals(841.9199829101562, pdfPageInfo.height());
             });
             documentInfo.at(2).ifPresent(pdfPageInfo -> {
                 assertEquals(2, pdfPageInfo.pageNumber());
-                assertEquals(2, pdfPageInfo.text().length());
+                assertEquals(0, pdfPageInfo.trimedText().length());
                 assertEquals(172800, pdfPageInfo.images().stream().findFirst().get().length);
                 assertEquals(595.3200073242188, pdfPageInfo.width());
                 assertEquals(841.9199829101562, pdfPageInfo.height());
             });
             documentInfo.at(3).ifPresent(pdfPageInfo -> {
                 assertEquals(3, pdfPageInfo.pageNumber());
-                assertEquals( 24, pdfPageInfo.text().length());
+                assertEquals(0, pdfPageInfo.trimedText().length());
                 assertEquals(750000, pdfPageInfo.images().stream().findFirst().get().length);
                 assertEquals(595.3200073242188, pdfPageInfo.width());
                 assertEquals(841.9199829101562, pdfPageInfo.height());
@@ -95,13 +95,13 @@ class PdfReaderTest {
             assertFalse(pdfMetadata.subject().isPresent());
             assertTrue(pdfMetadata.keywords().isEmpty());
             assertEquals(LocalDateTime.of(2024, 3, 15, 8, 22, 38), pdfMetadata.creationDate().get());
-            assertEquals(LocalDateTime.of(2024, 3, 15, 8, 22,38), pdfMetadata.modDate().get());
+            assertEquals(LocalDateTime.of(2024, 3, 15, 8, 22, 38), pdfMetadata.modDate().get());
 
             assertEquals(1, documentInfo.totalPages());
 
             documentInfo.at(1).ifPresent(pdfPageInfo -> {
                 assertEquals(1, pdfPageInfo.pageNumber());
-                assertEquals(45, pdfPageInfo.text().length());
+                assertEquals(42, pdfPageInfo.trimedText().length());
                 assertTrue(pdfPageInfo.images().isEmpty());
                 assertEquals(595.3200073242188, pdfPageInfo.width());
                 assertEquals(841.9199829101562, pdfPageInfo.height());
@@ -117,7 +117,7 @@ class PdfReaderTest {
             // when & then
             assertThrows(PdfReadException.class, () -> PdfReader.open(pdfPath, password).read());
         }
-        
+
         @Test
         void shouldThrowNullPointerExceptionForNullPassword() {
             // given
