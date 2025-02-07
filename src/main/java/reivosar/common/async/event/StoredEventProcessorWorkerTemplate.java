@@ -15,7 +15,6 @@ public abstract class StoredEventProcessorWorkerTemplate<E extends Event> implem
 
     private static final long EVENT_WAIT_TIME = 300;
     private final DaemonThread thread;
-    private final EventStore<E> eventStore;
     private final EventPipeline<E> eventPipeline;
     private final LockableFunction lockableFunction;
     private volatile boolean isProcessing = false;
@@ -26,7 +25,6 @@ public abstract class StoredEventProcessorWorkerTemplate<E extends Event> implem
      * @param eventStore the event store that holds unprocessed events
      */
     protected StoredEventProcessorWorkerTemplate(final EventStore<E> eventStore) {
-        this.eventStore = eventStore;
         this.eventPipeline = new EventPipeline<>(eventStore);
         this.lockableFunction = new LockableFunction();
         this.thread = new DaemonThread(this::run);
@@ -34,8 +32,8 @@ public abstract class StoredEventProcessorWorkerTemplate<E extends Event> implem
 
     private void run() {
         while (isProcessing) {
-            eventPipeline.enqueueEvents(eventStore.getUncompletedEvents());
-            if (eventPipeline.hasPendingEvents()) {
+            eventPipeline.fetchedEvents();
+            if (eventPipeline.hasUncompletedEvent()) {
                 eventPipeline.processAndCleanupEvents();
                 sleep();
             } else {
@@ -44,7 +42,7 @@ public abstract class StoredEventProcessorWorkerTemplate<E extends Event> implem
                         wait(EVENT_WAIT_TIME);
                     }
                 } catch (InterruptedException e) {
-                    if (eventPipeline.hasPendingEvents() || eventStore.hasUncompletedEvent()) {
+                    if (eventPipeline.hasUncompletedEvent()) {
                         continue;
                     }
                     stop();

@@ -26,8 +26,8 @@ class EventPipeline<E extends Event> {
         this.maxThreadSize = maxThreadSize;
     }
 
-    void enqueueEvents(final Collection<EventDescriptor<E>> eventDescriptors) {
-        eventDescriptors.stream()
+    void fetchedEvents() {
+        eventStore.getUncompletedEvents().stream()
                 .filter(this::isProcessableEventDescriptor)
                 .forEach(eventDescriptor -> eventRunnableCollection.add(
                         new EventRunnable<>(eventStore, eventDescriptor)
@@ -42,8 +42,8 @@ class EventPipeline<E extends Event> {
                 .noneMatch(eventRunnable -> eventRunnable.isSameEvent(eventDescriptor));
     }
 
-    boolean hasPendingEvents() {
-        return !eventRunnableCollection.isEmpty();
+    boolean hasUncompletedEvent() {
+        return !eventRunnableCollection.isEmpty() || eventStore.hasUncompletedEvent();
     }
 
     void processAndCleanupEvents() {
