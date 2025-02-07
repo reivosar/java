@@ -4,7 +4,8 @@ import reivosar.common.lang.Singleton;
 
 class LocalEventDispatcher<E extends Event> implements EventDispatcher<E> {
 
-    static final Singleton<LocalEventDispatcher<? extends Event>> SINGLETON = new Singleton<>(LocalEventDispatcher::new);
+    static final Singleton<LocalEventDispatcher<? extends Event>> SINGLETON =
+            new Singleton<>(LocalEventDispatcher::new);
 
     @Override
     public final void dispatch(final E event) {

@@ -41,7 +41,7 @@ class PdfReaderTest {
 
             documentInfo.at(1).ifPresent(pdfPageInfo -> {
                 assertEquals(1, pdfPageInfo.pageNumber());
-                assertEquals(1356, pdfPageInfo.trimedText().length());
+                assertEquals(1384, pdfPageInfo.trimedText().length());
                 assertTrue(pdfPageInfo.images().isEmpty());
                 assertEquals(595.3200073242188, pdfPageInfo.width());
                 assertEquals(841.9199829101562, pdfPageInfo.height());

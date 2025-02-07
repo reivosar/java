@@ -17,10 +17,12 @@ class LocalEventHandlerCache {
 
     @SuppressWarnings("unchecked")
     static <E extends Event> LoadedClassPathEventHandler<E> getLocalEventHandlers(final E event) {
-        return (LoadedClassPathEventHandler<E>) CACHE.getOrPut(getCacheKey(event), createCache(event)).nullableFirstValue();
+        return (LoadedClassPathEventHandler<E>) CACHE.getOrPut(getCacheKey(event),
+                createCache(event)).nullableFirstValue();
     }
 
-    private static <E extends Event> void put(final Event event, final LoadedClassPathEventHandler<E> loadedClassPathEventHandler) {
+    private static <E extends Event> void put(final Event event,
+                                              final LoadedClassPathEventHandler<E> loadedClassPathEventHandler) {
         CACHE.put(getCacheKey(event), loadedClassPathEventHandler);
     }
 
