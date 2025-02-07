@@ -13,7 +13,8 @@ import java.util.stream.Collectors;
 
 class InMemoryEventStore<E extends Event> implements EventStore<E> {
 
-    static final Singleton<InMemoryEventStore<? extends Event>> SINGLETON = new Singleton<>(InMemoryEventStore::new);
+    static final Singleton<InMemoryEventStore<? extends Event>> SINGLETON =
+            new Singleton<>(InMemoryEventStore::new);
 
     private static final Map<EventDescriptorIdentify, EventDescriptor<? extends Event>> EVENTS;
 
