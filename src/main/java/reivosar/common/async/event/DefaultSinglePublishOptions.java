@@ -1,30 +1,32 @@
 package reivosar.common.async.event;
 
+import reivosar.common.lang.ObjectUtil;
+
 class DefaultSinglePublishOptions implements SinglePublishOptions {
 
-    private int retry;
+    private Integer retry;
     private ErrorHandlingStrategy strategy;
 
-    DefaultSinglePublishOptions(final int retry,
+    DefaultSinglePublishOptions(final Integer retry,
                                 final ErrorHandlingStrategy strategy) {
-        this.retry = retry;
-        this.strategy = strategy;
+        this.retry = ObjectUtil.requireNonNull("retry", retry);
+        this.strategy = ObjectUtil.requireNonNull("strategy", strategy);
     }
 
     @Override
-    public SinglePublishOptions retry(final int retry) {
-        this.retry = retry;
+    public SinglePublishOptions retry(final Integer retry) {
+        this.retry = ObjectUtil.requireNonNull("retry", retry);
         return this;
     }
 
     @Override
-    public int getRetry() {
+    public Integer getRetry() {
         return this.retry;
     }
 
     @Override
     public SinglePublishOptions errorHandlingStrategy(final ErrorHandlingStrategy strategy) {
-        this.strategy = strategy;
+        this.strategy = ObjectUtil.requireNonNull("strategy", strategy);
         return this;
     }
 

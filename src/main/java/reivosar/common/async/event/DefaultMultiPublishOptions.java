@@ -14,18 +14,18 @@ class DefaultMultiPublishOptions implements MultiPublishOptions {
 
     @Override
     public MultiPublishOptions multiplicity(final Integer multiplicity) {
-        this.multiplicity = multiplicity;
+        this.multiplicity = ObjectUtil.requireNonNull("multiplicity", multiplicity);
         return this;
     }
 
     @Override
     public MultiPublishOptions errorHandlingStrategy(final ErrorHandlingStrategy strategy) {
-        this.strategy = strategy;
+        this.strategy = ObjectUtil.requireNonNull("strategy", strategy);
         return this;
     }
 
     @Override
-    public int getMultiplicity() {
+    public Integer getMultiplicity() {
         return this.multiplicity;
     }
 

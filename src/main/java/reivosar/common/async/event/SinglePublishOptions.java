@@ -11,14 +11,14 @@ public interface SinglePublishOptions {
      * @param retry the retry count.
      * @return this instance for chaining.
      */
-    SinglePublishOptions retry(int retry);
+    SinglePublishOptions retry(Integer retry);
 
     /**
      * Returns the configured retry count.
      *
      * @return the retry count.
      */
-    int getRetry();
+    Integer getRetry();
 
     /**
      * (Optional) Returns the error handling strategy for single processing.

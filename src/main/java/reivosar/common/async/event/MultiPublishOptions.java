@@ -26,7 +26,7 @@ public interface MultiPublishOptions {
      *
      * @return the concurrency level.
      */
-    int getMultiplicity();
+    Integer getMultiplicity();
 
     /**
      * Returns the configured error handling strategy.

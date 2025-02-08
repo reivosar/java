@@ -32,7 +32,7 @@ public abstract class StoredEventProcessorWorkerTemplate<E extends Event> implem
 
     private void run() {
         while (isProcessing) {
-            eventPipeline.fetchedEvents();
+            eventPipeline.fetchEvents();
             if (eventPipeline.hasUncompletedEvent()) {
                 eventPipeline.processAndCleanupEvents();
                 sleep();

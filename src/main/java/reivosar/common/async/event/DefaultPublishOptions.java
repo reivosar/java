@@ -25,12 +25,12 @@ class DefaultPublishOptions implements PublishOptions {
     }
 
     @Override
-    public int getMultiplicity() {
+    public Integer getMultiplicity() {
         return multiplicity;
     }
 
     @Override
-    public int getRetry() {
+    public Integer getRetry() {
         return retry;
     }
 

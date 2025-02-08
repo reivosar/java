@@ -26,7 +26,7 @@ class EventPipeline<E extends Event> {
         this.maxThreadSize = maxThreadSize;
     }
 
-    void fetchedEvents() {
+    void fetchEvents() {
         eventStore.getUncompletedEvents().stream()
                 .filter(this::isProcessableEventDescriptor)
                 .forEach(eventDescriptor -> eventRunnableCollection.add(

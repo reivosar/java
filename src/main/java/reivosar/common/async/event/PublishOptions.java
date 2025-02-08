@@ -34,14 +34,14 @@ public interface PublishOptions {
      *
      * @return the concurrency level.
      */
-    int getMultiplicity();
+    Integer getMultiplicity();
 
     /**
      * Returns the number of retry attempts.
      *
      * @return the retry count.
      */
-    int getRetry();
+    Integer getRetry();
 
     /**
      * Returns the error handling strategy.
