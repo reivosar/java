@@ -27,7 +27,7 @@ public abstract class EventPublisherTemplate<E extends Event, This extends Event
      * Creates an instance of {@code EventPublisherTemplate} with default publishing options.
      */
     protected EventPublisherTemplate() {
-        this(AsyncOptions.builder().build());
+        this(AsyncOptions.builder().multi(m -> m).build());
     }
 
     /**
@@ -89,8 +89,7 @@ public abstract class EventPublisherTemplate<E extends Event, This extends Event
         return Promise.all(
                 events.stream()
                         .map(event -> (VoidConsumer) () -> doPublishEvent(event))
-                        .collect(Collectors.toList())
-        );
+                        .collect(Collectors.toList()), this.options);
     }
 
     /**
