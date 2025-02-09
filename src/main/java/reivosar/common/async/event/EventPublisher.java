@@ -1,5 +1,8 @@
 package reivosar.common.async.event;
 
+import reivosar.common.async.options.AsyncOptions;
+import reivosar.common.async.options.MultiAsyncOptions;
+import reivosar.common.async.options.SingleAsyncOptions;
 import reivosar.common.async.promise.Promise;
 
 import java.util.Collection;
@@ -50,7 +53,7 @@ public interface EventPublisher<E extends Event, This extends EventPublisher<E, 
      * Configures the publisher for single (sequential) event processing with default options.
      * <p>
      * This method returns an instance of {@code EventPublisher} configured for sequential processing
-     * using default {@link SinglePublishOptions}.
+     * using default {@link SingleAsyncOptions}.
      * </p>
      *
      * @return an instance of {@code EventPublisher} configured for single event processing.
@@ -62,36 +65,36 @@ public interface EventPublisher<E extends Event, This extends EventPublisher<E, 
     /**
      * Configures the publisher for single (sequential) event processing with custom options.
      * <p>
-     * The provided configurator function receives a {@link SinglePublishOptions} instance,
+     * The provided configurator function receives a {@link SingleAsyncOptions} instance,
      * which can be used to configure retry attempts and other options specific to sequential event processing.
      * </p>
      *
      * @param configurator a function to configure single processing options.
      * @return an instance of {@code EventPublisher} configured with the given options.
      */
-    default This single(Function<SinglePublishOptions, SinglePublishOptions> configurator) {
-        PublishOptions options = PublishOptions.builder()
+    default This single(Function<SingleAsyncOptions, SingleAsyncOptions> configurator) {
+        AsyncOptions options = AsyncOptions.builder()
                 .single(configurator)
                 .build();
         return single(options);
     }
 
     /**
-     * Configures the publisher for single (sequential) event processing with predefined {@link PublishOptions}.
+     * Configures the publisher for single (sequential) event processing with predefined {@link AsyncOptions}.
      * <p>
      * This method allows setting explicit options instead of using a configurator function.
      * </p>
      *
-     * @param options the {@link PublishOptions} for single event processing.
+     * @param options the {@link AsyncOptions} for single event processing.
      * @return an instance of {@code EventPublisher} configured with the given options.
      */
-    This single(PublishOptions options);
+    This single(AsyncOptions options);
 
     /**
      * Configures the publisher for multiple (parallel) event processing with default options.
      * <p>
      * This method returns an instance of {@code EventPublisher} configured for parallel processing
-     * using default {@link MultiPublishOptions}.
+     * using default {@link MultiAsyncOptions}.
      * </p>
      *
      * @return an instance of {@code EventPublisher} configured for multiple event processing.
@@ -103,28 +106,28 @@ public interface EventPublisher<E extends Event, This extends EventPublisher<E, 
     /**
      * Configures the publisher for multiple (parallel) event processing with custom options.
      * <p>
-     * The provided configurator function receives a {@link MultiPublishOptions} instance,
+     * The provided configurator function receives a {@link MultiAsyncOptions} instance,
      * which can be used to configure concurrency levels and error handling strategies for parallel event processing.
      * </p>
      *
      * @param configurator a function to configure multiple processing options.
      * @return an instance of {@code EventPublisher} configured with the given options.
      */
-    default This multi(Function<MultiPublishOptions, MultiPublishOptions> configurator) {
-        PublishOptions options = PublishOptions.builder()
+    default This multi(Function<MultiAsyncOptions, MultiAsyncOptions> configurator) {
+        AsyncOptions options = AsyncOptions.builder()
                 .multi(configurator)
                 .build();
         return multi(options);
     }
 
     /**
-     * Configures the publisher for multiple (parallel) event processing with predefined {@link PublishOptions}.
+     * Configures the publisher for multiple (parallel) event processing with predefined {@link AsyncOptions}.
      * <p>
      * This method allows setting explicit options instead of using a configurator function.
      * </p>
      *
-     * @param options the {@link PublishOptions} for multiple event processing.
+     * @param options the {@link AsyncOptions} for multiple event processing.
      * @return an instance of {@code EventPublisher} configured with the given options.
      */
-    This multi(PublishOptions options);
+    This multi(AsyncOptions options);
 }

@@ -1,5 +1,6 @@
 package reivosar.common.async.promise;
 
+import reivosar.common.async.options.AsyncOptions;
 import reivosar.common.lang.function.VoidConsumer;
 
 import java.util.Collection;
@@ -9,36 +10,34 @@ import java.util.concurrent.Executors;
 import java.util.function.Supplier;
 
 class PromiseHandler<T> {
-    
+
     private final ExecutorServiceProvider executorServiceProvider;
     private final PromiseTask<T> promiseTask;
-    
-    static <T>PromiseHandler<T> createNormalThreadPromiseHandler(final PromiseConfig promiseConfig) {
-        return new PromiseHandler<>(promiseConfig.multiple, promiseConfig.timeout);
-    }
-    
-    private PromiseHandler(final int multiple, final long timeout) {
-        this(Executors.newFixedThreadPool(multiple), timeout);
-    }
-    
-    static <T>PromiseHandler<T> createVirtualThreadPromiseHandler(final PromiseConfig promiseConfig) {
-        return new PromiseHandler<>(Executors.newVirtualThreadPerTaskExecutor(),promiseConfig.timeout);
-    }
-    
-    private PromiseHandler(final ExecutorService executorService, final long timeout) {
-        this.executorServiceProvider = new ExecutorServiceProvider(executorService, timeout);
+
+    PromiseHandler(final AsyncOptions options) {
+        this.executorServiceProvider = new ExecutorServiceProvider(getExecutorService(options), options.getTimeout());
         this.promiseTask = new PromiseTask<>();
     }
-    
+
+    private ExecutorService getExecutorService(final AsyncOptions options) {
+        if (!options.isMultiple()) {
+            return Executors.newSingleThreadExecutor();
+        }
+        int multiplicity = options.getMultiplicity();
+        return (multiplicity > 0)
+                ? Executors.newFixedThreadPool(multiplicity)
+                : Executors.newVirtualThreadPerTaskExecutor();
+    }
+
     PromiseHandler<T> withSupplier(final Supplier<T> supplier) {
         return withSuppliers(List.of(supplier));
     }
-    
+
     PromiseHandler<T> withSuppliers(final Collection<Supplier<T>> suppliers) {
         suppliers.forEach(this.promiseTask::addTask);
         return this;
     }
-    
+
     PromiseHandler<T> withVoidConsumers(final Collection<VoidConsumer> voidConsumers) {
         voidConsumers.forEach(voidConsumer -> this.promiseTask.addTask(() -> {
             voidConsumer.accept();
@@ -46,7 +45,7 @@ class PromiseHandler<T> {
         }));
         return this;
     }
-    
+
     Promise<T> handle() {
         return PromiseHandlerInvokerFactory.create(executorServiceProvider, promiseTask).invoke();
     }

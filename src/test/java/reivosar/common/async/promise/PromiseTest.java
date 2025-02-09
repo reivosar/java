@@ -36,8 +36,8 @@ class PromiseTest {
 
         @Test
         void shouldNotBeCalledNextThenMethod_when_timeoutOccurred() {
-            final Promise<Integer> promise = Promise.resolve(() -> 1, 1)
-                    .then(i -> 1 + timeoutOccurred(), 1)//@ATTN
+            final Promise<Integer> promise = Promise.resolve(() -> 1, 1L)
+                    .then(i -> 1 + timeoutOccurred(), 1L)//@ATTN
                     .then(i -> i + 2);
 
             errorAssertion(promise, "timeout occurred.");

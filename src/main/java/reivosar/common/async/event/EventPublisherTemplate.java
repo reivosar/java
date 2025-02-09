@@ -1,5 +1,6 @@
 package reivosar.common.async.event;
 
+import reivosar.common.async.options.AsyncOptions;
 import reivosar.common.async.promise.Promise;
 import reivosar.common.lang.ObjectUtil;
 import reivosar.common.lang.function.VoidConsumer;
@@ -20,27 +21,37 @@ import java.util.stream.Collectors;
 public abstract class EventPublisherTemplate<E extends Event, This extends EventPublisher<E, This>>
         implements EventPublisher<E, This> {
 
-    private final PublishOptions options;
+    private final AsyncOptions options;
 
     /**
      * Creates an instance of {@code EventPublisherTemplate} with default publishing options.
      */
     protected EventPublisherTemplate() {
-        this.options = PublishOptions.builder().build();
+        this(AsyncOptions.builder().build());
+    }
+
+    /**
+     * Creates an instance of {@code EventPublisherTemplate} with custom asynchronous processing options.
+     *
+     * @param options the {@link AsyncOptions} to use for event publishing behavior
+     * @throws NullPointerException if {@code options} is {@code null}
+     */
+    protected EventPublisherTemplate(final AsyncOptions options) {
+        this.options = ObjectUtil.requireNonNull("options", options);
     }
 
     /**
      * Configures the publisher for single (sequential) event processing.
      * <p>
-     * This method allows the publisher to be configured for sequential processing with the specified {@link PublishOptions}.
+     * This method allows the publisher to be configured for sequential processing with the specified {@link AsyncOptions}.
      * </p>
      *
-     * @param options the {@link PublishOptions} to apply
+     * @param options the {@link AsyncOptions} to apply
      * @return the current instance of the publisher
      */
     @SuppressWarnings("unchecked")
     @Override
-    public This single(PublishOptions options) {
+    public This single(AsyncOptions options) {
         this.options.copyFrom(options);
         return (This) this;
     }
@@ -48,15 +59,15 @@ public abstract class EventPublisherTemplate<E extends Event, This extends Event
     /**
      * Configures the publisher for multiple (parallel) event processing.
      * <p>
-     * This method allows the publisher to be configured for parallel processing with the specified {@link PublishOptions}.
+     * This method allows the publisher to be configured for parallel processing with the specified {@link AsyncOptions}.
      * </p>
      *
-     * @param options the {@link PublishOptions} to apply
+     * @param options the {@link AsyncOptions} to apply
      * @return the current instance of the publisher
      */
     @SuppressWarnings("unchecked")
     @Override
-    public This multi(PublishOptions options) {
+    public This multi(AsyncOptions options) {
         this.options.copyFrom(options);
         return (This) this;
     }

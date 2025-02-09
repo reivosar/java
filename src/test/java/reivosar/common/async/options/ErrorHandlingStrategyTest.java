@@ -1,4 +1,4 @@
-package reivosar.common.async.event;
+package reivosar.common.async.options;
 
 import org.junit.jupiter.api.Test;
 
