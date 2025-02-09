@@ -1,4 +1,4 @@
-package reivosar.common.async.event;
+package reivosar.common.async.options;
 
 /**
  * Defines the error handling strategy for event processing.
