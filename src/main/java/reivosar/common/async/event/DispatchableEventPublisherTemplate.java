@@ -1,5 +1,6 @@
 package reivosar.common.async.event;
 
+import reivosar.common.async.options.AsyncOptions;
 import reivosar.common.lang.ObjectUtil;
 
 /**
@@ -8,7 +9,7 @@ import reivosar.common.lang.ObjectUtil;
  * <p>
  * This class defines the {@link #doPublishEvent(Event)} method to publish events
  *
- * @param <E> the type of event to be published, which extends the {@link Event} interface
+ * @param <E>    the type of event to be published, which extends the {@link Event} interface
  * @param <This> the concrete type of the publisher that extends this template
  */
 public abstract class DispatchableEventPublisherTemplate<E extends Event, This extends EventPublisher<E, This>>
@@ -23,6 +24,19 @@ public abstract class DispatchableEventPublisherTemplate<E extends Event, This e
      * @throws IllegalArgumentException if {@code eventConfig} is null
      */
     protected DispatchableEventPublisherTemplate(final EventDispatcher<E> eventDispatcher) {
+        this.eventDispatcher = ObjectUtil.requireNonNull("eventDispatcher", eventDispatcher);
+    }
+
+    /**
+     * Creates a new instance of {@code DispatchableEventPublisherTemplate}.
+     *
+     * @param options         the {@link AsyncOptions} to use for event publishing behavior
+     * @param eventDispatcher the event configuration to be used for publishing events
+     * @throws IllegalArgumentException if {@code eventConfig} is null
+     */
+    protected DispatchableEventPublisherTemplate(final AsyncOptions options,
+                                                 final EventDispatcher<E> eventDispatcher) {
+        super(options);
         this.eventDispatcher = ObjectUtil.requireNonNull("eventDispatcher", eventDispatcher);
     }
 
