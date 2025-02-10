@@ -99,26 +99,26 @@ public interface AsyncOptions {
         /**
          * Configures options for single-threaded (sequential) processing.
          * <p>
-         * The provided configurator function receives a {@link SingleAsyncOptions} instance,
+         * The provided configurator function receives a {@link SingleAsyncOptions.Builder} instance,
          * allowing customization of properties such as retry count.
          * </p>
          *
          * @param configurator a function to configure sequential processing options
          * @return the current {@link Builder} instance for method chaining
          */
-        Builder single(Function<SingleAsyncOptions, SingleAsyncOptions> configurator);
+        Builder single(Function<SingleAsyncOptions.Builder, SingleAsyncOptions.Builder> configurator);
 
         /**
          * Configures options for multi-thread (parallel) processing.
          * <p>
-         * The provided configurator function receives a {@link MultiAsyncOptions} instance,
+         * The provided configurator function receives a {@link MultiAsyncOptions.Builder} instance,
          * allowing customization of concurrency level and error handling strategy.
          * </p>
          *
          * @param configurator a function to configure parallel processing options
          * @return the current {@link Builder} instance for method chaining
          */
-        Builder multi(Function<MultiAsyncOptions, MultiAsyncOptions> configurator);
+        Builder multi(Function<MultiAsyncOptions.Builder, MultiAsyncOptions.Builder> configurator);
 
         /**
          * Builds and returns a new {@link AsyncOptions} instance with the configured settings.

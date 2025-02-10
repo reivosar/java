@@ -16,18 +16,6 @@ package reivosar.common.async.options;
 public interface SingleAsyncOptions {
 
     /**
-     * Sets the maximum number of retry attempts if a task fails.
-     * <p>
-     * If set, the task will be retried up to the specified number of times before being considered failed.
-     * </p>
-     *
-     * @param retryLimit the maximum number of retry attempts; must be non-negative
-     * @return this instance for method chaining
-     * @throws IllegalArgumentException if {@code retryLimit} is negative
-     */
-    SingleAsyncOptions retryLimit(int retryLimit);
-
-    /**
      * Returns the maximum number of retry attempts.
      * <p>
      * If no retry limit is set, the default value may be used by the implementation.
@@ -36,19 +24,6 @@ public interface SingleAsyncOptions {
      * @return the retry limit, or {@code null} if not set
      */
     Integer getRetryLimit();
-
-    /**
-     * Sets the execution timeout in milliseconds.
-     * <p>
-     * If set, the task execution will be limited to the specified duration.
-     * If the task exceeds this time, it may be terminated depending on the implementation.
-     * </p>
-     *
-     * @param timeout the maximum execution time in milliseconds; must be positive
-     * @return this instance for method chaining
-     * @throws IllegalArgumentException if {@code timeout} is negative
-     */
-    SingleAsyncOptions timeout(Long timeout);
 
     /**
      * Returns the execution timeout in milliseconds.
@@ -72,14 +47,52 @@ public interface SingleAsyncOptions {
     ErrorHandlingStrategy getErrorHandlingStrategy();
 
     /**
-     * Sets the error handling strategy for single-processing tasks.
-     * <p>
-     * This allows defining how failures should be handled, such as ignoring, logging,
-     * or retrying under specific conditions.
-     * </p>
-     *
-     * @param strategy the error handling strategy
-     * @return this instance for method chaining
+     * Builder interface for constructing {@link SingleAsyncOptions} instances.
      */
-    SingleAsyncOptions errorHandlingStrategy(ErrorHandlingStrategy strategy);
+    interface Builder {
+
+        /**
+         * Sets the maximum number of retry attempts if a task fails.
+         * <p>
+         * If set, the task will be retried up to the specified number of times before being considered failed.
+         * </p>
+         *
+         * @param retryLimit the maximum number of retry attempts; must be non-negative
+         * @return this instance for method chaining
+         * @throws IllegalArgumentException if {@code retryLimit} is negative
+         */
+        Builder retryLimit(int retryLimit);
+
+        /**
+         * Sets the execution timeout in milliseconds.
+         * <p>
+         * If set, the task execution will be limited to the specified duration.
+         * If the task exceeds this time, it may be terminated depending on the implementation.
+         * </p>
+         *
+         * @param timeout the maximum execution time in milliseconds; must be positive
+         * @return this instance for method chaining
+         * @throws IllegalArgumentException if {@code timeout} is negative
+         */
+        Builder timeout(Long timeout);
+
+        /**
+         * Sets the error handling strategy for single-processing tasks.
+         * <p>
+         * This allows defining how failures should be handled, such as ignoring, logging,
+         * or retrying under specific conditions.
+         * </p>
+         *
+         * @param strategy the error handling strategy
+         * @return this instance for method chaining
+         */
+        Builder errorHandlingStrategy(ErrorHandlingStrategy strategy);
+
+        /**
+         * Builds and returns a new {@link SingleAsyncOptions} instance with the configured settings.
+         *
+         * @return a new {@link SingleAsyncOptions} instance
+         */
+        SingleAsyncOptions build();
+    }
 }

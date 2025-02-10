@@ -5,40 +5,19 @@ import reivosar.common.lang.ObjectUtil;
 
 class DefaultMultiAsyncOptions extends Model implements MultiAsyncOptions {
 
-    private Integer multiplicity;
-    private Integer retryLimit;
-    private Long timeout;
-    private ErrorHandlingStrategy strategy;
+    private final Integer multiplicity;
+    private final Integer retryLimit;
+    private final Long timeout;
+    private final ErrorHandlingStrategy strategy;
 
-    DefaultMultiAsyncOptions() {
-        this.multiplicity = -1;
-        this.retryLimit = 3;
-        this.timeout = 30L;
-        this.strategy = ErrorHandlingStrategy.RETRY_AND_CONTINUE;
-    }
-
-    @Override
-    public MultiAsyncOptions multiplicity(final Integer multiplicity) {
-        this.multiplicity = ObjectUtil.requireNonNull("multiplicity", multiplicity);
-        return this;
-    }
-
-    @Override
-    public MultiAsyncOptions retryLimit(final Integer retryLimit) {
-        this.retryLimit = ObjectUtil.requireNonNull("retryLimit", retryLimit);
-        return this;
-    }
-
-    @Override
-    public MultiAsyncOptions timeout(final Long timeout) {
-        this.timeout = ObjectUtil.requireNonNull("timeout", timeout);
-        return this;
-    }
-
-    @Override
-    public MultiAsyncOptions errorHandlingStrategy(final ErrorHandlingStrategy strategy) {
-        this.strategy = ObjectUtil.requireNonNull("strategy", strategy);
-        return this;
+    private DefaultMultiAsyncOptions(final Integer multiplicity,
+                                     final Integer retryLimit,
+                                     final Long timeout,
+                                     final ErrorHandlingStrategy strategy) {
+        this.multiplicity = multiplicity;
+        this.retryLimit = retryLimit;
+        this.timeout = timeout;
+        this.strategy = strategy;
     }
 
     @Override
@@ -59,5 +38,49 @@ class DefaultMultiAsyncOptions extends Model implements MultiAsyncOptions {
     @Override
     public ErrorHandlingStrategy getErrorHandlingStrategy() {
         return this.strategy;
+    }
+
+    static class Builder implements MultiAsyncOptions.Builder {
+
+        private Integer multiplicity;
+        private Integer retryLimit;
+        private Long timeout;
+        private ErrorHandlingStrategy strategy;
+
+        Builder() {
+            this.multiplicity = -1;
+            this.retryLimit = 3;
+            this.timeout = 30L;
+            this.strategy = ErrorHandlingStrategy.RETRY_AND_CONTINUE;
+        }
+
+        @Override
+        public Builder multiplicity(final Integer multiplicity) {
+            this.multiplicity = ObjectUtil.requireNonNull("multiplicity", multiplicity);
+            return this;
+        }
+
+        @Override
+        public Builder retryLimit(int retryLimit) {
+            this.retryLimit = ObjectUtil.requireNonNull("retryLimit", retryLimit);
+            return this;
+        }
+
+        @Override
+        public Builder timeout(final Long timeout) {
+            this.timeout = ObjectUtil.requireNonNull("timeout", timeout);
+            return this;
+        }
+
+        @Override
+        public Builder errorHandlingStrategy(final ErrorHandlingStrategy strategy) {
+            this.strategy = ObjectUtil.requireNonNull("strategy", strategy);
+            return this;
+        }
+
+        @Override
+        public MultiAsyncOptions build() {
+            return new DefaultMultiAsyncOptions(this.multiplicity, this.retryLimit, this.timeout, this.strategy);
+        }
     }
 }
