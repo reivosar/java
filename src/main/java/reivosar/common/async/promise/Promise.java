@@ -64,7 +64,8 @@ public interface Promise<T> extends Result<T> {
      * @param <T>          the type of the promised result
      * @return a Promise that resolves with the supplier's result
      */
-    static <T> Promise<T> resolve(Supplier<T> supplier, Function<SingleAsyncOptions, SingleAsyncOptions> configurator) {
+    static <T> Promise<T> resolve(Supplier<T> supplier,
+                                  Function<SingleAsyncOptions.Builder, SingleAsyncOptions.Builder> configurator) {
         ObjectUtil.requireNonNull("supplier", supplier);
         ObjectUtil.requireNonNull("configurator", configurator);
         return resolve(supplier, AsyncOptions.builder().single(configurator).build());
@@ -103,7 +104,8 @@ public interface Promise<T> extends Result<T> {
      * @param configurator  a function to configure the Promise options
      * @return a Promise that resolves when all the provided {@link VoidConsumer}s have been executed
      */
-    static Promise<Void> all(final Collection<VoidConsumer> voidConsumers, Function<MultiAsyncOptions, MultiAsyncOptions> configurator) {
+    static Promise<Void> all(Collection<VoidConsumer> voidConsumers,
+                             Function<MultiAsyncOptions.Builder, MultiAsyncOptions.Builder> configurator) {
         ObjectUtil.requireNonNull("voidConsumers", voidConsumers);
         ObjectUtil.requireNonNull("configurator", configurator);
         return all(voidConsumers, AsyncOptions.builder().multi(configurator).build());
@@ -167,7 +169,7 @@ public interface Promise<T> extends Result<T> {
      * @return a new Promise representing the chained operation
      */
     default <R> Promise<R> then(Function<? super T, ? super R> function,
-                                Function<SingleAsyncOptions, SingleAsyncOptions> configurator) {
+                                Function<SingleAsyncOptions.Builder, SingleAsyncOptions.Builder> configurator) {
         ObjectUtil.requireNonNull("function", function);
         ObjectUtil.requireNonNull("configurator", configurator);
         return then(function, AsyncOptions.builder().single(configurator).build());

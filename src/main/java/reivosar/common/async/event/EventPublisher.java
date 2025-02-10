@@ -65,14 +65,14 @@ public interface EventPublisher<E extends Event, This extends EventPublisher<E, 
     /**
      * Configures the publisher for single (sequential) event processing with custom options.
      * <p>
-     * The provided configurator function receives a {@link SingleAsyncOptions} instance,
+     * The provided configurator function receives a {@link SingleAsyncOptions.Builder} instance,
      * which can be used to configure retry attempts and other options specific to sequential event processing.
      * </p>
      *
      * @param configurator a function to configure single processing options.
      * @return an instance of {@code EventPublisher} configured with the given options.
      */
-    default This single(Function<SingleAsyncOptions, SingleAsyncOptions> configurator) {
+    default This single(Function<SingleAsyncOptions.Builder, SingleAsyncOptions.Builder> configurator) {
         AsyncOptions options = AsyncOptions.builder()
                 .single(configurator)
                 .build();
@@ -106,14 +106,14 @@ public interface EventPublisher<E extends Event, This extends EventPublisher<E, 
     /**
      * Configures the publisher for multiple (parallel) event processing with custom options.
      * <p>
-     * The provided configurator function receives a {@link MultiAsyncOptions} instance,
+     * The provided configurator function receives a {@link MultiAsyncOptions.Builder} instance,
      * which can be used to configure concurrency levels and error handling strategies for parallel event processing.
      * </p>
      *
      * @param configurator a function to configure multiple processing options.
      * @return an instance of {@code EventPublisher} configured with the given options.
      */
-    default This multi(Function<MultiAsyncOptions, MultiAsyncOptions> configurator) {
+    default This multi(Function<MultiAsyncOptions.Builder, MultiAsyncOptions.Builder> configurator) {
         AsyncOptions options = AsyncOptions.builder()
                 .multi(configurator)
                 .build();

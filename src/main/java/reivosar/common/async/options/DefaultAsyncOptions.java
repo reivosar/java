@@ -69,8 +69,8 @@ class DefaultAsyncOptions extends Model implements AsyncOptions {
         private ErrorHandlingStrategy strategy;
 
         @Override
-        public Builder single(final Function<SingleAsyncOptions, SingleAsyncOptions> configurator) {
-            final SingleAsyncOptions singleOpts = configurator.apply(new DefaultSingleAsyncOptions());
+        public Builder single(final Function<SingleAsyncOptions.Builder, SingleAsyncOptions.Builder> configurator) {
+            final SingleAsyncOptions singleOpts = configurator.apply(new DefaultSingleAsyncOptions.Builder()).build();
             this.multiple = false;
             this.retryLimit = singleOpts.getRetryLimit();
             this.timeout = singleOpts.getTimeout();
@@ -79,8 +79,8 @@ class DefaultAsyncOptions extends Model implements AsyncOptions {
         }
 
         @Override
-        public Builder multi(final Function<MultiAsyncOptions, MultiAsyncOptions> configurator) {
-            final MultiAsyncOptions multiOpts = configurator.apply(new DefaultMultiAsyncOptions());
+        public Builder multi(final Function<MultiAsyncOptions.Builder, MultiAsyncOptions.Builder> configurator) {
+            final MultiAsyncOptions multiOpts = configurator.apply(new DefaultMultiAsyncOptions.Builder()).build();
             this.multiple = true;
             this.multiplicity = multiOpts.getMultiplicity();
             this.retryLimit = multiOpts.getRetryLimit();
