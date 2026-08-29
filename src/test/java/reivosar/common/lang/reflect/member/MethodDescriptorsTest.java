@@ -6,11 +6,11 @@ import org.junit.jupiter.api.Test;
 
 import java.lang.reflect.Method;
 
-class   MethodDescriptorsTest {
-    
+class MethodDescriptorsTest {
+
     @Nested
     class ConstructorTests {
-        
+
         @Test
         void shouldCreateEmptyDescriptorsListWhenNullPassed() {
             // given
@@ -20,7 +20,7 @@ class   MethodDescriptorsTest {
             // then
             Assertions.assertTrue(descriptors.getDescriptors().isEmpty());
         }
-        
+
         @Test
         void shouldCreateEmptyDescriptorsListWhenEmptyArrayPassed() {
             // given
@@ -30,7 +30,7 @@ class   MethodDescriptorsTest {
             // then
             Assertions.assertTrue(descriptors.getDescriptors().isEmpty());
         }
-        
+
         @Test
         void shouldCreateNonEmptyDescriptorsList() {
             // given
@@ -38,7 +38,7 @@ class   MethodDescriptorsTest {
             // when
             MethodDescriptors descriptors = MethodDescriptorsFactory.createDescriptors(getClass().getDeclaredMethods());
             // then
-            Assertions.assertEquals(3, descriptors.getDescriptors().size());
+            Assertions.assertEquals(methods.length, descriptors.getDescriptors().size());
         }
     }
 }

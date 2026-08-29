@@ -17,7 +17,7 @@ class PDFBoxPdfTemplateEmbedExporter extends PDFBoxPdfDocumentExporter {
         final File pdfTemplateFile = pdfTemplate.pdfTemplateFilePath().toFile();
         return new PDDocument();
     }
-    
+
     @Override
     boolean needToAddNewPages() {
         return false;

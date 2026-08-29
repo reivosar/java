@@ -13,21 +13,20 @@ import java.util.stream.Collectors;
  * @param <V> the type of value to be cached
  */
 public class CacheValues<V> extends Model {
-    
+
     private final Collection<CacheValue<V>> values;
-    
+
     static <V> CacheValues<V> fromNativeCollection(final Collection<V> values) {
         return new CacheValues<>(values.stream()
                 .map(CacheValue::new)
-                .collect(Collectors.toCollection(LinkedHashSet::new))
-        );
+                .collect(Collectors.toCollection(LinkedHashSet::new)));
     }
-    
+
     CacheValues(final Collection<CacheValue<V>> values) {
         ObjectUtil.requireNonNull("values", values);
         this.values = values;
     }
-    
+
     /**
      * Returns an empty CacheValues object.
      *
@@ -37,7 +36,7 @@ public class CacheValues<V> extends Model {
     public static <V> CacheValues<V> empty() {
         return new CacheValues<>(List.of());
     }
-    
+
     /**
      * Returns an unmodifiable collection of the cached values.
      *
@@ -50,7 +49,7 @@ public class CacheValues<V> extends Model {
                 .collect(Collectors.toCollection(LinkedHashSet::new));
         return Collections.unmodifiableSet(result);
     }
-    
+
     /**
      * Returns the first cached value wrapped in an Optional object.
      *
@@ -59,9 +58,10 @@ public class CacheValues<V> extends Model {
     public Optional<V> findFirst() {
         return values().stream().findFirst();
     }
-    
+
     /**
-     * Returns the first cached value or throws a NullPointerException if no values are cached.
+     * Returns the first cached value or throws a NullPointerException if no values
+     * are cached.
      *
      * @return The first cached value.
      * @throws NullPointerException if no values are cached.
@@ -69,23 +69,24 @@ public class CacheValues<V> extends Model {
     public V firstValue() throws NullPointerException {
         return findFirst().orElseThrow(NullPointerException::new);
     }
-    
+
     /**
-     * Returns a new instance of {@link CacheValues} that contains all values from the cache
+     * Returns a new instance of {@link CacheValues} that contains all values from
+     * the cache
      * that satisfy the given predicate.
      *
      * @param predicate the predicate used to filter the cache values
-     * @return a new instance of {@link CacheValues} that contains all values from the cache
-     * that satisfy the given predicate
+     * @return a new instance of {@link CacheValues} that contains all values from
+     *         the cache
+     *         that satisfy the given predicate
      */
     public CacheValues<V> filter(final Predicate<V> predicate) {
         return new CacheValues<>(
                 getAndRemoveNonValidCacheValue().stream()
                         .filter(vCacheValue -> predicate.test(vCacheValue.getIfCacheAvailable()))
-                        .collect(Collectors.toCollection(LinkedHashSet::new))
-        );
+                        .collect(Collectors.toCollection(LinkedHashSet::new)));
     }
-    
+
     /**
      * Returns the value if present, otherwise returns {@code null}.
      *
@@ -94,17 +95,19 @@ public class CacheValues<V> extends Model {
     public V nullableFirstValue() {
         return orElse(null);
     }
-    
+
     /**
-     * Returns the first cached value or the specified default value if no values are cached.
+     * Returns the first cached value or the specified default value if no values
+     * are cached.
      *
      * @param defaultValue The default value to return if no values are cached.
-     * @return The first cached value or the specified default value if no values are cached.
+     * @return The first cached value or the specified default value if no values
+     *         are cached.
      */
     public V orElse(final V defaultValue) {
         return findFirst().orElse(defaultValue);
     }
-    
+
     /**
      * Returns true if there are any cached values, false otherwise.
      *
@@ -113,7 +116,7 @@ public class CacheValues<V> extends Model {
     public boolean isNotEmpty() {
         return !isEmpty();
     }
-    
+
     /**
      * Returns true if there are no cached values, false otherwise.
      *
@@ -122,7 +125,7 @@ public class CacheValues<V> extends Model {
     public boolean isEmpty() {
         return this.values.isEmpty();
     }
-    
+
     /**
      * Returns the number of values in the cached collection.
      *
@@ -131,7 +134,7 @@ public class CacheValues<V> extends Model {
     public int size() {
         return values.size();
     }
-    
+
     private Collection<CacheValue<V>> getAndRemoveNonValidCacheValue() {
         // Delete non-valid cache
         final Collection<CacheValue<V>> immutableSet = new LinkedHashSet<>(values);
